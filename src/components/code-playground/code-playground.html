@@ -1,0 +1,362 @@
+<!--
+  ============================================================================
+  BSB CODE PLAYGROUND - Interactive Learning Component
+  ============================================================================
+  
+  This component provides a live code editing experience where users can:
+  - Edit HTML, CSS, and JavaScript in real-time
+  - See immediate visual feedback
+  - Learn through experimentation
+  - Save and share code snippets
+  
+  🎯 Educational Features:
+  - Syntax highlighting with Prism.js
+  - Error handling and validation
+  - Code completion hints
+  - Performance monitoring
+  - Accessibility feedback
+  
+  📚 Learning Objectives:
+  - Understand the relationship between HTML, CSS, and JS
+  - Experiment with modern web APIs
+  - Practice responsive design techniques
+  - Learn debugging and optimization
+  
+  💡 Progressive Enhancement:
+  - Works without JavaScript (static code display)
+  - Enhanced with live editing when JS available
+  - Keyboard navigation support
+  - Screen reader compatible
+  ============================================================================
+-->
+
+<article class="bsb-code-playground" data-bsb-component="code-playground">
+  <!-- 
+    Playground Header
+    =================
+    Title, description, and controls for the playground
+  -->
+  <header class="bsb-code-playground__header">
+    <div class="bsb-code-playground__title-area">
+      <h3 class="bsb-code-playground__title">Interactive Code Playground</h3>
+      <p class="bsb-code-playground__description">
+        Edit the code below and see your changes in real-time. 
+        Experiment, break things, and learn by doing!
+      </p>
+    </div>
+    
+    <!-- Playground Controls -->
+    <div class="bsb-code-playground__controls">
+      <button 
+        class="bsb-code-playground__control btn btn--small btn--secondary"
+        data-action="reset"
+        aria-label="Reset code to original"
+      >
+        🔄 Reset
+      </button>
+      
+      <button 
+        class="bsb-code-playground__control btn btn--small btn--secondary"
+        data-action="fullscreen"
+        aria-label="Toggle fullscreen mode"
+      >
+        🖥️ Fullscreen
+      </button>
+      
+      <button 
+        class="bsb-code-playground__control btn btn--small btn--secondary"
+        data-action="share"
+        aria-label="Share code snippet"
+      >
+        📤 Share
+      </button>
+      
+      <button 
+        class="bsb-code-playground__control btn btn--small btn--primary"
+        data-action="run"
+        aria-label="Run code (Ctrl+Enter)"
+      >
+        ▶️ Run
+      </button>
+    </div>
+  </header>
+
+  <!-- 
+    Code Editor Tabs
+    ================
+    Tabbed interface for HTML, CSS, and JavaScript editing
+  -->
+  <div class="bsb-code-playground__editor-container">
+    <!-- Tab Navigation -->
+    <nav class="bsb-code-playground__tabs" role="tablist" aria-label="Code editor tabs">
+      <button 
+        class="bsb-code-playground__tab bsb-code-playground__tab--active"
+        role="tab"
+        data-tab="html"
+        aria-selected="true"
+        aria-controls="html-panel"
+        id="html-tab"
+      >
+        <span class="bsb-code-playground__tab-icon">📄</span>
+        HTML
+        <span class="bsb-code-playground__tab-indicator"></span>
+      </button>
+      
+      <button 
+        class="bsb-code-playground__tab"
+        role="tab"
+        data-tab="css"
+        aria-selected="false"
+        aria-controls="css-panel"
+        id="css-tab"
+      >
+        <span class="bsb-code-playground__tab-icon">🎨</span>
+        CSS
+        <span class="bsb-code-playground__tab-indicator"></span>
+      </button>
+      
+      <button 
+        class="bsb-code-playground__tab"
+        role="tab"
+        data-tab="js"
+        aria-selected="false"
+        aria-controls="js-panel"
+        id="js-tab"
+      >
+        <span class="bsb-code-playground__tab-icon">⚡</span>
+        JavaScript
+        <span class="bsb-code-playground__tab-indicator"></span>
+      </button>
+    </nav>
+
+    <!-- Code Editor Panels -->
+    <div class="bsb-code-playground__editor-panels">
+      <!-- HTML Editor -->
+      <div 
+        class="bsb-code-playground__panel bsb-code-playground__panel--active"
+        role="tabpanel"
+        data-panel="html"
+        aria-labelledby="html-tab"
+        id="html-panel"
+      >
+        <div class="bsb-code-playground__editor-wrapper">
+          <label class="bsb-code-playground__editor-label" for="html-editor">
+            HTML Code Editor
+          </label>
+          
+          <textarea 
+            class="bsb-code-playground__editor"
+            id="html-editor"
+            data-language="html"
+            placeholder="Enter your HTML code here..."
+            aria-describedby="html-help"
+            spellcheck="false"
+          ><!-- Try editing this HTML -->
+<div class="demo-card">
+  <h4>Hello, World!</h4>
+  <p>This is a live code example. Change me!</p>
+  <button onclick="changeColor()">Click me</button>
+</div></textarea>
+          
+          <div class="bsb-code-playground__editor-help" id="html-help">
+            <p>💡 <strong>Tip:</strong> Try adding semantic HTML elements like &lt;header&gt;, &lt;main&gt;, or &lt;section&gt;</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Editor -->
+      <div 
+        class="bsb-code-playground__panel"
+        role="tabpanel"
+        data-panel="css"
+        aria-labelledby="css-tab"
+        id="css-panel"
+      >
+        <div class="bsb-code-playground__editor-wrapper">
+          <label class="bsb-code-playground__editor-label" for="css-editor">
+            CSS Code Editor
+          </label>
+          
+          <textarea 
+            class="bsb-code-playground__editor"
+            id="css-editor"
+            data-language="css"
+            placeholder="Enter your CSS code here..."
+            aria-describedby="css-help"
+            spellcheck="false"
+          >/* Style your HTML */
+.demo-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-5px);
+}
+
+.demo-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.demo-card button {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.demo-card button:hover {
+  transform: scale(1.05);
+}</textarea>
+          
+          <div class="bsb-code-playground__editor-help" id="css-help">
+            <p>💡 <strong>Tip:</strong> Try experimenting with CSS Grid, Flexbox, or custom properties (CSS variables)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- JavaScript Editor -->
+      <div 
+        class="bsb-code-playground__panel"
+        role="tabpanel"
+        data-panel="js"
+        aria-labelledby="js-tab"
+        id="js-panel"
+      >
+        <div class="bsb-code-playground__editor-wrapper">
+          <label class="bsb-code-playground__editor-label" for="js-editor">
+            JavaScript Code Editor
+          </label>
+          
+          <textarea 
+            class="bsb-code-playground__editor"
+            id="js-editor"
+            data-language="javascript"
+            placeholder="Enter your JavaScript code here..."
+            aria-describedby="js-help"
+            spellcheck="false"
+          >// Add interactivity with JavaScript
+function changeColor() {
+  const card = document.querySelector('.demo-card');
+  const colors = [
+    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+  ];
+  
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  card.style.background = randomColor;
+  
+  // Add some fun animation
+  card.style.transform = 'scale(1.05)';
+  setTimeout(() => {
+    card.style.transform = 'scale(1)';
+  }, 200);
+}
+
+// Log a welcome message
+console.log('🎉 Welcome to the BSB Code Playground!');</textarea>
+          
+          <div class="bsb-code-playground__editor-help" id="js-help">
+            <p>💡 <strong>Tip:</strong> Open browser DevTools (F12) to see console output and debug your code</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 
+    Live Preview Area
+    =================
+    Shows the rendered result of the code
+  -->
+  <div class="bsb-code-playground__preview-container">
+    <header class="bsb-code-playground__preview-header">
+      <h4 class="bsb-code-playground__preview-title">Live Preview</h4>
+      <div class="bsb-code-playground__preview-controls">
+        <button 
+          class="bsb-code-playground__preview-control"
+          data-action="refresh"
+          aria-label="Refresh preview"
+        >
+          🔄
+        </button>
+        <button 
+          class="bsb-code-playground__preview-control"
+          data-action="new-window"
+          aria-label="Open in new window"
+        >
+          🗗
+        </button>
+      </div>
+    </header>
+    
+    <div class="bsb-code-playground__preview-wrapper">
+      <iframe 
+        class="bsb-code-playground__preview"
+        title="Code preview"
+        sandbox="allow-scripts allow-same-origin"
+        loading="lazy"
+      ></iframe>
+      
+      <!-- Loading indicator -->
+      <div class="bsb-code-playground__preview-loading" aria-hidden="true">
+        <div class="bsb-code-playground__spinner"></div>
+        <p>Rendering your code...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 
+    Status and Feedback Area
+    ========================
+    Shows errors, warnings, and performance metrics
+  -->
+  <footer class="bsb-code-playground__status">
+    <div class="bsb-code-playground__status-section">
+      <h5 class="bsb-code-playground__status-title">Console</h5>
+      <div 
+        class="bsb-code-playground__console"
+        role="log"
+        aria-live="polite"
+        aria-label="Console output"
+      >
+        <div class="bsb-code-playground__console-message bsb-code-playground__console-message--info">
+          <span class="bsb-code-playground__console-icon">ℹ️</span>
+          <span class="bsb-code-playground__console-text">Ready to code! Make changes above to see live updates.</span>
+          <span class="bsb-code-playground__console-time">now</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bsb-code-playground__status-section">
+      <h5 class="bsb-code-playground__status-title">Metrics</h5>
+      <div class="bsb-code-playground__metrics">
+        <div class="bsb-code-playground__metric">
+          <span class="bsb-code-playground__metric-label">Lines:</span>
+          <span class="bsb-code-playground__metric-value" data-metric="lines">15</span>
+        </div>
+        <div class="bsb-code-playground__metric">
+          <span class="bsb-code-playground__metric-label">Size:</span>
+          <span class="bsb-code-playground__metric-value" data-metric="size">1.2kb</span>
+        </div>
+        <div class="bsb-code-playground__metric">
+          <span class="bsb-code-playground__metric-label">Render:</span>
+          <span class="bsb-code-playground__metric-value" data-metric="render">45ms</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</article>

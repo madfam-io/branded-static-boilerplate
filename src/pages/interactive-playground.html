@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  =============================================================================
+  INTERACTIVE CODE PLAYGROUND - Learn by Doing
+  =============================================================================
+  
+  This page showcases BSB's interactive code playground component where users
+  can learn web development through hands-on experimentation with real code.
+  
+  🎯 Learning Objectives:
+  1. Understand HTML, CSS, and JavaScript relationships
+  2. Practice modern web development techniques
+  3. Experiment with responsive design
+  4. Learn debugging and optimization
+  5. Master keyboard shortcuts and workflows
+  
+  📚 Educational Features:
+  - Live code editing with immediate visual feedback
+  - Progressive examples from beginner to advanced
+  - Interactive tutorials and guided exercises
+  - Performance monitoring and best practices
+  - Accessibility demonstrations
+  
+  💡 This page itself demonstrates advanced static site techniques:
+  - Progressive enhancement
+  - Component-based architecture
+  - Educational content design
+  - Accessibility-first approach
+  =============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Content Security Policy and Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  
+  <!-- Page-specific title and description -->
+  <title>Interactive Code Playground | Learn Web Development by Doing</title>
+  <meta name="description" content="Master web development through hands-on coding with our interactive playground. Edit HTML, CSS, and JavaScript in real-time with immediate visual feedback.">
+  
+  <!-- Social Media Tags -->
+  <meta property="og:title" content="Interactive Code Playground - BSB Learning Platform">
+  <meta property="og:description" content="Learn web development through interactive code editing. Experiment with HTML, CSS, and JavaScript in real-time with instant feedback.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html">
+  <meta property="og:image" content="../assets/images/playground-preview.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Interactive Code Playground - Learn by Doing">
+  <meta name="twitter:description" content="Hands-on web development learning with live code editing and instant feedback.">
+  
+  <!-- Educational Schema.org markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Interactive Code Playground",
+    "description": "Interactive web development learning platform with live code editing",
+    "educationalLevel": "Beginner to Advanced",
+    "learningResourceType": "Interactive Tool",
+    "teaches": ["HTML", "CSS", "JavaScript", "Web Development", "Responsive Design"],
+    "provider": {
+      "@type": "Organization",
+      "name": "Branded Static Boilerplate"
+    }
+  }
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../styles/base/variables.css">
+  <link rel="stylesheet" href="../styles/base/reset.css">
+  <link rel="stylesheet" href="../styles/base/typography.css">
+  <link rel="stylesheet" href="../styles/utilities/spacing.css">
+  <link rel="stylesheet" href="../styles/utilities/layout.css">
+  <link rel="stylesheet" href="../styles/themes/default.css">
+  
+  <!-- Component Styles -->
+  <link rel="stylesheet" href="../components/header/header.css">
+  <link rel="stylesheet" href="../components/hero/hero.css">
+  <link rel="stylesheet" href="../components/card/card.css">
+  <link rel="stylesheet" href="../components/footer/footer.css">
+  <link rel="stylesheet" href="../components/code-playground/code-playground.css">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- JavaScript -->
+  <script type="module" src="../scripts/core/main.js" defer></script>
+  <script type="module" src="../components/code-playground/code-playground.js" defer></script>
+</head>
+
+<body>
+  <!-- Skip to main content link -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <!-- Header Component -->
+  <header class="bsb-header" data-bsb-component="header" role="banner">
+    <div class="container">
+      <div class="bsb-header__inner">
+        <div class="bsb-header__brand">
+          <a href="/branded-static-boilerplate/" class="bsb-header__logo">
+            <strong>BSB Learning</strong>
+          </a>
+        </div>
+        
+        <nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav">
+          <ul class="bsb-header__menu">
+            <li><a href="/branded-static-boilerplate/" class="bsb-header__link">Home</a></li>
+            <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li>
+            <li><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link">Services</a></li>
+            <li><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" aria-current="page">Playground</a></li>
+            <li><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link">Contact</a></li>
+          </ul>
+        </nav>
+        
+        <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <span class="bsb-header__toggle-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main id="main" role="main">
+    <!-- Hero Section -->
+    <section class="bsb-hero bsb-hero--compact" data-bsb-component="hero">
+      <div class="container">
+        <div class="bsb-hero__content">
+          <h1 class="bsb-hero__title">
+            Interactive Code Playground
+            <span class="bsb-hero__subtitle">Learn Web Development by Doing</span>
+          </h1>
+          
+          <p class="bsb-hero__lead">
+            Master HTML, CSS, and JavaScript through hands-on experimentation. 
+            Edit code in real-time and see your changes instantly in a safe, 
+            educational environment designed for learning.
+          </p>
+          
+          <div class="bsb-hero__actions">
+            <a href="#playground" class="btn btn--primary btn--large">
+              Start Coding Now
+            </a>
+            <a href="#tutorials" class="btn btn--secondary btn--large">
+              View Tutorials
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Playground Introduction -->
+    <section class="section" aria-labelledby="intro-heading">
+      <div class="container">
+        <h2 id="intro-heading" class="section__title">Why Learn by Doing?</h2>
+        <p class="section__lead">
+          Interactive coding bridges the gap between theory and practice, providing immediate 
+          feedback that accelerates learning and builds confidence.
+        </p>
+        
+        <div class="grid grid--3-cols">
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">⚡</div>
+            <h3 class="bsb-card__title">Instant Feedback</h3>
+            <p class="bsb-card__text">
+              See your code changes immediately. No build process, no delays - 
+              just pure, instant visual feedback that helps you understand 
+              cause and effect in web development.
+            </p>
+          </article>
+          
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">🎯</div>
+            <h3 class="bsb-card__title">Safe Experimentation</h3>
+            <p class="bsb-card__text">
+              Break things without consequences! Our sandboxed environment 
+              lets you experiment freely, encouraging the trial-and-error 
+              learning that builds deep understanding.
+            </p>
+          </article>
+          
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">📈</div>
+            <h3 class="bsb-card__title">Progress Tracking</h3>
+            <p class="bsb-card__text">
+              Monitor your code quality, performance metrics, and learning 
+              progress. Built-in analytics help you understand not just what 
+              works, but why it works.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Code Playground -->
+    <section class="section section--alt" id="playground" aria-labelledby="playground-heading">
+      <div class="container">
+        <header class="section__header">
+          <h2 id="playground-heading" class="section__title">Your Interactive Workspace</h2>
+          <p class="section__lead">
+            Edit the code below and watch your changes come to life. Each tab contains 
+            working code that you can modify, experiment with, and learn from.
+          </p>
+        </header>
+
+        <!-- Interactive Code Playground Component -->
+        <article class="bsb-code-playground" data-bsb-component="code-playground">
+          <!-- 
+            Playground Header
+            =================
+            Title, description, and controls for the playground
+          -->
+          <header class="bsb-code-playground__header">
+            <div class="bsb-code-playground__title-area">
+              <h3 class="bsb-code-playground__title">Interactive Code Playground</h3>
+              <p class="bsb-code-playground__description">
+                Edit the code below and see your changes in real-time. 
+                Experiment, break things, and learn by doing!
+              </p>
+            </div>
+            
+            <!-- Playground Controls -->
+            <div class="bsb-code-playground__controls">
+              <button 
+                class="bsb-code-playground__control btn btn--small btn--secondary"
+                data-action="reset"
+                aria-label="Reset code to original"
+              >
+                🔄 Reset
+              </button>
+              
+              <button 
+                class="bsb-code-playground__control btn btn--small btn--secondary"
+                data-action="fullscreen"
+                aria-label="Toggle fullscreen mode"
+              >
+                🖥️ Fullscreen
+              </button>
+              
+              <button 
+                class="bsb-code-playground__control btn btn--small btn--secondary"
+                data-action="share"
+                aria-label="Share code snippet"
+              >
+                📤 Share
+              </button>
+              
+              <button 
+                class="bsb-code-playground__control btn btn--small btn--primary"
+                data-action="run"
+                aria-label="Run code (Ctrl+Enter)"
+              >
+                ▶️ Run
+              </button>
+            </div>
+          </header>
+
+          <!-- 
+            Code Editor Tabs
+            ================
+            Tabbed interface for HTML, CSS, and JavaScript editing
+          -->
+          <div class="bsb-code-playground__editor-container">
+            <!-- Tab Navigation -->
+            <nav class="bsb-code-playground__tabs" role="tablist" aria-label="Code editor tabs">
+              <button 
+                class="bsb-code-playground__tab bsb-code-playground__tab--active"
+                role="tab"
+                data-tab="html"
+                aria-selected="true"
+                aria-controls="html-panel"
+                id="html-tab"
+              >
+                <span class="bsb-code-playground__tab-icon">📄</span>
+                HTML
+                <span class="bsb-code-playground__tab-indicator"></span>
+              </button>
+              
+              <button 
+                class="bsb-code-playground__tab"
+                role="tab"
+                data-tab="css"
+                aria-selected="false"
+                aria-controls="css-panel"
+                id="css-tab"
+              >
+                <span class="bsb-code-playground__tab-icon">🎨</span>
+                CSS
+                <span class="bsb-code-playground__tab-indicator"></span>
+              </button>
+              
+              <button 
+                class="bsb-code-playground__tab"
+                role="tab"
+                data-tab="js"
+                aria-selected="false"
+                aria-controls="js-panel"
+                id="js-tab"
+              >
+                <span class="bsb-code-playground__tab-icon">⚡</span>
+                JavaScript
+                <span class="bsb-code-playground__tab-indicator"></span>
+              </button>
+            </nav>
+
+            <!-- Code Editor Panels -->
+            <div class="bsb-code-playground__editor-panels">
+              <!-- HTML Editor -->
+              <div 
+                class="bsb-code-playground__panel bsb-code-playground__panel--active"
+                role="tabpanel"
+                data-panel="html"
+                aria-labelledby="html-tab"
+                id="html-panel"
+              >
+                <div class="bsb-code-playground__editor-wrapper">
+                  <label class="bsb-code-playground__editor-label" for="html-editor">
+                    HTML Code Editor
+                  </label>
+                  
+                  <textarea 
+                    class="bsb-code-playground__editor"
+                    id="html-editor"
+                    data-language="html"
+                    placeholder="Enter your HTML code here..."
+                    aria-describedby="html-help"
+                    spellcheck="false"
+                  ><!-- Try editing this HTML -->
+<div class="demo-card">
+  <h4>Hello, World!</h4>
+  <p>This is a live code example. Change me!</p>
+  <button onclick="changeColor()">Click me</button>
+</div></textarea>
+                  
+                  <div class="bsb-code-playground__editor-help" id="html-help">
+                    <p>💡 <strong>Tip:</strong> Try adding semantic HTML elements like &lt;header&gt;, &lt;main&gt;, or &lt;section&gt;</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CSS Editor -->
+              <div 
+                class="bsb-code-playground__panel"
+                role="tabpanel"
+                data-panel="css"
+                aria-labelledby="css-tab"
+                id="css-panel"
+              >
+                <div class="bsb-code-playground__editor-wrapper">
+                  <label class="bsb-code-playground__editor-label" for="css-editor">
+                    CSS Code Editor
+                  </label>
+                  
+                  <textarea 
+                    class="bsb-code-playground__editor"
+                    id="css-editor"
+                    data-language="css"
+                    placeholder="Enter your CSS code here..."
+                    aria-describedby="css-help"
+                    spellcheck="false"
+                  >/* Style your HTML */
+.demo-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-5px);
+}
+
+.demo-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.demo-card button {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.demo-card button:hover {
+  transform: scale(1.05);
+}</textarea>
+                  
+                  <div class="bsb-code-playground__editor-help" id="css-help">
+                    <p>💡 <strong>Tip:</strong> Try experimenting with CSS Grid, Flexbox, or custom properties (CSS variables)</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- JavaScript Editor -->
+              <div 
+                class="bsb-code-playground__panel"
+                role="tabpanel"
+                data-panel="js"
+                aria-labelledby="js-tab"
+                id="js-panel"
+              >
+                <div class="bsb-code-playground__editor-wrapper">
+                  <label class="bsb-code-playground__editor-label" for="js-editor">
+                    JavaScript Code Editor
+                  </label>
+                  
+                  <textarea 
+                    class="bsb-code-playground__editor"
+                    id="js-editor"
+                    data-language="javascript"
+                    placeholder="Enter your JavaScript code here..."
+                    aria-describedby="js-help"
+                    spellcheck="false"
+                  >// Add interactivity with JavaScript
+function changeColor() {
+  const card = document.querySelector('.demo-card');
+  const colors = [
+    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+  ];
+  
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  card.style.background = randomColor;
+  
+  // Add some fun animation
+  card.style.transform = 'scale(1.05)';
+  setTimeout(() => {
+    card.style.transform = 'scale(1)';
+  }, 200);
+}
+
+// Log a welcome message
+console.log('🎉 Welcome to the BSB Code Playground!');</textarea>
+                  
+                  <div class="bsb-code-playground__editor-help" id="js-help">
+                    <p>💡 <strong>Tip:</strong> Open browser DevTools (F12) to see console output and debug your code</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 
+            Live Preview Area
+            =================
+            Shows the rendered result of the code
+          -->
+          <div class="bsb-code-playground__preview-container">
+            <header class="bsb-code-playground__preview-header">
+              <h4 class="bsb-code-playground__preview-title">Live Preview</h4>
+              <div class="bsb-code-playground__preview-controls">
+                <button 
+                  class="bsb-code-playground__preview-control"
+                  data-action="refresh"
+                  aria-label="Refresh preview"
+                >
+                  🔄
+                </button>
+                <button 
+                  class="bsb-code-playground__preview-control"
+                  data-action="new-window"
+                  aria-label="Open in new window"
+                >
+                  🗗
+                </button>
+              </div>
+            </header>
+            
+            <div class="bsb-code-playground__preview-wrapper">
+              <iframe 
+                class="bsb-code-playground__preview"
+                title="Code preview"
+                sandbox="allow-scripts allow-same-origin"
+                loading="lazy"
+              ></iframe>
+              
+              <!-- Loading indicator -->
+              <div class="bsb-code-playground__preview-loading" aria-hidden="true">
+                <div class="bsb-code-playground__spinner"></div>
+                <p>Rendering your code...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 
+            Status and Feedback Area
+            ========================
+            Shows errors, warnings, and performance metrics
+          -->
+          <footer class="bsb-code-playground__status">
+            <div class="bsb-code-playground__status-section">
+              <h5 class="bsb-code-playground__status-title">Console</h5>
+              <div 
+                class="bsb-code-playground__console"
+                role="log"
+                aria-live="polite"
+                aria-label="Console output"
+              >
+                <div class="bsb-code-playground__console-message bsb-code-playground__console-message--info">
+                  <span class="bsb-code-playground__console-icon">ℹ️</span>
+                  <span class="bsb-code-playground__console-text">Ready to code! Make changes above to see live updates.</span>
+                  <span class="bsb-code-playground__console-time">now</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bsb-code-playground__status-section">
+              <h5 class="bsb-code-playground__status-title">Metrics</h5>
+              <div class="bsb-code-playground__metrics">
+                <div class="bsb-code-playground__metric">
+                  <span class="bsb-code-playground__metric-label">Lines:</span>
+                  <span class="bsb-code-playground__metric-value" data-metric="lines">15</span>
+                </div>
+                <div class="bsb-code-playground__metric">
+                  <span class="bsb-code-playground__metric-label">Size:</span>
+                  <span class="bsb-code-playground__metric-value" data-metric="size">1.2kb</span>
+                </div>
+                <div class="bsb-code-playground__metric">
+                  <span class="bsb-code-playground__metric-label">Render:</span>
+                  <span class="bsb-code-playground__metric-value" data-metric="render">45ms</span>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </article>
+
+        <!-- Playground Features -->
+        <div class="playground-features">
+          <h3 class="playground-features__title">Playground Features</h3>
+          <div class="playground-features__grid">
+            <div class="playground-feature">
+              <h4>🎨 Multi-Language Editing</h4>
+              <p>Edit HTML, CSS, and JavaScript in separate tabs with syntax highlighting and auto-completion hints.</p>
+            </div>
+            
+            <div class="playground-feature">
+              <h4>📱 Responsive Preview</h4>
+              <p>See how your code looks across different devices with real-time responsive design testing.</p>
+            </div>
+            
+            <div class="playground-feature">
+              <h4>🔧 Developer Tools</h4>
+              <p>Built-in console, error reporting, and performance metrics help you debug and optimize your code.</p>
+            </div>
+            
+            <div class="playground-feature">
+              <h4>💾 Auto-Save & Share</h4>
+              <p>Your work is automatically saved locally, and you can easily share your creations with others.</p>
+            </div>
+            
+            <div class="playground-feature">
+              <h4>⌨️ Keyboard Shortcuts</h4>
+              <p>Efficient workflows with shortcuts: Ctrl+Enter to run, Ctrl+S to save, and tab switching with Ctrl+1/2/3.</p>
+            </div>
+            
+            <div class="playground-feature">
+              <h4>♿ Accessible Design</h4>
+              <p>Full keyboard navigation, screen reader support, and adherence to accessibility best practices.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learning Tutorials -->
+    <section class="section" id="tutorials" aria-labelledby="tutorials-heading">
+      <div class="container">
+        <h2 id="tutorials-heading" class="section__title">Progressive Learning Exercises</h2>
+        <p class="section__lead">
+          Start with basics and advance at your own pace. Each exercise builds on previous concepts 
+          while introducing new techniques and best practices.
+        </p>
+        
+        <div class="tutorials-grid">
+          <!-- Beginner Tutorial -->
+          <article class="tutorial-card tutorial-card--beginner">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Beginner</span>
+              <h3 class="tutorial-card__title">HTML Fundamentals</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Learn semantic HTML structure, accessibility basics, and how to create 
+                meaningful content that both users and search engines can understand.
+              </p>
+              <ul class="tutorial-card__topics">
+                <li>Semantic HTML elements</li>
+                <li>Document structure</li>
+                <li>Accessibility attributes</li>
+                <li>Form best practices</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary" onclick="loadTutorial('html-basics')">
+                Start Tutorial
+              </button>
+              <span class="tutorial-card__duration">~30 minutes</span>
+            </div>
+          </article>
+
+          <!-- Intermediate Tutorial -->
+          <article class="tutorial-card tutorial-card--intermediate">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Intermediate</span>
+              <h3 class="tutorial-card__title">CSS Layout Mastery</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Master modern CSS layout techniques including Grid, Flexbox, and responsive 
+                design. Build beautiful, flexible layouts that work on any device.
+              </p>
+              <ul class="tutorial-card__topics">
+                <li>CSS Grid and Flexbox</li>
+                <li>Responsive design patterns</li>
+                <li>Custom properties</li>
+                <li>Animation and transitions</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary" onclick="loadTutorial('css-layout')">
+                Start Tutorial
+              </button>
+              <span class="tutorial-card__duration">~45 minutes</span>
+            </div>
+          </article>
+
+          <!-- Advanced Tutorial -->
+          <article class="tutorial-card tutorial-card--advanced">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Advanced</span>
+              <h3 class="tutorial-card__title">JavaScript Interactivity</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Add dynamic behavior with modern JavaScript. Learn event handling, 
+                DOM manipulation, async programming, and how to create engaging user experiences.
+              </p>
+              <ul class="tutorial-card__topics">
+                <li>ES6+ modern features</li>
+                <li>DOM manipulation</li>
+                <li>Event handling</li>
+                <li>Async/await patterns</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary" onclick="loadTutorial('js-interactive')">
+                Start Tutorial
+              </button>
+              <span class="tutorial-card__duration">~60 minutes</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tips and Best Practices -->
+    <section class="section section--tips" aria-labelledby="tips-heading">
+      <div class="container">
+        <h2 id="tips-heading" class="section__title">Pro Tips for Effective Learning</h2>
+        
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-card__icon">🎯</div>
+            <h3 class="tip-card__title">Start Small, Think Big</h3>
+            <p class="tip-card__text">
+              Begin with simple changes and gradually build complexity. 
+              Understanding fundamentals deeply beats rushing through advanced topics.
+            </p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-card__icon">🔍</div>
+            <h3 class="tip-card__title">Use Developer Tools</h3>
+            <p class="tip-card__text">
+              Open your browser's DevTools (F12) to inspect, debug, and understand 
+              how your code affects the final result. It's your best learning companion.
+            </p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-card__icon">💡</div>
+            <h3 class="tip-card__title">Break Things on Purpose</h3>
+            <p class="tip-card__text">
+              Deliberately introduce errors to understand how things work. 
+              Learning what doesn't work is just as valuable as learning what does.
+            </p>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-card__icon">📚</div>
+            <h3 class="tip-card__title">Comment Your Code</h3>
+            <p class="tip-card__text">
+              Explain your thinking in comments. This helps you remember your logic 
+              and makes it easier to pick up where you left off.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer Component -->
+  <footer class="bsb-footer" data-bsb-component="footer" role="contentinfo">
+    <div class="container">
+      <div class="bsb-footer__main">
+        <div class="bsb-footer__grid">
+          <div class="bsb-footer__column bsb-footer__column--wide">
+            <div class="bsb-footer__brand">
+              <a href="/branded-static-boilerplate/" class="bsb-footer__logo">
+                <strong>BSB Learning</strong>
+              </a>
+              <p class="bsb-footer__tagline">
+                Building better web developers through interactive education.
+              </p>
+            </div>
+          </div>
+          
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">Learn</h4>
+            <ul class="bsb-footer__links">
+              <li><a href="#playground">Interactive Playground</a></li>
+              <li><a href="#tutorials">Guided Tutorials</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/">Documentation</a></li>
+            </ul>
+          </div>
+          
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">Community</h4>
+            <ul class="bsb-footer__links">
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate">GitHub</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/discussions">Discussions</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md">Contributing</a></li>
+            </ul>
+          </div>
+          
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">More</h4>
+            <ul class="bsb-footer__links">
+              <li><a href="/branded-static-boilerplate/pages/about.html">About BSB</a></li>
+              <li><a href="/branded-static-boilerplate/pages/contact.html">Contact</a></li>
+              <li><a href="/branded-static-boilerplate/pages/privacy.html">Privacy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bsb-footer__bottom">
+        <div class="bsb-footer__bottom-content">
+          <p class="bsb-footer__copyright">
+            © <time datetime="2024">2024</time> Branded Static Boilerplate. Learn by doing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tutorial Loading Script -->
+  <script>
+    /**
+     * Load tutorial content into playground
+     * @param {string} tutorialId - The tutorial to load
+     */
+    function loadTutorial(tutorialId) {
+      const tutorials = {
+        'html-basics': {
+          html: `<!-- Welcome to HTML Basics! -->
+<header class="page-header">
+  <h1>My First Webpage</h1>
+  <p>Learning HTML fundamentals</p>
+</header>
+
+<main>
+  <section class="content">
+    <h2>About Me</h2>
+    <p>Hello! I'm learning <strong>web development</strong> with BSB.</p>
+    
+    <h3>My Skills</h3>
+    <ul>
+      <li>HTML structure</li>
+      <li>Semantic markup</li>
+      <li>Accessibility</li>
+    </ul>
+  </section>
+</main>`,
+          css: `/* Style your HTML */
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.content h2 {
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f0f0f0;
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border-left: 4px solid #667eea;
+}`,
+          js: `// Add interactivity
+console.log('Welcome to HTML Basics tutorial!');
+
+// Add click event to skills
+document.querySelectorAll('li').forEach(skill => {
+  skill.addEventListener('click', () => {
+    skill.style.background = '#e0f2fe';
+    skill.style.transform = 'scale(1.02)';
+    
+    setTimeout(() => {
+      skill.style.transform = 'scale(1)';
+    }, 200);
+  });
+});
+
+// Show completion message
+setTimeout(() => {
+  console.log('Try clicking on the skills to see interaction!');
+}, 1000);`
+        },
+        'css-layout': {
+          html: `<!-- CSS Layout Exercise -->
+<div class="layout-demo">
+  <header class="demo-header">
+    <h1>CSS Grid & Flexbox</h1>
+    <nav class="demo-nav">
+      <a href="#grid">Grid</a>
+      <a href="#flex">Flexbox</a>
+      <a href="#combo">Combined</a>
+    </nav>
+  </header>
+  
+  <main class="demo-main">
+    <section id="grid" class="grid-section">
+      <h2>CSS Grid Layout</h2>
+      <div class="grid-container">
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+      </div>
+    </section>
+    
+    <section id="flex" class="flex-section">
+      <h2>Flexbox Layout</h2>
+      <div class="flex-container">
+        <div class="flex-item">Flex 1</div>
+        <div class="flex-item">Flex 2</div>
+        <div class="flex-item">Flex 3</div>
+      </div>
+    </section>
+  </main>
+</div>`,
+          css: `/* Modern CSS Layout */
+.layout-demo {
+  font-family: system-ui, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.demo-nav {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.demo-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.demo-nav a:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* CSS Grid Demo */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.grid-item {
+  background: #ff6b6b;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.grid-item:hover {
+  transform: scale(1.05);
+}
+
+/* Flexbox Demo */
+.flex-container {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.flex-item {
+  flex: 1;
+  background: #4ecdc4;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  min-width: 150px;
+  transition: flex-grow 0.3s ease;
+}
+
+.flex-item:hover {
+  flex-grow: 2;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .demo-nav {
+    flex-direction: column;
+  }
+  
+  .flex-container {
+    flex-direction: column;
+  }
+}`,
+          js: `// Interactive layout demos
+console.log('CSS Layout Tutorial loaded!');
+
+// Smooth scrolling for navigation
+document.querySelectorAll('.demo-nav a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    target.scrollIntoView({ behavior: 'smooth' });
+    
+    console.log(\`Navigated to \${link.textContent}\`);
+  });
+});
+
+// Grid item interactions
+document.querySelectorAll('.grid-item').forEach((item, index) => {
+  item.addEventListener('click', () => {
+    item.style.background = \`hsl(\${index * 60}, 70%, 60%)\`;
+    console.log(\`Grid item \${item.textContent} clicked!\`);
+  });
+});
+
+// Dynamic flex properties
+let flexGrow = 1;
+document.querySelectorAll('.flex-item').forEach(item => {
+  item.addEventListener('dblclick', () => {
+    flexGrow = flexGrow === 1 ? 3 : 1;
+    item.style.flexGrow = flexGrow;
+    console.log(\`Flex grow set to \${flexGrow}\`);
+  });
+});`
+        }
+      };
+      
+      const tutorial = tutorials[tutorialId];
+      if (tutorial) {
+        // Find the playground and update editors
+        const htmlEditor = document.querySelector('#html-editor');
+        const cssEditor = document.querySelector('#css-editor');
+        const jsEditor = document.querySelector('#js-editor');
+        
+        if (htmlEditor) htmlEditor.value = tutorial.html;
+        if (cssEditor) cssEditor.value = tutorial.css;
+        if (jsEditor) jsEditor.value = tutorial.js;
+        
+        // Trigger update if playground is available
+        if (window.BSBCodePlayground) {
+          setTimeout(() => {
+            const playground = document.querySelector('[data-bsb-component="code-playground"]');
+            if (playground && playground.bsbPlayground) {
+              playground.bsbPlayground.updatePreview();
+            }
+          }, 100);
+        }
+        
+        // Scroll to playground
+        document.querySelector('#playground').scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  </script>
+
+  <style>
+    /* Page-specific styles */
+    .playground-features {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--bsb-bg-secondary);
+      border-radius: var(--bsb-radius-lg);
+    }
+    
+    .playground-features__title {
+      margin: 0 0 2rem 0;
+      font-size: var(--bsb-text-lg);
+      text-align: center;
+    }
+    
+    .playground-features__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .playground-feature {
+      padding: 1.5rem;
+      background: var(--bsb-bg-primary);
+      border-radius: var(--bsb-radius-md);
+      border: 1px solid var(--bsb-border-light);
+    }
+    
+    .playground-feature h4 {
+      margin: 0 0 1rem 0;
+      font-size: var(--bsb-text-base);
+      color: var(--bsb-primary);
+    }
+    
+    .tutorials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .tutorial-card {
+      background: var(--bsb-bg-primary);
+      border: 1px solid var(--bsb-border-light);
+      border-radius: var(--bsb-radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .tutorial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--bsb-shadow-lg);
+    }
+    
+    .tutorial-card__header {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--bsb-primary), var(--bsb-secondary));
+      color: white;
+    }
+    
+    .tutorial-card__level {
+      font-size: var(--bsb-text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
+    }
+    
+    .tutorial-card__title {
+      margin: 0.5rem 0 0 0;
+      font-size: var(--bsb-text-lg);
+    }
+    
+    .tutorial-card__content {
+      padding: 1.5rem;
+    }
+    
+    .tutorial-card__description {
+      margin: 0 0 1rem 0;
+      color: var(--bsb-text-secondary);
+      line-height: 1.6;
+    }
+    
+    .tutorial-card__topics {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .tutorial-card__topics li {
+      padding: 0.25rem 0;
+      color: var(--bsb-text-primary);
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    .tutorial-card__topics li::before {
+      content: "•";
+      color: var(--bsb-primary);
+      position: absolute;
+      left: 0;
+    }
+    
+    .tutorial-card__actions {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bsb-bg-secondary);
+    }
+    
+    .tutorial-card__duration {
+      font-size: var(--bsb-text-sm);
+      color: var(--bsb-text-secondary);
+    }
+    
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .tip-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--bsb-bg-primary);
+      border-radius: var(--bsb-radius-lg);
+      border: 1px solid var(--bsb-border-light);
+    }
+    
+    .tip-card__icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tip-card__title {
+      margin: 0 0 1rem 0;
+      font-size: var(--bsb-text-base);
+      color: var(--bsb-text-primary);
+    }
+    
+    .tip-card__text {
+      margin: 0;
+      color: var(--bsb-text-secondary);
+      line-height: 1.5;
+    }
+    
+    .section--tips {
+      background: var(--bsb-bg-secondary);
+    }
+  </style>
+</body>
+</html>
