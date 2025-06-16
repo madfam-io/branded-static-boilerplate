@@ -336,7 +336,7 @@ mark {
 
 /* Abbreviations */
 abbr[title] {
-  border-bottom: 1px dotted currentColor;
+  border-bottom: 1px dotted currentcolor;
   cursor: help;
   text-decoration: none;
 }

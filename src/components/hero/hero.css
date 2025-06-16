@@ -324,31 +324,32 @@
   Add these for entrance animations
 */
 .bsb-hero__content > * {
-  animation: fadeInUp 0.8s ease-out;
+  animation: fade-in-up 0.8s ease-out;
   animation-fill-mode: both;
 }
 
-.bsb-hero__title {
+.bsb-hero__content > :nth-child(1) {
   animation-delay: 0.1s;
 }
 
-.bsb-hero__lead {
+.bsb-hero__content > :nth-child(2) {
   animation-delay: 0.2s;
 }
 
-.bsb-hero__actions {
+.bsb-hero__content > :nth-child(3) {
   animation-delay: 0.3s;
 }
 
-.bsb-hero__social-proof {
+.bsb-hero__content > :nth-child(4) {
   animation-delay: 0.4s;
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
   from {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

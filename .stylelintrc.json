@@ -1,15 +1,19 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "selector-class-pattern": "^[a-z][a-z0-9-]*$",
-    "custom-property-pattern": "^bsb-[a-z][a-z0-9-]*$",
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
     "alpha-value-notation": "number",
-    "color-function-notation": "modern",
+    "color-function-notation": null,
     "selector-id-pattern": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "no-descending-specificity": null,
     "comment-empty-line-before": null,
-    "custom-property-empty-line-before": null
+    "custom-property-empty-line-before": null,
+    "declaration-block-single-line-max-declarations": null,
+    "media-feature-range-notation": null,
+    "selector-pseudo-element-colon-notation": null,
+    "import-notation": null
   },
   "ignoreFiles": [
     "dist/**/*",

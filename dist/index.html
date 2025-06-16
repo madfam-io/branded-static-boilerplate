@@ -1,0 +1,207 @@
+<!doctype html><html lang="en"><!--
+  ============================================================================
+  BRANDED STATIC BOILERPLATE - Welcome to Your Learning Journey!
+  ============================================================================
+  
+  This is more than just an HTML file - it's your teacher, guide, and foundation.
+  Every line has a purpose, every comment explains why, not just what.
+  
+  🎯 Quick Start Actions:
+  1. Change the <title> and meta description below
+  2. Update the header with your brand name
+  3. Customize the hero section content
+  4. Run 'npm run dev' to see your changes live
+  
+  📚 Learning Path:
+  - New to HTML? Start with /docs/tutorials/html-basics.md
+  - Want to customize styles? See /src/styles/README.md
+  - Adding interactivity? Check /src/scripts/README.md
+  
+  💡 BSB Philosophy:
+  "The best documentation lives with the code"
+  ============================================================================
+--><head><!-- 
+    Character Encoding
+    ==================
+    UTF-8 supports all languages and symbols. Always include this first!
+    Learn more: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#charset
+  --><meta charset="UTF-8"><!-- 
+    Viewport Settings
+    =================
+    Makes your site responsive on mobile devices. The viewport meta tag tells
+    browsers how to adjust the page's dimensions and scaling.
+    - width=device-width: Sets viewport width to device width
+    - initial-scale=1.0: Sets initial zoom level
+    Learn more: /docs/tutorials/responsive-design.md
+  --><meta name="viewport" content="width=device-width,initial-scale=1"><!-- 
+    Page Title
+    ==========
+    Appears in browser tabs and search results. Keep it under 60 characters.
+    Format: "Page Title | Site Name"
+    SEO Tip: Include your main keyword naturally
+  --><title>Welcome to BSB | Branded Static Boilerplate</title><!-- 
+    Meta Description
+    ================
+    Appears in search engine results. Keep it 150-160 characters.
+    Should summarize the page content and include a call-to-action.
+  --><meta name="description" content="Build modern static websites with Branded Static Boilerplate. Self-documenting, accessible, and production-ready. Get started in minutes!"><!-- 
+    Open Graph Tags (Social Media)
+    ==============================
+    Controls how your page appears when shared on social media.
+    Test with: https://developers.facebook.com/tools/debug/
+  --><meta property="og:title" content="Branded Static Boilerplate"><meta property="og:description" content="The self-documenting static site boilerplate that teaches as it serves"><meta property="og:type" content="website"><meta property="og:url" content="https://yourdomain.com"><meta property="og:image" content="/assets/images/social-preview.jpg"><!-- 
+    Twitter Card Tags
+    =================
+    Optimizes appearance on Twitter/X. Works alongside Open Graph.
+    Test with: https://cards-dev.twitter.com/validator
+  --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Branded Static Boilerplate"><meta name="twitter:description" content="The self-documenting static site boilerplate that teaches as it serves"><meta name="twitter:image" content="/assets/images/social-preview.jpg"><!-- 
+    Favicon
+    =======
+    The small icon that appears in browser tabs. Multiple sizes for different devices.
+    Generate favicons: https://realfavicongenerator.net/
+  --><link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg"><link rel="icon" type="image/png" href="/assets/images/favicon.png"><!-- 
+    CSS Files - The Order Matters!
+    ==============================
+    1. Variables: Define design tokens (colors, spacing, fonts)
+    2. Reset: Normalize browser defaults
+    3. Base: Typography and fundamental styles
+    4. Utilities: Helper classes for rapid development
+    5. Components: Specific component styles
+    6. Theme: Final theme customizations
+    
+    💡 Pro tip: In production, these will be combined and minified
+  --><!-- Component Styles --><!-- 
+    Preconnect to External Domains
+    ==============================
+    Speeds up loading of external resources by establishing early connections.
+    Only add domains you're actually using.
+  --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><!-- 
+    JavaScript Loading Strategy
+    ===========================
+    Using type="module" for modern ES6+ JavaScript with these benefits:
+    - Automatic strict mode
+    - Deferred execution (doesn't block HTML parsing)
+    - Support for ES6 imports/exports
+    
+    The 'defer' attribute ensures scripts execute after DOM is ready.
+  --><script type="module" crossorigin src="./js/main-C5ufoP7x.js"></script><link rel="stylesheet" crossorigin href="./assets/main-C8Wde4QQ.css"></head><!--
+  Body Element
+  ============
+  The data-bsb-theme attribute enables theme switching functionality.
+  Default theme is set in CSS, this attribute allows runtime changes.
+--><body data-bsb-theme="default"><!-- 
+    Skip to Main Content Link
+    =========================
+    Accessibility feature for keyboard users. Allows skipping repetitive
+    navigation. Hidden visually but available to screen readers and
+    keyboard navigation.
+    Learn more: /docs/tutorials/accessibility.md#skip-links
+  --> <a href="#main" class="skip-link">Skip to main content</a><!-- 
+    Header Component
+    ================
+    Contains site branding and main navigation. This is a reusable component
+    that appears on every page. The component files are in /src/components/header/
+    
+    Attributes:
+    - data-bsb-component: Identifies this as a BSB component for dev tools
+    - role="banner": ARIA landmark for site header
+  --><header class="bsb-header" data-bsb-component="header" role="banner"><div class="container"><!-- 
+        Site Branding
+        =============
+        Your logo or site name. The <strong> tag adds semantic emphasis.
+      --><div class="bsb-header__brand"><a href="/" class="bsb-header__logo"><strong>Your Brand</strong></a></div><!-- 
+        Navigation
+        ==========
+        Semantic <nav> element with ARIA label for screen readers.
+        The navigation pattern supports keyboard navigation and mobile menus.
+      --><nav class="bsb-header__nav" aria-label="Main navigation"><ul class="bsb-header__menu"><li><a href="/" class="bsb-header__link" aria-current="page">Home</a></li><li><a href="/pages/about.html" class="bsb-header__link">About</a></li><li><a href="/pages/services.html" class="bsb-header__link">Services</a></li><li><a href="/pages/contact.html" class="bsb-header__link">Contact</a></li></ul></nav><!-- 
+        Mobile Menu Toggle
+        ==================
+        Hidden on desktop, visible on mobile. Uses semantic button element.
+        JavaScript enhancement adds toggle functionality.
+      --> <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false"><span class="bsb-header__toggle-icon"></span></button></div></header><!-- 
+    Main Content Area
+    =================
+    The <main> element should contain the unique content of each page.
+    Using id="main" as target for skip link.
+    
+    ARIA landmark: Helps screen readers identify the main content region.
+  --><main id="main" role="main"><!-- 
+      Hero Section
+      ============
+      The hero is typically the first thing visitors see. It should:
+      1. Clearly communicate what your site/product is about
+      2. Include a clear call-to-action (CTA)
+      3. Load quickly (optimize that background image!)
+      
+      Component location: /src/components/hero/
+    --><section class="bsb-hero" data-bsb-component="hero"><div class="container"><div class="bsb-hero__content"><!-- 
+            Heading Hierarchy
+            =================
+            Every page should have exactly one <h1>. It should describe
+            the main topic of the page. Include your primary keyword naturally.
+          --><h1 class="bsb-hero__title">Build Better Static Sites <span class="bsb-hero__subtitle">With Built-in Best Practices</span></h1><!-- 
+            Lead Paragraph
+            ==============
+            Expand on your title. Keep it concise but informative.
+            This often appears in search results under your title.
+          --><p class="bsb-hero__lead">Branded Static Boilerplate is the self-documenting starter template that teaches modern web development while you build.</p><!-- 
+            Call-to-Action Buttons
+            ======================
+            Clear, action-oriented text. Primary action should stand out.
+            Consider what you want visitors to do next.
+          --><div class="bsb-hero__actions"><a href="#getting-started" class="btn btn--primary btn--large">Get Started </a><a href="/docs/tutorials/index.html" class="btn btn--secondary btn--large">Read the Docs</a></div></div></div></section><!-- 
+      Features Section
+      ================
+      Showcase your main features or benefits. Using a grid layout
+      for responsive design. Each feature is a card component.
+    --><section class="section" id="features" aria-labelledby="features-heading"><div class="container"><!-- 
+          Section Headings
+          ================
+          Use aria-labelledby to associate headings with sections.
+          This improves navigation for screen reader users.
+        --><h2 id="features-heading" class="section__title">Why Choose BSB?</h2><p class="section__lead">Every aspect is designed to help you learn and build faster</p><!-- 
+          Feature Grid
+          ============
+          CSS Grid provides flexible, responsive layouts. The .grid utility
+          class is defined in /src/styles/utilities/layout.css
+        --><div class="grid grid--3-cols"><!-- 
+            Feature Card 1
+            ==============
+            Each card is a self-contained component. Notice the semantic HTML:
+            - Article element for self-contained content
+            - Heading hierarchy maintained (h3 under h2)
+            - Descriptive text for each feature
+          --><article class="bsb-card" data-bsb-component="card"><div class="bsb-card__icon">📚</div><h3 class="bsb-card__title">Self-Documenting</h3><p class="bsb-card__text">Every file includes detailed comments explaining the why, not just the what. Learn as you build.</p></article><article class="bsb-card" data-bsb-component="card"><div class="bsb-card__icon">🚀</div><h3 class="bsb-card__title">Production Ready</h3><p class="bsb-card__text">Optimized builds, automated deployment, and performance best practices built in from the start.</p></article><article class="bsb-card" data-bsb-component="card"><div class="bsb-card__icon">♿</div><h3 class="bsb-card__title">Accessible by Default</h3><p class="bsb-card__text">WCAG compliant with semantic HTML, ARIA labels, and keyboard navigation support throughout.</p></article></div></div></section><!-- 
+      Getting Started Section
+      =======================
+      Clear instructions for new users. Code blocks should be
+      easy to copy. Consider adding a copy button via JavaScript.
+    --><section class="section section--alt" id="getting-started" aria-labelledby="start-heading"><div class="container"><h2 id="start-heading" class="section__title">Get Started in Minutes</h2><div class="steps"><div class="step"><h3 class="step__title">1. Clone the Repository</h3><pre class="code-block"><code>git clone https://github.com/yourusername/branded-static-boilerplate.git
+cd branded-static-boilerplate</code></pre></div><div class="step"><h3 class="step__title">2. Install Dependencies</h3><pre class="code-block"><code>npm install</code></pre></div><div class="step"><h3 class="step__title">3. Start Building</h3><pre class="code-block"><code>npm run dev</code></pre></div></div><p class="section__cta"><a href="/docs/tutorials/first-page.html" class="btn btn--primary">Create Your First Page →</a></p></div></section></main><!-- 
+    Footer Component
+    ================
+    Contains supplementary information, links, and copyright.
+    The <footer> element is a landmark region for assistive technologies.
+    
+    Component location: /src/components/footer/
+  --><footer class="bsb-footer" data-bsb-component="footer" role="contentinfo"><div class="container"><div class="bsb-footer__content"><!-- 
+          Footer Navigation
+          =================
+          Secondary navigation often goes here. Group related links
+          for better organization and usability.
+        --><nav class="bsb-footer__nav" aria-label="Footer navigation"><div class="bsb-footer__section"><h4 class="bsb-footer__heading">Learn</h4><ul class="bsb-footer__links"><li><a href="/docs/tutorials/index.html">Tutorials</a></li><li><a href="/docs/api/index.html">Component API</a></li><li><a href="/docs/examples/index.html">Examples</a></li></ul></div><div class="bsb-footer__section"><h4 class="bsb-footer__heading">Community</h4><ul class="bsb-footer__links"><li><a href="https://github.com/yourusername/branded-static-boilerplate">GitHub</a></li><li><a href="https://github.com/yourusername/branded-static-boilerplate/discussions">Discussions</a></li><li><a href="/CONTRIBUTING.html">Contributing</a></li></ul></div><div class="bsb-footer__section"><h4 class="bsb-footer__heading">Project</h4><ul class="bsb-footer__links"><li><a href="/pages/about.html">About BSB</a></li><li><a href="/LICENSE.html">License</a></li><li><a href="/pages/privacy.html">Privacy</a></li></ul></div></nav><!-- 
+          Copyright Notice
+          ================
+          Update the year and organization name. The datetime attribute
+          provides machine-readable date for search engines.
+        --><div class="bsb-footer__bottom"><p class="bsb-footer__copyright">© <time datetime="2024">2024</time> Branded Static Boilerplate. Built with ❤️ and best practices.</p></div></div></div></footer><!-- 
+    Development Mode Helper
+    =======================
+    This template shows only in development mode. It provides:
+    - Quick links to relevant documentation
+    - Component information
+    - Performance metrics
+    
+    Controlled by: /src/scripts/core/bsb-helper.js
+  --><template id="bsb-dev-helper"><div class="bsb-dev-helper"><h5>BSB Dev Mode</h5><p>You're viewing: <code>index.html</code></p><p>Components on this page: <span class="component-count">0</span></p><ul><li><a href="/src/README.md">Source Docs</a></li><li><a href="/docs/tutorials/index.html">Tutorials</a></li><li><button onclick="localStorage.removeItem('bsb-dev-mode'); location.reload();">Disable Dev Mode</button></li></ul></div></template></body></html>

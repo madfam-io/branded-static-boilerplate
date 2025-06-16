@@ -2,21 +2,21 @@
  * =============================================================================
  * BSB HELPER - Development Mode Assistant
  * =============================================================================
- * 
+ *
  * This script provides interactive documentation and debugging tools
  * when in development mode. It helps developers understand the codebase
  * by providing contextual information about components.
- * 
+ *
  * 🎯 Features:
  * - Component documentation overlay
  * - Performance metrics
  * - Grid overlay for layout debugging
  * - Component inspector
- * 
+ *
  * 📚 Learn More:
  * - Developer Tools: /docs/tutorials/dev-tools.md
  * - Component Inspection: /docs/tutorials/component-inspection.md
- * 
+ *
  * 💡 Enable dev mode: localStorage.setItem('bsb-dev-mode', 'true')
  * =============================================================================
  */
@@ -25,18 +25,18 @@ class BSBHelper {
   constructor() {
     this.devMode = localStorage.getItem('bsb-dev-mode') === 'true';
     this.components = new Map();
-    
+
     if (this.devMode) {
       this.init();
     }
   }
-  
+
   /**
    * Initialize development helpers
    */
   init() {
     console.log('BSB Dev Mode: Enabled 🛠️');
-    
+
     // Wait for DOM
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.setup());
@@ -44,7 +44,7 @@ class BSBHelper {
       this.setup();
     }
   }
-  
+
   /**
    * Setup all dev features
    */
@@ -55,13 +55,13 @@ class BSBHelper {
     this.setupKeyboardShortcuts();
     this.addGridOverlay();
   }
-  
+
   /**
    * Find all BSB components on the page
    */
   findComponents() {
     const components = document.querySelectorAll('[data-bsb-component]');
-    
+
     components.forEach(component => {
       const name = component.dataset.bsbComponent;
       if (!this.components.has(name)) {
@@ -69,10 +69,10 @@ class BSBHelper {
       }
       this.components.get(name).push(component);
     });
-    
+
     console.log(`BSB Dev Mode: Found ${components.length} components`);
   }
-  
+
   /**
    * Create floating dev panel
    */
@@ -110,22 +110,22 @@ class BSBHelper {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(panel);
-    
+
     // Add styles
     this.addDevStyles();
-    
+
     // Setup panel interactions
     this.setupPanelInteractions(panel);
-    
+
     // Update load time
     window.addEventListener('load', () => {
       const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
       panel.querySelector('.bsb-dev-panel__load-time').textContent = Math.round(loadTime);
     });
   }
-  
+
   /**
    * Add helper buttons to components
    */
@@ -140,13 +140,13 @@ class BSBHelper {
           e.stopPropagation();
           this.showComponentDocs(name, element);
         });
-        
+
         element.style.position = 'relative';
         element.appendChild(helper);
       });
     });
   }
-  
+
   /**
    * Show component documentation
    */
@@ -173,9 +173,9 @@ class BSBHelper {
           
           <h4>Attributes</h4>
           <ul>
-            ${Array.from(element.attributes).map(attr => 
-              `<li><code>${attr.name}="${attr.value}"</code></li>`
-            ).join('')}
+            ${Array.from(element.attributes).map(attr =>
+    `<li><code>${attr.name}="${attr.value}"</code></li>`
+  ).join('')}
           </ul>
         </div>
         <div class="bsb-dev-modal__actions">
@@ -188,42 +188,44 @@ class BSBHelper {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(modal);
   }
-  
+
   /**
    * Setup keyboard shortcuts
    */
   setupKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
       // Only in dev mode
-      if (!this.devMode) return;
-      
+      if (!this.devMode) {
+        return;
+      }
+
       // Ctrl/Cmd + key combinations
       if (e.ctrlKey || e.metaKey) {
         switch(e.key.toLowerCase()) {
-          case 'g':
-            e.preventDefault();
-            this.toggleGrid();
-            break;
-          case 'h':
-            e.preventDefault();
-            this.toggleHelpers();
-            break;
-          case 'i':
-            e.preventDefault();
-            this.toggleInspectMode();
-            break;
-          case 'd':
-            e.preventDefault();
-            this.toggleDevPanel();
-            break;
+        case 'g':
+          e.preventDefault();
+          this.toggleGrid();
+          break;
+        case 'h':
+          e.preventDefault();
+          this.toggleHelpers();
+          break;
+        case 'i':
+          e.preventDefault();
+          this.toggleInspectMode();
+          break;
+        case 'd':
+          e.preventDefault();
+          this.toggleDevPanel();
+          break;
         }
       }
     });
   }
-  
+
   /**
    * Add grid overlay for layout debugging
    */
@@ -233,34 +235,34 @@ class BSBHelper {
     overlay.innerHTML = '<div class="container"><div class="bsb-grid-overlay__grid"></div></div>';
     document.body.appendChild(overlay);
   }
-  
+
   /**
    * Toggle grid visibility
    */
   toggleGrid() {
     document.body.classList.toggle('bsb-show-grid');
   }
-  
+
   /**
    * Toggle component helpers
    */
   toggleHelpers() {
     document.body.classList.toggle('bsb-show-helpers');
   }
-  
+
   /**
    * Toggle inspect mode
    */
   toggleInspectMode() {
     document.body.classList.toggle('bsb-inspect-mode');
-    
+
     if (document.body.classList.contains('bsb-inspect-mode')) {
       this.startInspecting();
     } else {
       this.stopInspecting();
     }
   }
-  
+
   /**
    * Toggle dev panel visibility
    */
@@ -270,7 +272,7 @@ class BSBHelper {
       panel.classList.toggle('bsb-dev-panel--hidden');
     }
   }
-  
+
   /**
    * Start component inspection
    */
@@ -278,20 +280,20 @@ class BSBHelper {
     document.addEventListener('click', this.inspectHandler);
     document.addEventListener('mouseover', this.highlightHandler);
   }
-  
+
   /**
    * Stop component inspection
    */
   stopInspecting() {
     document.removeEventListener('click', this.inspectHandler);
     document.removeEventListener('mouseover', this.highlightHandler);
-    
+
     // Remove any highlights
     document.querySelectorAll('.bsb-highlight').forEach(el => {
       el.classList.remove('bsb-highlight');
     });
   }
-  
+
   /**
    * Handle inspection clicks
    */
@@ -303,8 +305,8 @@ class BSBHelper {
       const name = component.dataset.bsbComponent;
       this.showComponentDocs(name, component);
     }
-  }
-  
+  };
+
   /**
    * Handle hover highlighting
    */
@@ -313,13 +315,13 @@ class BSBHelper {
     document.querySelectorAll('.bsb-highlight').forEach(el => {
       el.classList.remove('bsb-highlight');
     });
-    
+
     const component = e.target.closest('[data-bsb-component]');
     if (component) {
       component.classList.add('bsb-highlight');
     }
-  }
-  
+  };
+
   /**
    * Setup panel interactions
    */
@@ -328,26 +330,26 @@ class BSBHelper {
     panel.querySelector('.bsb-dev-panel__close').addEventListener('click', () => {
       this.toggleDevPanel();
     });
-    
+
     // Action buttons
     panel.querySelectorAll('.bsb-dev-panel__action').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.action;
         switch(action) {
-          case 'toggle-grid':
-            this.toggleGrid();
-            break;
-          case 'toggle-helpers':
-            this.toggleHelpers();
-            break;
-          case 'inspect':
-            this.toggleInspectMode();
-            break;
+        case 'toggle-grid':
+          this.toggleGrid();
+          break;
+        case 'toggle-helpers':
+          this.toggleHelpers();
+          break;
+        case 'inspect':
+          this.toggleInspectMode();
+          break;
         }
       });
     });
   }
-  
+
   /**
    * Add development styles
    */
@@ -572,7 +574,7 @@ class BSBHelper {
         border-color: #333;
       }
     `;
-    
+
     document.head.appendChild(style);
   }
 }

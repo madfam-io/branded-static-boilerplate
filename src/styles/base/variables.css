@@ -47,22 +47,22 @@
   --bsb-secondary-dark: hsl(var(--bsb-secondary-hue), 7%, 30%);
   
   /* Semantic Colors - Named by purpose, not appearance */
-  --bsb-success: hsl(134, 61%, 41%);
-  --bsb-warning: hsl(45, 100%, 51%);
-  --bsb-error: hsl(354, 70%, 54%);
-  --bsb-info: hsl(188, 78%, 41%);
+  --bsb-success: hsl(134deg, 61%, 41%);
+  --bsb-warning: hsl(45deg, 100%, 51%);
+  --bsb-error: hsl(354deg, 70%, 54%);
+  --bsb-info: hsl(188deg, 78%, 41%);
   
   /* Neutral Colors - Grays for text, borders, backgrounds */
-  --bsb-gray-50: hsl(210, 20%, 98%);
-  --bsb-gray-100: hsl(210, 20%, 96%);
-  --bsb-gray-200: hsl(210, 20%, 93%);
-  --bsb-gray-300: hsl(210, 20%, 88%);
-  --bsb-gray-400: hsl(210, 20%, 70%);
-  --bsb-gray-500: hsl(210, 20%, 50%);
-  --bsb-gray-600: hsl(210, 20%, 40%);
-  --bsb-gray-700: hsl(210, 20%, 30%);
-  --bsb-gray-800: hsl(210, 20%, 20%);
-  --bsb-gray-900: hsl(210, 20%, 10%);
+  --bsb-gray-50: hsl(210deg, 20%, 98%);
+  --bsb-gray-100: hsl(210deg, 20%, 96%);
+  --bsb-gray-200: hsl(210deg, 20%, 93%);
+  --bsb-gray-300: hsl(210deg, 20%, 88%);
+  --bsb-gray-400: hsl(210deg, 20%, 70%);
+  --bsb-gray-500: hsl(210deg, 20%, 50%);
+  --bsb-gray-600: hsl(210deg, 20%, 40%);
+  --bsb-gray-700: hsl(210deg, 20%, 30%);
+  --bsb-gray-800: hsl(210deg, 20%, 20%);
+  --bsb-gray-900: hsl(210deg, 20%, 10%);
   
   /* Applied Colors - How colors are used in the UI */
   --bsb-text-primary: var(--bsb-gray-900);
@@ -85,9 +85,9 @@
   */
   
   /* Font Families */
-  --bsb-font-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bsb-font-base: system-ui, -apple-system, "Segoe UI", roboto, "Helvetica Neue", arial, sans-serif;
   --bsb-font-heading: var(--bsb-font-base); /* Same as base, but customizable */
-  --bsb-font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --bsb-font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", menlo, consolas, "DejaVu Sans Mono", monospace;
   
   /* Font Sizes - Using rem for scalability */
   --bsb-text-xs: 0.75rem;    /* 12px */

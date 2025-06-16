@@ -77,26 +77,8 @@ export default defineConfig({
     open: true
   },
   
-  // Optimize CSS
+  // CSS optimization is handled by postcss.config.js
   css: {
-    postcss: {
-      plugins: [
-        require('autoprefixer'),
-        require('postcss-preset-env')({
-          stage: 3,
-          features: {
-            'nesting-rules': true,
-            'custom-properties': true,
-          }
-        }),
-        require('cssnano')({
-          preset: ['default', {
-            discardComments: {
-              removeAll: false, // Keep educational comments
-            }
-          }]
-        })
-      ]
-    }
+    postcss: './postcss.config.js'
   }
 });
