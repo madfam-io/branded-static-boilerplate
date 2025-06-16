@@ -63,7 +63,7 @@ jobs:
       
       # Cache dependencies
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -72,7 +72,12 @@ jobs:
       
       # Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
       
       # Run linters (optional - remove if you want faster deployments)
       - name: Run linters
@@ -87,7 +92,7 @@ jobs:
       
       # Upload build artifacts
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
   
@@ -103,7 +108,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v4
 
 # =============================================================================
 # Optional: Deploy Preview for Pull Requests
