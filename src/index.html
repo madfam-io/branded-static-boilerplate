@@ -136,7 +136,6 @@
     
     The 'defer' attribute ensures scripts execute after DOM is ready.
   -->
-  <script type="module" src="./scripts/core/bsb-helper.js" defer></script>
   <script type="module" src="./scripts/core/main.js" defer></script>
 </head>
 
@@ -146,7 +145,7 @@
   The data-bsb-theme attribute enables theme switching functionality.
   Default theme is set in CSS, this attribute allows runtime changes.
 -->
-<body data-bsb-theme="default">
+<body>
   <!-- 
     Skip to Main Content Link
     =========================
@@ -169,41 +168,47 @@
   -->
   <header class="bsb-header" data-bsb-component="header" role="banner">
     <div class="container">
-      <!-- 
-        Site Branding
-        =============
-        Your logo or site name. The <strong> tag adds semantic emphasis.
-      -->
-      <div class="bsb-header__brand">
-        <a href="/branded-static-boilerplate/" class="bsb-header__logo">
-          <strong>Your Brand</strong>
-        </a>
+      <div class="bsb-header__inner">
+        <!-- 
+          Site Branding
+          =============
+          Your logo or site name. The <strong> tag adds semantic emphasis.
+        -->
+        <div class="bsb-header__brand">
+          <a href="/branded-static-boilerplate/" class="bsb-header__logo">
+            <strong>Your Brand</strong>
+          </a>
+        </div>
+        
+        <!-- 
+          Navigation
+          ==========
+          Semantic <nav> element with ARIA label for screen readers.
+          The navigation pattern supports keyboard navigation and mobile menus.
+        -->
+        <nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav">
+          <ul class="bsb-header__menu">
+            <li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Home</a></li>
+            <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li>
+            <li><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link">Services</a></li>
+            <li><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link">Contact</a></li>
+          </ul>
+        </nav>
+        
+        <!-- 
+          Mobile Menu Toggle
+          ==================
+          Hidden on desktop, visible on mobile. Uses semantic button element.
+          JavaScript enhancement adds toggle functionality.
+        -->
+        <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <span class="bsb-header__toggle-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
       </div>
-      
-      <!-- 
-        Navigation
-        ==========
-        Semantic <nav> element with ARIA label for screen readers.
-        The navigation pattern supports keyboard navigation and mobile menus.
-      -->
-      <nav class="bsb-header__nav" aria-label="Main navigation">
-        <ul class="bsb-header__menu">
-          <li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Home</a></li>
-          <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li>
-          <li><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link">Services</a></li>
-          <li><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link">Contact</a></li>
-        </ul>
-      </nav>
-      
-      <!-- 
-        Mobile Menu Toggle
-        ==================
-        Hidden on desktop, visible on mobile. Uses semantic button element.
-        JavaScript enhancement adds toggle functionality.
-      -->
-      <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span class="bsb-header__toggle-icon"></span>
-      </button>
     </div>
   </header>
   
@@ -380,24 +385,29 @@ cd branded-static-boilerplate</code></pre>
   -->
   <footer class="bsb-footer" data-bsb-component="footer" role="contentinfo">
     <div class="container">
-      <div class="bsb-footer__content">
-        <!-- 
-          Footer Navigation
-          =================
-          Secondary navigation often goes here. Group related links
-          for better organization and usability.
-        -->
-        <nav class="bsb-footer__nav" aria-label="Footer navigation">
-          <div class="bsb-footer__section">
+      <div class="bsb-footer__main">
+        <div class="bsb-footer__grid">
+          <div class="bsb-footer__column bsb-footer__column--wide">
+            <div class="bsb-footer__brand">
+              <a href="/branded-static-boilerplate/" class="bsb-footer__logo">
+                <strong>Your Brand</strong>
+              </a>
+              <p class="bsb-footer__tagline">
+                Building better websites with modern best practices.
+              </p>
+            </div>
+          </div>
+          
+          <div class="bsb-footer__column">
             <h4 class="bsb-footer__heading">Learn</h4>
             <ul class="bsb-footer__links">
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html">Tutorials</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/index.html">Component API</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/index.html">Examples</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/">Tutorials</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/">API Docs</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/">Examples</a></li>
             </ul>
           </div>
           
-          <div class="bsb-footer__section">
+          <div class="bsb-footer__column">
             <h4 class="bsb-footer__heading">Community</h4>
             <ul class="bsb-footer__links">
               <li><a href="https://github.com/yourusername/branded-static-boilerplate">GitHub</a></li>
@@ -406,53 +416,25 @@ cd branded-static-boilerplate</code></pre>
             </ul>
           </div>
           
-          <div class="bsb-footer__section">
-            <h4 class="bsb-footer__heading">Project</h4>
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">More</h4>
             <ul class="bsb-footer__links">
-              <li><a href="/branded-static-boilerplate/pages/about.html">About BSB</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE">License</a></li>
+              <li><a href="/branded-static-boilerplate/pages/about.html">About</a></li>
+              <li><a href="/branded-static-boilerplate/pages/contact.html">Contact</a></li>
               <li><a href="/branded-static-boilerplate/pages/privacy.html">Privacy</a></li>
             </ul>
           </div>
-        </nav>
-        
-        <!-- 
-          Copyright Notice
-          ================
-          Update the year and organization name. The datetime attribute
-          provides machine-readable date for search engines.
-        -->
-        <div class="bsb-footer__bottom">
+        </div>
+      </div>
+      
+      <div class="bsb-footer__bottom">
+        <div class="bsb-footer__bottom-content">
           <p class="bsb-footer__copyright">
-            © <time datetime="2024">2024</time> Branded Static Boilerplate. 
-            Built with ❤️ and best practices.
+            © <time datetime="2024">2024</time> Branded Static Boilerplate. Built with BSB.
           </p>
         </div>
       </div>
     </div>
   </footer>
-  
-  <!-- 
-    Development Mode Helper
-    =======================
-    This template shows only in development mode. It provides:
-    - Quick links to relevant documentation
-    - Component information
-    - Performance metrics
-    
-    Controlled by: /src/scripts/core/bsb-helper.js
-  -->
-  <template id="bsb-dev-helper">
-    <div class="bsb-dev-helper">
-      <h5>BSB Dev Mode</h5>
-      <p>You're viewing: <code>index.html</code></p>
-      <p>Components on this page: <span class="component-count">0</span></p>
-      <ul>
-        <li><a href="./src/README.md">Source Docs</a></li>
-        <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html">Tutorials</a></li>
-        <li><button onclick="localStorage.removeItem('bsb-dev-mode'); location.reload();">Disable Dev Mode</button></li>
-      </ul>
-    </div>
-  </template>
 </body>
 </html>
