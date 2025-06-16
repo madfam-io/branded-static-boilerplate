@@ -160,7 +160,7 @@
   &:focus {
     outline: none;
     border-color: var(--bsb-primary);
-    box-shadow: 0 0 0 3px rgba(var(--bsb-primary-hue), 100%, 50%, 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--bsb-primary-hue) 100% 50% / 10%);
   }
   
   &:disabled {
@@ -323,25 +323,25 @@
 }
 
 .alert--info {
-  background-color: rgba(23, 162, 184, 0.1);
+  background-color: rgb(23 162 184 / 10%);
   border-color: var(--bsb-info);
   color: var(--bsb-info);
 }
 
 .alert--success {
-  background-color: rgba(40, 167, 69, 0.1);
+  background-color: rgb(40 167 69 / 10%);
   border-color: var(--bsb-success);
   color: var(--bsb-success);
 }
 
 .alert--warning {
-  background-color: rgba(255, 193, 7, 0.1);
+  background-color: rgb(255 193 7 / 10%);
   border-color: var(--bsb-warning);
   color: var(--bsb-gray-900);
 }
 
 .alert--error {
-  background-color: rgba(220, 53, 69, 0.1);
+  background-color: rgb(220 53 69 / 10%);
   border-color: var(--bsb-error);
   color: var(--bsb-error);
 }

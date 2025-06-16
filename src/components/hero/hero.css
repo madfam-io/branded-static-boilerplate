@@ -38,7 +38,7 @@
   overflow: hidden;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .bsb-hero {
     padding-top: var(--bsb-hero-padding-y);
     padding-bottom: var(--bsb-hero-padding-y);
@@ -75,11 +75,11 @@
   letter-spacing: -0.02em;
   
   /* Responsive font size */
-  @media (min-width: 640px) {
+  @media (width >= 640px) {
     font-size: var(--bsb-text-4xl);
   }
   
-  @media (min-width: 1024px) {
+  @media (width >= 1024px) {
     font-size: var(--bsb-text-5xl);
   }
 }
@@ -104,7 +104,7 @@
   line-height: var(--bsb-leading-relaxed);
   color: var(--bsb-text-secondary);
   
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     font-size: var(--bsb-text-xl);
   }
 }
@@ -126,7 +126,7 @@
 }
 
 /* Stack buttons on mobile */
-@media (max-width: 639px) {
+@media (width <= 639px) {
   .bsb-hero__actions {
     flex-direction: column;
     align-items: stretch;
@@ -199,29 +199,27 @@
   background-position: center;
   background-repeat: no-repeat;
   color: white;
+
   --bsb-hero-text-color: white;
 }
 
 .bsb-hero__overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.4) 100%
+    rgb(0 0 0 / 70%) 0%,
+    rgb(0 0 0 / 40%) 100%
   );
   z-index: 1;
 }
 
 .bsb-hero--bg-image .bsb-hero__subtitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
 }
 
 .bsb-hero--bg-image .bsb-hero__lead {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
 }
 
 /* 
@@ -237,7 +235,7 @@
   gap: var(--bsb-space-8);
   align-items: center;
   
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     grid-template-columns: 1fr 1fr;
     gap: var(--bsb-space-12);
   }
@@ -280,6 +278,7 @@
 .bsb-hero--video {
   position: relative;
   color: white;
+
   --bsb-hero-text-color: white;
 }
 
@@ -303,18 +302,21 @@
 .bsb-hero--gradient-1 {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+
   --bsb-hero-text-color: white;
 }
 
 .bsb-hero--gradient-2 {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;
+
   --bsb-hero-text-color: white;
 }
 
 .bsb-hero--gradient-3 {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   color: white;
+
   --bsb-hero-text-color: white;
 }
 

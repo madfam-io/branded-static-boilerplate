@@ -330,7 +330,7 @@ em {
 /* Mark/highlight */
 mark {
   padding: 0.125em 0.25em;
-  background-color: rgba(255, 235, 59, 0.4);
+  background-color: rgb(255 235 59 / 40%);
   border-radius: var(--bsb-radius-sm);
 }
 
@@ -346,7 +346,7 @@ abbr[title] {
   ====================
   Adjust sizes for smaller screens
 */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   h1 {
     font-size: var(--bsb-text-3xl);
   }

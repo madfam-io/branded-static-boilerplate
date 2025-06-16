@@ -65,14 +65,14 @@
 }
 
 /* Responsive padding for larger screens */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .container {
     padding-left: var(--bsb-space-6);
     padding-right: var(--bsb-space-6);
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .container {
     padding-left: var(--bsb-space-8);
     padding-right: var(--bsb-space-8);
@@ -145,7 +145,7 @@
 .hidden { display: none; }
 
 /* Responsive display utilities */
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .sm\:block { display: block; }
   .sm\:inline-block { display: inline-block; }
   .sm\:flex { display: flex; }
@@ -153,7 +153,7 @@
   .sm\:hidden { display: none; }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .md\:block { display: block; }
   .md\:inline-block { display: inline-block; }
   .md\:flex { display: flex; }
@@ -161,7 +161,7 @@
   .md\:hidden { display: none; }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .lg\:block { display: block; }
   .lg\:inline-block { display: inline-block; }
   .lg\:flex { display: flex; }
@@ -234,7 +234,7 @@
 .grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 
 /* Responsive grids */
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .sm\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
   .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -242,7 +242,7 @@
   .sm\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .md\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
   .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -250,7 +250,7 @@
   .md\:grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .lg\:grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
   .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -298,7 +298,7 @@
 .sticky { position: sticky; }
 
 /* Position values */
-.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.inset-0 { inset: 0; }
 .inset-x-0 { left: 0; right: 0; }
 .inset-y-0 { top: 0; bottom: 0; }
 .top-0 { top: 0; }

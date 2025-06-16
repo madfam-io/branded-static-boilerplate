@@ -2,10 +2,10 @@
  * ============================================================================
  * BSB CODE PLAYGROUND COMPONENT
  * ============================================================================
- * 
+ *
  * Interactive code editing component with live preview capabilities.
  * Provides real-time HTML, CSS, and JavaScript editing with immediate feedback.
- * 
+ *
  * Features:
  * - Live code editing with syntax highlighting
  * - Real-time preview updates
@@ -14,14 +14,14 @@
  * - Accessibility support
  * - Keyboard shortcuts
  * - Code sharing functionality
- * 
+ *
  * Educational Features:
  * - Progressive difficulty levels
  * - Guided tutorials
  * - Code completion hints
  * - Best practices suggestions
  * - Performance monitoring
- * 
+ *
  * @class BSBCodePlayground
  * @version 1.0.0
  */
@@ -47,7 +47,7 @@ class BSBCodePlayground {
     this.isFullscreen = false;
     this.autoSave = true;
     this.debounceTimeout = null;
-    
+
     this.init();
   }
 
@@ -64,7 +64,8 @@ class BSBCodePlayground {
     this.setupKeyboardShortcuts();
     this.loadSavedCode();
     this.updatePreview();
-    
+
+    // eslint-disable-next-line no-console
     console.log('BSB Code Playground: Initialized 🎨');
   }
 
@@ -80,7 +81,7 @@ class BSBCodePlayground {
     this.previewFrame = this.element.querySelector('.bsb-code-playground__preview');
     this.consoleContainer = this.element.querySelector('.bsb-code-playground__console');
     this.loadingIndicator = this.element.querySelector('.bsb-code-playground__preview-loading');
-    
+
     // Cache editor textareas
     this.editors.set('html', this.element.querySelector('#html-editor'));
     this.editors.set('css', this.element.querySelector('#css-editor'));
@@ -96,12 +97,12 @@ class BSBCodePlayground {
   setupEventListeners() {
     // Tab switching
     this.tabs.forEach(tab => {
-      tab.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
+      tab.addEventListener('click', e => this.switchTab(e.target.dataset.tab));
     });
 
     // Control buttons
-    this.element.addEventListener('click', (e) => {
-      const action = e.target.dataset.action;
+    this.element.addEventListener('click', e => {
+      const { action } = e.target.dataset;
       if (action) {
         this.handleAction(action);
       }
@@ -112,8 +113,8 @@ class BSBCodePlayground {
       editor.addEventListener('input', () => {
         this.onCodeChange(language);
       });
-      
-      editor.addEventListener('keydown', (e) => {
+
+      editor.addEventListener('keydown', e => {
         this.handleEditorKeydown(e, language);
       });
     });
@@ -134,28 +135,28 @@ class BSBCodePlayground {
     this.editors.forEach((editor, language) => {
       // Add line numbers and syntax highlighting classes
       editor.classList.add(`language-${language}`);
-      
+
       // Configure editor settings
-      editor.addEventListener('keydown', (e) => {
+      editor.addEventListener('keydown', e => {
         // Tab key handling for indentation
         if (e.key === 'Tab') {
           e.preventDefault();
           const start = editor.selectionStart;
           const end = editor.selectionEnd;
-          
+
           if (e.shiftKey) {
             // Unindent
             const lineStart = editor.value.lastIndexOf('\n', start - 1) + 1;
             const lineText = editor.value.substring(lineStart, start);
             if (lineText.startsWith('  ')) {
-              editor.value = editor.value.substring(0, lineStart) + 
-                           lineText.substring(2) + 
+              editor.value = editor.value.substring(0, lineStart) +
+                           lineText.substring(2) +
                            editor.value.substring(start);
               editor.selectionStart = editor.selectionEnd = start - 2;
             }
           } else {
             // Indent
-            editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+            editor.value = `${editor.value.substring(0, start)}  ${editor.value.substring(end)}`;
             editor.selectionStart = editor.selectionEnd = start + 2;
           }
         }
@@ -170,7 +171,7 @@ class BSBCodePlayground {
    * @returns {void}
    */
   setupKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       // Only handle shortcuts when playground is focused
       if (!this.element.contains(document.activeElement)) {
         return;
@@ -189,14 +190,15 @@ class BSBCodePlayground {
             break;
           case '1':
           case '2':
-          case '3':
+          case '3': {
             e.preventDefault();
-            const tabIndex = parseInt(e.key) - 1;
+            const tabIndex = parseInt(e.key, 10);
             const tabs = ['html', 'css', 'js'];
-            if (tabs[tabIndex]) {
-              this.switchTab(tabs[tabIndex]);
+            if (tabs[tabIndex - 1]) {
+              this.switchTab(tabs[tabIndex - 1]);
             }
             break;
+          }
         }
       }
 
@@ -233,7 +235,7 @@ class BSBCodePlayground {
     });
 
     this.currentTab = tabName;
-    
+
     // Focus the active editor
     const activeEditor = this.editors.get(tabName);
     if (activeEditor) {
@@ -274,14 +276,14 @@ class BSBCodePlayground {
   /**
    * Handle code changes
    * @method onCodeChange
-   * @param {string} language - The language that changed
+   * @param {string} _language - The language that changed (unused but required for API consistency)
    * @description Handles live code updates with debouncing
    * @returns {void}
    */
-  onCodeChange(language) {
+  onCodeChange(_language) {
     // Update metrics
     this.updateMetrics();
-    
+
     // Debounced preview update
     clearTimeout(this.debounceTimeout);
     this.debounceTimeout = setTimeout(() => {
@@ -314,12 +316,12 @@ class BSBCodePlayground {
     if (pairs[e.key]) {
       const start = editor.selectionStart;
       const end = editor.selectionEnd;
-      
+
       if (start === end) {
         e.preventDefault();
         const closingChar = pairs[e.key];
-        editor.value = editor.value.substring(0, start) + 
-                      e.key + closingChar + 
+        editor.value = editor.value.substring(0, start) +
+                      e.key + closingChar +
                       editor.value.substring(end);
         editor.selectionStart = editor.selectionEnd = start + 1;
       }
@@ -343,25 +345,25 @@ class BSBCodePlayground {
 
       // Create preview document
       const previewDoc = this.generatePreviewDocument(html, css, js);
-      
+
       // Update iframe
       const iframe = this.previewFrame;
       iframe.srcdoc = previewDoc;
-      
+
       // Handle iframe load
       iframe.onload = () => {
         const endTime = performance.now();
         const renderTime = Math.round(endTime - startTime);
-        
+
         this.hideLoading();
         this.updateMetric('render', `${renderTime}ms`);
         this.showConsoleMessage(`✅ Preview updated in ${renderTime}ms`, 'info');
-        
+
         // Setup console capture in iframe
         this.setupConsoleCapture(iframe);
       };
 
-      iframe.onerror = (error) => {
+      iframe.onerror = error => {
         this.hideLoading();
         this.showConsoleMessage(`❌ Preview error: ${error.message}`, 'error');
       };
@@ -376,7 +378,7 @@ class BSBCodePlayground {
    * Generate preview document
    * @method generatePreviewDocument
    * @param {string} html - HTML content
-   * @param {string} css - CSS content  
+   * @param {string} css - CSS content
    * @param {string} js - JavaScript content
    * @description Creates a complete HTML document for the preview
    * @returns {string} Complete HTML document
@@ -454,7 +456,7 @@ class BSBCodePlayground {
    * @returns {void}
    */
   setupConsoleCapture(iframe) {
-    const messageHandler = (event) => {
+    const messageHandler = event => {
       if (event.source === iframe.contentWindow && event.data.type === 'console') {
         const { method, message } = event.data;
         const type = method === 'log' ? 'info' : method;
@@ -463,7 +465,7 @@ class BSBCodePlayground {
     };
 
     window.addEventListener('message', messageHandler);
-    
+
     // Clean up old listeners
     if (this.consoleMessageHandler) {
       window.removeEventListener('message', this.consoleMessageHandler);
@@ -482,24 +484,24 @@ class BSBCodePlayground {
   showConsoleMessage(message, type = 'info') {
     const messageElement = document.createElement('div');
     messageElement.className = `bsb-code-playground__console-message bsb-code-playground__console-message--${type}`;
-    
+
     const icons = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌'
     };
-    
+
     const time = new Date().toLocaleTimeString();
-    
+
     messageElement.innerHTML = `
       <span class="bsb-code-playground__console-icon">${icons[type] || 'ℹ️'}</span>
       <span class="bsb-code-playground__console-text">${message}</span>
       <span class="bsb-code-playground__console-time">${time}</span>
     `;
-    
+
     this.consoleContainer.appendChild(messageElement);
     this.consoleContainer.scrollTop = this.consoleContainer.scrollHeight;
-    
+
     // Limit console messages
     const messages = this.consoleContainer.children;
     if (messages.length > 50) {
@@ -516,13 +518,13 @@ class BSBCodePlayground {
   updateMetrics() {
     let totalLines = 0;
     let totalSize = 0;
-    
-    this.editors.forEach((editor) => {
+
+    this.editors.forEach(editor => {
       const content = editor.value;
       totalLines += content.split('\n').length;
       totalSize += new Blob([content]).size;
     });
-    
+
     this.updateMetric('lines', totalLines.toString());
     this.updateMetric('size', this.formatBytes(totalSize));
   }
@@ -550,7 +552,7 @@ class BSBCodePlayground {
    * @returns {string} Formatted bytes string
    */
   formatBytes(bytes) {
-    if (bytes === 0) return '0b';
+    if (bytes === 0) {return '0b';}
     const k = 1024;
     const sizes = ['b', 'kb', 'mb'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -590,13 +592,13 @@ class BSBCodePlayground {
   resetCode() {
     if (confirm('Are you sure you want to reset all code? This cannot be undone.')) {
       // Reset to original values from HTML
-      this.editors.forEach((editor) => {
+      this.editors.forEach(editor => {
         const originalContent = editor.defaultValue || editor.getAttribute('data-original');
         if (originalContent) {
           editor.value = originalContent;
         }
       });
-      
+
       this.updatePreview();
       this.updateMetrics();
       this.showConsoleMessage('🔄 Code reset to defaults', 'info');
@@ -612,12 +614,12 @@ class BSBCodePlayground {
   toggleFullscreen() {
     this.isFullscreen = !this.isFullscreen;
     this.element.classList.toggle('bsb-code-playground--fullscreen', this.isFullscreen);
-    
+
     const button = this.element.querySelector('[data-action="fullscreen"]');
     if (button) {
       button.textContent = this.isFullscreen ? '🗗 Exit Fullscreen' : '🖥️ Fullscreen';
     }
-    
+
     if (this.isFullscreen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -637,11 +639,11 @@ class BSBCodePlayground {
       css: this.editors.get('css').value,
       js: this.editors.get('js').value
     };
-    
+
     // Encode the code for URL sharing
     const encodedCode = btoa(JSON.stringify(code));
     const shareUrl = `${window.location.origin}${window.location.pathname}?code=${encodedCode}`;
-    
+
     if (navigator.share) {
       navigator.share({
         title: 'BSB Code Playground',
@@ -668,10 +670,10 @@ class BSBCodePlayground {
     const html = this.editors.get('html').value;
     const css = this.editors.get('css').value;
     const js = this.editors.get('js').value;
-    
+
     const previewDoc = this.generatePreviewDocument(html, css, js);
     const newWindow = window.open('', '_blank');
-    
+
     if (newWindow) {
       newWindow.document.write(previewDoc);
       newWindow.document.close();
@@ -687,15 +689,15 @@ class BSBCodePlayground {
    * @returns {void}
    */
   saveCode() {
-    if (!this.autoSave) return;
-    
+    if (!this.autoSave) {return;}
+
     const code = {
       html: this.editors.get('html').value,
       css: this.editors.get('css').value,
       js: this.editors.get('js').value,
       timestamp: Date.now()
     };
-    
+
     try {
       localStorage.setItem('bsb-playground-code', JSON.stringify(code));
     } catch (error) {
@@ -713,7 +715,7 @@ class BSBCodePlayground {
     // Check for URL-encoded code first
     const urlParams = new URLSearchParams(window.location.search);
     const encodedCode = urlParams.get('code');
-    
+
     if (encodedCode) {
       try {
         const code = JSON.parse(atob(encodedCode));
@@ -726,14 +728,14 @@ class BSBCodePlayground {
         console.warn('Could not load shared code:', error);
       }
     }
-    
+
     // Load from localStorage
     try {
       const savedCode = localStorage.getItem('bsb-playground-code');
       if (savedCode) {
         const code = JSON.parse(savedCode);
         const age = Date.now() - code.timestamp;
-        
+
         // Only load if saved within last 24 hours
         if (age < 24 * 60 * 60 * 1000) {
           this.editors.get('html').value = code.html || '';
@@ -756,11 +758,12 @@ class BSBCodePlayground {
  */
 function initializeCodePlaygrounds() {
   const playgrounds = document.querySelectorAll('[data-bsb-component="code-playground"]');
-  
+
   playgrounds.forEach(playground => {
     new BSBCodePlayground(playground);
   });
-  
+
+  // eslint-disable-next-line no-console
   console.log(`BSB Code Playground: Initialized ${playgrounds.length} playground(s) 🎨`);
 }
 

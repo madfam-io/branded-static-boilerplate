@@ -100,7 +100,7 @@
 }
 
 /* Show navigation on larger screens */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .bsb-header__nav {
     display: block;
   }
@@ -171,7 +171,7 @@
 }
 
 /* Hide toggle on larger screens */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .bsb-header__toggle {
     display: none;
   }
@@ -243,13 +243,10 @@
   ==================
   Full-screen overlay on mobile
 */
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .bsb-header__nav {
     position: fixed;
-    top: var(--bsb-header-height);
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: var(--bsb-header-height) 0 0 0;
     display: flex;
     align-items: flex-start;
     padding: var(--bsb-space-8) var(--bsb-space-4);

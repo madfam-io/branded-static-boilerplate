@@ -63,6 +63,7 @@
 .bsb-card__image {
   position: relative;
   overflow: hidden;
+
   /* Default aspect ratio */
   aspect-ratio: 16 / 9;
 }
@@ -234,7 +235,7 @@
 }
 
 /* Responsive horizontal card */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .bsb-card--horizontal {
     flex-direction: column;
   }

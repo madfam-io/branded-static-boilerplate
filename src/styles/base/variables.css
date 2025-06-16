@@ -36,44 +36,42 @@
   
   /* Primary Brand Colors */
   --bsb-primary-hue: 211;
-  --bsb-primary: hsl(var(--bsb-primary-hue), 100%, 50%);
-  --bsb-primary-light: hsl(var(--bsb-primary-hue), 100%, 65%);
-  --bsb-primary-dark: hsl(var(--bsb-primary-hue), 100%, 35%);
+  --bsb-primary: hsl(var(--bsb-primary-hue) 100% 50%);
+  --bsb-primary-light: hsl(var(--bsb-primary-hue) 100% 65%);
+  --bsb-primary-dark: hsl(var(--bsb-primary-hue) 100% 35%);
   
   /* Secondary Colors */
   --bsb-secondary-hue: 208;
-  --bsb-secondary: hsl(var(--bsb-secondary-hue), 7%, 46%);
-  --bsb-secondary-light: hsl(var(--bsb-secondary-hue), 7%, 60%);
-  --bsb-secondary-dark: hsl(var(--bsb-secondary-hue), 7%, 30%);
+  --bsb-secondary: hsl(var(--bsb-secondary-hue) 7% 46%);
+  --bsb-secondary-light: hsl(var(--bsb-secondary-hue) 7% 60%);
+  --bsb-secondary-dark: hsl(var(--bsb-secondary-hue) 7% 30%);
   
   /* Semantic Colors - Named by purpose, not appearance */
-  --bsb-success: hsl(134deg, 61%, 41%);
-  --bsb-warning: hsl(45deg, 100%, 51%);
-  --bsb-error: hsl(354deg, 70%, 54%);
-  --bsb-info: hsl(188deg, 78%, 41%);
+  --bsb-success: hsl(134deg 61% 41%);
+  --bsb-warning: hsl(45deg 100% 51%);
+  --bsb-error: hsl(354deg 70% 54%);
+  --bsb-info: hsl(188deg 78% 41%);
   
   /* Neutral Colors - Grays for text, borders, backgrounds */
-  --bsb-gray-50: hsl(210deg, 20%, 98%);
-  --bsb-gray-100: hsl(210deg, 20%, 96%);
-  --bsb-gray-200: hsl(210deg, 20%, 93%);
-  --bsb-gray-300: hsl(210deg, 20%, 88%);
-  --bsb-gray-400: hsl(210deg, 20%, 70%);
-  --bsb-gray-500: hsl(210deg, 20%, 50%);
-  --bsb-gray-600: hsl(210deg, 20%, 40%);
-  --bsb-gray-700: hsl(210deg, 20%, 30%);
-  --bsb-gray-800: hsl(210deg, 20%, 20%);
-  --bsb-gray-900: hsl(210deg, 20%, 10%);
+  --bsb-gray-50: hsl(210deg 20% 98%);
+  --bsb-gray-100: hsl(210deg 20% 96%);
+  --bsb-gray-200: hsl(210deg 20% 93%);
+  --bsb-gray-300: hsl(210deg 20% 88%);
+  --bsb-gray-400: hsl(210deg 20% 70%);
+  --bsb-gray-500: hsl(210deg 20% 50%);
+  --bsb-gray-600: hsl(210deg 20% 40%);
+  --bsb-gray-700: hsl(210deg 20% 30%);
+  --bsb-gray-800: hsl(210deg 20% 20%);
+  --bsb-gray-900: hsl(210deg 20% 10%);
   
   /* Applied Colors - How colors are used in the UI */
   --bsb-text-primary: var(--bsb-gray-900);
   --bsb-text-secondary: var(--bsb-gray-600);
   --bsb-text-muted: var(--bsb-gray-500);
   --bsb-text-inverse: white;
-  
   --bsb-bg-primary: white;
   --bsb-bg-secondary: var(--bsb-gray-50);
   --bsb-bg-tertiary: var(--bsb-gray-100);
-  
   --bsb-border-color: var(--bsb-gray-200);
   --bsb-border-color-dark: var(--bsb-gray-300);
   
@@ -170,11 +168,11 @@
   */
   
   /* Box Shadows - Layered for more realistic depth */
-  --bsb-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --bsb-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --bsb-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --bsb-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --bsb-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+  --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  --bsb-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  --bsb-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%);
   
   /* Transitions - Consistent timing for animations */
   --bsb-transition-fast: 150ms ease-in-out;
@@ -216,18 +214,16 @@
     --bsb-text-primary: var(--bsb-gray-100);
     --bsb-text-secondary: var(--bsb-gray-400);
     --bsb-text-muted: var(--bsb-gray-500);
-    
     --bsb-bg-primary: var(--bsb-gray-900);
     --bsb-bg-secondary: var(--bsb-gray-800);
     --bsb-bg-tertiary: var(--bsb-gray-700);
-    
     --bsb-border-color: var(--bsb-gray-700);
     --bsb-border-color-dark: var(--bsb-gray-600);
     
     /* Adjust shadows for dark mode */
-    --bsb-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    --bsb-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.26);
-    --bsb-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.26);
+    --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 25%);
+    --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 30%), 0 1px 2px 0 rgb(0 0 0 / 26%);
+    --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 30%), 0 2px 4px -1px rgb(0 0 0 / 26%);
   }
 }
 
@@ -240,11 +236,9 @@
   --bsb-text-primary: var(--bsb-gray-100);
   --bsb-text-secondary: var(--bsb-gray-400);
   --bsb-text-muted: var(--bsb-gray-500);
-  
   --bsb-bg-primary: var(--bsb-gray-900);
   --bsb-bg-secondary: var(--bsb-gray-800);
   --bsb-bg-tertiary: var(--bsb-gray-700);
-  
   --bsb-border-color: var(--bsb-gray-700);
   --bsb-border-color-dark: var(--bsb-gray-600);
 }
