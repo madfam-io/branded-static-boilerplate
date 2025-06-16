@@ -241,8 +241,8 @@
             the main topic of the page. Include your primary keyword naturally.
           -->
           <h1 class="bsb-hero__title">
-            Build Better Static Sites
-            <span class="bsb-hero__subtitle">With Built-in Best Practices</span>
+            Learn Web Development
+            <span class="bsb-hero__subtitle">Through Interactive Examples</span>
           </h1>
           
           <!-- 
@@ -252,8 +252,9 @@
             This often appears in search results under your title.
           -->
           <p class="bsb-hero__lead">
-            Branded Static Boilerplate is the self-documenting starter template 
-            that teaches modern web development while you build.
+            This site itself is your textbook - every component teaches a concept, 
+            every page demonstrates a technique. Built entirely with static technologies 
+            deployable on GitHub Pages.
           </p>
           
           <!-- 
@@ -263,12 +264,15 @@
             Consider what you want visitors to do next.
           -->
           <div class="bsb-hero__actions">
-            <a href="#getting-started" class="btn btn--primary btn--large">
-              Get Started
+            <a href="#learning-journey" class="btn btn--primary btn--large">
+              Start Learning Journey
             </a>
-            <a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html" class="btn btn--secondary btn--large">
-              Read the Docs
+            <a href="https://github.com/madfam-io/branded-static-boilerplate" class="btn btn--secondary btn--large">
+              View Source Code
             </a>
+            <button onclick="enableLearningMode()" class="btn btn--ghost btn--large">
+              Enable Learning Mode
+            </button>
           </div>
         </div>
       </div>
@@ -288,9 +292,9 @@
           Use aria-labelledby to associate headings with sections.
           This improves navigation for screen reader users.
         -->
-        <h2 id="features-heading" class="section__title">Why Choose BSB?</h2>
+        <h2 id="features-heading" class="section__title">What You'll Learn</h2>
         <p class="section__lead">
-          Every aspect is designed to help you learn and build faster
+          Interactive examples that teach modern web development through real, functional code
         </p>
         
         <!-- 
@@ -310,29 +314,38 @@
           -->
           <article class="bsb-card" data-bsb-component="card">
             <div class="bsb-card__icon">📚</div>
-            <h3 class="bsb-card__title">Self-Documenting</h3>
+            <h3 class="bsb-card__title">HTML Fundamentals</h3>
             <p class="bsb-card__text">
-              Every file includes detailed comments explaining the why, 
-              not just the what. Learn as you build.
+              Learn semantic HTML through interactive examples. Every element 
+              is documented with its purpose and accessibility considerations.
             </p>
+            <a href="/branded-static-boilerplate/pages/html-fundamentals.html" class="btn btn--small btn--secondary">
+              Explore HTML →
+            </a>
           </article>
           
           <article class="bsb-card" data-bsb-component="card">
-            <div class="bsb-card__icon">🚀</div>
-            <h3 class="bsb-card__title">Production Ready</h3>
+            <div class="bsb-card__icon">🎨</div>
+            <h3 class="bsb-card__title">CSS Mastery</h3>
             <p class="bsb-card__text">
-              Optimized builds, automated deployment, and performance 
-              best practices built in from the start.
+              From Grid and Flexbox to custom properties and animations. 
+              See modern CSS techniques in action with live examples.
             </p>
+            <a href="/branded-static-boilerplate/pages/css-mastery.html" class="btn btn--small btn--secondary">
+              Learn CSS →
+            </a>
           </article>
           
           <article class="bsb-card" data-bsb-component="card">
-            <div class="bsb-card__icon">♿</div>
-            <h3 class="bsb-card__title">Accessible by Default</h3>
+            <div class="bsb-card__icon">⚡</div>
+            <h3 class="bsb-card__title">JavaScript Essentials</h3>
             <p class="bsb-card__text">
-              WCAG compliant with semantic HTML, ARIA labels, and 
-              keyboard navigation support throughout.
+              Progressive enhancement, Web APIs, and modern ES6+ features. 
+              Interactive demos you can modify and experiment with.
             </p>
+            <a href="/branded-static-boilerplate/pages/javascript-essentials.html" class="btn btn--small btn--secondary">
+              Try JavaScript →
+            </a>
           </article>
         </div>
       </div>
@@ -344,31 +357,39 @@
       Clear instructions for new users. Code blocks should be
       easy to copy. Consider adding a copy button via JavaScript.
     -->
-    <section class="section section--alt" id="getting-started" aria-labelledby="start-heading">
+    <section class="section section--alt" id="learning-journey" aria-labelledby="start-heading">
       <div class="container">
-        <h2 id="start-heading" class="section__title">Get Started in Minutes</h2>
+        <h2 id="start-heading" class="section__title">Your Learning Journey</h2>
+        <p class="section__lead">Follow this progressive path to master modern web development</p>
         
         <div class="steps">
           <div class="step">
-            <h3 class="step__title">1. Clone the Repository</h3>
-            <pre class="code-block"><code>git clone https://github.com/yourusername/branded-static-boilerplate.git
+            <h3 class="step__title">1. Explore This Site</h3>
+            <p>Navigate through each page to see real examples of HTML, CSS, and JavaScript in action. Every element is documented and explained.</p>
+            <pre class="code-block"><code>// Enable learning mode for interactive tooltips
+localStorage.setItem('bsb-dev-mode', 'true');
+// Refresh page to see component documentation</code></pre>
+          </div>
+          
+          <div class="step">
+            <h3 class="step__title">2. Examine the Source</h3>
+            <p>View the source code to understand how each feature is implemented. All code includes educational comments.</p>
+            <pre class="code-block"><code>git clone https://github.com/madfam-io/branded-static-boilerplate.git
 cd branded-static-boilerplate</code></pre>
           </div>
           
           <div class="step">
-            <h3 class="step__title">2. Install Dependencies</h3>
-            <pre class="code-block"><code>npm install</code></pre>
-          </div>
-          
-          <div class="step">
-            <h3 class="step__title">3. Start Building</h3>
-            <pre class="code-block"><code>npm run dev</code></pre>
+            <h3 class="step__title">3. Experiment & Build</h3>
+            <p>Start the development server and modify components to see how changes affect the site.</p>
+            <pre class="code-block"><code>npm install
+npm run dev
+# Site opens at http://localhost:3000</code></pre>
           </div>
         </div>
         
         <p class="section__cta">
-          <a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/first-page.html" class="btn btn--primary">
-            Create Your First Page →
+          <a href="/branded-static-boilerplate/pages/about.html" class="btn btn--primary">
+            See How This Site Works →
           </a>
         </p>
       </div>

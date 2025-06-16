@@ -584,3 +584,33 @@ const bsbHelper = new BSBHelper();
 
 // Export for use in other scripts
 window.BSBHelper = bsbHelper;
+
+/**
+ * Enable learning mode for educational tooltips
+ */
+window.enableLearningMode = function() {
+  localStorage.setItem('bsb-dev-mode', 'true');
+
+  // Show a notification
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bsb-primary);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--bsb-radius-base);
+    z-index: 1000;
+    font-size: var(--bsb-text-sm);
+    box-shadow: var(--bsb-shadow-lg);
+  `;
+  notification.textContent = '🎓 Learning mode enabled! Refresh to see interactive tooltips.';
+
+  document.body.appendChild(notification);
+
+  // Auto-remove notification after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+};

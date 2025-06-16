@@ -40,6 +40,9 @@ function initializeBSB() {
   // Initialize accessibility features
   initAccessibility();
 
+  // Update dynamic content
+  updateDynamicContent();
+
   // Log initialization
   console.log('BSB: All systems initialized 🚀');
 }
@@ -155,6 +158,39 @@ function initLazyLoading() {
 
     lazyImages.forEach(img => imageObserver.observe(img));
   }
+}
+
+/**
+ * Update dynamic content
+ */
+function updateDynamicContent() {
+  // Update copyright year
+  const currentYear = new Date().getFullYear();
+  const yearElements = document.querySelectorAll('time[datetime]');
+
+  yearElements.forEach(element => {
+    // Update both the datetime attribute and text content
+    if (element.getAttribute('datetime') === '2024' ||
+        element.textContent.trim() === '2024') {
+      element.setAttribute('datetime', currentYear.toString());
+      element.textContent = currentYear.toString();
+    }
+  });
+
+  // Also update any copyright text that contains hardcoded years
+  const copyrightElements = document.querySelectorAll('.bsb-footer__copyright');
+
+  copyrightElements.forEach(element => {
+    const text = element.innerHTML;
+    // Replace year pattern (© YYYY) with current year
+    const updatedText = text.replace(
+      /©\s*<time[^>]*>(\d{4})<\/time>/,
+      `© <time datetime="${currentYear}">${currentYear}</time>`
+    );
+    if (updatedText !== text) {
+      element.innerHTML = updatedText;
+    }
+  });
 }
 
 /**

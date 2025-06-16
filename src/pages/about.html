@@ -2,22 +2,22 @@
 <html lang="en">
 <!--
   =============================================================================
-  ABOUT PAGE - Learn More About Your Organization
+  HOW THIS SITE WAS BUILT - Interactive Architecture Tutorial
   =============================================================================
   
-  This is a template for an About page. It demonstrates:
-  - How to create additional pages in BSB
-  - Reusing components from the main site
-  - Different content layouts
-  - SEO optimization for inner pages
+  This page explains the technical architecture of this educational site:
+  - File structure and organization
+  - Component-based architecture
+  - Build process and deployment
+  - Educational features implementation
   
-  🎯 Customization:
-  1. Update the page title and meta description
-  2. Replace placeholder content with your information
-  3. Add your team members or company history
-  4. Include relevant images
+  🎯 Learning Objectives:
+  1. Understand modern static site architecture
+  2. Learn component-based web development
+  3. See real-world deployment strategies
+  4. Explore educational web design patterns
   
-  📚 Page Creation Guide: /docs/tutorials/creating-pages.md
+  📚 Related: /docs/tutorials/architecture.md
   =============================================================================
 -->
 <head>
@@ -25,14 +25,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Page-specific title and description -->
-  <title>About Us | Branded Static Boilerplate</title>
-  <meta name="description" content="Learn about Branded Static Boilerplate - our mission, team, and commitment to making web development more accessible.">
+  <title>How This Site Was Built | BSB Architecture Tutorial</title>
+  <meta name="description" content="Interactive tutorial showing how this educational site was built using modern static site architecture and component-based development.">
   
   <!-- Social Media Tags -->
-  <meta property="og:title" content="About Branded Static Boilerplate">
-  <meta property="og:description" content="Discover the story behind BSB and our mission to revolutionize static site development.">
+  <meta property="og:title" content="How This Site Was Built - BSB Architecture Tutorial">
+  <meta property="og:description" content="Learn modern web development through real architecture examples. See how component-based static sites are built and deployed.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourdomain.com/pages/about.html">
+  <meta property="og:url" content="https://madfam-io.github.io/branded-static-boilerplate/pages/about.html">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
@@ -96,86 +96,100 @@
       <div class="container">
         <div class="bsb-hero__content">
           <h1 class="bsb-hero__title">
-            About BSB
-            <span class="bsb-hero__subtitle">Building Better Websites Together</span>
+            How This Site Was Built
+            <span class="bsb-hero__subtitle">Interactive Architecture Tutorial</span>
           </h1>
           <p class="bsb-hero__lead">
-            We believe that creating beautiful, accessible websites should be 
-            simple and educational. That's why we built BSB.
+            Explore the technical decisions, architecture patterns, and educational 
+            features that make this site an effective learning tool for web development.
           </p>
         </div>
       </div>
     </section>
     
-    <!-- Mission Section -->
+    <!-- Architecture Overview Section -->
     <section class="section">
       <div class="container container--md">
-        <h2 class="section__title">Our Mission</h2>
+        <h2 class="section__title">Architecture Overview</h2>
         <p class="lead text-center">
-          To democratize web development by providing a self-documenting 
-          boilerplate that teaches best practices while building.
+          This site demonstrates modern static site architecture using component-based 
+          development, progressive enhancement, and educational design patterns.
         </p>
         
         <div class="grid grid--3-cols mt-12">
           <article class="bsb-card bsb-card--feature" data-bsb-component="card">
             <div class="bsb-card__body">
-              <div class="bsb-card__icon bsb-card__icon--large">🎯</div>
-              <h3 class="bsb-card__title">Purposeful</h3>
+              <div class="bsb-card__icon bsb-card__icon--large">🧩</div>
+              <h3 class="bsb-card__title">Component-Based</h3>
               <p class="bsb-card__text">
-                Every line of code has a purpose and is documented to explain 
-                not just what it does, but why it exists.
+                Each UI element is a self-contained component with its own HTML, 
+                CSS, and JavaScript. Promotes reusability and maintainability.
               </p>
+              <pre class="code-block mt-4"><code>components/
+├── header/
+├── footer/
+├── card/
+└── hero/</code></pre>
             </div>
           </article>
           
           <article class="bsb-card bsb-card--feature" data-bsb-component="card">
             <div class="bsb-card__body">
-              <div class="bsb-card__icon bsb-card__icon--large">📚</div>
-              <h3 class="bsb-card__title">Educational</h3>
+              <div class="bsb-card__icon bsb-card__icon--large">⚡</div>
+              <h3 class="bsb-card__title">Build Process</h3>
               <p class="bsb-card__text">
-                Learn modern web development practices through comprehensive 
-                inline documentation and examples.
+                Vite bundler optimizes code, PostCSS processes styles, and 
+                GitHub Actions handles deployment to GitHub Pages.
               </p>
+              <pre class="code-block mt-4"><code>npm run build
+# → dist/ folder
+# → GitHub Pages</code></pre>
             </div>
           </article>
           
           <article class="bsb-card bsb-card--feature" data-bsb-component="card">
             <div class="bsb-card__body">
-              <div class="bsb-card__icon bsb-card__icon--large">🚀</div>
-              <h3 class="bsb-card__title">Production-Ready</h3>
+              <div class="bsb-card__icon bsb-card__icon--large">🎓</div>
+              <h3 class="bsb-card__title">Educational Features</h3>
               <p class="bsb-card__text">
-                Start with a solid foundation that includes optimization, 
-                accessibility, and deployment automation.
+                Interactive tooltips, component documentation, and progressive 
+                learning paths help developers understand the code.
               </p>
+              <pre class="code-block mt-4"><code>// Enable learning mode
+localStorage.setItem(
+  'bsb-dev-mode', 'true'
+);</code></pre>
             </div>
           </article>
         </div>
       </div>
     </section>
     
-    <!-- Story Section -->
+    <!-- Technical Decisions Section -->
     <section class="section section--alt">
       <div class="container container--md">
-        <h2 class="section__title">Our Story</h2>
+        <h2 class="section__title">Key Technical Decisions</h2>
         
         <div class="max-w-prose mx-auto">
+          <h3>Why Static Sites?</h3>
           <p>
-            Branded Static Boilerplate was born from a simple observation: 
-            too many developers struggle with the gap between tutorials and 
-            real-world implementation.
+            Static sites offer unmatched performance, security, and simplicity. 
+            By pre-building all pages, we achieve lightning-fast load times 
+            and can deploy to any hosting service, including GitHub Pages.
           </p>
           
+          <h3>Component Architecture</h3>
           <p>
-            We noticed that while there are countless tutorials teaching 
-            individual concepts, there's a lack of comprehensive examples 
-            showing how everything fits together in a production environment.
+            Each UI component is self-contained with its own HTML, CSS, and 
+            JavaScript files. This promotes reusability, maintainability, and 
+            makes it easier for learners to understand how each piece works.
           </p>
           
+          <h3>Educational Integration</h3>
           <p>
-            BSB bridges this gap by providing a complete, production-ready 
-            static site boilerplate where every decision is documented and 
-            every pattern is explained. It's not just a starting point—it's 
-            a learning platform.
+            Instead of hiding complexity, we expose it through comprehensive 
+            comments, interactive tooltips, and progressive disclosure. Every 
+            line of code serves as both functionality and documentation.
           </p>
         </div>
       </div>
