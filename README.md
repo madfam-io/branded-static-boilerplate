@@ -1,176 +1,265 @@
 # Branded Static Boilerplate (BSB)
 
-> A self-documenting static website boilerplate that teaches as it serves
+> A self-documenting static website boilerplate that teaches web development through interactive examples and comprehensive documentation
 
-## What is BSB?
+[![Deploy to GitHub Pages](https://github.com/madfam-io/branded-static-boilerplate/actions/workflows/deploy.yml/badge.svg)](https://github.com/madfam-io/branded-static-boilerplate/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Branded Static Boilerplate is more than just another website template. It's a comprehensive learning platform disguised as a static site generator. Every file, every comment, every structure decision is designed to teach you modern web development best practices while you build.
+🌐 **Live Demo**: [https://madfam-io.github.io/branded-static-boilerplate/](https://madfam-io.github.io/branded-static-boilerplate/)
 
-## Features
+## What Makes BSB Special?
 
-- 📚 **Self-Documenting**: Extensive inline documentation in every file
-- 🚀 **Quick Start**: From zero to deployed in under 5 minutes
-- 📱 **Responsive**: Mobile-first design with modern CSS
-- ♿ **Accessible**: WCAG AA compliant out of the box
-- 🎨 **Themeable**: CSS custom properties for easy customization
-- 📦 **Component-Based**: Reusable HTML/CSS/JS components
-- 🔧 **Modern Build**: Vite-powered development and optimization
-- 🌐 **GitHub Pages Ready**: Automated deployment workflow included
+BSB isn't just another static site generator. It's an **educational platform** disguised as a boilerplate that:
 
-## Quick Start
+- 🎓 **Teaches as you build** - Every file contains learning materials
+- 🔍 **Self-documenting** - Code and documentation live together
+- ⚡ **Production-ready** - Optimized for performance and accessibility
+- 🧩 **Component-based** - Reusable, maintainable architecture
+- 🚀 **Deploy-ready** - Automated GitHub Pages deployment included
 
-### Option 1: Using npx (Recommended)
+Perfect for **neophyte web developers** learning modern development practices and **experienced developers** who want a solid foundation with comprehensive documentation.
 
-```bash
-npx create-bsb my-website
-cd my-website
-npm run dev
-```
+## 📋 Table of Contents
 
-### Option 2: Manual Setup
+- [Quick Start](#-quick-start)
+- [Documentation Map](#-documentation-map)
+- [Project Architecture](#-project-architecture)
+- [Learning Path](#-learning-path)
+- [Customization Guide](#-customization-guide)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+- Git
+- GitHub account (for deployment)
+
+### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/branded-static-boilerplate.git my-website
+git clone https://github.com/madfam-io/branded-static-boilerplate.git my-website
 cd my-website
 
 # Install dependencies
 npm install
 
-# Start development server
+# Start development with learning mode enabled
 npm run dev
 
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+# Open browser and click "Enable Learning Mode" for interactive tooltips
 ```
 
-## Project Structure
+### Available Scripts
+
+| Command | Description | Learn More |
+|---------|-------------|------------|
+| `npm run dev` | Start development server | [Development Guide](docs/tutorials/development.md) |
+| `npm run build` | Build for production | [Build Process](docs/tutorials/build-process.md) |
+| `npm run preview` | Preview production build | [Testing Guide](docs/tutorials/testing.md) |
+| `npm run lint` | Lint CSS and JavaScript | [Code Quality](docs/tutorials/code-quality.md) |
+| `npm run deploy` | Deploy to GitHub Pages | [Deployment Guide](docs/tutorials/deployment.md) |
+
+## 📚 Documentation Map
+
+BSB's documentation is distributed throughout the codebase for contextual learning:
+
+### Core Documentation
+- **[README.md](README.md)** ← You are here
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System design and decisions
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to BSB
+
+### Source Documentation
+- **[src/README.md](src/README.md)** - Source code organization
+- **[src/components/README.md](src/components/README.md)** - Component architecture
+- **[src/styles/README.md](src/styles/README.md)** - CSS methodology
+- **[src/scripts/README.md](src/scripts/README.md)** - JavaScript patterns
+
+### Tutorials & Guides
+- **[docs/tutorials/](docs/tutorials/)** - Step-by-step learning guides
+- **[docs/api/](docs/api/)** - Component API documentation
+- **[docs/examples/](docs/examples/)** - Real-world implementation examples
+
+### Component Documentation
+Each component includes its own README:
+- **[src/components/header/README.md](src/components/header/README.md)** - Navigation and branding
+- **[src/components/card/README.md](src/components/card/README.md)** - Content cards
+- **[src/components/hero/README.md](src/components/hero/README.md)** - Hero sections
+- **[src/components/footer/README.md](src/components/footer/README.md)** - Site footer
+
+## 🏗️ Project Architecture
 
 ```
 branded-static-boilerplate/
-├── src/                    # Source files
-│   ├── index.html         # Main page (heavily documented)
-│   ├── components/        # Reusable components
-│   ├── styles/           # CSS architecture
-│   ├── scripts/          # JavaScript enhancements
-│   ├── assets/           # Images, fonts, icons
-│   └── pages/            # Additional HTML pages
-├── docs/                  # Documentation
-│   ├── tutorials/        # Step-by-step guides
-│   ├── api/             # Component documentation
-│   └── examples/        # Real-world examples
-├── config/               # Build configuration
-└── .github/              # GitHub automation
+├── 📁 src/                    # Source files (📖 src/README.md)
+│   ├── 📄 index.html         # Main page with extensive comments
+│   ├── 📁 components/        # UI components (📖 components/README.md)
+│   │   ├── 📁 header/        # Navigation (📖 header/README.md)
+│   │   ├── 📁 card/          # Content cards (📖 card/README.md)
+│   │   ├── 📁 hero/          # Hero sections (📖 hero/README.md)
+│   │   └── 📁 footer/        # Site footer (📖 footer/README.md)
+│   ├── 📁 styles/           # CSS architecture (📖 styles/README.md)
+│   │   ├── 📁 base/         # Reset, variables, typography
+│   │   ├── 📁 utilities/    # Helper classes
+│   │   └── 📁 themes/       # Color schemes
+│   ├── 📁 scripts/          # JavaScript (📖 scripts/README.md)
+│   │   ├── 📁 core/         # Essential functionality
+│   │   └── 📁 modules/      # Feature modules
+│   ├── 📁 assets/           # Images, fonts, icons
+│   └── 📁 pages/            # Additional HTML pages
+├── 📁 docs/                  # Documentation hub
+│   ├── 📁 tutorials/        # Learning guides
+│   ├── 📁 api/             # Component APIs
+│   └── 📁 examples/        # Implementation examples
+├── 📁 .github/              # GitHub workflows and templates
+└── 📁 dist/                 # Built files (auto-generated)
 ```
 
-## Available Scripts
+## 🎯 Learning Path
 
-```bash
-npm run dev       # Start development server
-npm run build     # Build for production
-npm run preview   # Preview production build
-npm run lint      # Lint CSS and JavaScript
-npm run format    # Format code with Prettier
-npm run test      # Run tests
-npm run deploy    # Deploy to GitHub Pages
-```
+### For Beginners
+1. **Start here**: [Getting Started Tutorial](docs/tutorials/getting-started.md)
+2. **Understand structure**: [Project Organization](src/README.md)
+3. **Create first page**: [Your First Page](docs/tutorials/first-page.md)
+4. **Learn components**: [Component Basics](src/components/README.md)
+5. **Style your site**: [CSS Architecture](src/styles/README.md)
 
-## Creating Your First Page
+### For Intermediate Developers
+1. **Architecture deep-dive**: [ARCHITECTURE.md](ARCHITECTURE.md)
+2. **Component patterns**: [Advanced Components](docs/tutorials/advanced-components.md)
+3. **Performance optimization**: [Performance Guide](docs/tutorials/performance.md)
+4. **Build customization**: [Build Process](docs/tutorials/build-process.md)
 
-1. **Copy** `src/index.html` to `src/pages/about.html`
-2. **Update** the content and meta tags
-3. **Link** to it from your navigation
-4. **Build** and see your new page live!
+### For Advanced Developers
+1. **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
+2. **Plugin development**: [Plugin API](docs/api/plugins.md)
+3. **Custom build tools**: [Build Extension](docs/tutorials/build-extension.md)
 
-Each HTML file includes detailed comments explaining:
-- Why each element exists
-- Best practices for SEO
-- Accessibility considerations
-- Performance optimizations
+## 🎨 Customization Guide
 
-## Customization
-
-### Changing Colors and Fonts
-
-Edit `src/styles/base/variables.css`:
+### Quick Theming
+Update your brand colors in `src/styles/base/variables.css`:
 
 ```css
 :root {
-    --bsb-primary: #007bff;      /* Your brand color */
-    --bsb-font-base: system-ui;   /* Your font stack */
+  /* Brand Colors */
+  --bsb-primary: #your-brand-color;
+  --bsb-secondary: #your-secondary-color;
+  
+  /* Typography */
+  --bsb-font-base: your-font-stack;
 }
 ```
 
-### Adding Components
+📖 **Learn more**: [Theming Guide](docs/tutorials/theming.md)
 
-Use our component generator:
+### Adding Components
+Generate new components with built-in documentation:
 
 ```bash
 npm run generate component MyComponent
 ```
 
-This creates:
-- Component HTML template
-- Component-specific CSS
-- Optional JavaScript enhancement
-- README with usage examples
+📖 **Learn more**: [Component Development](docs/tutorials/component-development.md)
 
-## Deployment
+### Page Creation
+Each page includes educational comments:
 
-### GitHub Pages (Automatic)
+```bash
+cp src/index.html src/pages/my-page.html
+# Edit content, update meta tags, add to navigation
+```
 
-1. Push to your `main` branch
-2. GitHub Actions automatically builds and deploys
-3. Access at `https://yourusername.github.io/your-repo-name`
+📖 **Learn more**: [Page Creation](docs/tutorials/page-creation.md)
+
+## 🚀 Deployment
+
+### GitHub Pages (Recommended)
+BSB includes automated deployment to GitHub Pages:
+
+1. **Fork/clone** this repository
+2. **Enable GitHub Pages** in repository settings
+3. **Push to main branch** - automatic deployment triggers
+4. **Visit** `https://yourusername.github.io/repository-name`
+
+📖 **Learn more**: [GitHub Pages Setup](docs/tutorials/github-pages.md)
 
 ### Other Platforms
+The `dist/` folder contains static files ready for:
+- **Netlify** - Drag and drop deployment
+- **Vercel** - Git integration
+- **AWS S3** - Static hosting
+- **Firebase** - Google hosting
 
-The `dist/` folder after `npm run build` contains static files ready for any hosting service:
-- Netlify
-- Vercel
-- AWS S3
-- Firebase Hosting
+📖 **Learn more**: [Alternative Deployments](docs/tutorials/deployment-options.md)
 
-## Learning Resources
+## 🧩 Key Features
 
-Every directory contains a `README.md` explaining:
-- What belongs there
-- How to use it
-- Best practices
-- Common patterns
+### Educational Features
+- **Interactive tooltips** in development mode
+- **Component documentation** accessible via help buttons  
+- **Code comments** explaining the "why" not just "what"
+- **Progressive learning** from basic to advanced concepts
 
-Start with:
-- `/src/README.md` - Understanding the source structure
-- `/docs/tutorials/first-page.md` - Creating your first page
-- `/src/styles/README.md` - CSS architecture guide
+### Performance Features
+- **Optimized builds** with Vite bundler
+- **Modern CSS** with custom properties
+- **Vanilla JavaScript** for minimal bundle size
+- **Image optimization** and lazy loading
 
-## Contributing
+### Developer Experience
+- **Hot reloading** during development
+- **Linting and formatting** for code quality
+- **Pre-commit hooks** ensure clean commits
+- **Component generators** for rapid development
 
-We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for guidelines.
+## 🤝 Contributing
 
-## Philosophy
+We welcome contributions from developers of all skill levels! BSB grows through community involvement.
 
-BSB believes that the best documentation lives with the code. By embedding knowledge directly into the boilerplate, we ensure that:
+### Ways to Contribute
+- 📝 **Improve documentation** - Add examples, fix typos, clarify explanations
+- 🐛 **Report bugs** - Help us identify and fix issues
+- ✨ **Suggest features** - Propose new educational tools or components
+- 🔧 **Submit code** - Fix bugs, add features, improve performance
 
-1. Documentation never gets out of sync
-2. Learning happens in context
-3. Best practices are demonstrated, not just described
-4. The codebase teaches by example
+📖 **Get started**: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Support
+## 📖 Philosophy
 
-- 📖 [Documentation](docs/)
-- 💬 [Discussions](https://github.com/yourusername/branded-static-boilerplate/discussions)
-- 🐛 [Issues](https://github.com/yourusername/branded-static-boilerplate/issues)
-- 📧 Email: bsb@example.com
+BSB believes the best way to learn is through **contextual education**:
 
-## License
+1. **Documentation lives with code** - Never out of sync
+2. **Learning happens in context** - See concepts applied immediately
+3. **Best practices demonstrated** - Not just described
+4. **Code teaches by example** - Every file is a lesson
 
-MIT License - feel free to use BSB for any project!
+## 🆘 Support & Community
+
+- 📖 **Documentation**: Browse the [docs/](docs/) directory
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/madfam-io/branded-static-boilerplate/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/madfam-io/branded-static-boilerplate/issues)
+- 🌟 **Feature Requests**: [GitHub Issues](https://github.com/madfam-io/branded-static-boilerplate/issues)
+
+## 📄 License
+
+MIT License - Feel free to use BSB for personal or commercial projects!
+
+See [LICENSE](LICENSE) for full details.
 
 ---
 
-Built with ❤️ by the BSB Community. Making the web more accessible, one static site at a time.
+**Built with ❤️ by the BSB Community**  
+*Making the web more accessible and educational, one static site at a time.*
+
+---
+
+### 🔗 Quick Links
+- [Live Demo](https://madfam-io.github.io/branded-static-boilerplate/) 
+- [Getting Started](docs/tutorials/getting-started.md)
+- [Architecture Guide](ARCHITECTURE.md)
+- [Component Library](src/components/README.md)
+- [CSS Methodology](src/styles/README.md)
+- [JavaScript Patterns](src/scripts/README.md)

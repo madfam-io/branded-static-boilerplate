@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Initialize all header functionality
+ * @function initializeHeader
+ * @description Sets up mobile menu and keyboard navigation for all header components
+ * @returns {void}
  */
 function initializeHeader() {
   // Find all headers on the page (supports multiple headers)
@@ -41,7 +44,10 @@ function initializeHeader() {
 
 /**
  * Setup mobile menu toggle functionality
- * @param {HTMLElement} header - The header element
+ * @function setupMobileMenu
+ * @param {HTMLElement} header - The header element containing the mobile menu
+ * @description Configures mobile menu toggle behavior and accessibility features
+ * @returns {void}
  */
 function setupMobileMenu(header) {
   const toggle = header.querySelector('.bsb-header__toggle');
@@ -76,7 +82,7 @@ function setupMobileMenu(header) {
   });
 
   // Close menu when clicking outside
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', event => {
     const isClickInside = header.contains(event.target);
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
 
@@ -101,7 +107,10 @@ function setupMobileMenu(header) {
 
 /**
  * Setup keyboard navigation enhancements
- * @param {HTMLElement} header - The header element
+ * @function setupKeyboardNavigation
+ * @param {HTMLElement} header - The header element to enhance
+ * @description Adds keyboard navigation support including Escape key and focus trapping
+ * @returns {void}
  */
 function setupKeyboardNavigation(header) {
   const nav = header.querySelector('.bsb-header__nav');
@@ -112,7 +121,7 @@ function setupKeyboardNavigation(header) {
   }
 
   // Handle Escape key to close mobile menu
-  nav.addEventListener('keydown', (event) => {
+  nav.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
 
@@ -133,7 +142,7 @@ function setupKeyboardNavigation(header) {
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
-    nav.addEventListener('keydown', (event) => {
+    nav.addEventListener('keydown', event => {
       const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
 
       if (!isOpen || event.key !== 'Tab') {
@@ -157,7 +166,9 @@ function setupKeyboardNavigation(header) {
 
 /**
  * Utility: Mark current page in navigation
- * Automatically adds aria-current="page" based on URL
+ * @function markCurrentPage
+ * @description Automatically adds aria-current="page" attribute based on current URL
+ * @returns {void}
  */
 function markCurrentPage() {
   const currentPath = window.location.pathname;
@@ -177,8 +188,23 @@ function markCurrentPage() {
 // Run current page marking on load
 markCurrentPage();
 
-// Export functions for use in other scripts
+/**
+ * BSB Header API
+ * @namespace BSBHeader
+ * @description Public API for header component functionality
+ */
 window.BSBHeader = {
+  /**
+   * Initialize header functionality
+   * @function initialize
+   * @returns {void}
+   */
   initialize: initializeHeader,
+
+  /**
+   * Mark current page in navigation
+   * @function markCurrentPage
+   * @returns {void}
+   */
   markCurrentPage: markCurrentPage
 };

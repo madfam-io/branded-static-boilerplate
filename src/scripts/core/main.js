@@ -26,6 +26,9 @@ import '../../components/header/header.js';
 
 /**
  * Initialize all BSB features
+ * @function initializeBSB
+ * @description Sets up all interactive components and features of the BSB framework
+ * @returns {void}
  */
 function initializeBSB() {
   // Initialize smooth scrolling
@@ -49,13 +52,16 @@ function initializeBSB() {
 
 /**
  * Smooth scrolling for anchor links
+ * @function initSmoothScrolling
+ * @description Enables smooth scrolling behavior for internal anchor links
+ * @returns {void}
  */
 function initSmoothScrolling() {
   // Find all links that point to anchors
   const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
 
   anchorLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', e => {
       const targetId = link.getAttribute('href');
       const targetElement = document.querySelector(targetId);
 
@@ -86,6 +92,9 @@ function initSmoothScrolling() {
 
 /**
  * Form enhancements
+ * @function initFormEnhancements
+ * @description Adds progressive enhancements to forms including floating labels and validation
+ * @returns {void}
  */
 function initFormEnhancements() {
   // Add floating labels
@@ -111,7 +120,7 @@ function initFormEnhancements() {
   const forms = document.querySelectorAll('form[data-bsb-validate]');
 
   forms.forEach(form => {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', e => {
       if (!form.checkValidity()) {
         e.preventDefault();
         e.stopPropagation();
@@ -131,6 +140,9 @@ function initFormEnhancements() {
 
 /**
  * Lazy loading for images
+ * @function initLazyLoading
+ * @description Implements intersection observer-based lazy loading for images
+ * @returns {void}
  */
 function initLazyLoading() {
   // Check if browser supports IntersectionObserver
@@ -162,6 +174,9 @@ function initLazyLoading() {
 
 /**
  * Update dynamic content
+ * @function updateDynamicContent
+ * @description Updates copyright years and other dynamic content elements
+ * @returns {void}
  */
 function updateDynamicContent() {
   // Update copyright year
@@ -195,10 +210,13 @@ function updateDynamicContent() {
 
 /**
  * Accessibility enhancements
+ * @function initAccessibility
+ * @description Enhances keyboard navigation and screen reader support
+ * @returns {void}
  */
 function initAccessibility() {
   // Add keyboard navigation indicators
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Tab') {
       document.body.classList.add('keyboard-nav');
     }
@@ -212,7 +230,7 @@ function initAccessibility() {
   const skipLinks = document.querySelectorAll('.skip-link');
 
   skipLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', e => {
       e.preventDefault();
       const target = document.querySelector(link.getAttribute('href'));
 
@@ -227,6 +245,9 @@ function initAccessibility() {
 
 /**
  * Performance monitoring
+ * @function monitorPerformance
+ * @description Monitors and logs performance metrics in development environment
+ * @returns {void}
  */
 function monitorPerformance() {
   // Only in development
@@ -244,8 +265,17 @@ function monitorPerformance() {
 
 /**
  * Utility: Debounce function
+ * @namespace BSBUtils
+ * @description Utility functions for common operations
  */
 window.BSBUtils = {
+  /**
+   * Debounce function execution
+   * @function debounce
+   * @param {Function} func - The function to debounce
+   * @param {number} wait - The number of milliseconds to delay
+   * @returns {Function} The debounced function
+   */
   debounce: function(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -258,6 +288,13 @@ window.BSBUtils = {
     };
   },
 
+  /**
+   * Throttle function execution
+   * @function throttle
+   * @param {Function} func - The function to throttle
+   * @param {number} limit - The number of milliseconds to limit execution
+   * @returns {Function} The throttled function
+   */
   throttle: function(func, limit) {
     let inThrottle;
     return function(...args) {

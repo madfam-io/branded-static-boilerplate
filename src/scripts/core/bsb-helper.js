@@ -21,7 +21,16 @@
  * =============================================================================
  */
 
+/**
+ * BSB Helper - Development Mode Assistant
+ * @class BSBHelper
+ * @description Provides interactive documentation and debugging tools for BSB development
+ */
 class BSBHelper {
+  /**
+   * Create a BSBHelper instance
+   * @constructor
+   */
   constructor() {
     this.devMode = localStorage.getItem('bsb-dev-mode') === 'true';
     this.components = new Map();
@@ -33,6 +42,9 @@ class BSBHelper {
 
   /**
    * Initialize development helpers
+   * @method init
+   * @description Sets up all development tools and features
+   * @returns {void}
    */
   init() {
     console.log('BSB Dev Mode: Enabled 🛠️');
@@ -47,6 +59,9 @@ class BSBHelper {
 
   /**
    * Setup all dev features
+   * @method setup
+   * @description Orchestrates the setup of all development features
+   * @returns {void}
    */
   setup() {
     this.findComponents();
@@ -58,6 +73,9 @@ class BSBHelper {
 
   /**
    * Find all BSB components on the page
+   * @method findComponents
+   * @description Scans the DOM for BSB components and catalogs them
+   * @returns {void}
    */
   findComponents() {
     const components = document.querySelectorAll('[data-bsb-component]');
@@ -75,6 +93,9 @@ class BSBHelper {
 
   /**
    * Create floating dev panel
+   * @method createDevPanel
+   * @description Creates and displays the development panel UI
+   * @returns {void}
    */
   createDevPanel() {
     const panel = document.createElement('div');
@@ -128,6 +149,9 @@ class BSBHelper {
 
   /**
    * Add helper buttons to components
+   * @method addComponentHelpers
+   * @description Adds documentation buttons to each BSB component
+   * @returns {void}
    */
   addComponentHelpers() {
     this.components.forEach((elements, name) => {
@@ -136,7 +160,7 @@ class BSBHelper {
         helper.className = 'bsb-dev-helper';
         helper.setAttribute('aria-label', `View ${name} component docs`);
         helper.innerHTML = '?';
-        helper.addEventListener('click', (e) => {
+        helper.addEventListener('click', e => {
           e.stopPropagation();
           this.showComponentDocs(name, element);
         });
@@ -149,6 +173,11 @@ class BSBHelper {
 
   /**
    * Show component documentation
+   * @method showComponentDocs
+   * @param {string} componentName - The name of the component
+   * @param {HTMLElement} element - The component DOM element
+   * @description Displays detailed documentation for a specific component
+   * @returns {void}
    */
   showComponentDocs(componentName, element) {
     const modal = document.createElement('div');
@@ -194,9 +223,12 @@ class BSBHelper {
 
   /**
    * Setup keyboard shortcuts
+   * @method setupKeyboardShortcuts
+   * @description Configures keyboard shortcuts for development tools
+   * @returns {void}
    */
   setupKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       // Only in dev mode
       if (!this.devMode) {
         return;
@@ -204,23 +236,23 @@ class BSBHelper {
 
       // Ctrl/Cmd + key combinations
       if (e.ctrlKey || e.metaKey) {
-        switch(e.key.toLowerCase()) {
-        case 'g':
-          e.preventDefault();
-          this.toggleGrid();
-          break;
-        case 'h':
-          e.preventDefault();
-          this.toggleHelpers();
-          break;
-        case 'i':
-          e.preventDefault();
-          this.toggleInspectMode();
-          break;
-        case 'd':
-          e.preventDefault();
-          this.toggleDevPanel();
-          break;
+        switch (e.key.toLowerCase()) {
+          case 'g':
+            e.preventDefault();
+            this.toggleGrid();
+            break;
+          case 'h':
+            e.preventDefault();
+            this.toggleHelpers();
+            break;
+          case 'i':
+            e.preventDefault();
+            this.toggleInspectMode();
+            break;
+          case 'd':
+            e.preventDefault();
+            this.toggleDevPanel();
+            break;
         }
       }
     });
@@ -228,6 +260,9 @@ class BSBHelper {
 
   /**
    * Add grid overlay for layout debugging
+   * @method addGridOverlay
+   * @description Creates a grid overlay for visual layout debugging
+   * @returns {void}
    */
   addGridOverlay() {
     const overlay = document.createElement('div');
@@ -238,6 +273,9 @@ class BSBHelper {
 
   /**
    * Toggle grid visibility
+   * @method toggleGrid
+   * @description Shows or hides the layout grid overlay
+   * @returns {void}
    */
   toggleGrid() {
     document.body.classList.toggle('bsb-show-grid');
@@ -245,6 +283,9 @@ class BSBHelper {
 
   /**
    * Toggle component helpers
+   * @method toggleHelpers
+   * @description Shows or hides component helper buttons
+   * @returns {void}
    */
   toggleHelpers() {
     document.body.classList.toggle('bsb-show-helpers');
@@ -252,6 +293,9 @@ class BSBHelper {
 
   /**
    * Toggle inspect mode
+   * @method toggleInspectMode
+   * @description Enables or disables component inspection mode
+   * @returns {void}
    */
   toggleInspectMode() {
     document.body.classList.toggle('bsb-inspect-mode');
@@ -265,6 +309,9 @@ class BSBHelper {
 
   /**
    * Toggle dev panel visibility
+   * @method toggleDevPanel
+   * @description Shows or hides the development panel
+   * @returns {void}
    */
   toggleDevPanel() {
     const panel = document.querySelector('.bsb-dev-panel');
@@ -275,6 +322,9 @@ class BSBHelper {
 
   /**
    * Start component inspection
+   * @method startInspecting
+   * @description Activates event listeners for component inspection
+   * @returns {void}
    */
   startInspecting() {
     document.addEventListener('click', this.inspectHandler);
@@ -283,6 +333,9 @@ class BSBHelper {
 
   /**
    * Stop component inspection
+   * @method stopInspecting
+   * @description Deactivates event listeners and removes highlights
+   * @returns {void}
    */
   stopInspecting() {
     document.removeEventListener('click', this.inspectHandler);
@@ -296,8 +349,12 @@ class BSBHelper {
 
   /**
    * Handle inspection clicks
+   * @method inspectHandler
+   * @param {Event} e - The click event
+   * @description Handles clicks during inspection mode to show component docs
+   * @returns {void}
    */
-  inspectHandler = (e) => {
+  inspectHandler = e => {
     const component = e.target.closest('[data-bsb-component]');
     if (component) {
       e.preventDefault();
@@ -309,8 +366,12 @@ class BSBHelper {
 
   /**
    * Handle hover highlighting
+   * @method highlightHandler
+   * @param {Event} e - The mouseover event
+   * @description Highlights components on hover during inspection mode
+   * @returns {void}
    */
-  highlightHandler = (e) => {
+  highlightHandler = e => {
     // Remove previous highlights
     document.querySelectorAll('.bsb-highlight').forEach(el => {
       el.classList.remove('bsb-highlight');
@@ -324,6 +385,10 @@ class BSBHelper {
 
   /**
    * Setup panel interactions
+   * @method setupPanelInteractions
+   * @param {HTMLElement} panel - The development panel element
+   * @description Configures event listeners for development panel buttons
+   * @returns {void}
    */
   setupPanelInteractions(panel) {
     // Close button
@@ -334,17 +399,17 @@ class BSBHelper {
     // Action buttons
     panel.querySelectorAll('.bsb-dev-panel__action').forEach(btn => {
       btn.addEventListener('click', () => {
-        const action = btn.dataset.action;
-        switch(action) {
-        case 'toggle-grid':
-          this.toggleGrid();
-          break;
-        case 'toggle-helpers':
-          this.toggleHelpers();
-          break;
-        case 'inspect':
-          this.toggleInspectMode();
-          break;
+        const { action } = btn.dataset;
+        switch (action) {
+          case 'toggle-grid':
+            this.toggleGrid();
+            break;
+          case 'toggle-helpers':
+            this.toggleHelpers();
+            break;
+          case 'inspect':
+            this.toggleInspectMode();
+            break;
         }
       });
     });
@@ -352,6 +417,9 @@ class BSBHelper {
 
   /**
    * Add development styles
+   * @method addDevStyles
+   * @description Injects CSS styles for development tools
+   * @returns {void}
    */
   addDevStyles() {
     const style = document.createElement('style');
@@ -587,6 +655,10 @@ window.BSBHelper = bsbHelper;
 
 /**
  * Enable learning mode for educational tooltips
+ * @function enableLearningMode
+ * @global
+ * @description Enables BSB development mode and shows notification
+ * @returns {void}
  */
 window.enableLearningMode = function() {
   localStorage.setItem('bsb-dev-mode', 'true');
