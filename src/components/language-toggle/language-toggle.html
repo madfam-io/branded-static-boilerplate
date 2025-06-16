@@ -1,0 +1,91 @@
+<!--
+  =============================================================================
+  BSB LANGUAGE TOGGLE COMPONENT - English/Spanish Language Switcher
+  =============================================================================
+  
+  This component provides a user-friendly interface for switching between
+  English and Spanish languages across the entire website.
+  
+  🎯 Features:
+  - Accessible button with proper ARIA labels
+  - Visual language indicators (flags/icons)
+  - Smooth transitions between states
+  - Keyboard navigation support
+  - Language preference detection and persistence
+  
+  📚 Learn More:
+  - Internationalization: /docs/tutorials/i18n.md
+  - Accessibility: /docs/tutorials/accessibility.md#language-toggle
+  - Language Best Practices: /docs/tutorials/multilingual.md
+  
+  💡 Usage:
+  1. Include this HTML in your header
+  2. Include language-toggle.css for styles
+  3. Include language-toggle.js for functionality
+  4. Component automatically detects browser language
+  =============================================================================
+-->
+
+<div class="bsb-language-toggle" data-bsb-component="language-toggle">
+  <!-- 
+    Language Toggle Button
+    ======================
+    The main button that cycles through language options
+  -->
+  <button 
+    class="bsb-language-toggle__button" 
+    aria-label="Switch language" 
+    aria-expanded="false"
+    aria-haspopup="true"
+    type="button"
+    data-bsb-language-button
+  >
+    <!-- Language Icons -->
+    <span class="bsb-language-toggle__icons" aria-hidden="true">
+      <!-- English flag/icon -->
+      <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span>
+      
+      <!-- Spanish flag/icon -->
+      <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span>
+    </span>
+    
+    <!-- Screen reader text for current language -->
+    <span class="bsb-language-toggle__label">
+      Current language: <span data-bsb-language-label>English</span>
+    </span>
+  </button>
+  
+  <!-- 
+    Language Options Menu
+    =====================
+    Dropdown menu with all language options
+  -->
+  <div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true">
+    <ul class="bsb-language-toggle__options" role="menu" aria-label="Language options">
+      <li role="none">
+        <button 
+          class="bsb-language-toggle__option" 
+          role="menuitem" 
+          data-language="en"
+          aria-current="true"
+        >
+          <span class="bsb-language-toggle__option-icon">🇺🇸</span>
+          <span class="bsb-language-toggle__option-text">English</span>
+          <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+        </button>
+      </li>
+      <li role="none">
+        <button 
+          class="bsb-language-toggle__option" 
+          role="menuitem" 
+          data-language="es"
+          aria-current="false"
+        >
+          <span class="bsb-language-toggle__option-icon">🇪🇸</span>
+          <span class="bsb-language-toggle__option-text">Español</span>
+          <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

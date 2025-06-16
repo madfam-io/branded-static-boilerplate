@@ -58,32 +58,32 @@
       <nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav">
         <ul class="bsb-header__menu" role="menubar">
           <li role="none">
-            <a href="/branded-static-boilerplate/" class="bsb-header__link" role="menuitem" aria-current="page">
+            <a href="/branded-static-boilerplate/" class="bsb-header__link" role="menuitem" aria-current="page" data-i18n="nav.home">
               Home
             </a>
           </li>
           <li role="none">
-            <a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link" role="menuitem">
+            <a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link" role="menuitem" data-i18n="nav.about">
               About
             </a>
           </li>
           <li role="none">
-            <a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link" role="menuitem">
+            <a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link" role="menuitem" data-i18n="nav.services">
               Services
             </a>
           </li>
           <li role="none">
-            <a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" role="menuitem">
+            <a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" role="menuitem" data-i18n="nav.playground">
               Playground
             </a>
           </li>
           <li role="none">
-            <a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link" role="menuitem">
+            <a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link" role="menuitem" data-i18n="nav.projectStructure">
               Project Structure
             </a>
           </li>
           <li role="none">
-            <a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link" role="menuitem">
+            <a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link" role="menuitem" data-i18n="nav.contact">
               Contact
             </a>
           </li>
@@ -93,9 +93,56 @@
       <!-- 
         Header Actions
         ==============
-        Container for theme toggle and mobile menu toggle
+        Container for language toggle, theme toggle, and mobile menu toggle
       -->
       <div class="bsb-header__actions">
+        <!-- 
+          Language Toggle
+          ===============
+          Allows users to switch between English and Spanish languages
+        -->
+        <div class="bsb-language-toggle" data-bsb-component="language-toggle">
+          <button 
+            class="bsb-language-toggle__button" 
+            aria-label="Switch language" 
+            aria-expanded="false"
+            aria-haspopup="true"
+            type="button"
+            data-bsb-language-button
+          >
+            <span class="bsb-language-toggle__icons" aria-hidden="true">
+              <!-- English flag/icon -->
+              <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span>
+              
+              <!-- Spanish flag/icon -->
+              <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span>
+            </span>
+            
+            <span class="bsb-language-toggle__label">
+              Current language: <span data-bsb-language-label>English</span>
+            </span>
+          </button>
+          
+          <div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true">
+            <ul class="bsb-language-toggle__options" role="menu" aria-label="Language options">
+              <li role="none">
+                <button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="true">
+                  <span class="bsb-language-toggle__option-icon">🇺🇸</span>
+                  <span class="bsb-language-toggle__option-text">English</span>
+                  <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+                </button>
+              </li>
+              <li role="none">
+                <button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="false">
+                  <span class="bsb-language-toggle__option-icon">🇪🇸</span>
+                  <span class="bsb-language-toggle__option-text">Español</span>
+                  <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
         <!-- 
           Theme Toggle
           ============
