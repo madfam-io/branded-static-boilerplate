@@ -139,7 +139,7 @@ function setupKeyboardNavigation(header) {
   );
 
   if (focusableElements.length > 0) {
-    const firstFocusable = focusableElements[0];
+    const [firstFocusable] = focusableElements;
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
     nav.addEventListener('keydown', event => {

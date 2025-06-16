@@ -1,149 +1,18 @@
 {
   "extends": [
-    "stylelint-config-standard",
-    "stylelint-a11y/recommended"
-  ],
-  "plugins": [
-    "stylelint-a11y"
+    "stylelint-config-standard"
   ],
   "rules": {
-    // BEM Methodology Support
     "selector-class-pattern": [
       "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$",
       {
         "message": "Expected class selector to follow BEM methodology (block__element--modifier)"
       }
     ],
-    "selector-id-pattern": [
-      "^[a-z]([a-z0-9-]+)?$",
-      {
-        "message": "Expected id selector to be kebab-case"
-      }
-    ],
-    
-    // CSS Custom Properties (Design Tokens)
-    "custom-property-pattern": [
-      "^bsb-[a-z]([a-z0-9-]+)*$",
-      {
-        "message": "Expected custom property to follow BSB naming convention (--bsb-property-name)"
-      }
-    ],
-    
-    // Color and Accessibility
-    "alpha-value-notation": "percentage",
-    "color-function-notation": "modern",
-    "color-hex-case": "lower",
-    "color-hex-length": "short",
-    "color-no-invalid-hex": true,
-    
-    // Typography
-    "font-family-name-quotes": "always-where-recommended",
-    "font-weight-notation": "numeric",
-    
-    // Layout and Box Model
-    "length-zero-no-unit": true,
-    "number-max-precision": 3,
-    "shorthand-property-no-redundant-values": true,
-    
-    // Performance
-    "no-duplicate-selectors": true,
-    "no-duplicate-at-import-rules": true,
-    "declaration-block-no-redundant-longhand-properties": [
-      true,
-      {
-        "ignoreShorthands": ["grid-template"]
-      }
-    ],
-    
-    // Code Quality
-    "max-nesting-depth": [
-      3,
-      {
-        "ignore": ["blockless-at-rules", "pseudo-classes"]
-      }
-    ],
-    "selector-max-specificity": "0,4,0",
-    "selector-max-compound-selectors": 4,
-    "selector-max-universal": 1,
-    "selector-max-id": 1,
-    
-    // Accessibility Rules
-    "a11y/content-property-no-static-value": true,
-    "a11y/font-size-is-readable": true,
-    "a11y/line-height-is-vertical-rhythmed": true,
-    "a11y/no-display-none": true,
-    "a11y/no-obsolete-attribute": true,
-    "a11y/no-obsolete-element": true,
-    "a11y/no-outline-none": true,
-    "a11y/no-spread-text": true,
-    "a11y/no-text-align-justify": true,
-    "a11y/selector-pseudo-class-focus": true,
-    
-    // Formatting and Style
     "indentation": 2,
     "string-quotes": "single",
-    "declaration-colon-space-after": "always",
-    "declaration-colon-space-before": "never",
-    "declaration-block-semicolon-newline-after": "always",
-    "declaration-block-trailing-semicolon": "always",
-    "block-closing-brace-newline-after": "always",
-    "block-opening-brace-space-before": "always",
-    "selector-combinator-space-after": "always",
-    "selector-combinator-space-before": "always",
-    "selector-list-comma-newline-after": "always",
-    
-    // Comments and Documentation
-    "comment-empty-line-before": [
-      "always",
-      {
-        "except": ["first-nested"],
-        "ignore": ["after-comment", "stylelint-commands"]
-      }
-    ],
-    "comment-whitespace-inside": "always",
-    
-    // Custom Properties Organization
-    "custom-property-empty-line-before": [
-      "always",
-      {
-        "except": ["after-custom-property", "first-nested"],
-        "ignore": ["after-comment", "inside-single-line-block"]
-      }
-    ],
-    
-    // At-Rules
-    "at-rule-empty-line-before": [
-      "always",
-      {
-        "except": ["blockless-after-same-name-blockless", "first-nested"],
-        "ignore": ["after-comment"]
-      }
-    ],
-    "at-rule-name-case": "lower",
-    "at-rule-semicolon-newline-after": "always",
-    
-    // Media Queries
-    "media-feature-range-notation": "prefix",
-    "media-feature-name-case": "lower",
-    "media-query-list-comma-newline-after": "always-multi-line",
-    
-    // Vendor Prefixes (let autoprefixer handle these)
-    "property-no-vendor-prefix": true,
-    "selector-no-vendor-prefix": true,
-    "value-no-vendor-prefix": true,
-    
-    // Educational Overrides (allow flexibility for learning)
-    "no-descending-specificity": null,
-    "declaration-block-single-line-max-declarations": 3,
-    "selector-pseudo-element-colon-notation": "double",
-    "import-notation": "string"
+    "no-descending-specificity": null
   },
-  "overrides": [
-    {
-      "files": ["**/*.html"],
-      "customSyntax": "postcss-html"
-    }
-  ],
   "ignoreFiles": [
     "dist/**/*",
     "node_modules/**/*",

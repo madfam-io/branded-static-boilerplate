@@ -253,7 +253,7 @@ function monitorPerformance() {
   // Only in development
   if (window.location.hostname === 'localhost') {
     window.addEventListener('load', () => {
-      const perfData = performance.getEntriesByType('navigation')[0];
+      const [perfData] = performance.getEntriesByType('navigation');
 
       console.log('BSB Performance Metrics:');
       console.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
@@ -301,7 +301,7 @@ window.BSBUtils = {
       if (!inThrottle) {
         func.apply(this, args);
         inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
+        setTimeout(() => { inThrottle = false; }, limit);
       }
     };
   }
