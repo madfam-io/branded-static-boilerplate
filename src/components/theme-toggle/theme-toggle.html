@@ -1,0 +1,124 @@
+<!--
+  =============================================================================
+  BSB THEME TOGGLE COMPONENT - Dark/Light Mode Switcher
+  =============================================================================
+  
+  This component provides a user-friendly interface for switching between
+  light, dark, and system theme preferences.
+  
+  🎯 Features:
+  - Accessible button with proper ARIA labels
+  - Visual icons for light/dark/auto modes
+  - Smooth transitions between states
+  - Keyboard navigation support
+  - System preference detection
+  
+  📚 Learn More:
+  - Theme System: /docs/tutorials/theming.md
+  - Accessibility: /docs/tutorials/accessibility.md#theme-toggle
+  - Dark Mode Best Practices: /docs/tutorials/dark-mode.md
+  
+  💡 Usage:
+  1. Include this HTML in your header
+  2. Include theme-toggle.css for styles
+  3. Include theme-toggle.js for functionality
+  4. Component automatically detects current theme
+  =============================================================================
+-->
+
+<div class="bsb-theme-toggle" data-bsb-component="theme-toggle">
+  <!-- 
+    Theme Toggle Button
+    ===================
+    The main button that cycles through theme options
+  -->
+  <button 
+    class="bsb-theme-toggle__button" 
+    aria-label="Switch theme" 
+    aria-expanded="false"
+    aria-haspopup="true"
+    type="button"
+    data-bsb-theme-button
+  >
+    <!-- Theme Icons -->
+    <span class="bsb-theme-toggle__icons" aria-hidden="true">
+      <!-- Light mode icon (sun) -->
+      <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+      
+      <!-- Dark mode icon (moon) -->
+      <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      
+      <!-- Auto mode icon (monitor) -->
+      <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    </span>
+    
+    <!-- Screen reader text for current theme -->
+    <span class="bsb-theme-toggle__label">
+      Current theme: <span data-bsb-theme-label>Auto</span>
+    </span>
+  </button>
+  
+  <!-- 
+    Theme Options Menu
+    ==================
+    Dropdown menu with all theme options
+  -->
+  <div class="bsb-theme-toggle__menu" data-bsb-theme-menu aria-hidden="true">
+    <ul class="bsb-theme-toggle__options" role="menu" aria-label="Theme options">
+      <li role="none">
+        <button 
+          class="bsb-theme-toggle__option" 
+          role="menuitem" 
+          data-theme="light"
+          aria-current="false"
+        >
+          <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <span class="bsb-theme-toggle__option-text">Light</span>
+          <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+        </button>
+      </li>
+      <li role="none">
+        <button 
+          class="bsb-theme-toggle__option" 
+          role="menuitem" 
+          data-theme="dark"
+          aria-current="false"
+        >
+          <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span class="bsb-theme-toggle__option-text">Dark</span>
+          <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+        </button>
+      </li>
+      <li role="none">
+        <button 
+          class="bsb-theme-toggle__option" 
+          role="menuitem" 
+          data-theme="auto"
+          aria-current="true"
+        >
+          <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span class="bsb-theme-toggle__option-text">Auto</span>
+          <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

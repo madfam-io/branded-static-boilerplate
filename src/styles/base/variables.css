@@ -75,6 +75,17 @@
   --bsb-border-color: var(--bsb-gray-200);
   --bsb-border-color-dark: var(--bsb-gray-300);
   
+  /* Code and syntax highlighting colors */
+  --bsb-bg-code: #1e1e1e;
+  --bsb-text-code: #d4d4d4;
+  --bsb-border-dark: #3e3e42;
+  
+  /* Interactive element colors */
+  --bsb-bg-hover: var(--bsb-gray-100);
+  --bsb-bg-active: var(--bsb-gray-200);
+  --bsb-text-link: var(--bsb-primary);
+  --bsb-text-link-hover: var(--bsb-primary-dark);
+  
   /* 
     Typography
     ==========
@@ -211,19 +222,38 @@
 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bsb-text-primary: var(--bsb-gray-100);
-    --bsb-text-secondary: var(--bsb-gray-400);
-    --bsb-text-muted: var(--bsb-gray-500);
-    --bsb-bg-primary: var(--bsb-gray-900);
-    --bsb-bg-secondary: var(--bsb-gray-800);
-    --bsb-bg-tertiary: var(--bsb-gray-700);
-    --bsb-border-color: var(--bsb-gray-700);
-    --bsb-border-color-dark: var(--bsb-gray-600);
+    /* Text colors with improved contrast */
+    --bsb-text-primary: var(--bsb-gray-50);
+    --bsb-text-secondary: var(--bsb-gray-300);
+    --bsb-text-muted: var(--bsb-gray-400);
+    --bsb-text-inverse: var(--bsb-gray-900);
     
-    /* Adjust shadows for dark mode */
-    --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 25%);
-    --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 30%), 0 1px 2px 0 rgb(0 0 0 / 26%);
-    --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 30%), 0 2px 4px -1px rgb(0 0 0 / 26%);
+    /* Background colors for dark theme */
+    --bsb-bg-primary: hsl(210deg 20% 8%);
+    --bsb-bg-secondary: hsl(210deg 20% 12%);
+    --bsb-bg-tertiary: hsl(210deg 20% 16%);
+    
+    /* Border colors with better visibility */
+    --bsb-border-color: hsl(210deg 20% 18%);
+    --bsb-border-color-dark: hsl(210deg 20% 25%);
+    
+    /* Interactive element colors for dark mode */
+    --bsb-bg-hover: hsl(210deg 20% 16%);
+    --bsb-bg-active: hsl(210deg 20% 20%);
+    --bsb-text-link: hsl(var(--bsb-primary-hue) 90% 65%);
+    --bsb-text-link-hover: hsl(var(--bsb-primary-hue) 90% 75%);
+    
+    /* Code colors for dark mode */
+    --bsb-bg-code: hsl(210deg 20% 6%);
+    --bsb-text-code: var(--bsb-gray-200);
+    --bsb-border-dark: hsl(210deg 20% 22%);
+    
+    /* Enhanced shadows for dark mode */
+    --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 50%);
+    --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 60%), 0 1px 2px 0 rgb(0 0 0 / 40%);
+    --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 60%), 0 2px 4px -1px rgb(0 0 0 / 40%);
+    --bsb-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 60%), 0 4px 6px -2px rgb(0 0 0 / 40%);
+    --bsb-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 60%), 0 10px 10px -5px rgb(0 0 0 / 40%);
   }
 }
 
@@ -233,12 +263,96 @@
   Allows JavaScript to override theme regardless of system preference
 */
 [data-bsb-theme="dark"] {
-  --bsb-text-primary: var(--bsb-gray-100);
-  --bsb-text-secondary: var(--bsb-gray-400);
+  /* Text colors with improved contrast */
+  --bsb-text-primary: var(--bsb-gray-50);
+  --bsb-text-secondary: var(--bsb-gray-300);
+  --bsb-text-muted: var(--bsb-gray-400);
+  --bsb-text-inverse: var(--bsb-gray-900);
+  
+  /* Background colors for dark theme */
+  --bsb-bg-primary: hsl(210deg 20% 8%);
+  --bsb-bg-secondary: hsl(210deg 20% 12%);
+  --bsb-bg-tertiary: hsl(210deg 20% 16%);
+  
+  /* Border colors with better visibility */
+  --bsb-border-color: hsl(210deg 20% 18%);
+  --bsb-border-color-dark: hsl(210deg 20% 25%);
+  
+  /* Interactive element colors for dark mode */
+  --bsb-bg-hover: hsl(210deg 20% 16%);
+  --bsb-bg-active: hsl(210deg 20% 20%);
+  --bsb-text-link: hsl(var(--bsb-primary-hue) 90% 65%);
+  --bsb-text-link-hover: hsl(var(--bsb-primary-hue) 90% 75%);
+  
+  /* Code colors for dark mode */
+  --bsb-bg-code: hsl(210deg 20% 6%);
+  --bsb-text-code: var(--bsb-gray-200);
+  --bsb-border-dark: hsl(210deg 20% 22%);
+  
+  /* Enhanced shadows for dark mode */
+  --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 50%);
+  --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 60%), 0 1px 2px 0 rgb(0 0 0 / 40%);
+  --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 60%), 0 2px 4px -1px rgb(0 0 0 / 40%);
+  --bsb-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 60%), 0 4px 6px -2px rgb(0 0 0 / 40%);
+  --bsb-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 60%), 0 10px 10px -5px rgb(0 0 0 / 40%);
+}
+
+/* 
+  Light Theme Override
+  ====================
+  Explicit light theme when user manually selects it
+*/
+[data-bsb-theme="light"] {
+  /* Force light mode even if system prefers dark */
+  --bsb-text-primary: var(--bsb-gray-900);
+  --bsb-text-secondary: var(--bsb-gray-600);
   --bsb-text-muted: var(--bsb-gray-500);
-  --bsb-bg-primary: var(--bsb-gray-900);
-  --bsb-bg-secondary: var(--bsb-gray-800);
-  --bsb-bg-tertiary: var(--bsb-gray-700);
-  --bsb-border-color: var(--bsb-gray-700);
-  --bsb-border-color-dark: var(--bsb-gray-600);
+  --bsb-text-inverse: white;
+  --bsb-bg-primary: white;
+  --bsb-bg-secondary: var(--bsb-gray-50);
+  --bsb-bg-tertiary: var(--bsb-gray-100);
+  --bsb-border-color: var(--bsb-gray-200);
+  --bsb-border-color-dark: var(--bsb-gray-300);
+  --bsb-bg-hover: var(--bsb-gray-100);
+  --bsb-bg-active: var(--bsb-gray-200);
+  --bsb-text-link: var(--bsb-primary);
+  --bsb-text-link-hover: var(--bsb-primary-dark);
+  --bsb-bg-code: #1e1e1e;
+  --bsb-text-code: #d4d4d4;
+  --bsb-border-dark: #3e3e42;
+}
+
+/* 
+  Theme Transition Support
+  =======================
+  Smooth color transitions when switching themes
+*/
+*,
+*::before,
+*::after {
+  transition: 
+    background-color var(--bsb-transition-base),
+    border-color var(--bsb-transition-base),
+    color var(--bsb-transition-base),
+    box-shadow var(--bsb-transition-base);
+}
+
+/* Disable transitions for elements that shouldn't animate */
+.no-transition,
+.no-transition *,
+[data-no-transition],
+[data-no-transition] * {
+  transition: none !important;
+}
+
+/* Performance optimization: reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

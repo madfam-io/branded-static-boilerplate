@@ -133,6 +133,7 @@
   
   <!-- Component Styles -->
   <link rel="stylesheet" href="./components/header/header.css">
+  <link rel="stylesheet" href="./components/theme-toggle/theme-toggle.css">
   <link rel="stylesheet" href="./components/hero/hero.css">
   <link rel="stylesheet" href="./components/card/card.css">
   <link rel="stylesheet" href="./components/footer/footer.css">
@@ -157,6 +158,7 @@
     The 'defer' attribute ensures scripts execute after DOM is ready.
   -->
   <script type="module" src="./scripts/core/main.js" defer></script>
+  <script type="module" src="./components/theme-toggle/theme-toggle.js" defer></script>
 </head>
 
 <!--
@@ -217,18 +219,100 @@
         </nav>
         
         <!-- 
-          Mobile Menu Toggle
-          ==================
-          Hidden on desktop, visible on mobile. Uses semantic button element.
-          JavaScript enhancement adds toggle functionality.
+          Header Actions
+          ==============
+          Container for theme toggle and mobile menu toggle
         -->
-        <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
-          <span class="bsb-header__toggle-icon" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </button>
+        <div class="bsb-header__actions">
+          <!-- 
+            Theme Toggle
+            ============
+            Allows users to switch between light, dark, and auto themes
+          -->
+          <div class="bsb-theme-toggle" data-bsb-component="theme-toggle">
+            <button 
+              class="bsb-theme-toggle__button" 
+              aria-label="Switch theme" 
+              aria-expanded="false"
+              aria-haspopup="true"
+              type="button"
+              data-bsb-theme-button
+            >
+              <span class="bsb-theme-toggle__icons" aria-hidden="true">
+                <!-- Light mode icon (sun) -->
+                <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="5"/>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+                
+                <!-- Dark mode icon (moon) -->
+                <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                
+                <!-- Auto mode icon (monitor) -->
+                <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </span>
+              
+              <span class="bsb-theme-toggle__label">
+                Current theme: <span data-bsb-theme-label>Auto</span>
+              </span>
+            </button>
+            
+            <div class="bsb-theme-toggle__menu" data-bsb-theme-menu aria-hidden="true">
+              <ul class="bsb-theme-toggle__options" role="menu" aria-label="Theme options">
+                <li role="none">
+                  <button class="bsb-theme-toggle__option" role="menuitem" data-theme="light" aria-current="false">
+                    <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="5"/>
+                      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    <span class="bsb-theme-toggle__option-text">Light</span>
+                    <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+                  </button>
+                </li>
+                <li role="none">
+                  <button class="bsb-theme-toggle__option" role="menuitem" data-theme="dark" aria-current="false">
+                    <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <span class="bsb-theme-toggle__option-text">Dark</span>
+                    <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+                  </button>
+                </li>
+                <li role="none">
+                  <button class="bsb-theme-toggle__option" role="menuitem" data-theme="auto" aria-current="true">
+                    <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                      <line x1="8" y1="21" x2="16" y2="21"/>
+                      <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span class="bsb-theme-toggle__option-text">Auto</span>
+                    <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- 
+            Mobile Menu Toggle
+            ==================
+            Hidden on desktop, visible on mobile. Uses semantic button element.
+            JavaScript enhancement adds toggle functionality.
+          -->
+          <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+            <span class="bsb-header__toggle-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </header>

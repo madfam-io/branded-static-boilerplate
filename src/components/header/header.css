@@ -153,6 +153,18 @@
 }
 
 /* 
+  Header Actions
+  ==============
+  Container for theme toggle and mobile menu toggle
+*/
+.bsb-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2);
+  flex-shrink: 0;
+}
+
+/* 
   Mobile Menu Toggle
   ==================
   Hamburger menu button for mobile
@@ -170,11 +182,16 @@
   transition: all var(--bsb-transition-fast);
 }
 
-/* Hide toggle on larger screens */
+/* Hide mobile menu toggle on larger screens */
 @media (width >= 768px) {
   .bsb-header__toggle {
     display: none;
   }
+}
+
+/* Show theme toggle on all screen sizes */
+.bsb-header__actions .bsb-theme-toggle {
+  display: block;
 }
 
 .bsb-header__toggle:hover {
