@@ -1,0 +1,365 @@
+/*
+  =============================================================================
+  BSB TYPOGRAPHY - Beautiful, Readable Text
+  =============================================================================
+  
+  This file establishes the typographic hierarchy and rhythm for your site.
+  Good typography is invisible - it just feels right.
+  
+  🎯 Principles:
+  1. Establish clear hierarchy
+  2. Optimize for readability
+  3. Create consistent rhythm
+  4. Ensure accessibility
+  
+  📚 Learn More:
+  - Typography Guide: /docs/tutorials/typography.md
+  - Modular Scale: https://www.modularscale.com/
+  - Line Height: https://www.smashingmagazine.com/2020/07/css-techniques-legibility/
+  
+  💡 Pro Tips:
+  - Test with real content, not Lorem Ipsum
+  - Check readability on mobile devices
+  - Ensure sufficient contrast (WCAG AA: 4.5:1)
+  =============================================================================
+*/
+
+/* 
+  Base Typography
+  ===============
+  Applied to body in reset.css, but repeated here for clarity
+*/
+body {
+  font-family: var(--bsb-font-base);
+  font-size: var(--bsb-text-base);
+  line-height: var(--bsb-leading-normal);
+  color: var(--bsb-text-primary);
+  
+  /* Optimize legibility */
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "kern" 1;
+  
+  /* Better font rendering on Mac/iOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 
+  Headings
+  ========
+  Using a modular scale for consistent hierarchy.
+  Scale ratio: 1.25 (Major Third)
+*/
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--bsb-font-heading);
+  font-weight: var(--bsb-font-bold);
+  line-height: var(--bsb-leading-tight);
+  color: var(--bsb-text-primary);
+  margin-top: 0;
+  margin-bottom: var(--bsb-space-4);
+  
+  /* Prevent orphaned headings */
+  break-after: avoid;
+  page-break-after: avoid;
+  
+  /* Better kerning for large text */
+  font-kerning: normal;
+}
+
+/* Individual heading sizes */
+h1 {
+  font-size: var(--bsb-text-4xl);
+  line-height: var(--bsb-leading-none);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--bsb-space-6);
+}
+
+h2 {
+  font-size: var(--bsb-text-3xl);
+  line-height: var(--bsb-leading-tight);
+  letter-spacing: -0.01em;
+  margin-top: var(--bsb-space-12);
+  margin-bottom: var(--bsb-space-6);
+}
+
+h3 {
+  font-size: var(--bsb-text-2xl);
+  margin-top: var(--bsb-space-10);
+  margin-bottom: var(--bsb-space-4);
+}
+
+h4 {
+  font-size: var(--bsb-text-xl);
+  margin-top: var(--bsb-space-8);
+  margin-bottom: var(--bsb-space-4);
+}
+
+h5 {
+  font-size: var(--bsb-text-lg);
+  margin-top: var(--bsb-space-6);
+  margin-bottom: var(--bsb-space-3);
+}
+
+h6 {
+  font-size: var(--bsb-text-base);
+  font-weight: var(--bsb-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--bsb-space-6);
+  margin-bottom: var(--bsb-space-3);
+}
+
+/* First heading in a section needs less top margin */
+* + h1,
+* + h2,
+* + h3,
+* + h4,
+* + h5,
+* + h6 {
+  margin-top: var(--bsb-space-8);
+}
+
+/* 
+  Paragraphs
+  ==========
+  Optimized for readability with proper spacing
+*/
+p {
+  margin-top: 0;
+  margin-bottom: var(--bsb-space-6);
+  
+  /* Prevent widows and orphans */
+  widows: 3;
+  orphans: 3;
+}
+
+/* Last paragraph in a container needs no bottom margin */
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lead paragraph - larger text for intros */
+.lead,
+p.lead {
+  font-size: var(--bsb-text-lg);
+  line-height: var(--bsb-leading-relaxed);
+  color: var(--bsb-text-secondary);
+  margin-bottom: var(--bsb-space-8);
+}
+
+/* 
+  Links
+  =====
+  Accessible, obvious link styling
+*/
+a {
+  color: var(--bsb-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1em;
+  transition: all var(--bsb-transition-fast);
+}
+
+a:hover {
+  color: var(--bsb-primary-dark);
+  text-decoration-thickness: 2px;
+}
+
+a:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: 2px;
+  border-radius: var(--bsb-radius-sm);
+}
+
+/* External links */
+a[href^="http"]:not([href*="yourdomain.com"])::after {
+  content: " ↗";
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+/* 
+  Lists
+  =====
+  Styled lists for content (navigation lists are unstyled)
+*/
+ul:not([class]),
+ol:not([class]) {
+  margin-top: 0;
+  margin-bottom: var(--bsb-space-6);
+  padding-left: var(--bsb-space-8);
+}
+
+ul:not([class]) {
+  list-style-type: disc;
+}
+
+ol:not([class]) {
+  list-style-type: decimal;
+}
+
+li:not([class]) {
+  margin-bottom: var(--bsb-space-2);
+}
+
+/* Nested lists */
+ul:not([class]) ul,
+ul:not([class]) ol,
+ol:not([class]) ul,
+ol:not([class]) ol {
+  margin-top: var(--bsb-space-2);
+  margin-bottom: var(--bsb-space-2);
+}
+
+/* 
+  Quotes
+  ======
+  Styled blockquotes and inline quotes
+*/
+blockquote {
+  margin: var(--bsb-space-8) 0;
+  padding-left: var(--bsb-space-6);
+  border-left: 4px solid var(--bsb-primary);
+  font-style: italic;
+  color: var(--bsb-text-secondary);
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Citation */
+cite {
+  display: block;
+  margin-top: var(--bsb-space-4);
+  font-size: var(--bsb-text-sm);
+  font-style: normal;
+  color: var(--bsb-text-muted);
+}
+
+cite::before {
+  content: "— ";
+}
+
+/* 
+  Code
+  ====
+  Inline and block code styling
+*/
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--bsb-font-mono);
+  font-size: 0.875em;
+}
+
+/* Inline code */
+code:not(pre code) {
+  padding: 0.125em 0.25em;
+  background-color: var(--bsb-bg-tertiary);
+  border-radius: var(--bsb-radius-sm);
+  color: var(--bsb-text-primary);
+}
+
+/* Code blocks */
+pre {
+  margin: var(--bsb-space-6) 0;
+  padding: var(--bsb-space-4);
+  background-color: var(--bsb-bg-tertiary);
+  border-radius: var(--bsb-radius-base);
+  overflow-x: auto;
+  line-height: var(--bsb-leading-normal);
+  
+  /* Prevent horizontal scrolling on mobile */
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+pre code {
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* 
+  Keyboard Input
+  ==============
+  Styled to look like actual keys
+*/
+kbd {
+  display: inline-block;
+  padding: 0.125em 0.5em;
+  background-color: var(--bsb-bg-primary);
+  border: 1px solid var(--bsb-border-color-dark);
+  border-radius: var(--bsb-radius-sm);
+  box-shadow: 0 2px 0 var(--bsb-border-color-dark);
+  font-size: 0.875em;
+  white-space: nowrap;
+}
+
+/* 
+  Other Elements
+  ==============
+*/
+
+/* Horizontal rule */
+hr {
+  margin: var(--bsb-space-12) 0;
+  border: 0;
+  border-top: 1px solid var(--bsb-border-color);
+}
+
+/* Small text */
+small {
+  font-size: var(--bsb-text-sm);
+  color: var(--bsb-text-secondary);
+}
+
+/* Strong emphasis */
+strong {
+  font-weight: var(--bsb-font-bold);
+  color: var(--bsb-text-primary);
+}
+
+/* Emphasis */
+em {
+  font-style: italic;
+}
+
+/* Mark/highlight */
+mark {
+  padding: 0.125em 0.25em;
+  background-color: rgba(255, 235, 59, 0.4);
+  border-radius: var(--bsb-radius-sm);
+}
+
+/* Abbreviations */
+abbr[title] {
+  border-bottom: 1px dotted currentColor;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* 
+  Responsive Typography
+  ====================
+  Adjust sizes for smaller screens
+*/
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--bsb-text-3xl);
+  }
+  
+  h2 {
+    font-size: var(--bsb-text-2xl);
+  }
+  
+  h3 {
+    font-size: var(--bsb-text-xl);
+  }
+  
+  h4 {
+    font-size: var(--bsb-text-lg);
+  }
+}

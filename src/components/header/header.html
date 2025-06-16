@@ -1,0 +1,112 @@
+<!--
+  =============================================================================
+  BSB HEADER COMPONENT - Site Navigation and Branding
+  =============================================================================
+  
+  This is a reusable header component that includes:
+  - Site branding/logo
+  - Main navigation menu
+  - Mobile menu toggle
+  - Accessibility features
+  
+  🎯 Usage:
+  1. Copy this HTML into your page
+  2. Include header.css in your page
+  3. Include header.js for mobile menu functionality
+  4. Customize the navigation links and branding
+  
+  📚 Learn More:
+  - Navigation Patterns: /docs/tutorials/navigation.md
+  - Mobile Menu Design: /docs/tutorials/mobile-patterns.md
+  - ARIA Navigation: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
+  
+  💡 Customization:
+  - Change brand text/logo
+  - Add/remove navigation items
+  - Modify colors in CSS variables
+  - Add dropdown menus (see advanced examples)
+  =============================================================================
+-->
+
+<header class="bsb-header" data-bsb-component="header" role="banner">
+  <div class="container">
+    <div class="bsb-header__inner">
+      <!-- 
+        Site Branding
+        =============
+        Replace with your logo image or text.
+        The strong tag adds semantic emphasis to your brand name.
+      -->
+      <div class="bsb-header__brand">
+        <a href="/" class="bsb-header__logo" aria-label="Your Brand - Home">
+          <!-- Option 1: Text logo -->
+          <strong>Your Brand</strong>
+          
+          <!-- Option 2: Image logo (uncomment to use) -->
+          <!-- <img src="/assets/images/logo.svg" alt="Your Brand" width="120" height="40"> -->
+        </a>
+      </div>
+      
+      <!-- 
+        Main Navigation
+        ===============
+        - Uses semantic nav element
+        - ARIA label describes the navigation purpose
+        - Current page marked with aria-current
+        - Links are keyboard accessible
+      -->
+      <nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav">
+        <ul class="bsb-header__menu" role="menubar">
+          <li role="none">
+            <a href="/" class="bsb-header__link" role="menuitem" aria-current="page">
+              Home
+            </a>
+          </li>
+          <li role="none">
+            <a href="/pages/about.html" class="bsb-header__link" role="menuitem">
+              About
+            </a>
+          </li>
+          <li role="none">
+            <a href="/pages/services.html" class="bsb-header__link" role="menuitem">
+              Services
+            </a>
+          </li>
+          <li role="none">
+            <a href="/pages/portfolio.html" class="bsb-header__link" role="menuitem">
+              Portfolio
+            </a>
+          </li>
+          <li role="none">
+            <a href="/pages/contact.html" class="bsb-header__link" role="menuitem">
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- 
+        Mobile Menu Toggle
+        ==================
+        - Hidden on desktop via CSS
+        - Semantic button element
+        - ARIA attributes for screen readers
+        - Keyboard accessible
+      -->
+      <button 
+        class="bsb-header__toggle" 
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        type="button"
+      >
+        <!-- Hamburger icon (three lines) -->
+        <span class="bsb-header__toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>

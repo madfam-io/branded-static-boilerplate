@@ -1,0 +1,159 @@
+<!--
+  =============================================================================
+  BSB HERO COMPONENT - Eye-catching Landing Section
+  =============================================================================
+  
+  The hero section is typically the first thing visitors see. It should:
+  - Clearly communicate your value proposition
+  - Include a compelling call-to-action
+  - Load quickly and look great on all devices
+  
+  🎯 Usage:
+  1. Copy this HTML into your page
+  2. Include hero.css in your page
+  3. Customize the content and styling
+  4. Optimize any background images
+  
+  📚 Learn More:
+  - Hero Design Patterns: /docs/tutorials/hero-sections.md
+  - CTA Best Practices: /docs/tutorials/call-to-action.md
+  - Image Optimization: /docs/tutorials/image-optimization.md
+  
+  💡 Variants:
+  - Text only (default)
+  - With background image
+  - Split layout (text + image)
+  - Video background
+  =============================================================================
+-->
+
+<section class="bsb-hero" data-bsb-component="hero">
+  <div class="container">
+    <div class="bsb-hero__content">
+      <!-- 
+        Hero Title
+        ==========
+        Your main headline. Should be compelling and clear.
+        Use only one H1 per page for SEO.
+      -->
+      <h1 class="bsb-hero__title">
+        Your Compelling Headline
+        <span class="bsb-hero__subtitle">With an engaging subtitle</span>
+      </h1>
+      
+      <!-- 
+        Lead Paragraph
+        ==============
+        Expand on your headline. Keep it concise but informative.
+        This often appears in search results.
+      -->
+      <p class="bsb-hero__lead">
+        A brief description that explains your value proposition and 
+        encourages visitors to take action. Keep it focused and compelling.
+      </p>
+      
+      <!-- 
+        Call-to-Action
+        ==============
+        Clear action buttons. Primary action should stand out.
+        Consider what you want visitors to do next.
+      -->
+      <div class="bsb-hero__actions">
+        <a href="#" class="btn btn--primary btn--large">
+          Get Started
+        </a>
+        <a href="#" class="btn btn--secondary btn--large">
+          Learn More
+        </a>
+      </div>
+      
+      <!-- 
+        Optional: Social Proof
+        ======================
+        Build trust with ratings, testimonials, or client logos
+      -->
+      <div class="bsb-hero__social-proof">
+        <p class="bsb-hero__trust-text">
+          Trusted by over <strong>10,000</strong> customers
+        </p>
+        <!-- Or use logos -->
+        <!-- <div class="bsb-hero__logos">
+          <img src="/assets/images/client-1.svg" alt="Client 1" width="100" height="40">
+          <img src="/assets/images/client-2.svg" alt="Client 2" width="100" height="40">
+        </div> -->
+      </div>
+    </div>
+    
+    <!-- 
+      Optional: Hero Image
+      ====================
+      For split hero layouts
+    -->
+    <!-- <div class="bsb-hero__image">
+      <img src="/assets/images/hero-image.jpg" 
+           alt="Descriptive alt text" 
+           loading="eager"
+           width="600" 
+           height="400">
+    </div> -->
+  </div>
+  
+  <!-- 
+    Optional: Background Pattern
+    ============================
+    Decorative element for visual interest
+  -->
+  <div class="bsb-hero__pattern" aria-hidden="true"></div>
+</section>
+
+<!-- 
+  HERO VARIANTS
+  =============
+  
+  1. Hero with Background Image:
+  ==============================
+  <section class="bsb-hero bsb-hero--bg-image" 
+           style="background-image: url('/assets/images/hero-bg.jpg');">
+    <div class="bsb-hero__overlay"></div>
+    <div class="container">
+      <!-- Content here -->
+    </div>
+  </section>
+  
+  2. Split Hero (Text + Image):
+  =============================
+  <section class="bsb-hero bsb-hero--split">
+    <div class="container">
+      <div class="bsb-hero__grid">
+        <div class="bsb-hero__content">
+          <!-- Text content -->
+        </div>
+        <div class="bsb-hero__image">
+          <img src="/assets/images/hero-image.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  3. Centered Hero:
+  =================
+  <section class="bsb-hero bsb-hero--centered">
+    <div class="container">
+      <div class="bsb-hero__content">
+        <!-- Centered content -->
+      </div>
+    </div>
+  </section>
+  
+  4. Video Background Hero:
+  ========================
+  <section class="bsb-hero bsb-hero--video">
+    <video class="bsb-hero__video" autoplay muted loop playsinline>
+      <source src="/assets/videos/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div class="bsb-hero__overlay"></div>
+    <div class="container">
+      <!-- Content here -->
+    </div>
+  </section>
+-->

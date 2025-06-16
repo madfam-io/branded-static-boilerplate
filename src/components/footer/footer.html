@@ -1,0 +1,217 @@
+<!--
+  =============================================================================
+  BSB FOOTER COMPONENT - Site Footer with Links and Information
+  =============================================================================
+  
+  A comprehensive footer that includes:
+  - Multiple navigation sections
+  - Contact information
+  - Social media links
+  - Copyright notice
+  - Newsletter signup (optional)
+  
+  🎯 Usage:
+  1. Copy this HTML into your page
+  2. Include footer.css in your page
+  3. Customize links and content
+  4. Add/remove sections as needed
+  
+  📚 Learn More:
+  - Footer Patterns: /docs/tutorials/footer-design.md
+  - SEO Footer Links: /docs/tutorials/seo-footers.md
+  - Accessibility: /docs/tutorials/footer-accessibility.md
+  
+  💡 Variants:
+  - Simple footer (minimal)
+  - Multi-column footer (default)
+  - Footer with newsletter
+  - Mega footer (extended)
+  =============================================================================
+-->
+
+<footer class="bsb-footer" data-bsb-component="footer" role="contentinfo">
+  <div class="container">
+    <!-- 
+      Footer Top Section
+      ==================
+      Optional: Add newsletter signup or CTA
+    -->
+    <!-- <div class="bsb-footer__top">
+      <div class="bsb-footer__cta">
+        <h3>Stay Updated</h3>
+        <p>Get the latest news and updates delivered to your inbox.</p>
+        <form class="bsb-footer__newsletter">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn--primary">Subscribe</button>
+        </form>
+      </div>
+    </div> -->
+    
+    <!-- 
+      Footer Main Content
+      ===================
+      Organized in columns for different link categories
+    -->
+    <div class="bsb-footer__main">
+      <div class="bsb-footer__grid">
+        <!-- 
+          Company Info Column
+          ===================
+        -->
+        <div class="bsb-footer__column bsb-footer__column--wide">
+          <div class="bsb-footer__brand">
+            <a href="/" class="bsb-footer__logo">
+              <strong>Your Brand</strong>
+            </a>
+            <p class="bsb-footer__tagline">
+              Building better websites with modern best practices.
+            </p>
+          </div>
+          
+          <!-- Social Media Links -->
+          <div class="bsb-footer__social">
+            <a href="#" aria-label="Follow us on Twitter" class="bsb-footer__social-link">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Connect on LinkedIn" class="bsb-footer__social-link">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Find us on GitHub" class="bsb-footer__social-link">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 
+          Products/Services Column
+          ========================
+        -->
+        <div class="bsb-footer__column">
+          <h4 class="bsb-footer__heading">Products</h4>
+          <ul class="bsb-footer__links">
+            <li><a href="/products/features">Features</a></li>
+            <li><a href="/products/pricing">Pricing</a></li>
+            <li><a href="/products/integrations">Integrations</a></li>
+            <li><a href="/products/changelog">Changelog</a></li>
+          </ul>
+        </div>
+        
+        <!-- 
+          Resources Column
+          ================
+        -->
+        <div class="bsb-footer__column">
+          <h4 class="bsb-footer__heading">Resources</h4>
+          <ul class="bsb-footer__links">
+            <li><a href="/docs">Documentation</a></li>
+            <li><a href="/tutorials">Tutorials</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/community">Community</a></li>
+            <li><a href="/support">Support</a></li>
+          </ul>
+        </div>
+        
+        <!-- 
+          Company Column
+          ==============
+        -->
+        <div class="bsb-footer__column">
+          <h4 class="bsb-footer__heading">Company</h4>
+          <ul class="bsb-footer__links">
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/press">Press</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/partners">Partners</a></li>
+          </ul>
+        </div>
+        
+        <!-- 
+          Legal Column
+          ============
+        -->
+        <div class="bsb-footer__column">
+          <h4 class="bsb-footer__heading">Legal</h4>
+          <ul class="bsb-footer__links">
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/cookies">Cookie Policy</a></li>
+            <li><a href="/licenses">Licenses</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 
+      Footer Bottom Section
+      =====================
+      Copyright and additional links
+    -->
+    <div class="bsb-footer__bottom">
+      <div class="bsb-footer__bottom-content">
+        <!-- Copyright Notice -->
+        <p class="bsb-footer__copyright">
+          © <time datetime="2024">2024</time> Your Brand. All rights reserved.
+        </p>
+        
+        <!-- Additional Links -->
+        <nav class="bsb-footer__bottom-links" aria-label="Footer bottom navigation">
+          <a href="/sitemap">Sitemap</a>
+          <a href="/accessibility">Accessibility</a>
+          <a href="/security">Security</a>
+          <a href="/status">Status</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- 
+  FOOTER VARIANTS
+  ===============
+  
+  1. Simple Footer:
+  ================
+  <footer class="bsb-footer bsb-footer--simple">
+    <div class="container">
+      <div class="bsb-footer__simple-content">
+        <p>© 2024 Your Brand. All rights reserved.</p>
+        <nav class="bsb-footer__simple-links">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+  
+  2. Footer with Newsletter:
+  =========================
+  <div class="bsb-footer__newsletter-section">
+    <h3>Subscribe to our newsletter</h3>
+    <p>Get updates delivered to your inbox</p>
+    <form class="bsb-footer__newsletter-form">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit" class="btn btn--primary">Subscribe</button>
+    </form>
+  </div>
+  
+  3. Footer with Contact Info:
+  ===========================
+  <div class="bsb-footer__contact">
+    <h4>Contact Us</h4>
+    <address>
+      123 Main Street<br>
+      City, State 12345<br>
+      <a href="tel:+1234567890">(123) 456-7890</a><br>
+      <a href="mailto:info@example.com">info@example.com</a>
+    </address>
+  </div>
+-->

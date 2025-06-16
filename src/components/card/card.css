@@ -1,0 +1,335 @@
+/*
+  =============================================================================
+  BSB CARD COMPONENT STYLES
+  =============================================================================
+  
+  Flexible card component with multiple variants.
+  Cards are perfect for organizing content into digestible chunks.
+  
+  🎯 Features:
+  - Multiple layout options
+  - Hover effects
+  - Responsive design
+  - Image support
+  
+  📚 Customization:
+  - Override CSS variables for spacing/colors
+  - Add custom hover effects
+  - Create new variants
+  - Adjust border radius
+  =============================================================================
+*/
+
+/* 
+  Base Card Styles
+  ================
+*/
+.bsb-card {
+  --bsb-card-padding: var(--bsb-space-6);
+  --bsb-card-bg: var(--bsb-bg-primary);
+  --bsb-card-border: var(--bsb-border-color);
+  --bsb-card-shadow: var(--bsb-shadow-base);
+  --bsb-card-radius: var(--bsb-radius-lg);
+  --bsb-card-hover-shadow: var(--bsb-shadow-lg);
+  
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bsb-card-bg);
+  border: 1px solid var(--bsb-card-border);
+  border-radius: var(--bsb-card-radius);
+  box-shadow: var(--bsb-card-shadow);
+  overflow: hidden;
+  transition: all var(--bsb-transition-base);
+  height: 100%; /* Ensures equal height in grid layouts */
+}
+
+/* Hover effect */
+.bsb-card:hover {
+  box-shadow: var(--bsb-card-hover-shadow);
+  transform: translateY(-2px);
+}
+
+/* Remove hover effects on touch devices */
+@media (hover: none) {
+  .bsb-card:hover {
+    transform: none;
+  }
+}
+
+/* 
+  Card Image
+  ==========
+*/
+.bsb-card__image {
+  position: relative;
+  overflow: hidden;
+  /* Default aspect ratio */
+  aspect-ratio: 16 / 9;
+}
+
+.bsb-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--bsb-transition-base);
+}
+
+/* Image hover effect */
+.bsb-card:hover .bsb-card__image img {
+  transform: scale(1.05);
+}
+
+/* Circle image variant (for avatars) */
+.bsb-card__image--circle {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto var(--bsb-space-4);
+  border-radius: var(--bsb-radius-full);
+  aspect-ratio: 1;
+}
+
+/* 
+  Card Body
+  =========
+*/
+.bsb-card__body {
+  flex: 1; /* Takes remaining space */
+  padding: var(--bsb-card-padding);
+}
+
+/* Reduce padding when card has image */
+.bsb-card--with-image .bsb-card__body {
+  padding-top: var(--bsb-space-4);
+}
+
+/* 
+  Card Icon
+  =========
+*/
+.bsb-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--bsb-space-4);
+  color: var(--bsb-primary);
+  background-color: var(--bsb-bg-secondary);
+  border-radius: var(--bsb-radius-base);
+}
+
+/* Large icon variant */
+.bsb-card__icon--large {
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  border-radius: var(--bsb-radius-lg);
+}
+
+/* 
+  Card Title
+  ==========
+*/
+.bsb-card__title {
+  margin-top: 0;
+  margin-bottom: var(--bsb-space-3);
+  font-size: var(--bsb-text-xl);
+  font-weight: var(--bsb-font-semibold);
+  line-height: var(--bsb-leading-tight);
+  color: var(--bsb-text-primary);
+}
+
+/* Smaller title for compact cards */
+.bsb-card--small .bsb-card__title {
+  font-size: var(--bsb-text-lg);
+}
+
+/* 
+  Card Text
+  =========
+*/
+.bsb-card__text {
+  margin-bottom: 0;
+  font-size: var(--bsb-text-base);
+  line-height: var(--bsb-leading-relaxed);
+  color: var(--bsb-text-secondary);
+}
+
+/* 
+  Card Meta
+  =========
+  For dates, categories, etc.
+*/
+.bsb-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bsb-space-3);
+  margin-top: var(--bsb-space-4);
+  font-size: var(--bsb-text-sm);
+  color: var(--bsb-text-muted);
+}
+
+.bsb-card__category {
+  padding: var(--bsb-space-1) var(--bsb-space-2);
+  background-color: var(--bsb-bg-secondary);
+  border-radius: var(--bsb-radius-full);
+}
+
+/* 
+  Card Footer
+  ===========
+*/
+.bsb-card__footer {
+  padding: var(--bsb-space-4) var(--bsb-card-padding);
+  border-top: 1px solid var(--bsb-card-border);
+  background-color: var(--bsb-bg-secondary);
+}
+
+/* 
+  Card Link
+  =========
+*/
+.bsb-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bsb-space-2);
+  font-weight: var(--bsb-font-medium);
+  color: var(--bsb-primary);
+  text-decoration: none;
+  transition: all var(--bsb-transition-fast);
+}
+
+.bsb-card__link:hover {
+  gap: var(--bsb-space-3);
+}
+
+.bsb-card__arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform var(--bsb-transition-fast);
+}
+
+.bsb-card__link:hover .bsb-card__arrow {
+  transform: translateX(4px);
+}
+
+/* 
+  Card Variants
+  =============
+*/
+
+/* Horizontal card */
+.bsb-card--horizontal {
+  flex-direction: row;
+}
+
+.bsb-card--horizontal .bsb-card__image {
+  flex-shrink: 0;
+  width: 200px;
+  aspect-ratio: 1;
+}
+
+.bsb-card--horizontal .bsb-card__body {
+  padding: var(--bsb-space-4);
+}
+
+/* Responsive horizontal card */
+@media (max-width: 640px) {
+  .bsb-card--horizontal {
+    flex-direction: column;
+  }
+  
+  .bsb-card--horizontal .bsb-card__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Clickable card */
+.bsb-card--clickable {
+  cursor: pointer;
+}
+
+.bsb-card--clickable:hover {
+  box-shadow: var(--bsb-card-hover-shadow);
+  transform: translateY(-4px);
+}
+
+/* Feature card with centered content */
+.bsb-card--feature {
+  text-align: center;
+}
+
+.bsb-card--feature .bsb-card__icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Team member card */
+.bsb-card--team {
+  text-align: center;
+}
+
+.bsb-card__role {
+  margin-top: -0.5rem;
+  margin-bottom: var(--bsb-space-3);
+  font-size: var(--bsb-text-sm);
+  color: var(--bsb-primary);
+  font-weight: var(--bsb-font-medium);
+}
+
+.bsb-card__social {
+  display: flex;
+  justify-content: center;
+  gap: var(--bsb-space-3);
+  margin-top: var(--bsb-space-4);
+}
+
+.bsb-card__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--bsb-text-muted);
+  transition: color var(--bsb-transition-fast);
+}
+
+.bsb-card__social a:hover {
+  color: var(--bsb-primary);
+}
+
+/* 
+  Card Grid Layouts
+  =================
+  Use with grid utilities
+*/
+.card-grid {
+  display: grid;
+  gap: var(--bsb-space-6);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Two column grid */
+.card-grid--2 {
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+/* Three column grid */
+.card-grid--3 {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Four column grid */
+.card-grid--4 {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* 
+  Dark Mode Support
+  =================
+*/
+[data-bsb-theme="dark"] .bsb-card {
+  --bsb-card-bg: var(--bsb-gray-800);
+  --bsb-card-border: var(--bsb-gray-700);
+}

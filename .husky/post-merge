@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# =============================================================================
+# POST-MERGE HOOK - Rebuild After Pull
+# =============================================================================
+# 
+# This hook runs after a successful merge (including git pull) to ensure:
+# 1. Dependencies are up-to-date
+# 2. The static build reflects the latest changes
+# 
+# 🎯 Purpose:
+# - Keeps your local environment synchronized
+# - Prevents outdated builds after pulling changes
+# - Ensures consistency across team members
+# =============================================================================
+
+echo "🔄 Post-merge: Updating your environment..."
+
+# Check if package.json was modified
+if git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep -q "package.json"; then
+    echo "📦 Package.json changed, installing dependencies..."
+    npm install || {
+        echo "⚠️  Warning: npm install failed"
+        echo "   Please run 'npm install' manually"
+    }
+fi
+
+# Check if any source files were modified
+if git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep -q "^src/"; then
+    echo "🔨 Source files changed, rebuilding..."
+    npm run build || {
+        echo "⚠️  Warning: Build failed"
+        echo "   Please run 'npm run build' manually"
+    }
+else
+    echo "ℹ️  No source files changed, skipping build"
+fi
+
+echo "✅ Post-merge complete!"

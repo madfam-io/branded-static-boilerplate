@@ -1,0 +1,363 @@
+/*
+  =============================================================================
+  BSB HERO COMPONENT STYLES
+  =============================================================================
+  
+  Flexible hero section with multiple layout options.
+  Optimized for performance and visual impact.
+  
+  🎯 Features:
+  - Multiple layout variants
+  - Responsive typography
+  - Background image support
+  - Smooth animations
+  
+  📚 Customization:
+  - Modify padding with CSS variables
+  - Change background colors/gradients
+  - Adjust typography scale
+  - Add custom patterns
+  =============================================================================
+*/
+
+/* 
+  Base Hero Styles
+  ================
+*/
+.bsb-hero {
+  --bsb-hero-padding-y: var(--bsb-space-20);
+  --bsb-hero-padding-y-mobile: var(--bsb-space-16);
+  --bsb-hero-bg: var(--bsb-bg-primary);
+  --bsb-hero-text-color: var(--bsb-text-primary);
+  
+  position: relative;
+  padding-top: var(--bsb-hero-padding-y-mobile);
+  padding-bottom: var(--bsb-hero-padding-y-mobile);
+  background-color: var(--bsb-hero-bg);
+  color: var(--bsb-hero-text-color);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .bsb-hero {
+    padding-top: var(--bsb-hero-padding-y);
+    padding-bottom: var(--bsb-hero-padding-y);
+  }
+}
+
+/* 
+  Hero Content
+  ============
+*/
+.bsb-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Left-aligned variant */
+.bsb-hero--left .bsb-hero__content {
+  margin: 0;
+  text-align: left;
+}
+
+/* 
+  Hero Title
+  ==========
+*/
+.bsb-hero__title {
+  margin-bottom: var(--bsb-space-6);
+  font-size: var(--bsb-text-3xl);
+  font-weight: var(--bsb-font-bold);
+  line-height: var(--bsb-leading-tight);
+  letter-spacing: -0.02em;
+  
+  /* Responsive font size */
+  @media (min-width: 640px) {
+    font-size: var(--bsb-text-4xl);
+  }
+  
+  @media (min-width: 1024px) {
+    font-size: var(--bsb-text-5xl);
+  }
+}
+
+/* Subtitle styling */
+.bsb-hero__subtitle {
+  display: block;
+  margin-top: var(--bsb-space-2);
+  font-size: 0.75em;
+  font-weight: var(--bsb-font-normal);
+  color: var(--bsb-text-secondary);
+  letter-spacing: normal;
+}
+
+/* 
+  Hero Lead Text
+  ==============
+*/
+.bsb-hero__lead {
+  margin-bottom: var(--bsb-space-8);
+  font-size: var(--bsb-text-lg);
+  line-height: var(--bsb-leading-relaxed);
+  color: var(--bsb-text-secondary);
+  
+  @media (min-width: 768px) {
+    font-size: var(--bsb-text-xl);
+  }
+}
+
+/* 
+  Hero Actions
+  ============
+*/
+.bsb-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bsb-space-4);
+  justify-content: center;
+  margin-bottom: var(--bsb-space-8);
+}
+
+.bsb-hero--left .bsb-hero__actions {
+  justify-content: flex-start;
+}
+
+/* Stack buttons on mobile */
+@media (max-width: 639px) {
+  .bsb-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .bsb-hero__actions .btn {
+    width: 100%;
+  }
+}
+
+/* 
+  Social Proof Section
+  ====================
+*/
+.bsb-hero__social-proof {
+  margin-top: var(--bsb-space-8);
+}
+
+.bsb-hero__trust-text {
+  font-size: var(--bsb-text-sm);
+  color: var(--bsb-text-muted);
+  margin: 0;
+}
+
+.bsb-hero__logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bsb-space-6);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--bsb-space-4);
+  opacity: 0.6;
+  filter: grayscale(100%);
+}
+
+.bsb-hero__logos img {
+  height: 2rem;
+  width: auto;
+}
+
+/* 
+  Background Pattern
+  ==================
+  Decorative element
+*/
+.bsb-hero__pattern {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  bottom: 0;
+  width: 50%;
+  background-image: 
+    radial-gradient(
+      circle at 1px 1px, 
+      var(--bsb-primary) 1px, 
+      transparent 1px
+    );
+  background-size: 40px 40px;
+  opacity: 0.03;
+  z-index: 1;
+}
+
+/* 
+  Hero with Background Image
+  ==========================
+*/
+.bsb-hero--bg-image {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  --bsb-hero-text-color: white;
+}
+
+.bsb-hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: 1;
+}
+
+.bsb-hero--bg-image .bsb-hero__subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.bsb-hero--bg-image .bsb-hero__lead {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 
+  Split Hero Layout
+  =================
+*/
+.bsb-hero--split .container {
+  max-width: var(--bsb-container-xl);
+}
+
+.bsb-hero__grid {
+  display: grid;
+  gap: var(--bsb-space-8);
+  align-items: center;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--bsb-space-12);
+  }
+}
+
+.bsb-hero--split .bsb-hero__content {
+  max-width: none;
+  text-align: left;
+}
+
+.bsb-hero__image {
+  position: relative;
+  
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--bsb-radius-lg);
+    box-shadow: var(--bsb-shadow-xl);
+  }
+}
+
+/* 
+  Centered Hero
+  =============
+*/
+.bsb-hero--centered {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+}
+
+.bsb-hero--centered .bsb-hero__content {
+  width: 100%;
+}
+
+/* 
+  Video Background
+  ================
+*/
+.bsb-hero--video {
+  position: relative;
+  color: white;
+  --bsb-hero-text-color: white;
+}
+
+.bsb-hero__video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+  object-fit: cover;
+}
+
+/* 
+  Gradient Backgrounds
+  ====================
+*/
+.bsb-hero--gradient-1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  --bsb-hero-text-color: white;
+}
+
+.bsb-hero--gradient-2 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  --bsb-hero-text-color: white;
+}
+
+.bsb-hero--gradient-3 {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  --bsb-hero-text-color: white;
+}
+
+/* 
+  Animation Classes
+  =================
+  Add these for entrance animations
+*/
+.bsb-hero__content > * {
+  animation: fadeInUp 0.8s ease-out;
+  animation-fill-mode: both;
+}
+
+.bsb-hero__title {
+  animation-delay: 0.1s;
+}
+
+.bsb-hero__lead {
+  animation-delay: 0.2s;
+}
+
+.bsb-hero__actions {
+  animation-delay: 0.3s;
+}
+
+.bsb-hero__social-proof {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .bsb-hero__content > * {
+    animation: none;
+  }
+}

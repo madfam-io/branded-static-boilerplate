@@ -1,0 +1,313 @@
+/*
+  =============================================================================
+  BSB HEADER COMPONENT STYLES
+  =============================================================================
+  
+  Responsive header with mobile menu support.
+  Uses CSS custom properties for easy customization.
+  
+  🎯 Features:
+  - Sticky header option
+  - Mobile-first responsive design
+  - Smooth transitions
+  - Accessible focus states
+  
+  📚 Customization:
+  - Change --bsb-header-height for different header sizes
+  - Modify --bsb-header-bg for background color
+  - Adjust breakpoint in media query for mobile menu
+  =============================================================================
+*/
+
+/* 
+  Header Container
+  ================
+*/
+.bsb-header {
+  --bsb-header-height: 4rem;
+  --bsb-header-bg: var(--bsb-bg-primary);
+  --bsb-header-shadow: var(--bsb-shadow-sm);
+  --bsb-header-border: var(--bsb-border-color);
+  
+  position: relative;
+  background-color: var(--bsb-header-bg);
+  border-bottom: 1px solid var(--bsb-header-border);
+  box-shadow: var(--bsb-header-shadow);
+  z-index: var(--bsb-z-40);
+}
+
+/* Optional: Make header sticky */
+.bsb-header--sticky {
+  position: sticky;
+  top: 0;
+}
+
+/* 
+  Header Inner Container
+  ======================
+  Flexbox layout for logo and navigation
+*/
+.bsb-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--bsb-header-height);
+  padding: var(--bsb-space-2) 0;
+}
+
+/* 
+  Brand/Logo Area
+  ===============
+*/
+.bsb-header__brand {
+  flex-shrink: 0;
+  margin-right: var(--bsb-space-8);
+}
+
+.bsb-header__logo {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--bsb-text-xl);
+  font-weight: var(--bsb-font-bold);
+  color: var(--bsb-text-primary);
+  text-decoration: none;
+  transition: color var(--bsb-transition-fast);
+}
+
+.bsb-header__logo:hover {
+  color: var(--bsb-primary);
+}
+
+.bsb-header__logo:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: 2px;
+  border-radius: var(--bsb-radius-sm);
+}
+
+/* Logo image styles */
+.bsb-header__logo img {
+  height: 2.5rem;
+  width: auto;
+}
+
+/* 
+  Navigation
+  ==========
+*/
+.bsb-header__nav {
+  display: none; /* Hidden on mobile by default */
+  flex-grow: 1;
+}
+
+/* Show navigation on larger screens */
+@media (min-width: 768px) {
+  .bsb-header__nav {
+    display: block;
+  }
+}
+
+/* 
+  Menu List
+  =========
+*/
+.bsb-header__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 
+  Menu Links
+  ==========
+*/
+.bsb-header__link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--bsb-space-2) var(--bsb-space-3);
+  font-size: var(--bsb-text-base);
+  font-weight: var(--bsb-font-medium);
+  color: var(--bsb-text-secondary);
+  text-decoration: none;
+  border-radius: var(--bsb-radius-base);
+  transition: all var(--bsb-transition-fast);
+}
+
+.bsb-header__link:hover {
+  color: var(--bsb-text-primary);
+  background-color: var(--bsb-bg-secondary);
+}
+
+.bsb-header__link:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: -2px;
+}
+
+/* Active/current page state */
+.bsb-header__link[aria-current="page"],
+.bsb-header__link--active {
+  color: var(--bsb-primary);
+  background-color: var(--bsb-bg-secondary);
+}
+
+/* 
+  Mobile Menu Toggle
+  ==================
+  Hamburger menu button for mobile
+*/
+.bsb-header__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--bsb-transition-fast);
+}
+
+/* Hide toggle on larger screens */
+@media (min-width: 768px) {
+  .bsb-header__toggle {
+    display: none;
+  }
+}
+
+.bsb-header__toggle:hover {
+  background-color: var(--bsb-bg-secondary);
+  border-radius: var(--bsb-radius-base);
+}
+
+.bsb-header__toggle:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: 2px;
+  border-radius: var(--bsb-radius-base);
+}
+
+/* 
+  Hamburger Icon
+  ==============
+  Three animated lines
+*/
+.bsb-header__toggle-icon {
+  position: relative;
+  display: block;
+  width: 1.5rem;
+  height: 1.125rem;
+}
+
+.bsb-header__toggle-icon span {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--bsb-text-primary);
+  transition: all var(--bsb-transition-fast);
+}
+
+.bsb-header__toggle-icon span:nth-child(1) {
+  top: 0;
+}
+
+.bsb-header__toggle-icon span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bsb-header__toggle-icon span:nth-child(3) {
+  bottom: 0;
+}
+
+/* Animate to X when menu is open */
+.bsb-header__toggle[aria-expanded="true"] .bsb-header__toggle-icon span:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.bsb-header__toggle[aria-expanded="true"] .bsb-header__toggle-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.bsb-header__toggle[aria-expanded="true"] .bsb-header__toggle-icon span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+/* 
+  Mobile Menu Styles
+  ==================
+  Full-screen overlay on mobile
+*/
+@media (max-width: 767px) {
+  .bsb-header__nav {
+    position: fixed;
+    top: var(--bsb-header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-start;
+    padding: var(--bsb-space-8) var(--bsb-space-4);
+    background-color: var(--bsb-bg-primary);
+    transform: translateX(-100%);
+    transition: transform var(--bsb-transition-base);
+    overflow-y: auto;
+  }
+  
+  /* Show mobile menu when active */
+  .bsb-header__nav--active {
+    transform: translateX(0);
+  }
+  
+  /* Mobile menu list */
+  .bsb-header__menu {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: var(--bsb-space-1);
+  }
+  
+  /* Mobile menu links */
+  .bsb-header__link {
+    display: block;
+    padding: var(--bsb-space-3) var(--bsb-space-4);
+    font-size: var(--bsb-text-lg);
+  }
+}
+
+/* 
+  Dropdown Menu Support
+  ====================
+  For future enhancement
+*/
+.bsb-header__dropdown {
+  position: relative;
+}
+
+.bsb-header__dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 12rem;
+  padding: var(--bsb-space-2);
+  background-color: var(--bsb-bg-primary);
+  border: 1px solid var(--bsb-border-color);
+  border-radius: var(--bsb-radius-base);
+  box-shadow: var(--bsb-shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all var(--bsb-transition-fast);
+}
+
+.bsb-header__dropdown:hover .bsb-header__dropdown-menu,
+.bsb-header__dropdown:focus-within .bsb-header__dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

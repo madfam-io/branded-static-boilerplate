@@ -1,0 +1,56 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# =============================================================================
+# PRE-COMMIT HOOK - Ensure Build Quality
+# =============================================================================
+# 
+# This hook runs before every commit to ensure:
+# 1. Code passes linting
+# 2. A fresh build is generated
+# 3. Build artifacts are included in the commit
+# 
+# 🎯 Purpose:
+# - Prevents broken builds from being deployed
+# - Ensures dist/ folder is always up-to-date
+# - Maintains code quality standards
+# 
+# 💡 To skip this hook (emergency only):
+# git commit --no-verify
+# =============================================================================
+
+echo "🔍 Running pre-commit checks..."
+
+# Run linters
+echo "📝 Checking code quality..."
+npm run lint || {
+    echo "❌ Linting failed. Please fix errors before committing."
+    echo "💡 Run 'npm run lint' to see detailed errors."
+    exit 1
+}
+
+# Run build
+echo "🔨 Building static files..."
+npm run build || {
+    echo "❌ Build failed. Please fix errors before committing."
+    exit 1
+}
+
+# Add dist folder to git
+echo "📦 Adding build artifacts to commit..."
+git add dist/ || {
+    echo "⚠️  Warning: Could not add dist/ folder to commit."
+    echo "   Make sure the build succeeded and dist/ exists."
+}
+
+# Check if dist folder exists and has content
+if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+    echo "❌ Build directory is empty or missing!"
+    echo "   The dist/ folder must contain built files."
+    exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"
+echo "   - Code quality verified"
+echo "   - Static build generated"
+echo "   - Build artifacts staged"

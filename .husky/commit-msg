@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# =============================================================================
+# COMMIT-MSG HOOK - Enforce Commit Message Standards
+# =============================================================================
+# 
+# This hook ensures commit messages follow conventional format:
+# type(scope): description
+# 
+# Types: feat, fix, docs, style, refactor, test, chore
+# 
+# Examples:
+# - feat: add contact form component
+# - fix: correct mobile menu overflow
+# - docs: update installation guide
+# 
+# 🎯 Benefits:
+# - Automatic changelog generation
+# - Clear commit history
+# - Better collaboration
+# =============================================================================
+
+commit_regex='^(feat|fix|docs|style|refactor|test|chore|build|ci|perf)(\(.+\))?: .{1,100}$'
+
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "❌ Invalid commit message format!"
+    echo ""
+    echo "📝 Your commit message must follow the Conventional Commits format:"
+    echo "   type(scope): description"
+    echo ""
+    echo "📚 Valid types:"
+    echo "   feat     - New feature"
+    echo "   fix      - Bug fix"
+    echo "   docs     - Documentation changes"
+    echo "   style    - Code style changes (formatting, etc)"
+    echo "   refactor - Code refactoring"
+    echo "   test     - Test changes"
+    echo "   chore    - Build process or auxiliary tool changes"
+    echo "   build    - Build system changes"
+    echo "   ci       - CI configuration changes"
+    echo "   perf     - Performance improvements"
+    echo ""
+    echo "✅ Examples:"
+    echo "   feat: add responsive navigation menu"
+    echo "   fix(header): correct logo alignment on mobile"
+    echo "   docs: update README with new build instructions"
+    echo ""
+    echo "Your message: $(cat $1)"
+    exit 1
+fi

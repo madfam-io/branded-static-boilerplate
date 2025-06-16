@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output
+# Note: dist/ is NOT ignored for GitHub Pages deployment
+# The pre-commit hook ensures it's always up-to-date
+build/
+*.local
+
+# Development
+.vite/
+.cache/
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Deployment
+.gh-pages/
+.netlify/
+.vercel/
+
+# OS
+Thumbs.db
+Desktop.ini

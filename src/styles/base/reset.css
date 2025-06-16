@@ -1,0 +1,271 @@
+/*
+  =============================================================================
+  BSB CSS RESET - A Modern, Accessible Foundation
+  =============================================================================
+  
+  This reset creates a consistent baseline across browsers while preserving
+  accessibility features and useful defaults.
+  
+  🎯 Goals:
+  1. Remove browser inconsistencies
+  2. Preserve accessibility features
+  3. Set sensible defaults
+  4. Prepare for modern CSS features
+  
+  📚 Learn More:
+  - Why Reset CSS?: /docs/tutorials/css-reset.md
+  - Modern CSS Reset: https://piccalil.li/blog/a-modern-css-reset/
+  
+  💡 This is NOT the old "nuke everything" approach!
+  We keep useful defaults and enhance them.
+  =============================================================================
+*/
+
+/* 
+  Box Sizing
+  ==========
+  Using border-box makes width/height calculations intuitive.
+  The * selector ensures all elements inherit this behavior.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 
+  Remove Default Margins
+  ======================
+  Browsers add inconsistent margins. We'll add them back 
+  intentionally in typography.css
+*/
+* {
+  margin: 0;
+}
+
+/* 
+  Document Setup
+  ==============
+  Set core defaults for the document
+*/
+html {
+  /* Prevent font size adjustments after orientation changes */
+  -webkit-text-size-adjust: 100%;
+  
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Enable smooth scrolling for anchor links */
+  scroll-behavior: smooth;
+}
+
+/* 
+  Body Defaults
+  =============
+  Core styles that cascade to all elements
+*/
+body {
+  /* Use design system fonts */
+  font-family: var(--bsb-font-base);
+  font-size: var(--bsb-text-base);
+  line-height: var(--bsb-leading-normal);
+  
+  /* Use design system colors */
+  color: var(--bsb-text-primary);
+  background-color: var(--bsb-bg-primary);
+  
+  /* Ensure body fills viewport */
+  min-height: 100vh;
+  
+  /* Improve text rendering */
+  text-rendering: optimizeSpeed;
+}
+
+/* 
+  Media Elements
+  ==============
+  Make images and videos responsive by default
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 
+  Form Elements
+  =============
+  Inherit fonts for consistency
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 
+  Text Overflow
+  =============
+  Prevent text from breaking layout
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 
+  Links
+  =====
+  Remove default underlines, we'll style them intentionally
+*/
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 
+  Lists
+  =====
+  Remove default styling, add back as needed
+*/
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* 
+  Tables
+  ======
+  Collapse borders for cleaner tables
+*/
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 
+  Abbreviations
+  =============
+  Remove underline, add help cursor
+*/
+abbr[title] {
+  text-decoration: none;
+  cursor: help;
+}
+
+/* 
+  Interactive Elements
+  ====================
+  Ensure interactive elements are clearly interactive
+*/
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Remove default button styling */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* 
+  Disabled Elements
+  =================
+  Make disabled state obvious
+*/
+:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 
+  Focus Styles
+  ============
+  Remove default outline, we'll add better ones in components
+*/
+:focus {
+  outline: none;
+}
+
+/* 
+  Selection
+  =========
+  Style text selection with brand colors
+*/
+::selection {
+  background-color: var(--bsb-primary);
+  color: var(--bsb-text-inverse);
+}
+
+/* 
+  Prefers Reduced Motion
+  ======================
+  Respect user's motion preferences for accessibility
+*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 
+  Screen Reader Only
+  ==================
+  Utility class for hiding content visually but keeping it
+  available to screen readers. Used for skip links, etc.
+*/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Make sr-only elements visible when focused (for skip links) */
+.sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: var(--bsb-space-2) var(--bsb-space-4);
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background-color: var(--bsb-bg-primary);
+  border: 2px solid var(--bsb-primary);
+  border-radius: var(--bsb-radius-base);
+  box-shadow: var(--bsb-shadow-lg);
+  z-index: var(--bsb-z-tooltip);
+}

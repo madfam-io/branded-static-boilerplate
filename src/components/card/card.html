@@ -1,0 +1,168 @@
+<!--
+  =============================================================================
+  BSB CARD COMPONENT - Versatile Content Container
+  =============================================================================
+  
+  Cards are flexible containers for grouping related content.
+  Perfect for features, services, team members, blog posts, etc.
+  
+  🎯 Usage:
+  1. Copy this HTML structure
+  2. Include card.css in your page
+  3. Customize content and styling
+  4. Use in grids for layouts
+  
+  📚 Learn More:
+  - Card Design Patterns: /docs/tutorials/card-patterns.md
+  - Grid Layouts: /docs/tutorials/grid-layouts.md
+  - Component Composition: /docs/tutorials/component-composition.md
+  
+  💡 Variants:
+  - Basic card (default)
+  - Card with image
+  - Horizontal card
+  - Interactive card (hover effects)
+  =============================================================================
+-->
+
+<!-- Basic Card -->
+<article class="bsb-card" data-bsb-component="card">
+  <!-- 
+    Optional: Card Image
+    ====================
+    Place at top for vertical cards
+  -->
+  <!-- <div class="bsb-card__image">
+    <img src="/assets/images/placeholder.jpg" 
+         alt="Descriptive alt text" 
+         loading="lazy"
+         width="400" 
+         height="300">
+  </div> -->
+  
+  <!-- 
+    Card Body
+    =========
+    Main content area
+  -->
+  <div class="bsb-card__body">
+    <!-- 
+      Optional: Icon
+      ==============
+      For feature cards, use icons or emojis
+    -->
+    <div class="bsb-card__icon" aria-hidden="true">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+        <!-- Replace with your icon -->
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    
+    <!-- 
+      Card Title
+      ==========
+      Use appropriate heading level (h2, h3, h4)
+    -->
+    <h3 class="bsb-card__title">Card Title</h3>
+    
+    <!-- 
+      Card Text
+      =========
+      Main content/description
+    -->
+    <p class="bsb-card__text">
+      Brief description or content goes here. Keep it concise and focused 
+      on the key information you want to convey.
+    </p>
+    
+    <!-- 
+      Optional: Card Meta
+      ===================
+      For dates, authors, categories, etc.
+    -->
+    <!-- <div class="bsb-card__meta">
+      <time datetime="2024-01-15">Jan 15, 2024</time>
+      <span class="bsb-card__category">Category</span>
+    </div> -->
+  </div>
+  
+  <!-- 
+    Optional: Card Footer
+    =====================
+    For actions, links, or additional info
+  -->
+  <div class="bsb-card__footer">
+    <a href="#" class="bsb-card__link">
+      Learn More 
+      <svg class="bsb-card__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+</article>
+
+<!-- 
+  CARD VARIANTS
+  =============
+  
+  1. Card with Image:
+  ==================
+  <article class="bsb-card bsb-card--with-image">
+    <div class="bsb-card__image">
+      <img src="/assets/images/card-image.jpg" alt="">
+    </div>
+    <div class="bsb-card__body">
+      <h3 class="bsb-card__title">Card with Image</h3>
+      <p class="bsb-card__text">Content goes here.</p>
+    </div>
+  </article>
+  
+  2. Horizontal Card:
+  ==================
+  <article class="bsb-card bsb-card--horizontal">
+    <div class="bsb-card__image">
+      <img src="/assets/images/card-thumb.jpg" alt="">
+    </div>
+    <div class="bsb-card__body">
+      <h3 class="bsb-card__title">Horizontal Layout</h3>
+      <p class="bsb-card__text">Great for list views.</p>
+    </div>
+  </article>
+  
+  3. Clickable Card:
+  =================
+  <article class="bsb-card bsb-card--clickable" onclick="location.href='#'">
+    <div class="bsb-card__body">
+      <h3 class="bsb-card__title">Clickable Card</h3>
+      <p class="bsb-card__text">Entire card is clickable.</p>
+    </div>
+  </article>
+  
+  4. Feature Card (with large icon):
+  ==================================
+  <article class="bsb-card bsb-card--feature">
+    <div class="bsb-card__icon bsb-card__icon--large">
+      🚀
+    </div>
+    <div class="bsb-card__body">
+      <h3 class="bsb-card__title">Feature Title</h3>
+      <p class="bsb-card__text">Highlight key features.</p>
+    </div>
+  </article>
+  
+  5. Team Member Card:
+  ===================
+  <article class="bsb-card bsb-card--team">
+    <div class="bsb-card__image bsb-card__image--circle">
+      <img src="/assets/images/team-member.jpg" alt="John Doe">
+    </div>
+    <div class="bsb-card__body">
+      <h3 class="bsb-card__title">John Doe</h3>
+      <p class="bsb-card__role">Senior Developer</p>
+      <p class="bsb-card__text">Brief bio goes here.</p>
+      <div class="bsb-card__social">
+        <!-- Social links -->
+      </div>
+    </div>
+  </article>
+-->
