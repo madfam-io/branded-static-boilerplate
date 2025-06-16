@@ -89,8 +89,8 @@
     The small icon that appears in browser tabs. Multiple sizes for different devices.
     Generate favicons: https://realfavicongenerator.net/
   -->
-  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
-  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="icon" type="image/svg+xml" href="./assets/images/favicon.svg">
+  <link rel="icon" type="image/png" href="./assets/images/favicon.png">
   
   <!-- 
     CSS Files - The Order Matters!
@@ -104,18 +104,18 @@
     
     💡 Pro tip: In production, these will be combined and minified
   -->
-  <link rel="stylesheet" href="/styles/base/variables.css">
-  <link rel="stylesheet" href="/styles/base/reset.css">
-  <link rel="stylesheet" href="/styles/base/typography.css">
-  <link rel="stylesheet" href="/styles/utilities/spacing.css">
-  <link rel="stylesheet" href="/styles/utilities/layout.css">
-  <link rel="stylesheet" href="/styles/themes/default.css">
+  <link rel="stylesheet" href="./styles/base/variables.css">
+  <link rel="stylesheet" href="./styles/base/reset.css">
+  <link rel="stylesheet" href="./styles/base/typography.css">
+  <link rel="stylesheet" href="./styles/utilities/spacing.css">
+  <link rel="stylesheet" href="./styles/utilities/layout.css">
+  <link rel="stylesheet" href="./styles/themes/default.css">
   
   <!-- Component Styles -->
-  <link rel="stylesheet" href="/components/header/header.css">
-  <link rel="stylesheet" href="/components/hero/hero.css">
-  <link rel="stylesheet" href="/components/card/card.css">
-  <link rel="stylesheet" href="/components/footer/footer.css">
+  <link rel="stylesheet" href="./components/header/header.css">
+  <link rel="stylesheet" href="./components/hero/hero.css">
+  <link rel="stylesheet" href="./components/card/card.css">
+  <link rel="stylesheet" href="./components/footer/footer.css">
   
   <!-- 
     Preconnect to External Domains
@@ -136,8 +136,8 @@
     
     The 'defer' attribute ensures scripts execute after DOM is ready.
   -->
-  <script type="module" src="/scripts/core/bsb-helper.js" defer></script>
-  <script type="module" src="/scripts/core/main.js" defer></script>
+  <script type="module" src="./scripts/core/bsb-helper.js" defer></script>
+  <script type="module" src="./scripts/core/main.js" defer></script>
 </head>
 
 <!--
@@ -175,7 +175,7 @@
         Your logo or site name. The <strong> tag adds semantic emphasis.
       -->
       <div class="bsb-header__brand">
-        <a href="/" class="bsb-header__logo">
+        <a href="/branded-static-boilerplate/" class="bsb-header__logo">
           <strong>Your Brand</strong>
         </a>
       </div>
@@ -188,10 +188,10 @@
       -->
       <nav class="bsb-header__nav" aria-label="Main navigation">
         <ul class="bsb-header__menu">
-          <li><a href="/" class="bsb-header__link" aria-current="page">Home</a></li>
-          <li><a href="/pages/about.html" class="bsb-header__link">About</a></li>
-          <li><a href="/pages/services.html" class="bsb-header__link">Services</a></li>
-          <li><a href="/pages/contact.html" class="bsb-header__link">Contact</a></li>
+          <li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Home</a></li>
+          <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li>
+          <li><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link">Services</a></li>
+          <li><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link">Contact</a></li>
         </ul>
       </nav>
       
@@ -261,7 +261,7 @@
             <a href="#getting-started" class="btn btn--primary btn--large">
               Get Started
             </a>
-            <a href="/docs/tutorials/index.html" class="btn btn--secondary btn--large">
+            <a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html" class="btn btn--secondary btn--large">
               Read the Docs
             </a>
           </div>
@@ -362,7 +362,7 @@ cd branded-static-boilerplate</code></pre>
         </div>
         
         <p class="section__cta">
-          <a href="/docs/tutorials/first-page.html" class="btn btn--primary">
+          <a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/first-page.html" class="btn btn--primary">
             Create Your First Page →
           </a>
         </p>
@@ -391,9 +391,9 @@ cd branded-static-boilerplate</code></pre>
           <div class="bsb-footer__section">
             <h4 class="bsb-footer__heading">Learn</h4>
             <ul class="bsb-footer__links">
-              <li><a href="/docs/tutorials/index.html">Tutorials</a></li>
-              <li><a href="/docs/api/index.html">Component API</a></li>
-              <li><a href="/docs/examples/index.html">Examples</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html">Tutorials</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/index.html">Component API</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/index.html">Examples</a></li>
             </ul>
           </div>
           
@@ -402,16 +402,16 @@ cd branded-static-boilerplate</code></pre>
             <ul class="bsb-footer__links">
               <li><a href="https://github.com/yourusername/branded-static-boilerplate">GitHub</a></li>
               <li><a href="https://github.com/yourusername/branded-static-boilerplate/discussions">Discussions</a></li>
-              <li><a href="/CONTRIBUTING.html">Contributing</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md">Contributing</a></li>
             </ul>
           </div>
           
           <div class="bsb-footer__section">
             <h4 class="bsb-footer__heading">Project</h4>
             <ul class="bsb-footer__links">
-              <li><a href="/pages/about.html">About BSB</a></li>
-              <li><a href="/LICENSE.html">License</a></li>
-              <li><a href="/pages/privacy.html">Privacy</a></li>
+              <li><a href="/branded-static-boilerplate/pages/about.html">About BSB</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE">License</a></li>
+              <li><a href="/branded-static-boilerplate/pages/privacy.html">Privacy</a></li>
             </ul>
           </div>
         </nav>
@@ -448,8 +448,8 @@ cd branded-static-boilerplate</code></pre>
       <p>You're viewing: <code>index.html</code></p>
       <p>Components on this page: <span class="component-count">0</span></p>
       <ul>
-        <li><a href="/src/README.md">Source Docs</a></li>
-        <li><a href="/docs/tutorials/index.html">Tutorials</a></li>
+        <li><a href="./src/README.md">Source Docs</a></li>
+        <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/index.html">Tutorials</a></li>
         <li><button onclick="localStorage.removeItem('bsb-dev-mode'); location.reload();">Disable Dev Mode</button></li>
       </ul>
     </div>

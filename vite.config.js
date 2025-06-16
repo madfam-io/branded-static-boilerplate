@@ -28,7 +28,7 @@ const getHtmlEntries = () => {
 
 export default defineConfig({
   root: 'src',
-  base: './',
+  base: '/branded-static-boilerplate/',
   
   build: {
     outDir: '../dist',
