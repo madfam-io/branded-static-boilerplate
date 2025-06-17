@@ -645,6 +645,40 @@ class BSBHelper {
 
     document.head.appendChild(style);
   }
+
+  /**
+   * Disable learning mode and clean up features
+   */
+  disable() {
+    // Hide development panel
+    const devPanel = document.querySelector('.bsb-dev-panel');
+    if (devPanel) {
+      devPanel.style.display = 'none';
+    }
+
+    // Hide component helpers
+    const helpers = document.querySelectorAll('.bsb-helper-btn');
+    helpers.forEach(helper => {
+      helper.style.display = 'none';
+    });
+
+    // Hide grid overlay
+    const gridOverlay = document.querySelector('.bsb-grid-overlay');
+    if (gridOverlay) {
+      gridOverlay.style.display = 'none';
+    }
+
+    // Remove development mode styles
+    const devStyles = document.querySelector('#bsb-dev-styles');
+    if (devStyles) {
+      devStyles.remove();
+    }
+
+    // Remove event listeners
+    document.removeEventListener('keydown', this.handleKeydown);
+
+    console.log('🎓 BSB Learning mode disabled');
+  }
 }
 
 // Initialize BSB Helper
@@ -678,6 +712,42 @@ window.enableLearningMode = function() {
     box-shadow: var(--bsb-shadow-lg);
   `;
   notification.textContent = '🎓 Learning mode enabled! Refresh to see interactive tooltips.';
+
+  document.body.appendChild(notification);
+
+  // Auto-remove notification after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+};
+
+/**
+ * Disable learning mode and clean up features
+ * @global
+ */
+window.disableLearningMode = function() {
+  localStorage.setItem('bsb-dev-mode', 'false');
+
+  // Hide development features if BSBHelper is active
+  if (window.BSBHelper && window.BSBHelper.disable) {
+    window.BSBHelper.disable();
+  }
+
+  // Show a notification
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bsb-gray-600);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--bsb-radius-base);
+    z-index: 1000;
+    font-size: var(--bsb-text-sm);
+    box-shadow: var(--bsb-shadow-lg);
+  `;
+  notification.textContent = '📖 Learning mode disabled. Refresh to return to normal mode.';
 
   document.body.appendChild(notification);
 

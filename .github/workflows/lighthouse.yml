@@ -1,0 +1,151 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+      
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.13.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-results
+          path: .lighthouseci
+          retention-days: 30
+      
+      - name: Generate Lighthouse report
+        if: always()
+        run: |
+          mkdir -p lighthouse-reports
+          cp .lighthouseci/*.html lighthouse-reports/ || true
+          cp .lighthouseci/*.json lighthouse-reports/ || true
+      
+      - name: Comment PR with results
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Read Lighthouse results
+            const resultsDir = '.lighthouseci';
+            const files = fs.readdirSync(resultsDir);
+            const jsonFile = files.find(f => f.endsWith('.json') && f.includes('lhr'));
+            
+            if (jsonFile) {
+              const results = JSON.parse(fs.readFileSync(path.join(resultsDir, jsonFile), 'utf8'));
+              const scores = results.categories;
+              
+              // Format scores with emojis
+              const getScoreEmoji = (score) => {
+                if (score >= 0.9) return '🟢';
+                if (score >= 0.5) return '🟡';
+                return '🔴';
+              };
+              
+              const formatScore = (score) => Math.round(score * 100);
+              
+              // Create comment
+              const comment = `## 🚀 Lighthouse Results
+              
+              | Category | Score | Status |
+              |----------|-------|--------|
+              | Performance | ${formatScore(scores.performance.score)} | ${getScoreEmoji(scores.performance.score)} |
+              | Accessibility | ${formatScore(scores.accessibility.score)} | ${getScoreEmoji(scores.accessibility.score)} |
+              | Best Practices | ${formatScore(scores['best-practices'].score)} | ${getScoreEmoji(scores['best-practices'].score)} |
+              | SEO | ${formatScore(scores.seo.score)} | ${getScoreEmoji(scores.seo.score)} |
+              | PWA | ${formatScore(scores.pwa?.score || 0)} | ${getScoreEmoji(scores.pwa?.score || 0)} |
+              
+              ### 📊 Performance Metrics
+              - First Contentful Paint: ${results.audits['first-contentful-paint'].displayValue}
+              - Largest Contentful Paint: ${results.audits['largest-contentful-paint'].displayValue}
+              - Total Blocking Time: ${results.audits['total-blocking-time'].displayValue}
+              - Cumulative Layout Shift: ${results.audits['cumulative-layout-shift'].displayValue}
+              - Speed Index: ${results.audits['speed-index'].displayValue}
+              
+              [View Full Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+              `;
+              
+              // Post comment
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+      
+      - name: Fail if scores are too low
+        run: |
+          node -e "
+            const fs = require('fs');
+            const files = fs.readdirSync('.lighthouseci');
+            const jsonFile = files.find(f => f.endsWith('.json') && f.includes('lhr'));
+            
+            if (jsonFile) {
+              const results = JSON.parse(fs.readFileSync('.lighthouseci/' + jsonFile, 'utf8'));
+              const scores = results.categories;
+              
+              // Minimum score thresholds
+              const thresholds = {
+                performance: 0.7,
+                accessibility: 0.9,
+                'best-practices': 0.8,
+                seo: 0.8
+              };
+              
+              let failed = false;
+              for (const [category, threshold] of Object.entries(thresholds)) {
+                const score = scores[category]?.score || 0;
+                if (score < threshold) {
+                  console.error(\`❌ \${category} score (\${Math.round(score * 100)}) is below threshold (\${threshold * 100})\`);
+                  failed = true;
+                } else {
+                  console.log(\`✅ \${category} score: \${Math.round(score * 100)}\`);
+                }
+              }
+              
+              if (failed) {
+                process.exit(1);
+              }
+            }
+          "

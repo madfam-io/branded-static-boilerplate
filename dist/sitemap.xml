@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  =============================================================================
+  XML SITEMAP - Search Engine Discovery Map
+  =============================================================================
+  
+  This sitemap helps search engines discover and understand the structure
+  of the BSB educational platform. It includes:
+  
+  - All HTML pages in the site
+  - Last modification dates for freshness signals
+  - Priority hints for crawl optimization
+  - Change frequency estimates
+  - Multi-language alternate links
+  
+  🎯 SEO Benefits:
+  - Faster page discovery
+  - Better crawl efficiency
+  - Clearer site structure
+  - Language targeting
+  
+  📚 Learn More:
+  - Sitemaps Protocol: https://www.sitemaps.org/protocol.html
+  - Google Sitemap Guidelines: https://developers.google.com/search/docs/advanced/sitemaps/overview
+  
+  Generated: 2025-06-17T02:23:54.348Z
+  =============================================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/interactive-playground.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/project-structure.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/project-structure.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/project-structure.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html</loc>
+    <lastmod>2025-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/seo-playground.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/about.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/about.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/about.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/design-system.html</loc>
+    <lastmod>2025-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/design-system.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/design-system.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/services.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/services.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/services.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/contact.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/privacy.html</loc>
+    <lastmod>2025-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/privacy.html"/>
+  </url>
+</urlset>

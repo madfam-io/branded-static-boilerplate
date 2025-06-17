@@ -1,0 +1,315 @@
+/**
+ * BSB Learning Mode Toggle Component Styles
+ * ==========================================
+ * 
+ * Educational features toggle with visual feedback and accessibility support.
+ * Designed to integrate seamlessly with the header component alongside other toggles.
+ */
+
+/* =============================================================================
+   Learning Toggle Container
+   ============================================================================= */
+
+.bsb-learning-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bsb-space-2);
+}
+
+/* =============================================================================
+   Main Toggle Button
+   ============================================================================= */
+
+.bsb-learning-toggle__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: var(--bsb-space-2);
+  background: var(--bsb-bg-secondary);
+  border: 1px solid var(--bsb-border-light);
+  border-radius: var(--bsb-radius-md);
+  color: var(--bsb-text-primary);
+  cursor: pointer;
+  transition: 
+    background-color var(--bsb-transition-base),
+    border-color var(--bsb-transition-base),
+    transform var(--bsb-transition-fast),
+    box-shadow var(--bsb-transition-base);
+  user-select: none;
+}
+
+.bsb-learning-toggle__button:hover {
+  background: var(--bsb-bg-tertiary);
+  border-color: var(--bsb-border-medium);
+  transform: translateY(-1px);
+  box-shadow: var(--bsb-shadow-sm);
+}
+
+.bsb-learning-toggle__button:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: 2px;
+}
+
+.bsb-learning-toggle__button:active {
+  transform: translateY(0);
+}
+
+/* Learning mode active state */
+.bsb-learning-toggle__button[aria-pressed="true"] {
+  background: linear-gradient(135deg, var(--bsb-primary), var(--bsb-secondary));
+  color: white;
+  border-color: var(--bsb-primary);
+  box-shadow: var(--bsb-shadow-md);
+}
+
+.bsb-learning-toggle__button[aria-pressed="true"]:hover {
+  background: linear-gradient(135deg, var(--bsb-primary-dark), var(--bsb-secondary-dark));
+  transform: translateY(-2px);
+  box-shadow: var(--bsb-shadow-lg);
+}
+
+/* =============================================================================
+   Learning Mode Icons
+   ============================================================================= */
+
+.bsb-learning-toggle__icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.bsb-learning-toggle__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.8) rotate(-10deg);
+  transition: 
+    opacity var(--bsb-transition-base),
+    transform var(--bsb-transition-base);
+}
+
+/* Show appropriate icon based on learning mode state */
+.bsb-learning-toggle__button[aria-pressed="false"] .bsb-learning-toggle__icon--off,
+.bsb-learning-toggle__button[aria-pressed="true"] .bsb-learning-toggle__icon--on {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Icon animation when toggling */
+.bsb-learning-toggle__button[data-toggling="true"] .bsb-learning-toggle__icon {
+  animation: iconToggle 0.4s ease;
+}
+
+@keyframes iconToggle {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* =============================================================================
+   Screen Reader Label
+   ============================================================================= */
+
+.bsb-learning-toggle__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =============================================================================
+   Status Indicator (Desktop only)
+   ============================================================================= */
+
+.bsb-learning-toggle__status {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--bsb-text-xs);
+  line-height: 1.2;
+}
+
+.bsb-learning-toggle__status-text {
+  color: var(--bsb-text-secondary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.bsb-learning-toggle__status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bsb-gray-400);
+  transition: background-color var(--bsb-transition-base);
+}
+
+/* Active learning mode indicator */
+.bsb-learning-toggle__button[aria-pressed="true"] + .bsb-learning-toggle__status .bsb-learning-toggle__status-indicator {
+  background: var(--bsb-success);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* =============================================================================
+   Responsive Design
+   ============================================================================= */
+
+@media (min-width: 1024px) {
+  .bsb-learning-toggle__status {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .bsb-learning-toggle__button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .bsb-learning-toggle__icons {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* =============================================================================
+   Learning Mode Active Body State
+   ============================================================================= */
+
+/* Global styles when learning mode is active */
+body[data-learning-mode="true"] .bsb-learning-toggle__button {
+  box-shadow: 0 0 0 2px var(--bsb-primary-light);
+}
+
+/* =============================================================================
+   High Contrast Mode Support
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+  .bsb-learning-toggle__button {
+    border-width: 2px;
+  }
+  
+  .bsb-learning-toggle__button:focus {
+    outline-width: 3px;
+  }
+  
+  .bsb-learning-toggle__button[aria-pressed="true"] {
+    background: var(--bsb-primary);
+    border-color: var(--bsb-text-primary);
+  }
+}
+
+/* =============================================================================
+   Reduced Motion Support
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bsb-learning-toggle__button,
+  .bsb-learning-toggle__icon,
+  .bsb-learning-toggle__status-indicator {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   Learning Mode Feature Highlights
+   ============================================================================= */
+
+/* Subtle glow effect when learning mode is active */
+body[data-learning-mode="true"] {
+  --bsb-learning-glow: 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+/* Enhanced focus styles in learning mode */
+body[data-learning-mode="true"] *:focus {
+  box-shadow: 
+    0 0 0 2px var(--bsb-primary),
+    var(--bsb-learning-glow, none);
+}
+
+/* Learning mode active notification styles */
+.bsb-learning-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--bsb-primary), var(--bsb-secondary));
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: var(--bsb-radius-lg);
+  z-index: 1000;
+  font-size: var(--bsb-text-sm);
+  box-shadow: var(--bsb-shadow-xl);
+  max-width: 300px;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: 
+    opacity var(--bsb-transition-base),
+    transform var(--bsb-transition-base);
+}
+
+.bsb-learning-notification--show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.bsb-learning-notification__title {
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bsb-learning-notification__text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.bsb-learning-notification__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--bsb-radius-sm);
+  opacity: 0.8;
+  transition: opacity var(--bsb-transition-base);
+}
+
+.bsb-learning-notification__close:hover {
+  opacity: 1;
+}

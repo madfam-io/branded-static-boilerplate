@@ -133,6 +133,7 @@
   
   <!-- Component Styles -->
   <link rel="stylesheet" href="./components/header/header.css">
+  <link rel="stylesheet" href="./components/learning-toggle/learning-toggle.css">
   <link rel="stylesheet" href="./components/language-toggle/language-toggle.css">
   <link rel="stylesheet" href="./components/theme-toggle/theme-toggle.css">
   <link rel="stylesheet" href="./components/hero/hero.css">
@@ -159,6 +160,7 @@
     The 'defer' attribute ensures scripts execute after DOM is ready.
   -->
   <script type="module" src="./scripts/core/main.js" defer></script>
+  <script type="module" src="./components/learning-toggle/learning-toggle.js" defer></script>
   <script type="module" src="./components/language-toggle/language-toggle.js" defer></script>
   <script type="module" src="./components/theme-toggle/theme-toggle.js" defer></script>
 </head>
@@ -224,9 +226,90 @@
         <!-- 
           Header Actions
           ==============
-          Container for theme toggle and mobile menu toggle
+          Container for learning mode toggle, language toggle, theme toggle, and mobile menu toggle
         -->
         <div class="bsb-header__actions">
+          <!-- 
+            Learning Mode Toggle
+            ====================
+            Allows users to enable/disable educational learning features
+          -->
+          <div class="bsb-learning-toggle" data-bsb-component="learning-toggle">
+            <button 
+              class="bsb-learning-toggle__button" 
+              aria-label="Toggle learning mode" 
+              aria-pressed="false"
+              type="button"
+              data-bsb-learning-button
+              title="Enable interactive learning features"
+            >
+              <span class="bsb-learning-toggle__icons" aria-hidden="true">
+                <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                </svg>
+                <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+              </span>
+              <span class="bsb-learning-toggle__label">
+                Learning mode: <span data-bsb-learning-label>Off</span>
+              </span>
+            </button>
+            <div class="bsb-learning-toggle__status" data-bsb-learning-status aria-hidden="true">
+              <span class="bsb-learning-toggle__status-text">Learning Mode</span>
+              <span class="bsb-learning-toggle__status-indicator"></span>
+            </div>
+          </div>
+          
+          <!-- 
+            Language Toggle
+            ===============
+            Allows users to switch between English and Spanish languages
+          -->
+          <div class="bsb-language-toggle" data-bsb-component="language-toggle">
+            <button 
+              class="bsb-language-toggle__button" 
+              aria-label="Switch language" 
+              aria-expanded="false"
+              aria-haspopup="true"
+              type="button"
+              data-bsb-language-button
+            >
+              <span class="bsb-language-toggle__icons" aria-hidden="true">
+                <!-- English flag/icon -->
+                <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span>
+                
+                <!-- Spanish flag/icon -->
+                <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span>
+              </span>
+              
+              <span class="bsb-language-toggle__label">
+                Current language: <span data-bsb-language-label>English</span>
+              </span>
+            </button>
+            
+            <div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true">
+              <ul class="bsb-language-toggle__options" role="menu" aria-label="Language options">
+                <li role="none">
+                  <button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="true">
+                    <span class="bsb-language-toggle__option-icon">🇺🇸</span>
+                    <span class="bsb-language-toggle__option-text">English</span>
+                    <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+                  </button>
+                </li>
+                <li role="none">
+                  <button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="false">
+                    <span class="bsb-language-toggle__option-icon">🇪🇸</span>
+                    <span class="bsb-language-toggle__option-text">Español</span>
+                    <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
           <!-- 
             Theme Toggle
             ============

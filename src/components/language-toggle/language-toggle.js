@@ -337,6 +337,7 @@ class BSBLanguageToggle {
       '/pages/services.html': 'nav.services',
       '/pages/interactive-playground.html': 'nav.playground',
       '/pages/project-structure.html': 'nav.projectStructure',
+      '/pages/design-system.html': 'nav.designSystem',
       '/pages/contact.html': 'nav.contact'
     };
 

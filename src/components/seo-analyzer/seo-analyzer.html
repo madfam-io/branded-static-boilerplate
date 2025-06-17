@@ -1,0 +1,292 @@
+<!--
+  =============================================================================
+  SEO ANALYZER COMPONENT - Real-time SEO Analysis & Education
+  =============================================================================
+  
+  This component provides real-time SEO analysis for any page, teaching
+  best practices through interactive feedback and visualizations.
+  
+  🎯 Features:
+  - Live SEO score calculation
+  - Meta tag preview and validation
+  - SERP preview
+  - Structured data validation
+  - Educational insights and tips
+  
+  📚 Usage:
+  1. Include this component on any page
+  2. It automatically analyzes the current page
+  3. Click "Analyze" to refresh the analysis
+  4. Use the insights to improve your SEO
+  
+  💡 Educational Value:
+  - Learn SEO best practices by doing
+  - See immediate impact of changes
+  - Understand how search engines see your page
+  - Get actionable recommendations
+  =============================================================================
+-->
+
+<div class="bsb-seo-analyzer" data-bsb-component="seo-analyzer">
+  <!-- 
+    Component Header
+    ================
+    Title and controls for the SEO analyzer
+  -->
+  <header class="bsb-seo-analyzer__header">
+    <h3 class="bsb-seo-analyzer__title">
+      <svg class="bsb-seo-analyzer__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      SEO Analyzer
+    </h3>
+    
+    <div class="bsb-seo-analyzer__controls">
+      <button 
+        class="bsb-seo-analyzer__toggle"
+        aria-label="Toggle SEO analyzer"
+        aria-expanded="false"
+        data-seo-toggle
+      >
+        <span class="bsb-seo-analyzer__toggle-icon"></span>
+      </button>
+    </div>
+  </header>
+  
+  <!-- 
+    Analyzer Content
+    ================
+    Main analysis results and insights
+  -->
+  <div class="bsb-seo-analyzer__content" data-seo-content aria-hidden="true">
+    <!-- Overall Score -->
+    <div class="bsb-seo-analyzer__score-section">
+      <div class="bsb-seo-analyzer__score-circle" data-seo-score>
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="10"/>
+          <circle 
+            cx="50" 
+            cy="50" 
+            r="45" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-dasharray="283"
+            stroke-dashoffset="283"
+            data-seo-score-ring
+          />
+        </svg>
+        <div class="bsb-seo-analyzer__score-text">
+          <span class="bsb-seo-analyzer__score-number" data-seo-score-number>0</span>
+          <span class="bsb-seo-analyzer__score-grade" data-seo-score-grade>F</span>
+        </div>
+      </div>
+      
+      <div class="bsb-seo-analyzer__score-details">
+        <h4>SEO Score</h4>
+        <p class="bsb-seo-analyzer__score-message" data-seo-score-message>
+          Analyzing page...
+        </p>
+        <button 
+          class="bsb-seo-analyzer__refresh"
+          aria-label="Refresh SEO analysis"
+          data-seo-refresh
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh Analysis
+        </button>
+      </div>
+    </div>
+    
+    <!-- Analysis Tabs -->
+    <div class="bsb-seo-analyzer__tabs">
+      <nav class="bsb-seo-analyzer__tab-nav" role="tablist">
+        <button 
+          class="bsb-seo-analyzer__tab bsb-seo-analyzer__tab--active"
+          role="tab"
+          aria-selected="true"
+          data-tab="overview"
+        >
+          Overview
+        </button>
+        <button 
+          class="bsb-seo-analyzer__tab"
+          role="tab"
+          aria-selected="false"
+          data-tab="meta"
+        >
+          Meta Tags
+        </button>
+        <button 
+          class="bsb-seo-analyzer__tab"
+          role="tab"
+          aria-selected="false"
+          data-tab="content"
+        >
+          Content
+        </button>
+        <button 
+          class="bsb-seo-analyzer__tab"
+          role="tab"
+          aria-selected="false"
+          data-tab="preview"
+        >
+          SERP Preview
+        </button>
+      </nav>
+      
+      <!-- Tab Panels -->
+      <div class="bsb-seo-analyzer__panels">
+        <!-- Overview Panel -->
+        <div 
+          class="bsb-seo-analyzer__panel bsb-seo-analyzer__panel--active"
+          role="tabpanel"
+          data-panel="overview"
+        >
+          <div class="bsb-seo-analyzer__breakdown" data-seo-breakdown>
+            <!-- Breakdown items will be inserted here -->
+          </div>
+          
+          <div class="bsb-seo-analyzer__insights" data-seo-insights>
+            <h5>Top Issues & Recommendations</h5>
+            <ul class="bsb-seo-analyzer__insights-list" data-seo-insights-list>
+              <!-- Insights will be inserted here -->
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Meta Tags Panel -->
+        <div 
+          class="bsb-seo-analyzer__panel"
+          role="tabpanel"
+          data-panel="meta"
+        >
+          <div class="bsb-seo-analyzer__meta-list" data-seo-meta-list>
+            <!-- Meta tags will be displayed here -->
+          </div>
+          
+          <div class="bsb-seo-analyzer__meta-editor">
+            <h5>Try Editing Meta Tags</h5>
+            <form data-seo-meta-form>
+              <div class="bsb-seo-analyzer__field">
+                <label for="seo-title">Title Tag</label>
+                <input 
+                  type="text" 
+                  id="seo-title" 
+                  data-seo-title-input
+                  maxlength="60"
+                />
+                <div class="bsb-seo-analyzer__field-info">
+                  <span data-seo-title-count>0</span>/60 characters
+                  <span class="bsb-seo-analyzer__field-status" data-seo-title-status></span>
+                </div>
+              </div>
+              
+              <div class="bsb-seo-analyzer__field">
+                <label for="seo-description">Meta Description</label>
+                <textarea 
+                  id="seo-description" 
+                  data-seo-description-input
+                  maxlength="160"
+                  rows="3"
+                ></textarea>
+                <div class="bsb-seo-analyzer__field-info">
+                  <span data-seo-description-count>0</span>/160 characters
+                  <span class="bsb-seo-analyzer__field-status" data-seo-description-status></span>
+                </div>
+              </div>
+              
+              <button type="submit" class="bsb-seo-analyzer__button">
+                Preview Changes
+              </button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Content Panel -->
+        <div 
+          class="bsb-seo-analyzer__panel"
+          role="tabpanel"
+          data-panel="content"
+        >
+          <div class="bsb-seo-analyzer__content-stats" data-seo-content-stats>
+            <!-- Content statistics will be displayed here -->
+          </div>
+          
+          <div class="bsb-seo-analyzer__keywords">
+            <h5>Keyword Density</h5>
+            <div class="bsb-seo-analyzer__keywords-list" data-seo-keywords>
+              <!-- Keywords will be displayed here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- SERP Preview Panel -->
+        <div 
+          class="bsb-seo-analyzer__panel"
+          role="tabpanel"
+          data-panel="preview"
+        >
+          <div class="bsb-seo-analyzer__serp-preview">
+            <h5>Google Search Preview</h5>
+            
+            <!-- Desktop Preview -->
+            <div class="bsb-seo-analyzer__device-preview" data-device="desktop">
+              <div class="bsb-seo-analyzer__serp-result">
+                <div class="bsb-seo-analyzer__serp-url" data-serp-url>
+                  example.com › page
+                </div>
+                <h3 class="bsb-seo-analyzer__serp-title" data-serp-title>
+                  Page Title - Your Brand
+                </h3>
+                <p class="bsb-seo-analyzer__serp-description" data-serp-description>
+                  Meta description appears here...
+                </p>
+              </div>
+            </div>
+            
+            <!-- Mobile Preview -->
+            <div class="bsb-seo-analyzer__device-toggle">
+              <button data-device-toggle="desktop" class="active">Desktop</button>
+              <button data-device-toggle="mobile">Mobile</button>
+            </div>
+          </div>
+          
+          <div class="bsb-seo-analyzer__schema-validator">
+            <h5>Structured Data</h5>
+            <div class="bsb-seo-analyzer__schema-status" data-schema-status>
+              <!-- Schema validation results -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Educational Tips -->
+    <div class="bsb-seo-analyzer__tips">
+      <h5>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        SEO Learning Tips
+      </h5>
+      <div class="bsb-seo-analyzer__tips-content" data-seo-tips>
+        <!-- Dynamic tips will be inserted here -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Minimized State -->
+  <div class="bsb-seo-analyzer__minimized" data-seo-minimized>
+    <span class="bsb-seo-analyzer__minimized-score" data-seo-mini-score>0</span>
+    <span class="bsb-seo-analyzer__minimized-label">SEO</span>
+  </div>
+</div>

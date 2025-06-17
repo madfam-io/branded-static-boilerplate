@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  =============================================================================
+  SEO PLAYGROUND - Learn Search Engine Optimization by Doing
+  =============================================================================
+  
+  This interactive page teaches SEO best practices through hands-on
+  experimentation with real-time analysis and feedback.
+  
+  🎯 Learning Objectives:
+  1. Understand how search engines interpret your content
+  2. Master meta tag optimization
+  3. Learn structured data implementation
+  4. Practice content optimization techniques
+  5. See immediate impact of SEO changes
+  
+  📚 Educational Features:
+  - Live SEO scoring and analysis
+  - Interactive meta tag editor
+  - SERP preview generator
+  - Structured data playground
+  - Content optimization tips
+  
+  💡 This page demonstrates advanced SEO techniques while teaching them!
+  =============================================================================
+-->
+<head>
+  <!-- Character Encoding -->
+  <meta charset="UTF-8">
+  
+  <!-- Viewport for Mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags - These are what we're learning about! -->
+  <title>SEO Playground - Learn Search Engine Optimization | BSB</title>
+  <meta name="description" content="Master SEO through interactive experiments. Edit meta tags, preview search results, and see real-time analysis of your optimization efforts.">
+  <meta name="keywords" content="SEO tutorial, search engine optimization, meta tags, SERP preview, structured data, learn SEO">
+  <meta name="author" content="BSB Learning Platform">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html">
+  
+  <!-- Language Alternates -->
+  <link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/seo-playground.html">
+  <link rel="alternate" hreflang="x-default" href="https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html">
+  
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="SEO Playground - Interactive SEO Learning">
+  <meta property="og:description" content="Learn SEO by doing. Interactive tools for meta tag optimization, SERP preview, and real-time analysis.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html">
+  <meta property="og:image" content="../assets/images/seo-playground-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="BSB Learning Platform">
+  
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SEO Playground - Interactive SEO Learning">
+  <meta name="twitter:description" content="Master SEO through hands-on practice with real-time analysis and feedback.">
+  <meta name="twitter:image" content="../assets/images/seo-playground-preview.jpg">
+  <meta name="twitter:creator" content="@bsb_platform">
+  
+  <!-- Additional SEO Tags -->
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="bingbot" content="index, follow">
+  
+  <!-- Structured Data - LearningResource -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "SEO Playground",
+    "description": "Interactive SEO learning tool with real-time analysis and experimentation features",
+    "url": "https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html",
+    "educationalLevel": "Beginner to Advanced",
+    "teaches": ["Search Engine Optimization", "Meta Tags", "SERP", "Structured Data", "Content Optimization"],
+    "learningResourceType": "Interactive Tutorial",
+    "timeRequired": "PT30M",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "provider": {
+      "@type": "Organization",
+      "name": "Branded Static Boilerplate",
+      "url": "https://github.com/madfam-io/branded-static-boilerplate"
+    }
+  }
+  </script>
+  
+  <!-- Breadcrumb Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://madfam-io.github.io/branded-static-boilerplate/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "SEO Playground",
+        "item": "https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../styles/base/variables.css">
+  <link rel="stylesheet" href="../styles/base/reset.css">
+  <link rel="stylesheet" href="../styles/base/typography.css">
+  <link rel="stylesheet" href="../styles/utilities/spacing.css">
+  <link rel="stylesheet" href="../styles/utilities/layout.css">
+  <link rel="stylesheet" href="../styles/themes/default.css">
+  
+  <!-- Component Styles -->
+  <link rel="stylesheet" href="../components/header/header.css">
+  <link rel="stylesheet" href="../components/hero/hero.css">
+  <link rel="stylesheet" href="../components/card/card.css">
+  <link rel="stylesheet" href="../components/footer/footer.css">
+  <link rel="stylesheet" href="../components/seo-analyzer/seo-analyzer.css">
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- JavaScript Modules -->
+  <script type="module" src="../scripts/core/main.js" defer></script>
+  <script type="module" src="../components/seo-analyzer/seo-analyzer.js" defer></script>
+</head>
+
+<body>
+  <!-- Skip to main content -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <!-- Header Component -->
+  <header class="bsb-header" data-bsb-component="header" role="banner">
+    <div class="container">
+      <div class="bsb-header__inner">
+        <div class="bsb-header__brand">
+          <a href="/branded-static-boilerplate/" class="bsb-header__logo">
+            <strong>BSB Learning</strong>
+          </a>
+        </div>
+        
+        <nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav">
+          <ul class="bsb-header__menu">
+            <li><a href="/branded-static-boilerplate/" class="bsb-header__link">Home</a></li>
+            <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li>
+            <li><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link">Code Playground</a></li>
+            <li><a href="/branded-static-boilerplate/pages/seo-playground.html" class="bsb-header__link" aria-current="page">SEO Playground</a></li>
+            <li><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link">Contact</a></li>
+          </ul>
+        </nav>
+        
+        <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <span class="bsb-header__toggle-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main id="main" role="main">
+    <!-- Hero Section -->
+    <section class="bsb-hero bsb-hero--compact" data-bsb-component="hero">
+      <div class="container">
+        <div class="bsb-hero__content">
+          <h1 class="bsb-hero__title">
+            SEO Playground
+            <span class="bsb-hero__subtitle">Learn Search Engine Optimization by Doing</span>
+          </h1>
+          <p class="bsb-hero__lead">
+            Master SEO through interactive experiments. Edit meta tags, preview search results, 
+            analyze content, and see the immediate impact of your optimizations in real-time.
+          </p>
+          <div class="bsb-hero__actions">
+            <a href="#analyzer" class="btn btn--primary btn--large">
+              Start Analyzing
+            </a>
+            <a href="#tutorials" class="btn btn--secondary btn--large">
+              SEO Tutorials
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Introduction Section -->
+    <section class="section" aria-labelledby="intro-heading">
+      <div class="container">
+        <h2 id="intro-heading" class="section__title">Why SEO Matters</h2>
+        <p class="section__lead">
+          Search Engine Optimization is the foundation of discoverability on the web. 
+          Good SEO means more people find your content, leading to greater impact.
+        </p>
+        
+        <div class="grid grid--3-cols">
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">🔍</div>
+            <h3 class="bsb-card__title">Visibility</h3>
+            <p class="bsb-card__text">
+              93% of online experiences begin with a search engine. If you're not optimized, 
+              you're invisible to most potential visitors.
+            </p>
+          </article>
+          
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">📈</div>
+            <h3 class="bsb-card__title">Organic Traffic</h3>
+            <p class="bsb-card__text">
+              SEO drives 1000%+ more traffic than organic social media. It's the most 
+              sustainable way to grow your audience.
+            </p>
+          </article>
+          
+          <article class="bsb-card" data-bsb-component="card">
+            <div class="bsb-card__icon">💡</div>
+            <h3 class="bsb-card__title">User Experience</h3>
+            <p class="bsb-card__text">
+              Good SEO practices align with good UX. Fast loading, clear structure, 
+              and quality content benefit both users and rankings.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Interactive SEO Experiments -->
+    <section class="section section--alt" id="experiments" aria-labelledby="experiments-heading">
+      <div class="container">
+        <h2 id="experiments-heading" class="section__title">Interactive SEO Experiments</h2>
+        <p class="section__lead">
+          Learn by doing with these hands-on SEO optimization exercises. 
+          Each experiment teaches a different aspect of SEO.
+        </p>
+        
+        <!-- Meta Tag Optimizer -->
+        <div class="experiment-card">
+          <h3>1. Meta Tag Optimizer</h3>
+          <p>Perfect your title tags and meta descriptions with real-time feedback.</p>
+          
+          <div class="experiment-content">
+            <form class="meta-form" id="meta-optimizer">
+              <div class="form-group">
+                <label for="page-title">Page Title</label>
+                <input type="text" id="page-title" maxlength="60" 
+                       value="SEO Playground - Learn Search Engine Optimization | BSB">
+                <div class="field-info">
+                  <span class="char-count">0/60 characters</span>
+                  <span class="field-status"></span>
+                </div>
+                <div class="field-tips">
+                  <p>💡 Tips: Include primary keyword near the beginning. Be descriptive but concise.</p>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="meta-description">Meta Description</label>
+                <textarea id="meta-description" maxlength="160" rows="3">Master SEO through interactive experiments. Edit meta tags, preview search results, and see real-time analysis of your optimization efforts.</textarea>
+                <div class="field-info">
+                  <span class="char-count">0/160 characters</span>
+                  <span class="field-status"></span>
+                </div>
+                <div class="field-tips">
+                  <p>💡 Tips: Include a call-to-action. Use active voice. Match search intent.</p>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn btn--primary">Analyze Meta Tags</button>
+            </form>
+            
+            <div class="experiment-results" id="meta-results">
+              <!-- Results will be displayed here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- SERP Preview Generator -->
+        <div class="experiment-card">
+          <h3>2. SERP Preview Generator</h3>
+          <p>See how your page will appear in Google search results.</p>
+          
+          <div class="serp-preview" id="serp-preview">
+            <div class="serp-result">
+              <div class="serp-url">madfam-io.github.io › branded-static-boilerplate › seo-playground</div>
+              <h3 class="serp-title">SEO Playground - Learn Search Engine Optimization | BSB</h3>
+              <p class="serp-description">Master SEO through interactive experiments. Edit meta tags, preview search results, and see real-time analysis of your optimization efforts.</p>
+            </div>
+          </div>
+          
+          <div class="serp-insights">
+            <h4>SERP Optimization Tips:</h4>
+            <ul>
+              <li>✅ Title is within optimal length (55-60 characters)</li>
+              <li>✅ Description includes relevant keywords</li>
+              <li>💡 Consider adding structured data for rich snippets</li>
+              <li>💡 Test different titles to improve click-through rate</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Content Analyzer -->
+        <div class="experiment-card">
+          <h3>3. Content SEO Analyzer</h3>
+          <p>Analyze any content for SEO optimization opportunities.</p>
+          
+          <div class="experiment-content">
+            <form class="content-form" id="content-analyzer">
+              <div class="form-group">
+                <label for="target-keyword">Target Keyword</label>
+                <input type="text" id="target-keyword" placeholder="e.g., learn SEO">
+              </div>
+              
+              <div class="form-group">
+                <label for="content-text">Content to Analyze</label>
+                <textarea id="content-text" rows="6" placeholder="Paste your content here..."></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn--primary">Analyze Content</button>
+            </form>
+            
+            <div class="experiment-results" id="content-results">
+              <!-- Results will be displayed here -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Schema Markup Builder -->
+        <div class="experiment-card">
+          <h3>4. Schema Markup Builder</h3>
+          <p>Create structured data to enhance your search appearance.</p>
+          
+          <div class="experiment-content">
+            <form class="schema-form" id="schema-builder">
+              <div class="form-group">
+                <label for="schema-type">Schema Type</label>
+                <select id="schema-type">
+                  <option value="Article">Article</option>
+                  <option value="Product">Product</option>
+                  <option value="LocalBusiness">Local Business</option>
+                  <option value="FAQ">FAQ Page</option>
+                  <option value="HowTo">How-To Guide</option>
+                </select>
+              </div>
+              
+              <div id="schema-fields">
+                <!-- Dynamic fields based on schema type -->
+              </div>
+              
+              <button type="submit" class="btn btn--primary">Generate Schema</button>
+            </form>
+            
+            <div class="experiment-results">
+              <pre><code id="schema-output">{
+  // Generated schema will appear here
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SEO Tutorials -->
+    <section class="section" id="tutorials" aria-labelledby="tutorials-heading">
+      <div class="container">
+        <h2 id="tutorials-heading" class="section__title">SEO Learning Path</h2>
+        <p class="section__lead">
+          Master SEO step by step with our comprehensive tutorials.
+        </p>
+        
+        <div class="tutorial-grid">
+          <article class="tutorial-card">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Beginner</span>
+              <h3 class="tutorial-card__title">SEO Fundamentals</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p>Learn the basics of how search engines work and why SEO matters.</p>
+              <ul>
+                <li>How search engines crawl and index</li>
+                <li>Understanding search intent</li>
+                <li>Basic ranking factors</li>
+                <li>SEO myths debunked</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary">Start Tutorial</button>
+              <span class="tutorial-card__duration">~20 minutes</span>
+            </div>
+          </article>
+          
+          <article class="tutorial-card">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Intermediate</span>
+              <h3 class="tutorial-card__title">On-Page Optimization</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p>Master the art of optimizing individual pages for search engines.</p>
+              <ul>
+                <li>Title tag optimization</li>
+                <li>Meta description best practices</li>
+                <li>Header hierarchy (H1-H6)</li>
+                <li>Internal linking strategies</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary">Start Tutorial</button>
+              <span class="tutorial-card__duration">~30 minutes</span>
+            </div>
+          </article>
+          
+          <article class="tutorial-card">
+            <div class="tutorial-card__header">
+              <span class="tutorial-card__level">Advanced</span>
+              <h3 class="tutorial-card__title">Technical SEO</h3>
+            </div>
+            <div class="tutorial-card__content">
+              <p>Dive deep into technical aspects that impact search performance.</p>
+              <ul>
+                <li>Site speed optimization</li>
+                <li>Mobile-first indexing</li>
+                <li>Structured data implementation</li>
+                <li>JavaScript SEO</li>
+              </ul>
+            </div>
+            <div class="tutorial-card__actions">
+              <button class="btn btn--primary">Start Tutorial</button>
+              <span class="tutorial-card__duration">~45 minutes</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SEO Checklist -->
+    <section class="section section--alt" aria-labelledby="checklist-heading">
+      <div class="container">
+        <h2 id="checklist-heading" class="section__title">Complete SEO Checklist</h2>
+        <p class="section__lead">
+          Use this comprehensive checklist to ensure your pages are fully optimized.
+        </p>
+        
+        <div class="checklist-container">
+          <div class="checklist-section">
+            <h3>📝 Content Optimization</h3>
+            <ul class="checklist">
+              <li>
+                <input type="checkbox" id="check-title">
+                <label for="check-title">Title tag includes primary keyword (50-60 chars)</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-description">
+                <label for="check-description">Meta description is compelling (150-160 chars)</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-h1">
+                <label for="check-h1">Single H1 tag that includes keyword</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-content">
+                <label for="check-content">Content is 300+ words and valuable</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-keywords">
+                <label for="check-keywords">Keywords used naturally (2-3% density)</label>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="checklist-section">
+            <h3>🔧 Technical SEO</h3>
+            <ul class="checklist">
+              <li>
+                <input type="checkbox" id="check-mobile">
+                <label for="check-mobile">Page is mobile-friendly</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-speed">
+                <label for="check-speed">Page loads in under 3 seconds</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-https">
+                <label for="check-https">HTTPS is enabled</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-canonical">
+                <label for="check-canonical">Canonical URL is set</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-sitemap">
+                <label for="check-sitemap">Page is in XML sitemap</label>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="checklist-section">
+            <h3>🖼️ Media Optimization</h3>
+            <ul class="checklist">
+              <li>
+                <input type="checkbox" id="check-alt">
+                <label for="check-alt">All images have descriptive alt text</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-compression">
+                <label for="check-compression">Images are compressed/optimized</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-lazy">
+                <label for="check-lazy">Lazy loading for below-fold images</label>
+              </li>
+              <li>
+                <input type="checkbox" id="check-og-image">
+                <label for="check-og-image">Open Graph image is set</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer Component -->
+  <footer class="bsb-footer" data-bsb-component="footer" role="contentinfo">
+    <div class="container">
+      <div class="bsb-footer__main">
+        <div class="bsb-footer__grid">
+          <div class="bsb-footer__column bsb-footer__column--wide">
+            <div class="bsb-footer__brand">
+              <a href="/branded-static-boilerplate/" class="bsb-footer__logo">
+                <strong>BSB Learning</strong>
+              </a>
+              <p class="bsb-footer__tagline">
+                Teaching web development through interactive examples.
+              </p>
+            </div>
+          </div>
+          
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">Learn More</h4>
+            <ul class="bsb-footer__links">
+              <li><a href="/branded-static-boilerplate/pages/interactive-playground.html">Code Playground</a></li>
+              <li><a href="/branded-static-boilerplate/pages/project-structure.html">Project Structure</a></li>
+              <li><a href="#tutorials">SEO Tutorials</a></li>
+            </ul>
+          </div>
+          
+          <div class="bsb-footer__column">
+            <h4 class="bsb-footer__heading">Resources</h4>
+            <ul class="bsb-footer__links">
+              <li><a href="https://developers.google.com/search/docs">Google SEO Guide</a></li>
+              <li><a href="https://schema.org">Schema.org</a></li>
+              <li><a href="https://www.bing.com/webmasters">Bing Webmaster</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bsb-footer__bottom">
+        <div class="bsb-footer__bottom-content">
+          <p class="bsb-footer__copyright">
+            © <time datetime="2024">2024</time> Branded Static Boilerplate. Educational content under MIT License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- SEO Analyzer Component -->
+  <div data-bsb-component="seo-analyzer"></div>
+  
+  <!-- Page-specific styles -->
+  <style>
+    /* Experiment Cards */
+    .experiment-card {
+      background: var(--bsb-bg-primary);
+      border: 1px solid var(--bsb-border-light);
+      border-radius: var(--bsb-radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .experiment-card h3 {
+      margin: 0 0 1rem;
+      color: var(--bsb-primary);
+    }
+    
+    .experiment-content {
+      margin-top: 1.5rem;
+    }
+    
+    /* Forms */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--bsb-border-base);
+      border-radius: var(--bsb-radius-base);
+      font-size: var(--bsb-text-base);
+      transition: border-color 0.2s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--bsb-primary);
+    }
+    
+    .field-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.25rem;
+      font-size: var(--bsb-text-sm);
+      color: var(--bsb-text-secondary);
+    }
+    
+    .field-tips {
+      margin-top: 0.5rem;
+      padding: 0.75rem;
+      background: var(--bsb-info-bg);
+      border-radius: var(--bsb-radius-base);
+      font-size: var(--bsb-text-sm);
+    }
+    
+    /* SERP Preview */
+    .serp-preview {
+      background: white;
+      border: 1px solid #dfe1e5;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      font-family: Arial, sans-serif;
+    }
+    
+    .serp-result .serp-url {
+      font-size: 14px;
+      color: #202124;
+      margin-bottom: 0.25rem;
+    }
+    
+    .serp-result .serp-title {
+      margin: 0 0 0.25rem;
+      font-size: 20px;
+      line-height: 1.3;
+      color: #1a0dab;
+      font-weight: normal;
+    }
+    
+    .serp-result .serp-description {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.58;
+      color: #4d5156;
+    }
+    
+    .serp-insights {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--bsb-bg-secondary);
+      border-radius: var(--bsb-radius-base);
+    }
+    
+    .serp-insights h4 {
+      margin: 0 0 0.75rem;
+      font-size: var(--bsb-text-base);
+    }
+    
+    .serp-insights ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .serp-insights li {
+      padding: 0.25rem 0;
+      font-size: var(--bsb-text-sm);
+    }
+    
+    /* Tutorial Grid */
+    .tutorial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .tutorial-card {
+      background: var(--bsb-bg-primary);
+      border: 1px solid var(--bsb-border-light);
+      border-radius: var(--bsb-radius-lg);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .tutorial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--bsb-shadow-lg);
+    }
+    
+    .tutorial-card__header {
+      background: linear-gradient(135deg, var(--bsb-primary), var(--bsb-secondary));
+      color: white;
+      padding: 1.5rem;
+    }
+    
+    .tutorial-card__level {
+      font-size: var(--bsb-text-xs);
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+    
+    .tutorial-card__title {
+      margin: 0.5rem 0 0;
+      font-size: var(--bsb-text-lg);
+    }
+    
+    .tutorial-card__content {
+      padding: 1.5rem;
+    }
+    
+    .tutorial-card__content ul {
+      margin: 1rem 0 0;
+      padding-left: 1.5rem;
+    }
+    
+    .tutorial-card__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      background: var(--bsb-bg-secondary);
+    }
+    
+    .tutorial-card__duration {
+      font-size: var(--bsb-text-sm);
+      color: var(--bsb-text-secondary);
+    }
+    
+    /* Checklist */
+    .checklist-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .checklist-section {
+      background: var(--bsb-bg-primary);
+      border: 1px solid var(--bsb-border-light);
+      border-radius: var(--bsb-radius-lg);
+      padding: 1.5rem;
+    }
+    
+    .checklist-section h3 {
+      margin: 0 0 1rem;
+      font-size: var(--bsb-text-lg);
+    }
+    
+    .checklist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .checklist li {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0;
+    }
+    
+    .checklist input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.75rem;
+    }
+    
+    .checklist label {
+      cursor: pointer;
+      font-size: var(--bsb-text-sm);
+    }
+    
+    .checklist input[type="checkbox"]:checked + label {
+      color: var(--bsb-success);
+      text-decoration: line-through;
+    }
+    
+    /* Results */
+    .experiment-results {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: var(--bsb-bg-secondary);
+      border-radius: var(--bsb-radius-base);
+      display: none;
+    }
+    
+    .experiment-results.show {
+      display: block;
+    }
+    
+    /* Dark mode adjustments */
+    [data-bsb-theme="dark"] .serp-preview {
+      background: var(--bsb-gray-900);
+      border-color: var(--bsb-gray-700);
+    }
+    
+    [data-bsb-theme="dark"] .serp-result .serp-url {
+      color: var(--bsb-gray-300);
+    }
+    
+    [data-bsb-theme="dark"] .serp-result .serp-title {
+      color: #8ab4f8;
+    }
+    
+    [data-bsb-theme="dark"] .serp-result .serp-description {
+      color: var(--bsb-gray-400);
+    }
+  </style>
+  
+  <!-- Page-specific JavaScript -->
+  <script type="module">
+    import { validateTitle, validateDescription } from '../scripts/seo/seo-utils.js';
+    
+    // Meta tag optimizer
+    const metaForm = document.getElementById('meta-optimizer');
+    const titleInput = document.getElementById('page-title');
+    const descriptionInput = document.getElementById('meta-description');
+    
+    // Update character counts and validation
+    function updateFieldValidation() {
+      // Title validation
+      const titleLength = titleInput.value.length;
+      const titleCount = titleInput.parentElement.querySelector('.char-count');
+      const titleStatus = titleInput.parentElement.querySelector('.field-status');
+      
+      titleCount.textContent = `${titleLength}/60 characters`;
+      
+      const titleValidation = validateTitle(titleInput.value);
+      titleStatus.textContent = titleValidation.message;
+      titleStatus.className = `field-status field-status--${titleValidation.status}`;
+      
+      // Description validation
+      const descLength = descriptionInput.value.length;
+      const descCount = descriptionInput.parentElement.querySelector('.char-count');
+      const descStatus = descriptionInput.parentElement.querySelector('.field-status');
+      
+      descCount.textContent = `${descLength}/160 characters`;
+      
+      const descValidation = validateDescription(descriptionInput.value);
+      descStatus.textContent = descValidation.message;
+      descStatus.className = `field-status field-status--${descValidation.status}`;
+      
+      // Update SERP preview
+      updateSERPPreview();
+    }
+    
+    // Update SERP preview
+    function updateSERPPreview() {
+      const serpTitle = document.querySelector('.serp-title');
+      const serpDescription = document.querySelector('.serp-description');
+      
+      // Truncate if needed
+      let title = titleInput.value;
+      if (title.length > 60) {
+        title = title.substring(0, 57) + '...';
+      }
+      
+      let description = descriptionInput.value;
+      if (description.length > 160) {
+        description = description.substring(0, 157) + '...';
+      }
+      
+      serpTitle.textContent = title;
+      serpDescription.textContent = description;
+    }
+    
+    // Event listeners
+    titleInput.addEventListener('input', updateFieldValidation);
+    descriptionInput.addEventListener('input', updateFieldValidation);
+    
+    // Initialize
+    updateFieldValidation();
+    
+    // Handle form submission
+    metaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const results = document.getElementById('meta-results');
+      results.innerHTML = `
+        <h4>Analysis Results:</h4>
+        <p>✅ Your meta tags are optimized! They follow SEO best practices and should perform well in search results.</p>
+        <p><strong>Next steps:</strong></p>
+        <ul>
+          <li>Test different variations to improve click-through rate</li>
+          <li>Monitor search console for actual performance data</li>
+          <li>A/B test different meta descriptions</li>
+        </ul>
+      `;
+      results.classList.add('show');
+    });
+    
+    // Schema builder dynamic fields
+    const schemaType = document.getElementById('schema-type');
+    const schemaFields = document.getElementById('schema-fields');
+    
+    schemaType.addEventListener('change', () => {
+      const type = schemaType.value;
+      let fields = '';
+      
+      switch(type) {
+        case 'Article':
+          fields = `
+            <div class="form-group">
+              <label for="article-headline">Headline</label>
+              <input type="text" id="article-headline" placeholder="Article title">
+            </div>
+            <div class="form-group">
+              <label for="article-author">Author</label>
+              <input type="text" id="article-author" placeholder="Author name">
+            </div>
+            <div class="form-group">
+              <label for="article-date">Publish Date</label>
+              <input type="date" id="article-date">
+            </div>
+          `;
+          break;
+        case 'FAQ':
+          fields = `
+            <div class="form-group">
+              <label for="faq-question">Question</label>
+              <input type="text" id="faq-question" placeholder="Common question">
+            </div>
+            <div class="form-group">
+              <label for="faq-answer">Answer</label>
+              <textarea id="faq-answer" rows="3" placeholder="Detailed answer"></textarea>
+            </div>
+          `;
+          break;
+        // Add more schema types...
+      }
+      
+      schemaFields.innerHTML = fields;
+    });
+    
+    // Initialize schema fields
+    schemaType.dispatchEvent(new Event('change'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+# =============================================================================
+# ROBOTS.TXT - Search Engine Crawling Instructions
+# =============================================================================
+# 
+# This file tells search engine crawlers (bots) how to interact with your site.
+# It's a crucial part of SEO that helps you control what gets indexed.
+# 
+# 🎯 Key Concepts:
+# - User-agent: Specifies which bot the rules apply to
+# - Allow: Explicitly allows access to a path
+# - Disallow: Blocks access to a path
+# - Crawl-delay: Time between requests (not all bots honor this)
+# - Sitemap: Location of your XML sitemap
+# 
+# 📚 Educational Notes:
+# - robots.txt must be at the root of your domain
+# - It's publicly accessible - don't put secrets here
+# - Disallow doesn't guarantee privacy (use authentication instead)
+# - Some bots ignore robots.txt (especially malicious ones)
+# 
+# Learn more: https://www.robotstxt.org/robotstxt.html
+# =============================================================================
+
+# Allow all well-behaved bots
+# The * means these rules apply to all user agents
+User-agent: *
+
+# Allow crawling of all content
+# This is actually the default, but being explicit is good practice
+Allow: /
+
+# Disallow access to development/build directories
+# These don't need to be indexed and might confuse search engines
+Disallow: /src/
+Disallow: /scripts/
+Disallow: /tests/
+Disallow: /.github/
+
+# Disallow access to configuration files
+# These are implementation details, not content
+Disallow: /*.json$
+Disallow: /*.yml$
+Disallow: /*.yaml$
+Disallow: /*.config.js$
+Disallow: /.*
+
+# Allow specific important JSON files
+# JSON-LD structured data should be crawlable
+Allow: /data/*.json
+
+# Specific rules for major search engines
+# These demonstrate how to target specific bots
+
+# Googlebot - Google's crawler
+User-agent: Googlebot
+Allow: /
+# Google supports wildcard and end-of-string matching
+Disallow: /*?print=true
+Disallow: /*?debug=*
+
+# Bingbot - Microsoft's crawler
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# SEO Tools - Allow these for analysis
+User-agent: AhrefsBot
+User-agent: SEMrushBot
+User-agent: MJ12bot
+User-agent: DotBot
+Allow: /
+Crawl-delay: 10
+
+# Social Media Bots - Important for link previews
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: WhatsApp
+User-agent: Slackbot
+Allow: /
+# No crawl delay for social bots - we want fast previews
+
+# AI/ML Crawlers - Control AI training data access
+# This is becoming increasingly important
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: CCBot
+User-agent: anthropic-ai
+User-agent: Claude-Web
+# Uncomment the next line to block AI training
+# Disallow: /
+
+# Bad Bots - Block known problematic crawlers
+# These often ignore robots.txt, but it's worth trying
+User-agent: SemrushBot
+User-agent: DotBot
+User-agent: MJ12bot
+Crawl-delay: 86400  # 24 hours
+
+# Sitemap location
+# This helps search engines find all your pages efficiently
+# You can have multiple sitemap entries
+Sitemap: https://madfam-io.github.io/branded-static-boilerplate/sitemap.xml
+Sitemap: https://madfam-io.github.io/branded-static-boilerplate/sitemap-images.xml
+
+# =============================================================================
+# Testing Your robots.txt
+# =============================================================================
+# 
+# 1. Google Search Console has a robots.txt tester
+# 2. Use online validators like https://en.ryte.com/free-tools/robots-txt/
+# 3. Check with: curl -I https://yourdomain.com/robots.txt
+# 4. Test specific user agents: curl -A "Googlebot" https://yourdomain.com
+# 
+# Common Mistakes to Avoid:
+# - Don't block CSS/JS if they're needed for rendering
+# - Don't use robots.txt for security (it's public!)
+# - Test after deployment - paths might change
+# - Remember robots.txt is case-sensitive
+# =============================================================================

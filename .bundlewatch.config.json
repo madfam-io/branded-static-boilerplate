@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "path": "dist/js/*.js",
+      "maxSize": "50kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/js/vendor-*.js",
+      "maxSize": "100kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/js/learning-*.js",
+      "maxSize": "30kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/js/interactive-*.js",
+      "maxSize": "40kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/js/ui-*.js",
+      "maxSize": "25kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/js/i18n-*.js",
+      "maxSize": "20kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/*.css",
+      "maxSize": "30kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/assets/main-*.css",
+      "maxSize": "50kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/*.html",
+      "maxSize": "15kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "dist/pages/*.html",
+      "maxSize": "20kB",
+      "compression": "gzip"
+    }
+  ],
+  "defaultCompression": "gzip",
+  "normalizeFilenames": true,
+  "ci": {
+    "trackBranches": ["main", "develop"],
+    "repoBranchBase": "main"
+  }
+}

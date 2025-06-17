@@ -23,6 +23,7 @@
 // Import component modules
 import './bsb-helper.js';
 import '../../components/header/header.js';
+import './resource-hints.js';
 
 /**
  * Initialize all BSB features

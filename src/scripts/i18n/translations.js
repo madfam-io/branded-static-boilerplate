@@ -22,6 +22,7 @@ export const translations = {
       services: 'Services',
       playground: 'Playground',
       projectStructure: 'Project Structure',
+      designSystem: 'Design System',
       contact: 'Contact'
     },
 
@@ -290,6 +291,45 @@ export const translations = {
       }
     },
 
+    // Design System page
+    designSystem: {
+      title: 'Design System Showcase',
+      subtitle: 'Interactive Design Token Explorer',
+      description: 'Explore BSB\'s comprehensive design system including color palettes with accessibility ratings, typography scale with usage examples, spacing system with visual representations, component variations and states, and interactive examples with live code.',
+      sections: {
+        colors: {
+          title: 'Color System',
+          description: 'Our color palette is designed with accessibility in mind, ensuring sufficient contrast ratios and meaningful semantic associations.'
+        },
+        typography: {
+          title: 'Typography Scale',
+          description: 'A harmonious type scale that ensures readability and hierarchy across all devices and screen sizes.'
+        },
+        spacing: {
+          title: 'Spacing System',
+          description: 'Consistent spacing creates visual rhythm and improves readability. Our 8px-based system provides flexibility while maintaining harmony.'
+        },
+        components: {
+          title: 'Component Library',
+          description: 'Reusable components built with accessibility, flexibility, and consistency in mind.'
+        }
+      },
+      features: {
+        tokens: {
+          title: 'Design Tokens',
+          description: 'Explore our color palettes, typography scales, and spacing systems with copy-to-clipboard functionality.'
+        },
+        components: {
+          title: 'Components',
+          description: 'Interactive component showcase with all variants, states, and usage examples.'
+        },
+        accessibility: {
+          title: 'Accessibility',
+          description: 'Learn about accessible design practices with contrast checkers and ARIA examples.'
+        }
+      }
+    },
+
     // Error messages
     errors: {
       pageNotFound: 'Page Not Found',
@@ -318,6 +358,7 @@ export const translations = {
       services: 'Servicios',
       playground: 'Laboratorio',
       projectStructure: 'Estructura del Proyecto',
+      designSystem: 'Sistema de Diseño',
       contact: 'Contacto'
     },
 
@@ -583,6 +624,45 @@ export const translations = {
       docs: {
         title: 'Documentación',
         description: 'Documentación del proyecto, tutoriales y guías para desarrolladores.'
+      }
+    },
+
+    // Página del Sistema de Diseño
+    designSystem: {
+      title: 'Escaparate del Sistema de Diseño',
+      subtitle: 'Explorador Interactivo de Tokens de Diseño',
+      description: 'Explora el sistema de diseño integral de BSB incluyendo paletas de color con calificaciones de accesibilidad, escala tipográfica con ejemplos de uso, sistema de espaciado con representaciones visuales, variaciones y estados de componentes, y ejemplos interactivos con código en vivo.',
+      sections: {
+        colors: {
+          title: 'Sistema de Color',
+          description: 'Nuestra paleta de colores está diseñada con la accesibilidad en mente, asegurando ratios de contraste suficientes y asociaciones semánticas significativas.'
+        },
+        typography: {
+          title: 'Escala Tipográfica',
+          description: 'Una escala tipográfica armoniosa que asegura legibilidad y jerarquía en todos los dispositivos y tamaños de pantalla.'
+        },
+        spacing: {
+          title: 'Sistema de Espaciado',
+          description: 'El espaciado consistente crea ritmo visual y mejora la legibilidad. Nuestro sistema basado en 8px proporciona flexibilidad manteniendo la armonía.'
+        },
+        components: {
+          title: 'Biblioteca de Componentes',
+          description: 'Componentes reutilizables construidos con accesibilidad, flexibilidad y consistencia en mente.'
+        }
+      },
+      features: {
+        tokens: {
+          title: 'Tokens de Diseño',
+          description: 'Explora nuestras paletas de color, escalas tipográficas y sistemas de espaciado con funcionalidad de copiar al portapapeles.'
+        },
+        components: {
+          title: 'Componentes',
+          description: 'Escaparate interactivo de componentes con todas las variantes, estados y ejemplos de uso.'
+        },
+        accessibility: {
+          title: 'Accesibilidad',
+          description: 'Aprende sobre prácticas de diseño accesible con verificadores de contraste y ejemplos ARIA.'
+        }
       }
     },
 
