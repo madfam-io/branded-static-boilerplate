@@ -1,7 +1,7 @@
 {
-  "name": "Branded Static Boilerplate Learning Platform",
-  "short_name": "BSB Learning",
-  "description": "Interactive educational platform for learning modern web development through hands-on experience",
+  "name": "Plataforma de Aprendizaje Plantilla Estática de Marca",
+  "short_name": "Aprendizaje BSB",
+  "description": "Plataforma educativa interactiva para aprender desarrollo web moderno a través de experiencia práctica",
   "start_url": "/branded-static-boilerplate/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -34,21 +34,21 @@
     }
   ],
   "categories": ["education", "developer", "learning"],
-  "lang": "en-US",
+  "lang": "es-ES",
   "dir": "ltr",
   "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name": "Interactive Playground",
-      "short_name": "Playground",
-      "description": "Code editor with live preview",
+      "name": "Laboratorio Interactivo",
+      "short_name": "Laboratorio",
+      "description": "Editor de código con vista previa en vivo",
       "url": "/branded-static-boilerplate/pages/interactive-playground.html",
       "icons": [{ "src": "/branded-static-boilerplate/assets/images/playground-icon.png", "sizes": "96x96" }]
     },
     {
-      "name": "Component Library",
-      "short_name": "Components",
-      "description": "Interactive component showcase",
+      "name": "Biblioteca de Componentes",
+      "short_name": "Componentes",
+      "description": "Muestra interactiva de componentes",
       "url": "/branded-static-boilerplate/pages/component-library.html",
       "icons": [{ "src": "/branded-static-boilerplate/assets/images/components-icon.png", "sizes": "96x96" }]
     }

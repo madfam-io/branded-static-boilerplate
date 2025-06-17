@@ -1,75 +1,75 @@
 <!--
   =============================================================================
-  BSB LEARNING MODE TOGGLE COMPONENT - Educational Features Toggle
+  COMPONENTE ALTERNADOR MODO APRENDIZAJE BSB - Alternador de Características Educativas
   =============================================================================
   
-  This component provides a user-friendly interface for enabling/disabling
-  BSB's comprehensive learning mode features.
+  Este componente proporciona una interfaz amigable para habilitar/deshabilitar
+  las características integrales del modo de aprendizaje de BSB.
   
-  🎯 Features:
-  - One-click toggle for learning mode activation/deactivation
-  - Visual indicators for current learning mode state
-  - Accessible button with proper ARIA labels
-  - Smooth transitions and feedback
-  - Integration with existing learning mode system
+  🎯 Características:
+  - Alternador de un clic para activación/desactivación del modo de aprendizaje
+  - Indicadores visuales para el estado actual del modo de aprendizaje
+  - Botón accesible con etiquetas ARIA apropiadas
+  - Transiciones suaves y retroalimentación
+  - Integración con el sistema de modo de aprendizaje existente
   
-  📚 Learning Mode Features:
-  - Interactive component tooltips and documentation
-  - Development panel with debugging tools
-  - Component inspector and grid overlay
-  - Performance metrics and code insights
-  - Educational keyboard shortcuts
+  📚 Características del Modo de Aprendizaje:
+  - Tooltips interactivos de componentes y documentación
+  - Panel de desarrollo con herramientas de depuración
+  - Inspector de componentes y superposición de rejilla
+  - Métricas de rendimiento e insights de código
+  - Atajos de teclado educativos
   
-  💡 Usage:
-  1. Include this HTML in your header actions
-  2. Include learning-toggle.css for styles
-  3. Include learning-toggle.js for functionality
-  4. Component automatically detects current learning mode state
+  💡 Uso:
+  1. Incluye este HTML en las acciones de tu encabezado
+  2. Incluye learning-toggle.css para estilos
+  3. Incluye learning-toggle.js para funcionalidad
+  4. El componente detecta automáticamente el estado actual del modo de aprendizaje
   =============================================================================
 -->
 
 <div class="bsb-learning-toggle" data-bsb-component="learning-toggle">
   <!-- 
-    Learning Mode Toggle Button
-    ===========================
-    The main button that toggles learning mode on/off
+    Botón Alternador de Modo de Aprendizaje
+    ========================================
+    El botón principal que alterna el modo de aprendizaje encendido/apagado
   -->
   <button 
     class="bsb-learning-toggle__button" 
-    aria-label="Toggle learning mode" 
+    aria-label="Alternar modo de aprendizaje" 
     aria-pressed="false"
     type="button"
     data-bsb-learning-button
-    title="Enable interactive learning features"
+    title="Habilitar características de aprendizaje interactivo"
   >
-    <!-- Learning Mode Icons -->
+    <!-- Iconos del Modo de Aprendizaje -->
     <span class="bsb-learning-toggle__icons" aria-hidden="true">
-      <!-- Graduation cap icon for learning mode -->
+      <!-- Icono de gorro de graduación para modo de aprendizaje -->
       <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
         <path d="M6 12v5c3 3 9 3 12 0v-5"/>
       </svg>
       
-      <!-- Book icon for regular mode -->
+      <!-- Icono de libro para modo regular -->
       <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
       </svg>
     </span>
     
-    <!-- Screen reader text for current state -->
+    <!-- Texto del lector de pantalla para estado actual -->
     <span class="bsb-learning-toggle__label">
-      Learning mode: <span data-bsb-learning-label>Off</span>
+      Modo de aprendizaje: <span data-bsb-learning-label>Desactivado</span>
     </span>
   </button>
   
   <!-- 
-    Learning Mode Status Indicator
-    ==============================
-    Visual indicator showing current learning mode state
+    Indicador de Estado del Modo de Aprendizaje
+    ============================================
+    Indicador visual que muestra el estado actual del modo de aprendizaje
   -->
   <div class="bsb-learning-toggle__status" data-bsb-learning-status aria-hidden="true">
-    <span class="bsb-learning-toggle__status-text">Learning Mode</span>
+    <span class="bsb-learning-toggle__status-text">Modo de Aprendizaje</span>
     <span class="bsb-learning-toggle__status-indicator"></span>
   </div>
 </div>

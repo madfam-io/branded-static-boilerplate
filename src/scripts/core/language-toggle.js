@@ -17,7 +17,7 @@
 
 class LanguageToggle {
   constructor() {
-    this.currentLanguage = this.getStoredLanguage() || this.detectBrowserLanguage() || 'en';
+    this.currentLanguage = this.getStoredLanguage() || this.detectBrowserLanguage() || 'es';
     this.translations = {};
     this.init();
   }
@@ -44,7 +44,7 @@ class LanguageToggle {
     
     // Check if browser language is supported
     const langCode = browserLang.split('-')[0];
-    return supportedLanguages.includes(langCode) ? langCode : 'en';
+    return supportedLanguages.includes(langCode) ? langCode : 'es';
   }
 
   /**
@@ -196,7 +196,7 @@ class LanguageToggle {
     document.addEventListener('keydown', (e) => {
       if (e.altKey && e.key === 'l') {
         e.preventDefault();
-        const newLanguage = this.currentLanguage === 'en' ? 'es' : 'en';
+        const newLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
         this.switchLanguage(newLanguage);
       }
     });
@@ -297,8 +297,8 @@ class LanguageToggle {
     
     const langName = language === 'en' ? 'English' : 'Español';
     const message = isChange 
-      ? `Language changed to ${langName}`
-      : `Current language: ${langName}`;
+      ? (language === 'es' ? `Idioma cambiado a ${langName}` : `Language changed to ${langName}`)
+      : (language === 'es' ? `Idioma actual: ${langName}` : `Current language: ${langName}`);
     
     announcement.textContent = message;
     document.body.appendChild(announcement);

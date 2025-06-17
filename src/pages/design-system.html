@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" data-current-language="en">
+<html lang="es" data-current-language="es">
 <!--
   =============================================================================
-  BSB DESIGN SYSTEM SHOWCASE - Interactive Design Token Explorer
+  MUESTRA DEL SISTEMA DE DISEÑO BSB - Explorador Interactivo de Tokens de Diseño
   =============================================================================
   
-  This page showcases BSB's complete design system including:
-  - Color palettes with accessibility ratings
-  - Typography scale with usage examples
-  - Spacing system with visual representations
-  - Component variations and states
-  - Interactive examples with live code
+  Esta página muestra el sistema de diseño completo de BSB incluyendo:
+  - Paletas de colores con calificaciones de accesibilidad
+  - Escala tipográfica con ejemplos de uso
+  - Sistema de espaciado con representaciones visuales
+  - Variaciones y estados de componentes
+  - Ejemplos interactivos con código en vivo
   
-  🎯 Educational Goals:
-  1. Understand design system principles
-  2. Learn about design tokens and their benefits
-  3. Explore component composition and variants
-  4. Practice accessibility in design decisions
-  5. Master consistent spacing and typography
+  🎯 Objetivos Educativos:
+  1. Entender los principios del sistema de diseño
+  2. Aprender sobre tokens de diseño y sus beneficios
+  3. Explorar composición de componentes y variantes
+  4. Practicar accesibilidad en decisiones de diseño
+  5. Dominar espaciado y tipografía consistentes
   
-  📚 Learning Features:
-  - Interactive color contrast checker
-  - Live typography examples with CSS code
-  - Spacing calculator and visual grid
-  - Component state demonstrations
-  - Copy-to-clipboard design tokens
+  📚 Características de Aprendizaje:
+  - Verificador de contraste de color interactivo
+  - Ejemplos de tipografía en vivo con código CSS
+  - Calculadora de espaciado y rejilla visual
+  - Demostraciones de estados de componentes
+  - Tokens de diseño para copiar al portapapeles
   
-  💡 This page demonstrates advanced design system concepts:
-  - Atomic design methodology
-  - Design token architecture
-  - Accessibility-first color systems
-  - Responsive typography scales
+  💡 Esta página demuestra conceptos avanzados de sistema de diseño:
+  - Metodología de diseño atómico
+  - Arquitectura de tokens de diseño
+  - Sistemas de color con accesibilidad primero
+  - Escalas tipográficas responsivas
   =============================================================================
 -->
 <head>
@@ -43,8 +43,8 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   
   <!-- Page metadata -->
-  <title data-i18n="designSystem.title">Design System Showcase | BSB Learning Platform</title>
-  <meta name="description" data-i18n="designSystem.description" content="Explore BSB's comprehensive design system with interactive color palettes, typography scales, spacing guides, and component examples.">
+  <title data-i18n="designSystem.title">Muestra del Sistema de Diseño | Plataforma de Aprendizaje BSB</title>
+  <meta name="description" data-i18n="designSystem.description" content="Explora el sistema de diseño integral de BSB con paletas de colores interactivas, escalas tipográficas, guías de espaciado y ejemplos de componentes.">
   
   <!-- Social Media Tags -->
   <meta property="og:title" content="BSB Design System - Interactive Showcase">
@@ -310,8 +310,8 @@
 </head>
 
 <body>
-  <!-- Skip to main content link -->
-  <a href="#main" class="skip-link" data-i18n="ui.skipToMain">Skip to main content</a>
+  <!-- Saltar al contenido principal link -->
+  <a href="#main" class="skip-link" data-i18n="ui.skipToMain">Saltar al contenido principal</a>
   
   <!-- Header Component -->
   <header class="bsb-header" data-bsb-component="header" role="banner">
@@ -368,7 +368,7 @@
           <div class="bsb-language-toggle" data-bsb-component="language-toggle">
             <button 
               class="bsb-language-toggle__button" 
-              aria-label="Switch language" 
+              aria-label="Cambiar idioma" 
               aria-expanded="false"
               aria-haspopup="true"
               type="button"
@@ -379,21 +379,21 @@
                 <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span>
               </span>
               <span class="bsb-language-toggle__label">
-                Current language: <span data-bsb-language-label>English</span>
+                Idioma actual: <span data-bsb-language-label>Español</span>
               </span>
             </button>
             
             <div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true">
-              <ul class="bsb-language-toggle__options" role="menu" aria-label="Language options">
+              <ul class="bsb-language-toggle__options" role="menu" aria-label="Opciones de idioma">
                 <li role="none">
-                  <button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="true">
+                  <button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="false">
                     <span class="bsb-language-toggle__option-icon">🇺🇸</span>
                     <span class="bsb-language-toggle__option-text">English</span>
                     <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
                   </button>
                 </li>
                 <li role="none">
-                  <button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="false">
+                  <button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="true">
                     <span class="bsb-language-toggle__option-icon">🇪🇸</span>
                     <span class="bsb-language-toggle__option-text">Español</span>
                     <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
@@ -470,7 +470,7 @@
           
           <button 
             class="bsb-header__toggle" 
-            aria-label="Toggle navigation menu"
+            aria-label="Alternar navegación menu"
             aria-expanded="false"
             aria-controls="main-nav"
             type="button"

@@ -34,7 +34,7 @@
   -->
   <button 
     class="bsb-language-toggle__button" 
-    aria-label="Switch language" 
+    aria-label="Cambiar idioma" 
     aria-expanded="false"
     aria-haspopup="true"
     type="button"
@@ -42,16 +42,16 @@
   >
     <!-- Language Icons -->
     <span class="bsb-language-toggle__icons" aria-hidden="true">
-      <!-- English flag/icon -->
-      <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span>
-      
       <!-- Spanish flag/icon -->
       <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span>
+      
+      <!-- English flag/icon -->
+      <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span>
     </span>
     
     <!-- Screen reader text for current language -->
     <span class="bsb-language-toggle__label">
-      Current language: <span data-bsb-language-label>English</span>
+      Idioma actual: <span data-bsb-language-label>Español</span>
     </span>
   </button>
   
@@ -61,16 +61,16 @@
     Dropdown menu with all language options
   -->
   <div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true">
-    <ul class="bsb-language-toggle__options" role="menu" aria-label="Language options">
+    <ul class="bsb-language-toggle__options" role="menu" aria-label="Opciones de idioma">
       <li role="none">
         <button 
           class="bsb-language-toggle__option" 
           role="menuitem" 
-          data-language="en"
+          data-language="es"
           aria-current="true"
         >
-          <span class="bsb-language-toggle__option-icon">🇺🇸</span>
-          <span class="bsb-language-toggle__option-text">English</span>
+          <span class="bsb-language-toggle__option-icon">🇪🇸</span>
+          <span class="bsb-language-toggle__option-text">Español</span>
           <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
         </button>
       </li>
@@ -78,11 +78,11 @@
         <button 
           class="bsb-language-toggle__option" 
           role="menuitem" 
-          data-language="es"
+          data-language="en"
           aria-current="false"
         >
-          <span class="bsb-language-toggle__option-icon">🇪🇸</span>
-          <span class="bsb-language-toggle__option-text">Español</span>
+          <span class="bsb-language-toggle__option-icon">🇺🇸</span>
+          <span class="bsb-language-toggle__option-text">English</span>
           <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span>
         </button>
       </li>

@@ -1,41 +1,41 @@
-<!doctype html><html lang="en"><!--
+<!doctype html><html lang="es"><!--
   =============================================================================
-  PROJECT STRUCTURE PAGE - Learn Web Development Through File Organization
+  PÁGINA DE ESTRUCTURA DEL PROYECTO - Aprende Desarrollo Web a Través de la Organización de Archivos
   =============================================================================
   
-  This page teaches newcomers about modern web project organization through
-  an interactive file system explorer with educational tooltips and detailed
-  explanations.
+  Esta página enseña a los recién llegados sobre la organización moderna de proyectos web a través de
+  un explorador interactivo del sistema de archivos con tooltips educativos y explicaciones
+  detalladas.
   
-  🎯 Learning Objectives:
-  1. Understand the purpose of each folder and file in a web project
-  2. Learn industry-standard project organization patterns
-  3. Recognize common configuration files and their roles
-  4. Master component-based architecture principles
-  5. Develop best practices for maintainable code structure
+  🎯 Objetivos de Aprendizaje:
+  1. Entender el propósito de cada carpeta y archivo en un proyecto web
+  2. Aprender patrones de organización de proyectos estándar de la industria
+  3. Reconocer archivos de configuración comunes y sus roles
+  4. Dominar principios de arquitectura basada en componentes
+  5. Desarrollar mejores prácticas para estructura de código mantenible
   
-  📚 Educational Features:
-  - Interactive file tree with expandable folders
-  - Rich tooltips explaining each item's purpose
-  - Progressive disclosure with detailed learning panels
-  - Real-world examples with practical context
-  - Links to authoritative documentation
+  📚 Características Educativas:
+  - Árbol de archivos interactivo con carpetas expandibles
+  - Tooltips ricos explicando el propósito de cada elemento
+  - Revelación progresiva con paneles de aprendizaje detallados
+  - Ejemplos del mundo real con contexto práctico
+  - Enlaces a documentación autoritativa
   
-  💡 Pedagogical Approach:
-  - Start with high-level concepts before diving into specifics
-  - Use familiar analogies to explain abstract concepts
-  - Provide "why" context, not just "what" descriptions
-  - Include common beginner mistakes and how to avoid them
-  - Connect related concepts across the project structure
+  💡 Enfoque Pedagógico:
+  - Comenzar con conceptos de alto nivel antes de profundizar en especificidades
+  - Usar analogías familiares para explicar conceptos abstractos
+  - Proporcionar contexto del "por qué", no solo descripciones del "qué"
+  - Incluir errores comunes de principiantes y cómo evitarlos
+  - Conectar conceptos relacionados a través de la estructura del proyecto
   =============================================================================
 --><head><!-- 
-    Character Encoding and Viewport
-    ===============================
-    Essential meta tags for proper rendering and mobile responsiveness
+    Codificación de Caracteres y Viewport
+    =======================================
+    Etiquetas meta esenciales para renderizado adecuado y responsividad móvil
   --><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><!-- 
-    Security Headers
-    ================
-    Content Security Policy and security headers for protection
+    Encabezados de Seguridad
+    =========================
+    Política de Seguridad de Contenido y encabezados de seguridad para protección
   --><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-src 'self' data:;"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"><!-- 
     Page Title and Meta Description
     ===============================
@@ -86,11 +86,11 @@
     Skip to Main Content Link
     =========================
     Accessibility feature for keyboard and screen reader users
-  --> <a href="#main" class="skip-link">Skip to main content</a><!-- 
+  --> <a href="#main" class="skip-link">Saltar al contenido principal</a><!-- 
     Site Header
     ===========
     Reusable header component with navigation and theme toggle
-  --><header class="bsb-header" data-bsb-component="header" role="banner"><div class="container"><div class="bsb-header__inner"><!-- Site Branding --><div class="bsb-header__brand"><a href="/branded-static-boilerplate/" class="bsb-header__logo" aria-label="BSB Learning - Home"><strong>BSB Learning</strong></a></div><!-- Main Navigation --><nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav"><ul class="bsb-header__menu" role="menubar"><li role="none"><a href="/branded-static-boilerplate/" class="bsb-header__link" role="menuitem">Home</a></li><li role="none"><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link" role="menuitem">About</a></li><li role="none"><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link" role="menuitem">Services</a></li><li role="none"><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" role="menuitem">Playground</a></li><li role="none"><a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link" role="menuitem" aria-current="page">Project Structure</a></li><li role="none"><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link" role="menuitem">Contact</a></li></ul></nav><!-- Header Actions --><div class="bsb-header__actions"><!-- Theme Toggle Component --><div class="bsb-theme-toggle" data-bsb-component="theme-toggle"><button class="bsb-theme-toggle__button" aria-label="Switch theme" aria-expanded="false" aria-haspopup="true" type="button" data-bsb-theme-button><span class="bsb-theme-toggle__icons" aria-hidden="true"><!-- Light mode icon (sun) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><!-- Dark mode icon (moon) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><!-- Auto mode icon (monitor) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> </span><span class="bsb-theme-toggle__label">Current theme: <span data-bsb-theme-label>Auto</span></span></button><div class="bsb-theme-toggle__menu" data-bsb-theme-menu aria-hidden="true"><ul class="bsb-theme-toggle__options" role="menu" aria-label="Theme options"><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="light" aria-current="false"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> <span class="bsb-theme-toggle__option-text">Light</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="dark" aria-current="false"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> <span class="bsb-theme-toggle__option-text">Dark</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="auto" aria-current="true"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> <span class="bsb-theme-toggle__option-text">Auto</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li></ul></div></div><!-- Mobile Menu Toggle --> <button class="bsb-header__toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="main-nav" type="button"><span class="bsb-header__toggle-icon" aria-hidden="true"><span></span> <span></span> <span></span></span></button></div></div></div></header><!-- 
+  --><header class="bsb-header" data-bsb-component="header" role="banner"><div class="container"><div class="bsb-header__inner"><!-- Site Branding --><div class="bsb-header__brand"><a href="/branded-static-boilerplate/" class="bsb-header__logo" aria-label="BSB Learning - Home"><strong>BSB Learning</strong></a></div><!-- Main Navigation --><nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav"><ul class="bsb-header__menu" role="menubar"><li role="none"><a href="/branded-static-boilerplate/" class="bsb-header__link" role="menuitem">Home</a></li><li role="none"><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link" role="menuitem">About</a></li><li role="none"><a href="/branded-static-boilerplate/pages/services.html" class="bsb-header__link" role="menuitem">Services</a></li><li role="none"><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" role="menuitem">Playground</a></li><li role="none"><a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link" role="menuitem" aria-current="page">Project Structure</a></li><li role="none"><a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link" role="menuitem">Contact</a></li></ul></nav><!-- Header Actions --><div class="bsb-header__actions"><!-- Theme Toggle Component --><div class="bsb-theme-toggle" data-bsb-component="theme-toggle"><button class="bsb-theme-toggle__button" aria-label="Switch theme" aria-expanded="false" aria-haspopup="true" type="button" data-bsb-theme-button><span class="bsb-theme-toggle__icons" aria-hidden="true"><!-- Light mode icon (sun) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><!-- Dark mode icon (moon) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><!-- Auto mode icon (monitor) --> <svg class="bsb-theme-toggle__icon bsb-theme-toggle__icon--auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> </span><span class="bsb-theme-toggle__label">Current theme: <span data-bsb-theme-label>Auto</span></span></button><div class="bsb-theme-toggle__menu" data-bsb-theme-menu aria-hidden="true"><ul class="bsb-theme-toggle__options" role="menu" aria-label="Theme options"><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="light" aria-current="false"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg> <span class="bsb-theme-toggle__option-text">Light</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="dark" aria-current="false"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> <span class="bsb-theme-toggle__option-text">Dark</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-theme-toggle__option" role="menuitem" data-theme="auto" aria-current="true"><svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> <span class="bsb-theme-toggle__option-text">Auto</span> <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span></button></li></ul></div></div><!-- Mobile Menu Toggle --> <button class="bsb-header__toggle" aria-label="Alternar navegación menu" aria-expanded="false" aria-controls="main-nav" type="button"><span class="bsb-header__toggle-icon" aria-hidden="true"><span></span> <span></span> <span></span></span></button></div></div></div></header><!-- 
     Main Content Area
     =================
     Page-specific content with semantic structure

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  =============================================================================
+  CENTRO DE TUTORIALES - Tu Puerta de Entrada al Dominio del Desarrollo Web
+  =============================================================================
+  
+  Esta página sirve como el directorio central para todos los recursos de aprendizaje BSB,
+  proporcionando rutas de aprendizaje estructuradas y acceso fácil a tutoriales completos.
+  
+  🎯 Objetivos de Aprendizaje:
+  1. Proporcionar rutas de aprendizaje claras para diferentes niveles de habilidad
+  2. Mostrar la profundidad y amplitud del contenido disponible
+  3. Ayudar a los estudiantes a navegar eficientemente por el curriculum
+  4. Demostrar construcción progresiva de habilidades
+  5. Fomentar la exploración y el aprendizaje continuo
+  
+  📚 Características Educativas:
+  - Rutas de aprendizaje basadas en habilidades (Principiante a Avanzado)
+  - Compromisos de tiempo estimados y niveles de dificultad
+  - Integración de seguimiento de progreso
+  - Recomendaciones de contenido relacionado
+  - Elementos interactivos y herramientas de participación
+  
+  💡 Esta página demuestra técnicas avanzadas de sitios estáticos:
+  - Estructura HTML semántica para accesibilidad
+  - Mejora progresiva con JavaScript
+  - CSS Grid para gestión de diseños complejos
+  - Patrones de diseño de contenido educativo
+  - Optimización SEO para contenido educativo
+  =============================================================================
+-->
+<head>
+  <!-- Essential meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Content Security Policy and Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  
+  <!-- Page-specific title and description -->
+  <title>Centro Completo de Tutoriales de Desarrollo Web | Plataforma de Aprendizaje BSB</title>
+  <meta name="description" content="Domina el desarrollo web con nuestra colección completa de tutoriales. Desde básicos de HTML hasta optimización avanzada de rendimiento - rutas de aprendizaje estructuradas para cada nivel.">
+  <meta name="keywords" content="web development tutorials, HTML CSS JavaScript, learn programming, interactive coding, responsive design, performance optimization, accessibility">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://madfam-io.github.io/branded-static-boilerplate/docs/tutorials/">
+  
+  <!-- Social Media Tags -->
+  <meta property="og:title" content="Centro Completo de Tutoriales de Desarrollo Web - Aprendizaje BSB">
+  <meta property="og:description" content="Tutoriales completos de desarrollo web de principiante a avanzado. Aprende HTML, CSS, JavaScript y mejores prácticas modernas a través de contenido interactivo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://madfam-io.github.io/branded-static-boilerplate/docs/tutorials/">
+  <meta property="og:image" content="../assets/images/tutorial-hub-preview.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Centro de Tutoriales de Desarrollo Web - Aprende Haciendo">
+  <meta name="twitter:description" content="Rutas de aprendizaje estructuradas para dominio del desarrollo web. Tutoriales interactivos, ejemplos prácticos y ejercicios de codificación práctica.">
+  
+  <!-- Educational Schema.org markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Web Development Tutorial Hub",
+    "description": "Comprehensive web development learning platform with structured tutorials and hands-on exercises",
+    "educationalLevel": "Beginner to Advanced",
+    "learningResourceType": "Course Collection",
+    "teaches": ["HTML", "CSS", "JavaScript", "Web Performance", "Accessibility", "SEO", "Responsive Design"],
+    "timeRequired": "PT40H",
+    "inLanguage": "es",
+    "provider": {
+      "@type": "Organization",
+      "name": "BSB Learning Platform",
+      "url": "https://madfam-io.github.io/branded-static-boilerplate/"
+    },
+    "hasPart": [
+      {
+        "@type": "LearningResource",
+        "name": "Component Development Tutorial",
+        "url": "./component-development.html"
+      },
+      {
+        "@type": "LearningResource", 
+        "name": "CSS Theming Guide",
+        "url": "./theming.html"
+      },
+      {
+        "@type": "LearningResource",
+        "name": "Build Process Tutorial", 
+        "url": "./build-process.html"
+      },
+      {
+        "@type": "LearningResource",
+        "name": "Deployment Guide",
+        "url": "./deployment.html"
+      },
+      {
+        "@type": "LearningResource",
+        "name": "Performance Optimization",
+        "url": "./performance.html"
+      },
+      {
+        "@type": "LearningResource",
+        "name": "Accessibility Best Practices",
+        "url": "./accessibility.html"
+      },
+      {
+        "@type": "LearningResource",
+        "name": "SEO Optimization Guide",
+        "url": "./seo.html"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../../images/favicon.svg">
+  <link rel="icon" type="image/png" href="../../images/favicon.png">
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../../styles/main.css">
+  <link rel="stylesheet" href="../../styles/components/header.css">
+  <link rel="stylesheet" href="../../styles/components/footer.css">
+  <link rel="stylesheet" href="../../styles/components/hero.css">
+  <link rel="stylesheet" href="../../styles/components/card.css">
+  <link rel="stylesheet" href="../../styles/components/tutorial-hub.css">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- JavaScript -->
+  <script src="../../scripts/main.js" defer></script>
+  <script src="../../scripts/components/tutorial-hub.js" defer></script>
+</head>
+
+<body>
+  <!-- Skip to main content link -->
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+  
+  <!-- Header Component -->
+  <header class="bsb-header" data-bsb-component="header" role="banner">
+    <div class="container">
+      <div class="bsb-header__inner">
+        <div class="bsb-header__brand">
+          <a href="../../" class="bsb-header__logo">
+            <strong>BSB Learning</strong>
+          </a>
+        </div>
+        
+        <nav class="bsb-header__nav" aria-label="Navegación principal" id="main-nav">
+          <ul class="bsb-header__menu">
+            <li><a href="../../" class="bsb-header__link">Inicio</a></li>
+            <li><a href="../../pages/about.html" class="bsb-header__link">Acerca de</a></li>
+            <li><a href="../../pages/services.html" class="bsb-header__link">Servicios</a></li>
+            <li><a href="../../pages/interactive-playground.html" class="bsb-header__link">Laboratorio</a></li>
+            <li><a href="./" class="bsb-header__link" aria-current="page">Tutoriales</a></li>
+            <li><a href="../../pages/contact.html" class="bsb-header__link">Contacto</a></li>
+          </ul>
+        </nav>
+        
+        <button class="bsb-header__toggle" aria-label="Alternar navegación" aria-expanded="false" aria-controls="main-nav">
+          <span class="bsb-header__toggle-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main id="main" role="main">
+    
+    <!-- Hero Section -->
+    <section class="bsb-hero bsb-hero--tutorials" data-bsb-component="hero">
+      <div class="container">
+        <div class="bsb-hero__content">
+          <h1 class="bsb-hero__title">
+            Dominio del Desarrollo Web
+            <span class="bsb-hero__subtitle">Colección Completa de Tutoriales</span>
+          </h1>
+          <p class="bsb-hero__lead">
+            Desde tu primera línea de HTML hasta optimización avanzada de rendimiento—domina el desarrollo web moderno 
+            a través de tutoriales completos y prácticos diseñados para aplicación en el mundo real.
+          </p>
+          <div class="bsb-hero__stats">
+            <div class="hero-stat">
+              <span class="hero-stat__number">7</span>
+              <span class="hero-stat__label">Tutoriales Principales</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat__number">40+</span>
+              <span class="hero-stat__label">Horas de Contenido</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat__number">100+</span>
+              <span class="hero-stat__label">Ejemplos de Código</span>
+            </div>
+          </div>
+          <div class="bsb-hero__actions">
+            <a href="#learning-paths" class="btn btn--primary btn--large">Comenzar Aprendizaje</a>
+            <a href="../getting-started.html" class="btn btn--secondary btn--large">Guía de Inicio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Learning Progress Overview -->
+    <section class="section section--alt" aria-labelledby="progress-heading">
+      <div class="container">
+        <header class="section__header">
+          <h2 id="progress-heading" class="section__title">Tu Jornada de Aprendizaje</h2>
+          <p class="section__lead">
+            Rastrea tu progreso a través de nuestro currículum integral diseñado para llevarte de 
+            principiante a desarrollador web avanzado.
+          </p>
+        </header>
+        
+        <!-- Progress Tracker Component -->
+        <div class="learning-progress-overview" data-bsb-component="progress-overview">
+          <div class="progress-stats">
+            <div class="progress-stat">
+              <div class="progress-stat__icon">📚</div>
+              <div class="progress-stat__content">
+                <span class="progress-stat__number" data-progress="tutorials-completed">0</span>
+                <span class="progress-stat__label">Tutoriales Completados</span>
+              </div>
+            </div>
+            <div class="progress-stat">
+              <div class="progress-stat__icon">⏱️</div>
+              <div class="progress-stat__content">
+                <span class="progress-stat__number" data-progress="hours-learned">0</span>
+                <span class="progress-stat__label">Horas Aprendidas</span>
+              </div>
+            </div>
+            <div class="progress-stat">
+              <div class="progress-stat__icon">🎯</div>
+              <div class="progress-stat__content">
+                <span class="progress-stat__number" data-progress="skill-level">Beginner</span>
+                <span class="progress-stat__label">Current Level</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="progress-visual">
+            <div class="progress-circle">
+              <svg class="progress-circle__svg" viewBox="0 0 100 100">
+                <circle class="progress-circle__background" cx="50" cy="50" r="45"></circle>
+                <circle class="progress-circle__progress" cx="50" cy="50" r="45" data-progress-circle></circle>
+              </svg>
+              <div class="progress-circle__content">
+                <span class="progress-circle__percentage" data-progress="overall-percentage">0%</span>
+                <span class="progress-circle__label">Complete</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Learning Paths -->
+    <section class="section" id="learning-paths" aria-labelledby="paths-heading">
+      <div class="container">
+        <header class="section__header">
+          <h2 id="paths-heading" class="section__title">Choose Your Learning Path</h2>
+          <p class="section__lead">
+            Structured learning journeys designed for different goals and experience levels. 
+            Each path builds systematically on previous knowledge.
+          </p>
+        </header>
+        
+        <div class="learning-paths-grid">
+          
+          <!-- Beginner Path -->
+          <article class="learning-path" data-path="beginner">
+            <div class="learning-path__header">
+              <div class="learning-path__icon">🌱</div>
+              <h3 class="learning-path__title">Foundation Builder</h3>
+              <p class="learning-path__subtitle">Perfect for complete beginners</p>
+            </div>
+            
+            <div class="learning-path__content">
+              <p class="learning-path__description">
+                Start your web development journey with solid fundamentals. Learn HTML, CSS, 
+                and JavaScript through practical, hands-on projects that build real skills.
+              </p>
+              
+              <div class="learning-path__meta">
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">⏱️</span>
+                  <span class="path-meta__text">15-20 hours</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">📊</span>
+                  <span class="path-meta__text">Beginner</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">🎯</span>
+                  <span class="path-meta__text">3 core tutorials</span>
+                </span>
+              </div>
+              
+              <ol class="learning-path__steps">
+                <li class="path-step">
+                  <a href="./component-development.html" class="path-step__link">
+                    <span class="path-step__number">1</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">Component Development</h4>
+                      <p class="path-step__description">Build reusable HTML, CSS, and JavaScript components</p>
+                    </div>
+                  </a>
+                </li>
+                <li class="path-step">
+                  <a href="./theming.html" class="path-step__link">
+                    <span class="path-step__number">2</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">CSS Theming</h4>
+                      <p class="path-step__description">Master CSS custom properties and design systems</p>
+                    </div>
+                  </a>
+                </li>
+                <li class="path-step">
+                  <a href="./build-process.html" class="path-step__link">
+                    <span class="path-step__number">3</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">Build Process</h4>
+                      <p class="path-step__description">Understand modern development workflows and tooling</p>
+                    </div>
+                  </a>
+                </li>
+              </ol>
+            </div>
+            
+            <div class="learning-path__actions">
+              <a href="./component-development.html" class="btn btn--primary">Start Foundation Path</a>
+            </div>
+          </article>
+          
+          <!-- Intermediate Path -->
+          <article class="learning-path" data-path="intermediate">
+            <div class="learning-path__header">
+              <div class="learning-path__icon">🚀</div>
+              <h3 class="learning-path__title">Skill Enhancer</h3>
+              <p class="learning-path__subtitle">For developers ready to level up</p>
+            </div>
+            
+            <div class="learning-path__content">
+              <p class="learning-path__description">
+                Elevate your development skills with advanced techniques in performance, 
+                accessibility, and modern deployment strategies.
+              </p>
+              
+              <div class="learning-path__meta">
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">⏱️</span>
+                  <span class="path-meta__text">20-25 hours</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">📊</span>
+                  <span class="path-meta__text">Intermediate</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">🎯</span>
+                  <span class="path-meta__text">4 advanced tutorials</span>
+                </span>
+              </div>
+              
+              <ol class="learning-path__steps">
+                <li class="path-step">
+                  <a href="./deployment.html" class="path-step__link">
+                    <span class="path-step__number">1</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">Deployment Mastery</h4>
+                      <p class="path-step__description">Master GitHub Pages, CI/CD, and production optimization</p>
+                    </div>
+                  </a>
+                </li>
+                <li class="path-step">
+                  <a href="./performance.html" class="path-step__link">
+                    <span class="path-step__number">2</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">Performance Optimization</h4>
+                      <p class="path-step__description">Achieve perfect Lighthouse scores and Core Web Vitals</p>
+                    </div>
+                  </a>
+                </li>
+                <li class="path-step">
+                  <a href="./accessibility.html" class="path-step__link">
+                    <span class="path-step__number">3</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">Accessibility Excellence</h4>
+                      <p class="path-step__description">Create inclusive experiences that work for everyone</p>
+                    </div>
+                  </a>
+                </li>
+                <li class="path-step">
+                  <a href="./seo.html" class="path-step__link">
+                    <span class="path-step__number">4</span>
+                    <div class="path-step__content">
+                      <h4 class="path-step__title">SEO Optimization</h4>
+                      <p class="path-step__description">Maximize discoverability and search rankings</p>
+                    </div>
+                  </a>
+                </li>
+              </ol>
+            </div>
+            
+            <div class="learning-path__actions">
+              <a href="./deployment.html" class="btn btn--primary">Start Enhancement Path</a>
+            </div>
+          </article>
+          
+          <!-- Complete Path -->
+          <article class="learning-path learning-path--featured" data-path="complete">
+            <div class="learning-path__badge">Most Popular</div>
+            <div class="learning-path__header">
+              <div class="learning-path__icon">🏆</div>
+              <h3 class="learning-path__title">Complete Mastery</h3>
+              <p class="learning-path__subtitle">The full professional curriculum</p>
+            </div>
+            
+            <div class="learning-path__content">
+              <p class="learning-path__description">
+                The comprehensive journey from beginner to professional web developer. Master 
+                all aspects of modern web development with real-world projects and best practices.
+              </p>
+              
+              <div class="learning-path__meta">
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">⏱️</span>
+                  <span class="path-meta__text">40+ hours</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">📊</span>
+                  <span class="path-meta__text">Beginner to Advanced</span>
+                </span>
+                <span class="path-meta__item">
+                  <span class="path-meta__icon">🎯</span>
+                  <span class="path-meta__text">All 7 tutorials</span>
+                </span>
+              </div>
+              
+              <div class="learning-path__highlights">
+                <h4 class="highlights__title">What You'll Master:</h4>
+                <ul class="highlights__list">
+                  <li>Component-based development</li>
+                  <li>Modern CSS techniques and theming</li>
+                  <li>Build tools and deployment</li>
+                  <li>Performance optimization</li>
+                  <li>Accessibility and inclusive design</li>
+                  <li>SEO and discoverability</li>
+                  <li>Professional development workflows</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="learning-path__actions">
+              <a href="./component-development.html" class="btn btn--primary btn--large">Start Complete Journey</a>
+              <p class="path-commitment">
+                <small>Estimated completion: 6-8 weeks part-time</small>
+              </p>
+            </div>
+          </article>
+          
+        </div>
+      </div>
+    </section>
+    
+    <!-- All Tutorials Grid -->
+    <section class="section section--alt" aria-labelledby="all-tutorials-heading">
+      <div class="container">
+        <header class="section__header">
+          <h2 id="all-tutorials-heading" class="section__title">Complete Tutorial Library</h2>
+          <p class="section__lead">
+            Browse all available tutorials. Each one is designed to be both standalone learning 
+            and part of the comprehensive curriculum.
+          </p>
+        </header>
+        
+        <!-- Tutorial Filter/Sort -->
+        <div class="tutorial-filters" data-component="tutorial-filters">
+          <div class="filter-group">
+            <label for="difficulty-filter" class="filter-label">Filter by difficulty:</label>
+            <select id="difficulty-filter" class="filter-select">
+              <option value="all">All levels</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="topic-filter" class="filter-label">Filter by topic:</label>
+            <select id="topic-filter" class="filter-select">
+              <option value="all">All topics</option>
+              <option value="html-css">HTML & CSS</option>
+              <option value="javascript">JavaScript</option>
+              <option value="tooling">Build Tools</option>
+              <option value="optimization">Optimization</option>
+              <option value="deployment">Deployment</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="sort-select" class="filter-label">Sort by:</label>
+            <select id="sort-select" class="filter-select">
+              <option value="recommended">Recommended order</option>
+              <option value="difficulty">Difficulty level</option>
+              <option value="duration">Duration</option>
+              <option value="alphabetical">Alphabetical</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Tutorials Grid -->
+        <div class="tutorials-grid" data-component="tutorials-grid">
+          
+          <!-- Component Development Tutorial -->
+          <article class="tutorial-card" data-difficulty="beginner" data-topic="html-css" data-duration="6">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--beginner">Beginner</span>
+                <span class="tutorial-duration">6 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./component-development.html">Component Development Mastery</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Learn to build reusable, accessible components with modern HTML, CSS, and JavaScript. 
+                Master semantic markup, responsive design, and interactive functionality.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">HTML5</span>
+                <span class="topic-tag">CSS Grid</span>
+                <span class="topic-tag">JavaScript</span>
+                <span class="topic-tag">Accessibility</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>Semantic HTML structure</li>
+                  <li>CSS component architecture</li>
+                  <li>Progressive enhancement</li>
+                  <li>Testing and validation</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="component-development">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./component-development.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- Theming Tutorial -->
+          <article class="tutorial-card" data-difficulty="beginner" data-topic="html-css" data-duration="4">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--beginner">Beginner</span>
+                <span class="tutorial-duration">4 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./theming.html">CSS Theming & Design Systems</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Master CSS custom properties, design tokens, and scalable theming systems. 
+                Create consistent, maintainable designs that adapt to user preferences.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">CSS Variables</span>
+                <span class="topic-tag">Design Systems</span>
+                <span class="topic-tag">Dark Mode</span>
+                <span class="topic-tag">Theming</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>CSS custom properties</li>
+                  <li>Design token systems</li>
+                  <li>Theme switching</li>
+                  <li>Brand customization</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="theming">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./theming.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- Build Process Tutorial -->
+          <article class="tutorial-card" data-difficulty="intermediate" data-topic="tooling" data-duration="5">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--intermediate">Intermediate</span>
+                <span class="tutorial-duration">5 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./build-process.html">Modern Build Process Mastery</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Understand Vite, bundling, optimization, and modern development workflows. 
+                Learn to configure tools for efficient development and production builds.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">Vite</span>
+                <span class="topic-tag">Bundling</span>
+                <span class="topic-tag">Hot Reload</span>
+                <span class="topic-tag">Optimization</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>Vite configuration</li>
+                  <li>Asset optimization</li>
+                  <li>Development workflows</li>
+                  <li>Production builds</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="build-process">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./build-process.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- Deployment Tutorial -->
+          <article class="tutorial-card" data-difficulty="intermediate" data-topic="deployment" data-duration="5">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--intermediate">Intermediate</span>
+                <span class="tutorial-duration">5 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./deployment.html">Deployment & CI/CD Excellence</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Master GitHub Pages deployment, automated CI/CD pipelines, and production 
+                optimization. Learn professional deployment workflows and monitoring.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">GitHub Pages</span>
+                <span class="topic-tag">GitHub Actions</span>
+                <span class="topic-tag">CI/CD</span>
+                <span class="topic-tag">Monitoring</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>Automated deployment</li>
+                  <li>Custom domains</li>
+                  <li>Performance monitoring</li>
+                  <li>Security best practices</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="deployment">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./deployment.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- Performance Tutorial -->
+          <article class="tutorial-card" data-difficulty="intermediate" data-topic="optimization" data-duration="8">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--intermediate">Intermediate</span>
+                <span class="tutorial-duration">8 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./performance.html">Performance Optimization Mastery</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Achieve perfect Lighthouse scores and optimize Core Web Vitals. Learn advanced 
+                techniques for faster loading, better user experience, and improved SEO.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">Core Web Vitals</span>
+                <span class="topic-tag">Lighthouse</span>
+                <span class="topic-tag">Image Optimization</span>
+                <span class="topic-tag">Caching</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>LCP, FID, CLS optimization</li>
+                  <li>Image and font strategies</li>
+                  <li>JavaScript performance</li>
+                  <li>Performance budgets</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="performance">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./performance.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- Accessibility Tutorial -->
+          <article class="tutorial-card" data-difficulty="intermediate" data-topic="optimization" data-duration="7">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--intermediate">Intermediate</span>
+                <span class="tutorial-duration">7 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./accessibility.html">Accessibility Best Practices</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Create inclusive web experiences that work for everyone. Master WCAG guidelines, 
+                screen reader optimization, and assistive technology support.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">WCAG 2.1</span>
+                <span class="topic-tag">ARIA</span>
+                <span class="topic-tag">Screen Readers</span>
+                <span class="topic-tag">Keyboard Navigation</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>Semantic HTML structure</li>
+                  <li>ARIA patterns and roles</li>
+                  <li>Testing methodologies</li>
+                  <li>Inclusive design principles</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="accessibility">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./accessibility.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+          <!-- SEO Tutorial -->
+          <article class="tutorial-card" data-difficulty="advanced" data-topic="optimization" data-duration="6">
+            <div class="tutorial-card__header">
+              <div class="tutorial-card__meta">
+                <span class="tutorial-badge tutorial-badge--advanced">Advanced</span>
+                <span class="tutorial-duration">6 hours</span>
+              </div>
+              <h3 class="tutorial-card__title">
+                <a href="./seo.html">SEO Optimization Mastery</a>
+              </h3>
+            </div>
+            
+            <div class="tutorial-card__content">
+              <p class="tutorial-card__description">
+                Master search engine optimization for static sites. Learn technical SEO, 
+                content strategy, structured data, and advanced techniques for better rankings.
+              </p>
+              
+              <div class="tutorial-card__topics">
+                <span class="topic-tag">Technical SEO</span>
+                <span class="topic-tag">Schema.org</span>
+                <span class="topic-tag">Analytics</span>
+                <span class="topic-tag">Content Strategy</span>
+              </div>
+              
+              <div class="tutorial-card__highlights">
+                <h4 class="highlights__title">You'll learn:</h4>
+                <ul class="highlights__list">
+                  <li>On-page optimization</li>
+                  <li>Structured data markup</li>
+                  <li>Local and mobile SEO</li>
+                  <li>Performance for SEO</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="tutorial-card__footer">
+              <div class="tutorial-progress" data-tutorial="seo">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Not started</span>
+              </div>
+              <a href="./seo.html" class="btn btn--secondary">Start Tutorial</a>
+            </div>
+          </article>
+          
+        </div>
+      </div>
+    </section>
+    
+    <!-- Getting Started CTA -->
+    <section class="section section--cta" aria-labelledby="cta-heading">
+      <div class="container">
+        <div class="cta-content">
+          <h2 id="cta-heading" class="cta-title">Ready to Start Your Journey?</h2>
+          <p class="cta-description">
+            Join thousands of developers who have mastered web development through our 
+            comprehensive, hands-on approach to learning.
+          </p>
+          <div class="cta-actions">
+            <a href="../getting-started.html" class="btn btn--primary btn--large">Get Started Guide</a>
+            <a href="../../pages/interactive-playground.html" class="btn btn--secondary btn--large">Try the Playground</a>
+          </div>
+          <p class="cta-note">
+            <small>All tutorials are free and open source. Learn at your own pace.</small>
+          </p>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+  
+  <!-- Footer Component -->
+  <footer class="bsb-footer" data-bsb-component="footer" role="contentinfo">
+    <div class="container">
+      <div class="bsb-footer__content">
+        <div class="bsb-footer__section">
+          <h3 class="bsb-footer__title">BSB Learning</h3>
+          <p class="bsb-footer__description">
+            Master web development through comprehensive tutorials, interactive coding, 
+            and real-world projects designed for practical learning.
+          </p>
+        </div>
+        
+        <nav class="bsb-footer__nav" aria-label="Footer navigation">
+          <div class="footer-nav-section">
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="../getting-started.html">Getting Started</a></li>
+              <li><a href="./">All Tutorials</a></li>
+              <li><a href="../../pages/interactive-playground.html">Code Playground</a></li>
+              <li><a href="../../examples/">Examples</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-nav-section">
+            <h4>Tutorials</h4>
+            <ul>
+              <li><a href="./component-development.html">Components</a></li>
+              <li><a href="./theming.html">CSS Theming</a></li>
+              <li><a href="./performance.html">Performance</a></li>
+              <li><a href="./accessibility.html">Accessibility</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-nav-section">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="../../pages/about.html">About</a></li>
+              <li><a href="../../pages/contact.html">Contact</a></li>
+              <li><a href="../../sitemap.xml">Sitemap</a></li>
+              <li><a href="https://github.com/bsb/tutorials">GitHub</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      
+      <div class="bsb-footer__bottom">
+        <p class="bsb-footer__copyright">
+          &copy; 2024 BSB Learning Platform. Open source educational content.
+        </p>
+        <div class="bsb-footer__links">
+          <a href="../../privacy.html">Privacy</a>
+          <a href="../../terms.html">Terms</a>
+          <a href="../../accessibility-statement.html">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+</body>
+</html>

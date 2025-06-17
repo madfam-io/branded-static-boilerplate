@@ -1,38 +1,38 @@
-<!doctype html><html lang="en" data-current-language="en"><!--
+<!doctype html><html lang="es" data-current-language="es"><!--
   ============================================================================
-  BRANDED STATIC BOILERPLATE - Welcome to Your Learning Journey!
+  PLANTILLA ESTÁTICA DE MARCA - ¡Bienvenido a tu Jornada de Aprendizaje!
   ============================================================================
   
-  This is more than just an HTML file - it's your teacher, guide, and foundation.
-  Every line has a purpose, every comment explains why, not just what.
+  Esto es más que solo un archivo HTML - es tu profesor, guía y fundamento.
+  Cada línea tiene un propósito, cada comentario explica por qué, no solo qué.
   
-  🎯 Quick Start Actions:
-  1. Change the <title> and meta description below
-  2. Update the header with your brand name
-  3. Customize the hero section content
-  4. Run 'npm run dev' to see your changes live
+  🎯 Acciones de Inicio Rápido:
+  1. Cambia el <title> y meta descripción abajo
+  2. Actualiza el header con el nombre de tu marca
+  3. Personaliza el contenido de la sección hero
+  4. Ejecuta 'npm run dev' para ver tus cambios en vivo
   
-  📚 Learning Path:
-  - New to HTML? Start with /docs/tutorials/html-basics.md
-  - Want to customize styles? See /src/styles/README.md
-  - Adding interactivity? Check /src/scripts/README.md
+  📚 Ruta de Aprendizaje:
+  - ¿Nuevo en HTML? Comienza con /docs/tutorials/html-basics.md
+  - ¿Quieres personalizar estilos? Ve /src/styles/README.md
+  - ¿Agregando interactividad? Revisa /src/scripts/README.md
   
-  💡 BSB Philosophy:
-  "The best documentation lives with the code"
+  💡 Filosofía BSB:
+  "La mejor documentación vive con el código"
   ============================================================================
 --><head><!-- 
-    Character Encoding
-    ==================
-    UTF-8 supports all languages and symbols. Always include this first!
-    Learn more: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#charset
+    Codificación de Caracteres
+    ===========================
+    UTF-8 soporta todos los idiomas y símbolos. ¡Siempre inclúyelo primero!
+    Aprende más: https://developer.mozilla.org/es/docs/Web/HTML/Element/meta#charset
   --><meta charset="UTF-8"><!-- 
-    Viewport Settings
-    =================
-    Makes your site responsive on mobile devices. The viewport meta tag tells
-    browsers how to adjust the page's dimensions and scaling.
-    - width=device-width: Sets viewport width to device width
-    - initial-scale=1.0: Sets initial zoom level
-    Learn more: /docs/tutorials/responsive-design.md
+    Configuración del Viewport
+    ===========================
+    Hace que tu sitio sea responsivo en dispositivos móviles. La etiqueta meta viewport
+    dice a los navegadores cómo ajustar las dimensiones y escalado de la página.
+    - width=device-width: Establece el ancho del viewport al ancho del dispositivo
+    - initial-scale=1.0: Establece el nivel de zoom inicial
+    Aprende más: /docs/tutorials/responsive-design.md
   --><meta name="viewport" content="width=device-width,initial-scale=1"><!-- 
     Content Security Policy (CSP)
     =============================
@@ -46,17 +46,17 @@
     - X-Frame-Options: Prevents clickjacking
     - Referrer-Policy: Controls referrer information
   --><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta http-equiv="X-Frame-Options" content="SAMEORIGIN"><meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"><!-- 
-    Page Title
-    ==========
-    Appears in browser tabs and search results. Keep it under 60 characters.
-    Format: "Page Title | Site Name"
-    SEO Tip: Include your main keyword naturally
-  --><title>Welcome to BSB | Branded Static Boilerplate</title><!-- 
-    Meta Description
+    Título de la Página
+    ===================
+    Aparece en las pestañas del navegador y resultados de búsqueda. Mantén bajo 60 caracteres.
+    Formato: "Título de Página | Nombre del Sitio"
+    Consejo SEO: Incluye tu palabra clave principal naturalmente
+  --><title>Bienvenido a BSB | Plantilla Estática de Marca</title><!-- 
+    Meta Descripción
     ================
-    Appears in search engine results. Keep it 150-160 characters.
-    Should summarize the page content and include a call-to-action.
-  --><meta name="description" content="Build modern static websites with Branded Static Boilerplate. Self-documenting, accessible, and production-ready. Get started in minutes!"><!-- 
+    Aparece en resultados de motores de búsqueda. Mantén entre 150-160 caracteres.
+    Debe resumir el contenido de la página e incluir una llamada a la acción.
+  --><meta name="description" content="Construye sitios web estáticos modernos con Plantilla Estática de Marca. Auto-documentado, accesible y listo para producción. ¡Comienza en minutos!"><!-- 
     Web App Manifest
     ================
     Enables PWA features and app-like behavior
@@ -65,12 +65,12 @@
     ==============================
     Controls how your page appears when shared on social media.
     Test with: https://developers.facebook.com/tools/debug/
-  --><meta property="og:title" content="Branded Static Boilerplate"><meta property="og:description" content="The self-documenting static site boilerplate that teaches as it serves"><meta property="og:type" content="website"><meta property="og:url" content="https://yourdomain.com"><meta property="og:image" content="/assets/images/social-preview.jpg"><!-- 
+  --><meta property="og:title" content="Plantilla Estática de Marca"><meta property="og:description" content="La plantilla de sitio estático autodocumentada que enseña mientras sirve"><meta property="og:type" content="website"><meta property="og:url" content="https://yourdomain.com"><meta property="og:image" content="/assets/images/social-preview.jpg"><!-- 
     Twitter Card Tags
     =================
     Optimizes appearance on Twitter/X. Works alongside Open Graph.
     Test with: https://cards-dev.twitter.com/validator
-  --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Branded Static Boilerplate"><meta name="twitter:description" content="The self-documenting static site boilerplate that teaches as it serves"><meta name="twitter:image" content="/assets/images/social-preview.jpg"><!-- 
+  --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Plantilla Estática de Marca"><meta name="twitter:description" content="La plantilla de sitio estático autodocumentada que enseña mientras sirve"><meta name="twitter:image" content="/assets/images/social-preview.jpg"><!-- 
     Favicon
     =======
     The small icon that appears in browser tabs. Multiple sizes for different devices.
@@ -106,13 +106,13 @@
   The data-bsb-theme attribute enables theme switching functionality.
   Default theme is set in CSS, this attribute allows runtime changes.
 --><body><!-- 
-    Skip to Main Content Link
-    =========================
-    Accessibility feature for keyboard users. Allows skipping repetitive
-    navigation. Hidden visually but available to screen readers and
-    keyboard navigation.
-    Learn more: /docs/tutorials/accessibility.md#skip-links
-  --> <a href="#main" class="skip-link">Skip to main content</a><!-- 
+    Enlace Saltar al Contenido Principal
+    ====================================
+    Característica de accesibilidad para usuarios de teclado. Permite saltar la
+    navegación repetitiva. Oculto visualmente pero disponible para lectores de pantalla
+    y navegación por teclado.
+    Aprende más: /docs/tutorials/accessibility.md#skip-links
+  --> <a href="#main" class="skip-link">Saltar al contenido principal</a><!-- 
     Header Component
     ================
     Contains site branding and main navigation. This is a reusable component
@@ -122,27 +122,27 @@
     - data-bsb-component: Identifies this as a BSB component for dev tools
     - role="banner": ARIA landmark for site header
   --><header class="bsb-header" data-bsb-component="header" role="banner"><div class="container"><div class="bsb-header__inner"><!-- 
-          Site Branding
-          =============
-          Your logo or site name. The <strong> tag adds semantic emphasis.
-        --><div class="bsb-header__brand"><a href="/branded-static-boilerplate/" class="bsb-header__logo"><strong>Your Brand</strong></a></div><!-- 
-          Navigation
+          Marca del Sitio
+          ===============
+          Tu logo o nombre del sitio. La etiqueta <strong> añade énfasis semántico.
+        --><div class="bsb-header__brand"><a href="/branded-static-boilerplate/" class="bsb-header__logo"><strong>Tu Marca</strong></a></div><!-- 
+          Navegación
           ==========
-          Semantic <nav> element with ARIA label for screen readers.
-          The navigation pattern supports keyboard navigation and mobile menus.
-        --><nav class="bsb-header__nav" aria-label="Main navigation" id="main-nav"><ul class="bsb-header__menu"><li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Home</a></li><li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">About</a></li><li><a href="/branded-static-boilerplate/pages/component-library.html" class="bsb-header__link">Components</a></li><li><a href="/branded-static-boilerplate/pages/design-system.html" class="bsb-header__link">Design System</a></li><li><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link">Playground</a></li><li><a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link">Structure</a></li></ul></nav><!-- 
+          Elemento <nav> semántico con etiqueta ARIA para lectores de pantalla.
+          El patrón de navegación soporta navegación por teclado y menús móviles.
+        --><nav class="bsb-header__nav" aria-label="Navegación principal" id="main-nav"><ul class="bsb-header__menu"><li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Inicio</a></li><li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">Acerca de</a></li><li><a href="/branded-static-boilerplate/pages/component-library.html" class="bsb-header__link">Componentes</a></li><li><a href="/branded-static-boilerplate/pages/design-system.html" class="bsb-header__link">Sistema de Diseño</a></li><li><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link">Laboratorio</a></li><li><a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link">Estructura</a></li></ul></nav><!-- 
           Header Actions
           ==============
           Container for learning mode toggle, language toggle, theme toggle, and mobile menu toggle
         --><div class="bsb-header__actions"><!-- 
-            Learning Mode Toggle
-            ====================
-            Allows users to enable/disable educational learning features
-          --><div class="bsb-learning-toggle" data-bsb-component="learning-toggle"><button class="bsb-learning-toggle__button" aria-label="Toggle learning mode" aria-pressed="false" type="button" data-bsb-learning-button title="Enable interactive learning features"><span class="bsb-learning-toggle__icons" aria-hidden="true"><svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> </span><span class="bsb-learning-toggle__label">Learning mode: <span data-bsb-learning-label>Off</span></span></button><div class="bsb-learning-toggle__status" data-bsb-learning-status aria-hidden="true"><span class="bsb-learning-toggle__status-text">Learning Mode</span> <span class="bsb-learning-toggle__status-indicator"></span></div></div><!-- 
+            Alternador de Modo de Aprendizaje
+            =================================
+            Permite a los usuarios habilitar/deshabilitar características educativas de aprendizaje
+          --><div class="bsb-learning-toggle" data-bsb-component="learning-toggle"><button class="bsb-learning-toggle__button" aria-label="Alternar modo de aprendizaje" aria-pressed="false" type="button" data-bsb-learning-button title="Habilitar características de aprendizaje interactivo"><span class="bsb-learning-toggle__icons" aria-hidden="true"><svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> <svg class="bsb-learning-toggle__icon bsb-learning-toggle__icon--off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> </span><span class="bsb-learning-toggle__label">Modo de aprendizaje: <span data-bsb-learning-label>Desactivado</span></span></button><div class="bsb-learning-toggle__status" data-bsb-learning-status aria-hidden="true"><span class="bsb-learning-toggle__status-text">Modo de Aprendizaje</span> <span class="bsb-learning-toggle__status-indicator"></span></div></div><!-- 
             Language Toggle
             ===============
             Allows users to switch between English and Spanish languages
-          --><div class="bsb-language-toggle" data-bsb-component="language-toggle"><button class="bsb-language-toggle__button" aria-label="Switch language" aria-expanded="false" aria-haspopup="true" type="button" data-bsb-language-button><span class="bsb-language-toggle__icons" aria-hidden="true"><!-- English flag/icon --> <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span><!-- Spanish flag/icon --> <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span> </span><span class="bsb-language-toggle__label">Current language: <span data-bsb-language-label>English</span></span></button><div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true"><ul class="bsb-language-toggle__options" role="menu" aria-label="Language options"><li role="none"><button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="true"><span class="bsb-language-toggle__option-icon">🇺🇸</span> <span class="bsb-language-toggle__option-text">English</span> <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="false"><span class="bsb-language-toggle__option-icon">🇪🇸</span> <span class="bsb-language-toggle__option-text">Español</span> <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span></button></li></ul></div></div><!-- 
+          --><div class="bsb-language-toggle" data-bsb-component="language-toggle"><button class="bsb-language-toggle__button" aria-label="Cambiar idioma" aria-expanded="false" aria-haspopup="true" type="button" data-bsb-language-button><span class="bsb-language-toggle__icons" aria-hidden="true"><!-- English flag/icon --> <span class="bsb-language-toggle__icon bsb-language-toggle__icon--en">🇺🇸</span><!-- Spanish flag/icon --> <span class="bsb-language-toggle__icon bsb-language-toggle__icon--es">🇪🇸</span> </span><span class="bsb-language-toggle__label">Idioma actual: <span data-bsb-language-label>Español</span></span></button><div class="bsb-language-toggle__menu" data-bsb-language-menu aria-hidden="true"><ul class="bsb-language-toggle__options" role="menu" aria-label="Opciones de idioma"><li role="none"><button class="bsb-language-toggle__option" role="menuitem" data-language="en" aria-current="false"><span class="bsb-language-toggle__option-icon">🇺🇸</span> <span class="bsb-language-toggle__option-text">English</span> <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span></button></li><li role="none"><button class="bsb-language-toggle__option" role="menuitem" data-language="es" aria-current="true"><span class="bsb-language-toggle__option-icon">🇪🇸</span> <span class="bsb-language-toggle__option-text">Español</span> <span class="bsb-language-toggle__option-check" aria-hidden="true">✓</span></button></li></ul></div></div><!-- 
             Theme Toggle
             ============
             Allows users to switch between light, dark, and auto themes
@@ -159,40 +159,40 @@
     
     ARIA landmark: Helps screen readers identify the main content region.
   --><main id="main" role="main"><!-- 
-      Hero Section
+      Sección Hero
       ============
-      The hero is typically the first thing visitors see. It should:
-      1. Clearly communicate what your site/product is about
-      2. Include a clear call-to-action (CTA)
-      3. Load quickly (optimize that background image!)
+      El hero típicamente es lo primero que los visitantes ven. Debe:
+      1. Comunicar claramente de qué se trata tu sitio/producto
+      2. Incluir una llamada a la acción clara (CTA)
+      3. Cargar rápidamente (¡optimiza esa imagen de fondo!)
       
-      Component location: /src/components/hero/
+      Ubicación del componente: /src/components/hero/
     --><section class="bsb-hero" data-bsb-component="hero"><div class="container"><div class="bsb-hero__content"><!-- 
-            Heading Hierarchy
+            Jerarquía de Encabezados
+            ========================
+            Cada página debe tener exactamente un <h1>. Debe describir
+            el tema principal de la página. Incluye tu palabra clave principal naturalmente.
+          --><h1 class="bsb-hero__title">Aprende Desarrollo Web <span class="bsb-hero__subtitle">A Través de Ejemplos Interactivos</span></h1><!-- 
+            Párrafo Principal
             =================
-            Every page should have exactly one <h1>. It should describe
-            the main topic of the page. Include your primary keyword naturally.
-          --><h1 class="bsb-hero__title">Learn Web Development <span class="bsb-hero__subtitle">Through Interactive Examples</span></h1><!-- 
-            Lead Paragraph
-            ==============
-            Expand on your title. Keep it concise but informative.
-            This often appears in search results under your title.
-          --><p class="bsb-hero__lead">This site itself is your textbook - every component teaches a concept, every page demonstrates a technique. Built entirely with static technologies deployable on GitHub Pages.</p><!-- 
-            Call-to-Action Buttons
-            ======================
-            Clear, action-oriented text. Primary action should stand out.
-            Consider what you want visitors to do next.
-          --><div class="bsb-hero__actions"><a href="#learning-journey" class="btn btn--primary btn--large">Start Learning Journey </a><a href="https://github.com/madfam-io/branded-static-boilerplate" class="btn btn--secondary btn--large" rel="noopener noreferrer" target="_blank">View Source Code </a><button onclick="enableLearningMode()" class="btn btn--ghost btn--large">Enable Learning Mode</button></div></div></div></section><!-- 
-      Features Section
-      ================
-      Showcase your main features or benefits. Using a grid layout
-      for responsive design. Each feature is a card component.
+            Expande sobre tu título. Manténlo conciso pero informativo.
+            Esto a menudo aparece en resultados de búsqueda bajo tu título.
+          --><p class="bsb-hero__lead">Este sitio mismo es tu libro de texto - cada componente enseña un concepto, cada página demuestra una técnica. Construido completamente con tecnologías estáticas desplegables en GitHub Pages.</p><!-- 
+            Botones de Llamada a la Acción
+            ===============================
+            Texto claro y orientado a la acción. La acción primaria debe destacar.
+            Considera qué quieres que los visitantes hagan a continuación.
+          --><div class="bsb-hero__actions"><a href="#learning-journey" class="btn btn--primary btn--large">Comenzar Jornada de Aprendizaje </a><a href="https://github.com/madfam-io/branded-static-boilerplate" class="btn btn--secondary btn--large" rel="noopener noreferrer" target="_blank">Ver Código Fuente </a><button onclick="enableLearningMode()" class="btn btn--ghost btn--large">Habilitar Modo de Aprendizaje</button></div></div></div></section><!-- 
+      Sección de Características
+      ==========================
+      Muestra tus características o beneficios principales. Usando un diseño de cuadrícula
+      para diseño responsivo. Cada característica es un componente de tarjeta.
     --><section class="section" id="features" aria-labelledby="features-heading"><div class="container"><!-- 
-          Section Headings
-          ================
-          Use aria-labelledby to associate headings with sections.
-          This improves navigation for screen reader users.
-        --><h2 id="features-heading" class="section__title">What You'll Learn</h2><p class="section__lead">Interactive examples that teach modern web development through real, functional code</p><!-- 
+          Encabezados de Sección
+          ======================
+          Usa aria-labelledby para asociar encabezados con secciones.
+          Esto mejora la navegación para usuarios de lectores de pantalla.
+        --><h2 id="features-heading" class="section__title">Qué Aprenderás</h2><p class="section__lead">Ejemplos interactivos que enseñan desarrollo web moderno a través de código real y funcional</p><!-- 
           Feature Grid
           ============
           CSS Grid provides flexible, responsive layouts. The .grid utility
