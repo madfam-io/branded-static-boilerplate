@@ -208,6 +208,34 @@ export default defineConfig({
         } catch (err) {
           console.error('Failed to copy manifest.json:', err);
         }
+        
+        // Copy icon files
+        const iconFiles = [
+          'icon-192.png',
+          'icon-512.png',
+          'playground-icon.png',
+          'components-icon.png'
+        ];
+        
+        try {
+          // Create assets/images directory if it doesn't exist
+          const imagesDir = resolve(__dirname, 'dist/assets/images');
+          mkdirSync(imagesDir, { recursive: true });
+          
+          iconFiles.forEach(file => {
+            try {
+              copyFileSync(
+                resolve(__dirname, 'src/assets/images', file),
+                resolve(imagesDir, file)
+              );
+              console.log(`✓ Copied ${file} to dist/assets/images`);
+            } catch (err) {
+              console.error(`Failed to copy ${file}:`, err);
+            }
+          });
+        } catch (err) {
+          console.error('Failed to create images directory:', err);
+        }
       }
     }
   ].filter(Boolean),
