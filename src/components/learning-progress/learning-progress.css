@@ -1,0 +1,484 @@
+/**
+ * =============================================================================
+ * LEARNING PROGRESS TRACKER STYLES
+ * =============================================================================
+ * 
+ * Styles for the learning progress tracker that visualizes a user's journey
+ * through the BSB codebase, creating a gamified meta-learning experience.
+ * 
+ * Design Principles:
+ * - Clear visual hierarchy for progress tracking
+ * - Motivating color scheme with achievement feel
+ * - Smooth animations for state changes
+ * - Responsive layout for all devices
+ * - Accessible contrast ratios
+ * 
+ * Visual Language:
+ * - Progress bars for quantitative feedback
+ * - Checkboxes for discrete achievements
+ * - Timeline for chronological learning
+ * - Badges for milestone recognition
+ * =============================================================================
+ */
+
+/* Component Container */
+.bsb-learning-progress {
+  position: fixed;
+  bottom: var(--bsb-space-6, 1.5rem);
+  right: var(--bsb-space-6, 1.5rem);
+  width: 400px;
+  max-width: calc(100vw - 3rem);
+  background: var(--bsb-bg-primary, #ffffff);
+  border: 1px solid var(--bsb-border-color, #e5e7eb);
+  border-radius: var(--bsb-radius-lg, 12px);
+  box-shadow: var(--bsb-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1));
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* Minimized state */
+.bsb-learning-progress--minimized {
+  transform: translateY(calc(100% - 60px));
+}
+
+/* Header */
+.bsb-learning-progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--bsb-space-4, 1rem);
+  background: var(--bsb-gradient-primary, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+  color: white;
+  border-radius: var(--bsb-radius-lg, 12px) var(--bsb-radius-lg, 12px) 0 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.bsb-learning-progress__title {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2, 0.5rem);
+  margin: 0;
+  font-size: var(--bsb-text-base, 1rem);
+  font-weight: 600;
+}
+
+.bsb-learning-progress__icon {
+  font-size: 1.25rem;
+}
+
+.bsb-learning-progress__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: var(--bsb-radius-sm, 6px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bsb-learning-progress__toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.bsb-learning-progress__toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  transition: transform 0.3s ease;
+}
+
+.bsb-learning-progress--minimized .bsb-learning-progress__toggle svg {
+  transform: rotate(180deg);
+}
+
+/* Content Container */
+.bsb-learning-progress__content {
+  max-height: 600px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.bsb-learning-progress__content[aria-hidden="true"] {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* Sections */
+.bsb-learning-progress__content section {
+  padding: var(--bsb-space-4, 1rem);
+  border-bottom: 1px solid var(--bsb-border-color, #e5e7eb);
+}
+
+.bsb-learning-progress__content section:last-child {
+  border-bottom: none;
+}
+
+.bsb-learning-progress__section-title {
+  margin: 0 0 var(--bsb-space-3, 0.75rem) 0;
+  font-size: var(--bsb-text-sm, 0.875rem);
+  font-weight: 600;
+  color: var(--bsb-text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Overall Progress Stats */
+.bsb-learning-progress__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--bsb-space-3, 0.75rem);
+  margin-bottom: var(--bsb-space-4, 1rem);
+}
+
+.bsb-learning-progress__stat {
+  text-align: center;
+  padding: var(--bsb-space-3, 0.75rem);
+  background: var(--bsb-bg-secondary, #f9fafb);
+  border-radius: var(--bsb-radius-sm, 6px);
+}
+
+.bsb-learning-progress__stat-value {
+  display: block;
+  font-size: var(--bsb-text-2xl, 1.5rem);
+  font-weight: 700;
+  color: var(--bsb-primary, #3b82f6);
+  margin-bottom: var(--bsb-space-1, 0.25rem);
+}
+
+.bsb-learning-progress__stat-label {
+  display: block;
+  font-size: var(--bsb-text-xs, 0.75rem);
+  color: var(--bsb-text-secondary, #6b7280);
+}
+
+/* Progress Bar */
+.bsb-learning-progress__bar {
+  position: relative;
+  height: 24px;
+  background: var(--bsb-bg-secondary, #f3f4f6);
+  border-radius: var(--bsb-radius-full, 9999px);
+  overflow: hidden;
+}
+
+.bsb-learning-progress__bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--bsb-gradient-success, linear-gradient(90deg, #34d399 0%, #10b981 100%));
+  border-radius: var(--bsb-radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--bsb-space-3, 0.75rem);
+  transition: width 0.5s ease;
+}
+
+.bsb-learning-progress__bar-text {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  font-weight: 600;
+  color: white;
+}
+
+/* Learning Paths */
+.bsb-learning-progress__path-grid {
+  display: grid;
+  gap: var(--bsb-space-3, 0.75rem);
+}
+
+.bsb-learning-progress__path {
+  background: var(--bsb-bg-secondary, #f9fafb);
+  border-radius: var(--bsb-radius-sm, 6px);
+  padding: var(--bsb-space-3, 0.75rem);
+}
+
+.bsb-learning-progress__path-header {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2, 0.5rem);
+  margin-bottom: var(--bsb-space-2, 0.5rem);
+}
+
+.bsb-learning-progress__path-icon {
+  font-size: 1.25rem;
+}
+
+.bsb-learning-progress__path-title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--bsb-text-sm, 0.875rem);
+  font-weight: 600;
+  color: var(--bsb-text-primary, #111827);
+}
+
+.bsb-learning-progress__path-progress {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--bsb-primary, #3b82f6);
+}
+
+/* Checklist */
+.bsb-learning-progress__checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bsb-learning-progress__checklist li {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2, 0.5rem);
+  padding: var(--bsb-space-1, 0.25rem) 0;
+}
+
+.bsb-learning-progress__checklist input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--bsb-success, #10b981);
+}
+
+.bsb-learning-progress__checklist label {
+  font-size: var(--bsb-text-sm, 0.875rem);
+  color: var(--bsb-text-primary, #111827);
+  cursor: default;
+}
+
+/* Activity Timeline */
+.bsb-learning-progress__timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.bsb-learning-progress__timeline-item {
+  display: flex;
+  gap: var(--bsb-space-3, 0.75rem);
+  padding: var(--bsb-space-2, 0.5rem) 0;
+  position: relative;
+}
+
+.bsb-learning-progress__timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 32px;
+  bottom: -8px;
+  width: 2px;
+  background: var(--bsb-border-color, #e5e7eb);
+}
+
+.bsb-learning-progress__timeline-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--bsb-primary-light, #dbeafe);
+  border-radius: 50%;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.bsb-learning-progress__timeline-content {
+  flex: 1;
+}
+
+.bsb-learning-progress__timeline-content p {
+  margin: 0;
+  font-size: var(--bsb-text-sm, 0.875rem);
+  color: var(--bsb-text-primary, #111827);
+}
+
+.bsb-learning-progress__timeline-content time {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  color: var(--bsb-text-secondary, #6b7280);
+}
+
+/* Achievements */
+.bsb-learning-progress__badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--bsb-space-3, 0.75rem);
+}
+
+.bsb-learning-progress__badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--bsb-space-3, 0.75rem);
+  background: var(--bsb-bg-secondary, #f9fafb);
+  border: 2px solid var(--bsb-border-color, #e5e7eb);
+  border-radius: var(--bsb-radius-sm, 6px);
+  transition: all 0.3s ease;
+}
+
+.bsb-learning-progress__badge--unlocked {
+  background: var(--bsb-success-light, #d1fae5);
+  border-color: var(--bsb-success, #10b981);
+}
+
+.bsb-learning-progress__badge--locked {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.bsb-learning-progress__badge-icon {
+  font-size: 2rem;
+  margin-bottom: var(--bsb-space-1, 0.25rem);
+}
+
+.bsb-learning-progress__badge-name {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--bsb-text-primary, #111827);
+  margin-bottom: var(--bsb-space-1, 0.25rem);
+}
+
+.bsb-learning-progress__badge-desc {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  color: var(--bsb-text-secondary, #6b7280);
+}
+
+/* Recommendations */
+.bsb-learning-progress__recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bsb-space-3, 0.75rem);
+}
+
+.bsb-learning-progress__recommendation {
+  display: flex;
+  gap: var(--bsb-space-3, 0.75rem);
+  padding: var(--bsb-space-3, 0.75rem);
+  background: var(--bsb-bg-secondary, #f9fafb);
+  border-radius: var(--bsb-radius-sm, 6px);
+  transition: background 0.2s ease;
+}
+
+.bsb-learning-progress__recommendation:hover {
+  background: var(--bsb-primary-light, #dbeafe);
+}
+
+.bsb-learning-progress__rec-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.bsb-learning-progress__rec-content {
+  flex: 1;
+}
+
+.bsb-learning-progress__rec-content h5 {
+  margin: 0 0 var(--bsb-space-1, 0.25rem) 0;
+  font-size: var(--bsb-text-sm, 0.875rem);
+  font-weight: 600;
+  color: var(--bsb-text-primary, #111827);
+}
+
+.bsb-learning-progress__rec-content p {
+  margin: 0 0 var(--bsb-space-2, 0.5rem) 0;
+  font-size: var(--bsb-text-xs, 0.75rem);
+  color: var(--bsb-text-secondary, #6b7280);
+}
+
+.bsb-learning-progress__rec-action {
+  font-size: var(--bsb-text-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--bsb-primary, #3b82f6);
+  text-decoration: none;
+}
+
+.bsb-learning-progress__rec-action:hover {
+  text-decoration: underline;
+}
+
+/* Actions Footer */
+.bsb-learning-progress__actions {
+  display: flex;
+  gap: var(--bsb-space-2, 0.5rem);
+  padding: var(--bsb-space-4, 1rem);
+  background: var(--bsb-bg-secondary, #f9fafb);
+  border-top: 1px solid var(--bsb-border-color, #e5e7eb);
+  border-radius: 0 0 var(--bsb-radius-lg, 12px) var(--bsb-radius-lg, 12px);
+}
+
+/* Dark Mode Support */
+[data-bsb-theme="dark"] .bsb-learning-progress {
+  background: var(--bsb-bg-primary-dark, #1f2937);
+  border-color: var(--bsb-border-dark, #374151);
+}
+
+[data-bsb-theme="dark"] .bsb-learning-progress__stat,
+[data-bsb-theme="dark"] .bsb-learning-progress__path,
+[data-bsb-theme="dark"] .bsb-learning-progress__recommendation,
+[data-bsb-theme="dark"] .bsb-learning-progress__badge {
+  background: var(--bsb-bg-secondary-dark, #111827);
+}
+
+[data-bsb-theme="dark"] .bsb-learning-progress__bar {
+  background: var(--bsb-bg-tertiary-dark, #374151);
+}
+
+[data-bsb-theme="dark"] .bsb-learning-progress__actions {
+  background: var(--bsb-bg-secondary-dark, #111827);
+  border-color: var(--bsb-border-dark, #374151);
+}
+
+/* Animations */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.bsb-learning-progress {
+  animation: slide-up 0.3s ease;
+}
+
+/* Achievement unlock animation */
+@keyframes achievement-unlock {
+  0% {
+    transform: scale(0.8) rotate(-10deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.bsb-learning-progress__badge--unlocked {
+  animation: achievement-unlock 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .bsb-learning-progress {
+    width: calc(100vw - 2rem);
+    right: var(--bsb-space-4, 1rem);
+    bottom: var(--bsb-space-4, 1rem);
+  }
+  
+  .bsb-learning-progress__stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .bsb-learning-progress__badges {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

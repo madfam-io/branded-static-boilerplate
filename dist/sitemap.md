@@ -13,6 +13,7 @@ This is a human-readable version of our XML sitemap.
 
 - [https://madfam-io.github.io/branded-static-boilerplate/pages/component-library.html](https://madfam-io.github.io/branded-static-boilerplate/pages/component-library.html) - Updated: 2025-06-16
 - [https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html](https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html) - Updated: 2025-06-16
+- [https://madfam-io.github.io/branded-static-boilerplate/pages/meta-learning-showcase.html](https://madfam-io.github.io/branded-static-boilerplate/pages/meta-learning-showcase.html) - Updated: 2025-06-17
 - [https://madfam-io.github.io/branded-static-boilerplate/pages/project-structure.html](https://madfam-io.github.io/branded-static-boilerplate/pages/project-structure.html) - Updated: 2025-06-16
 - [https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html](https://madfam-io.github.io/branded-static-boilerplate/pages/seo-playground.html) - Updated: 2025-06-16
 

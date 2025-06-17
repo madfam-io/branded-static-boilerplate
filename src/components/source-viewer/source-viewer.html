@@ -1,0 +1,309 @@
+<!-- 
+  =============================================================================
+  SOURCE VIEWER COMPONENT - Meta-Learning Through Code Transparency
+  =============================================================================
+  
+  This component reveals the implementation details of any element on the page,
+  creating a self-referential learning experience where users can see exactly
+  how each part of the interface is built.
+  
+  🎯 Educational Purpose:
+  - Shows the actual source code that creates what users see
+  - Provides inline explanations and best practice annotations
+  - Demonstrates the connection between code and rendered output
+  - Teaches through transparency and exploration
+  
+  💡 Meta-Learning Features:
+  - Syntax highlighting for readability
+  - Collapsible code sections
+  - Links to related documentation
+  - Performance metrics for each component
+  - Git history integration (future feature)
+  
+  📚 Learning Path:
+  1. Click "View Source" on any component
+  2. Explore the HTML, CSS, and JavaScript tabs
+  3. Read inline annotations explaining key concepts
+  4. Try modifying code in the playground to see effects
+  5. Follow links to deeper documentation
+  =============================================================================
+-->
+
+<div class="bsb-source-viewer" data-bsb-component="source-viewer" aria-hidden="true">
+  <!-- Viewer Header -->
+  <div class="bsb-source-viewer__header">
+    <h3 class="bsb-source-viewer__title">
+      <span class="bsb-source-viewer__icon">🔍</span>
+      Component Source Code
+    </h3>
+    <div class="bsb-source-viewer__subtitle" data-component-name>
+      <!-- Component name will be inserted here -->
+    </div>
+    <button 
+      class="bsb-source-viewer__close" 
+      aria-label="Close source viewer"
+      type="button"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Code Tabs -->
+  <nav class="bsb-source-viewer__tabs" role="tablist" aria-label="Source code tabs">
+    <button 
+      class="bsb-source-viewer__tab bsb-source-viewer__tab--active"
+      role="tab"
+      data-tab="html"
+      aria-selected="true"
+      aria-controls="source-html-panel"
+      id="source-html-tab"
+    >
+      <span class="bsb-source-viewer__tab-icon">📄</span>
+      HTML Structure
+    </button>
+    
+    <button 
+      class="bsb-source-viewer__tab"
+      role="tab"
+      data-tab="css"
+      aria-selected="false"
+      aria-controls="source-css-panel"
+      id="source-css-tab"
+    >
+      <span class="bsb-source-viewer__tab-icon">🎨</span>
+      CSS Styles
+    </button>
+    
+    <button 
+      class="bsb-source-viewer__tab"
+      role="tab"
+      data-tab="js"
+      aria-selected="false"
+      aria-controls="source-js-panel"
+      id="source-js-tab"
+    >
+      <span class="bsb-source-viewer__tab-icon">⚡</span>
+      JavaScript
+    </button>
+    
+    <button 
+      class="bsb-source-viewer__tab"
+      role="tab"
+      data-tab="info"
+      aria-selected="false"
+      aria-controls="source-info-panel"
+      id="source-info-tab"
+    >
+      <span class="bsb-source-viewer__tab-icon">📊</span>
+      Insights
+    </button>
+  </nav>
+
+  <!-- Code Panels -->
+  <div class="bsb-source-viewer__panels">
+    <!-- HTML Panel -->
+    <div 
+      class="bsb-source-viewer__panel bsb-source-viewer__panel--active"
+      role="tabpanel"
+      data-panel="html"
+      aria-labelledby="source-html-tab"
+      id="source-html-panel"
+    >
+      <div class="bsb-source-viewer__code-header">
+        <span class="bsb-source-viewer__file-path" data-html-path>/src/components/...</span>
+        <div class="bsb-source-viewer__actions">
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="copy-html"
+            aria-label="Copy HTML code"
+            title="Copy to clipboard"
+          >
+            📋 Copy
+          </button>
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="open-playground-html"
+            aria-label="Open in playground"
+            title="Edit in playground"
+          >
+            🚀 Try It
+          </button>
+        </div>
+      </div>
+      <pre class="bsb-source-viewer__code" data-language="html"><code data-html-content>
+        <!-- HTML content will be inserted here -->
+      </code></pre>
+    </div>
+
+    <!-- CSS Panel -->
+    <div 
+      class="bsb-source-viewer__panel"
+      role="tabpanel"
+      data-panel="css"
+      aria-labelledby="source-css-tab"
+      id="source-css-panel"
+    >
+      <div class="bsb-source-viewer__code-header">
+        <span class="bsb-source-viewer__file-path" data-css-path>/src/components/...</span>
+        <div class="bsb-source-viewer__actions">
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="copy-css"
+            aria-label="Copy CSS code"
+            title="Copy to clipboard"
+          >
+            📋 Copy
+          </button>
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="open-playground-css"
+            aria-label="Open in playground"
+            title="Edit in playground"
+          >
+            🚀 Try It
+          </button>
+        </div>
+      </div>
+      <pre class="bsb-source-viewer__code" data-language="css"><code data-css-content>
+        /* CSS content will be inserted here */
+      </code></pre>
+    </div>
+
+    <!-- JavaScript Panel -->
+    <div 
+      class="bsb-source-viewer__panel"
+      role="tabpanel"
+      data-panel="js"
+      aria-labelledby="source-js-tab"
+      id="source-js-panel"
+    >
+      <div class="bsb-source-viewer__code-header">
+        <span class="bsb-source-viewer__file-path" data-js-path>/src/components/...</span>
+        <div class="bsb-source-viewer__actions">
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="copy-js"
+            aria-label="Copy JavaScript code"
+            title="Copy to clipboard"
+          >
+            📋 Copy
+          </button>
+          <button 
+            class="bsb-source-viewer__action"
+            data-action="open-playground-js"
+            aria-label="Open in playground"
+            title="Edit in playground"
+          >
+            🚀 Try It
+          </button>
+        </div>
+      </div>
+      <pre class="bsb-source-viewer__code" data-language="javascript"><code data-js-content>
+        // JavaScript content will be inserted here
+      </code></pre>
+    </div>
+
+    <!-- Info Panel -->
+    <div 
+      class="bsb-source-viewer__panel"
+      role="tabpanel"
+      data-panel="info"
+      aria-labelledby="source-info-tab"
+      id="source-info-panel"
+    >
+      <div class="bsb-source-viewer__info">
+        <!-- Performance Metrics -->
+        <section class="bsb-source-viewer__metrics">
+          <h4>Performance Insights</h4>
+          <dl class="bsb-source-viewer__metrics-list">
+            <div class="bsb-source-viewer__metric">
+              <dt>Render Time</dt>
+              <dd data-metric-render>-</dd>
+            </div>
+            <div class="bsb-source-viewer__metric">
+              <dt>DOM Nodes</dt>
+              <dd data-metric-nodes>-</dd>
+            </div>
+            <div class="bsb-source-viewer__metric">
+              <dt>CSS Rules</dt>
+              <dd data-metric-css>-</dd>
+            </div>
+            <div class="bsb-source-viewer__metric">
+              <dt>Event Listeners</dt>
+              <dd data-metric-events>-</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="bsb-source-viewer__practices">
+          <h4>Best Practices Used</h4>
+          <ul class="bsb-source-viewer__practices-list" data-practices>
+            <!-- Best practices will be inserted here -->
+          </ul>
+        </section>
+
+        <!-- Learning Resources -->
+        <section class="bsb-source-viewer__resources">
+          <h4>Learn More</h4>
+          <ul class="bsb-source-viewer__resources-list">
+            <li>
+              <a href="#" data-docs-link>
+                📖 Component Documentation
+              </a>
+            </li>
+            <li>
+              <a href="#" data-tutorial-link>
+                🎓 Interactive Tutorial
+              </a>
+            </li>
+            <li>
+              <a href="#" data-mdn-link>
+                🌐 MDN Reference
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Component Dependencies -->
+        <section class="bsb-source-viewer__dependencies">
+          <h4>Dependencies & Related Components</h4>
+          <div class="bsb-source-viewer__deps-graph" data-dependencies>
+            <!-- Dependency visualization will be inserted here -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with Actions -->
+  <footer class="bsb-source-viewer__footer">
+    <div class="bsb-source-viewer__learning-tip">
+      💡 <strong>Learning Tip:</strong> 
+      <span data-learning-tip>Click "Try It" to experiment with this code in the playground!</span>
+    </div>
+    <div class="bsb-source-viewer__footer-actions">
+      <button 
+        class="btn btn--secondary btn--small"
+        data-action="view-github"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View on GitHub
+      </button>
+      <button 
+        class="btn btn--primary btn--small"
+        data-action="open-full-playground"
+      >
+        Open in Playground
+      </button>
+    </div>
+  </footer>
+</div>
+
+<!-- Overlay backdrop -->
+<div class="bsb-source-viewer__overlay" data-bsb-source-overlay></div>

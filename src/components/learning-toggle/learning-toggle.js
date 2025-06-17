@@ -140,6 +140,7 @@ class BSBLearningToggle {
   enableLearningMode() {
     this.isLearningMode = true;
     localStorage.setItem('bsb-dev-mode', 'true');
+    localStorage.setItem('bsb-learning-mode', 'true');
 
     // Update UI immediately
     this.updateUI();
@@ -147,15 +148,20 @@ class BSBLearningToggle {
     // Add body class for immediate visual feedback
     document.body.setAttribute('data-learning-mode', 'true');
 
-    // Show notification
+    // Show enhanced notification with meta-learning features
     this.showNotification({
       title: '🎓 Learning Mode Activated',
-      message: 'Interactive learning features are now enabled. Refresh the page to see all educational tools and tooltips.',
+      message: 'Interactive learning features are now enabled. Explore components to view their source code, track your progress, and unlock achievements!',
       type: 'success',
       actions: [
         {
-          text: 'Refresh Page',
-          action: () => window.location.reload(),
+          text: 'View Progress',
+          action: () => this.showLearningProgress(),
+          primary: false
+        },
+        {
+          text: 'Start Learning',
+          action: () => this.initializeMetaLearning(),
           primary: true
         }
       ]
@@ -164,10 +170,8 @@ class BSBLearningToggle {
     // Dispatch custom event
     this.dispatchLearningModeChange(true);
 
-    // Initialize learning features if BSBHelper is available
-    if (window.BSBHelper) {
-      window.BSBHelper.init();
-    }
+    // Initialize all meta-learning features
+    this.initializeMetaLearning();
   }
 
   /**
@@ -176,6 +180,7 @@ class BSBLearningToggle {
   disableLearningMode() {
     this.isLearningMode = false;
     localStorage.setItem('bsb-dev-mode', 'false');
+    localStorage.setItem('bsb-learning-mode', 'false');
 
     // Update UI immediately
     this.updateUI();
@@ -186,12 +191,17 @@ class BSBLearningToggle {
     // Show notification
     this.showNotification({
       title: '📖 Learning Mode Deactivated',
-      message: 'Learning features have been disabled. Refresh the page to return to normal mode.',
+      message: 'Learning features have been disabled. Your progress has been saved and will be available when you return.',
       type: 'info',
       actions: [
         {
-          text: 'Refresh Page',
-          action: () => window.location.reload(),
+          text: 'View Progress Summary',
+          action: () => this.showProgressSummary(),
+          primary: false
+        },
+        {
+          text: 'Continue Without Learning',
+          action: () => this.cleanupMetaLearning(),
           primary: true
         }
       ]
@@ -200,10 +210,8 @@ class BSBLearningToggle {
     // Dispatch custom event
     this.dispatchLearningModeChange(false);
 
-    // Hide learning features if BSBHelper is available
-    if (window.BSBHelper && window.BSBHelper.disable) {
-      window.BSBHelper.disable();
-    }
+    // Cleanup meta-learning features
+    this.cleanupMetaLearning();
   }
 
   /**
@@ -335,6 +343,157 @@ class BSBLearningToggle {
       this.disableLearningMode();
     }
   }
+
+  /**
+   * Initialize meta-learning features
+   */
+  async initializeMetaLearning() {
+    try {
+      // Load CSS for meta-learning components
+      await this.loadMetaLearningStyles();
+
+      // Initialize Source Viewer
+      if (!window.BSBSourceViewer) {
+        const module = await import('../source-viewer/source-viewer.js');
+        window.BSBSourceViewer = new module.default();
+      }
+      window.BSBSourceViewer.addViewSourceButtons();
+
+      // Initialize Learning Progress Tracker
+      if (!window.BSBLearningProgress) {
+        const module = await import('../learning-progress/learning-progress.js');
+        window.BSBLearningProgress = new module.default();
+      }
+
+      // Initialize BSB Helper if available
+      if (window.BSBHelper) {
+        window.BSBHelper.init();
+      }
+
+      // Add educational tooltips
+      this.addEducationalTooltips();
+
+      // Log learning mode activation
+      if (window.BSBLearningProgress) {
+        window.BSBLearningProgress.logActivity('learning-mode', 'Learning mode activated');
+      }
+
+    } catch (error) {
+      console.error('Failed to initialize meta-learning features:', error);
+    }
+  }
+
+  /**
+   * Load styles for meta-learning components
+   */
+  async loadMetaLearningStyles() {
+    const components = ['source-viewer', 'learning-progress'];
+    
+    for (const component of components) {
+      const cssId = `bsb-${component}-css`;
+      if (!document.getElementById(cssId)) {
+        const link = document.createElement('link');
+        link.id = cssId;
+        link.rel = 'stylesheet';
+        link.href = `/branded-static-boilerplate/components/${component}/${component}.css`;
+        document.head.appendChild(link);
+      }
+    }
+  }
+
+  /**
+   * Add educational tooltips to components
+   */
+  addEducationalTooltips() {
+    const tooltips = [
+      { selector: '.bsb-header', tip: 'This header uses semantic HTML and responsive design patterns' },
+      { selector: '.bsb-card', tip: 'Cards demonstrate BEM naming and component-based architecture' },
+      { selector: '.bsb-hero', tip: 'Hero sections showcase CSS Grid and custom properties' },
+      { selector: '[data-bsb-component]', tip: 'Click the </> button to view this component\'s source code' }
+    ];
+
+    tooltips.forEach(({ selector, tip }) => {
+      document.querySelectorAll(selector).forEach(el => {
+        el.setAttribute('data-learning-tooltip', tip);
+        el.classList.add('bsb-has-tooltip');
+      });
+    });
+  }
+
+  /**
+   * Cleanup meta-learning features
+   */
+  cleanupMetaLearning() {
+    // Hide source viewer buttons
+    document.querySelectorAll('.bsb-view-source-btn').forEach(btn => {
+      btn.style.display = 'none';
+    });
+
+    // Hide learning progress tracker
+    const progress = document.querySelector('.bsb-learning-progress');
+    if (progress) {
+      progress.style.display = 'none';
+    }
+
+    // Disable BSB Helper
+    if (window.BSBHelper && window.BSBHelper.disable) {
+      window.BSBHelper.disable();
+    }
+
+    // Remove educational tooltips
+    document.querySelectorAll('[data-learning-tooltip]').forEach(el => {
+      el.removeAttribute('data-learning-tooltip');
+      el.classList.remove('bsb-has-tooltip');
+    });
+  }
+
+  /**
+   * Show learning progress panel
+   */
+  showLearningProgress() {
+    const progress = document.querySelector('.bsb-learning-progress');
+    if (progress) {
+      progress.classList.remove('bsb-learning-progress--minimized');
+      progress.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    } else {
+      // Initialize if not yet loaded
+      this.initializeMetaLearning().then(() => {
+        setTimeout(() => this.showLearningProgress(), 500);
+      });
+    }
+  }
+
+  /**
+   * Show progress summary when disabling learning mode
+   */
+  showProgressSummary() {
+    if (window.BSBLearningProgress) {
+      const progress = window.BSBLearningProgress.progress;
+      const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
+      const completion = Math.round((progress.componentsExplored.size / totalComponents) * 100);
+
+      this.showNotification({
+        title: '📊 Your Learning Progress',
+        message: `You've explored ${progress.componentsExplored.size} of ${totalComponents} components (${completion}% complete) and spent ${this.formatTime(progress.timeSpent)} learning. Great job!`,
+        type: 'success',
+        duration: 8000
+      });
+    }
+  }
+
+  /**
+   * Format time for display
+   */
+  formatTime(milliseconds) {
+    const minutes = Math.floor(milliseconds / 60000);
+    const hours = Math.floor(minutes / 60);
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes % 60}m`;
+    }
+    
+    return `${minutes}m`;
+  }
 }
 
 // Auto-initialize when DOM is ready
@@ -344,6 +503,53 @@ document.addEventListener('DOMContentLoaded', () => {
     new BSBLearningToggle(toggle);
   });
 });
+
+// Add global styles for learning tooltips
+const style = document.createElement('style');
+style.textContent = `
+  /* Learning mode tooltips */
+  [data-learning-mode="true"] .bsb-has-tooltip {
+    position: relative;
+  }
+  
+  [data-learning-mode="true"] .bsb-has-tooltip::after {
+    content: attr(data-learning-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--bsb-gray-900, #111827);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--bsb-radius-sm, 6px);
+    font-size: var(--bsb-text-sm, 0.875rem);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+    max-width: 250px;
+    white-space: normal;
+    text-align: center;
+  }
+  
+  [data-learning-mode="true"] .bsb-has-tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  
+  /* View source buttons */
+  .bsb-view-source-btn {
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bsb-view-source-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+`;
+document.head.appendChild(style);
 
 // Export for module usage
 window.BSBLearningToggle = BSBLearningToggle;

@@ -23,7 +23,7 @@
   - Sitemaps Protocol: https://www.sitemaps.org/protocol.html
   - Google Sitemap Guidelines: https://developers.google.com/search/docs/advanced/sitemaps/overview
   
-  Generated: 2025-06-17T21:33:37.500Z
+  Generated: 2025-06-17T22:29:46.757Z
   =============================================================================
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -51,6 +51,14 @@
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/interactive-playground.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/interactive-playground.html"/>
+  </url>
+  <url>
+    <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/meta-learning-showcase.html</loc>
+    <lastmod>2025-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madfam-io.github.io/branded-static-boilerplate/pages/meta-learning-showcase.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://madfam-io.github.io/branded-static-boilerplate/es/pages/meta-learning-showcase.html"/>
   </url>
   <url>
     <loc>https://madfam-io.github.io/branded-static-boilerplate/pages/project-structure.html</loc>
