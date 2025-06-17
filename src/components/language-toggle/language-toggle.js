@@ -17,6 +17,7 @@
  */
 
 import { translations } from '../../scripts/i18n/translations.js';
+import debug from '../../scripts/core/debug.js';
 
 class BSBLanguageToggle {
   constructor(container) {
@@ -245,7 +246,7 @@ class BSBLanguageToggle {
    */
   setLanguage(language) {
     if (!this.supportedLanguages.includes(language)) {
-      console.warn(`Unsupported language: ${language}`);
+      debug.warn(`Unsupported language: ${language}`);
       return;
     }
 

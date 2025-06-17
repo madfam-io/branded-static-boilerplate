@@ -26,6 +26,8 @@
  * @version 1.0.0
  */
 
+import debug from '../../scripts/core/debug.js';
+
 /**
  * BSB Code Playground Class
  * @class BSBCodePlayground
@@ -65,8 +67,7 @@ class BSBCodePlayground {
     this.loadSavedCode();
     this.updatePreview();
 
-    // eslint-disable-next-line no-console
-    console.log('BSB Code Playground: Initialized 🎨');
+    // Initialization complete - logging disabled for production
   }
 
   /**
@@ -432,16 +433,49 @@ class BSBCodePlayground {
       };
     });
     
-    // Error handling
+    // Error handling - capture errors without logging to console
     window.addEventListener('error', (e) => {
       const message = \`\${e.filename}:\${e.lineno} - \${e.message}\`;
-      console.error(message);
+      // Store error for debugging without console.error
+      window.capturedLogs.push({
+        type: 'error',
+        message: message,
+        timestamp: Date.now()
+      });
+      
+      // Send to parent for display
+      if (window.parent && window.parent.postMessage) {
+        window.parent.postMessage({
+          type: 'console',
+          method: 'error',
+          message: message
+        }, '*');
+      }
+      
+      // Prevent default error logging
+      e.preventDefault();
+      return true;
     });
     
     try {
       ${js}
     } catch (error) {
-      console.error('JavaScript Error:', error.message);
+      // Capture error without logging to console
+      const errorMessage = 'JavaScript Error: ' + error.message;
+      window.capturedLogs.push({
+        type: 'error',
+        message: errorMessage,
+        timestamp: Date.now()
+      });
+      
+      // Send to parent for display
+      if (window.parent && window.parent.postMessage) {
+        window.parent.postMessage({
+          type: 'console',
+          method: 'error',
+          message: errorMessage
+        }, '*');
+      }
     }
   </script>
 </body>
@@ -709,7 +743,7 @@ class BSBCodePlayground {
     try {
       localStorage.setItem('bsb-playground-code', JSON.stringify(code));
     } catch (error) {
-      console.warn('Could not save code to localStorage:', error);
+      debug.warn('Could not save code to localStorage:', error);
     }
   }
 
@@ -733,7 +767,7 @@ class BSBCodePlayground {
         this.showConsoleMessage('📤 Loaded shared code!', 'info');
         return;
       } catch (error) {
-        console.warn('Could not load shared code:', error);
+        debug.warn('Could not load shared code:', error);
       }
     }
 
@@ -753,7 +787,7 @@ class BSBCodePlayground {
         }
       }
     } catch (error) {
-      console.warn('Could not load saved code:', error);
+      debug.warn('Could not load saved code:', error);
     }
   }
 }
@@ -771,8 +805,7 @@ function initializeCodePlaygrounds() {
     new BSBCodePlayground(playground);
   });
 
-  // eslint-disable-next-line no-console
-  console.log(`BSB Code Playground: Initialized ${playgrounds.length} playground(s) 🎨`);
+  // Initialization complete - playground count: playgrounds.length
 }
 
 // Initialize when DOM is ready

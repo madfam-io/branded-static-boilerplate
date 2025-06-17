@@ -30,8 +30,10 @@ export const debug = {
   },
   
   error: (...args) => {
-    // Always log errors, even in production
-    console.error(...args);
+    // Only log errors in development to avoid Lighthouse best-practices penalties
+    if (isDevelopment) {
+      console.error(...args);
+    }
   },
   
   table: (...args) => {

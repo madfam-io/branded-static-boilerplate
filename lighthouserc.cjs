@@ -100,7 +100,6 @@ module.exports = {
         'redirects-http': 'off', // Local development
         
         // Resource optimization
-        'uses-webp-images': 'warn',
         'uses-optimized-images': 'warn',
         'uses-text-compression': 'warn',
         'uses-responsive-images': 'warn',

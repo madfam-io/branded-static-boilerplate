@@ -23,6 +23,8 @@
  * =============================================================================
  */
 
+import debug from '../../scripts/core/debug.js';
+
 /**
  * BSB Theme Toggle Component
  * @class BSBThemeToggle
@@ -238,7 +240,7 @@ class BSBThemeToggle {
    */
   setTheme(theme) {
     if (!['light', 'dark', 'auto'].includes(theme)) {
-      console.warn(`BSB Theme Toggle: Invalid theme "${theme}"`);
+      debug.warn(`BSB Theme Toggle: Invalid theme "${theme}"`);
       return;
     }
 
@@ -371,7 +373,7 @@ class BSBThemeToggle {
     try {
       return localStorage.getItem('bsb-theme');
     } catch (error) {
-      console.warn('BSB Theme Toggle: Unable to access localStorage:', error);
+      debug.warn('BSB Theme Toggle: Unable to access localStorage:', error);
       return null;
     }
   }
@@ -387,7 +389,7 @@ class BSBThemeToggle {
     try {
       localStorage.setItem('bsb-theme', theme);
     } catch (error) {
-      console.warn('BSB Theme Toggle: Unable to save to localStorage:', error);
+      debug.warn('BSB Theme Toggle: Unable to save to localStorage:', error);
     }
   }
 
