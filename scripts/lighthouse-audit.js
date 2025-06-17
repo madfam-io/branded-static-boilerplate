@@ -456,7 +456,7 @@ function generateReport(url, metrics, budgetResults) {
  * Main execution function
  */
 async function main() {
-  const url = process.argv[2] || 'http://localhost:3000';
+  const url = process.argv[2] || 'https://localhost:3000';
   
   console.log('🚀 Starting Lighthouse audit...');
   console.log(`📍 URL: ${url}`);

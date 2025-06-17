@@ -24,7 +24,7 @@ This is a human-readable version of our XML sitemap.
 
 ### Priority 0.7
 
-- [https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html](https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html) - Updated: 2025-06-16
+- [https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html](https://madfam-io.github.io/branded-static-boilerplate/pages/contact.html) - Updated: 2025-06-17
 
 ### Priority 0.3
 

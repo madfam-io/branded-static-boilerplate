@@ -79,7 +79,7 @@ if (!existsSync(envPath)) {
 console.log('\n🎉 Setup complete!');
 console.log('\n📚 Next steps:');
 console.log('   1. Run "npm run dev" to start development server');
-console.log('   2. Open http://localhost:3000 in your browser');
+console.log('   2. Open https://localhost:3000 in your browser');
 console.log('   3. Edit src/index.html to see changes');
 console.log('   4. Check out the docs/ folder for tutorials');
 console.log('\n💡 Tip: Enable dev mode for helpful tools:');

@@ -70,10 +70,7 @@ class BSBThemeToggle {
     this.updateUI();
 
     // Log initialization in development only
-    if (import.meta.env.DEV) {
-      // eslint-disable-next-line no-console
-      console.log(`BSB Theme Toggle: Initialized with theme "${this.currentTheme}"`);
-    }
+    debug.log(`BSB Theme Toggle: Initialized with theme "${this.currentTheme}"`);
   }
 
   /**
@@ -426,10 +423,7 @@ function initializeThemeToggles() {
   });
 
   // Log initialization in development only
-  if (import.meta.env.DEV) {
-    // eslint-disable-next-line no-console
-    console.log(`BSB Theme Toggle: Initialized ${toggles.length} toggle(s) 🎨`);
-  }
+  debug.log(`BSB Theme Toggle: Initialized ${toggles.length} toggle(s) 🎨`);
 }
 
 // Initialize when DOM is ready
