@@ -7,7 +7,7 @@ This is a human-readable version of our XML sitemap.
 
 ### Priority 1.0
 
-- [https://madfam-io.github.io/branded-static-boilerplate/](https://madfam-io.github.io/branded-static-boilerplate/) - Updated: 2025-06-16
+- [https://madfam-io.github.io/branded-static-boilerplate/](https://madfam-io.github.io/branded-static-boilerplate/) - Updated: 2025-06-17
 
 ### Priority 0.9
 
