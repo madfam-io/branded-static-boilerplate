@@ -69,8 +69,11 @@ class BSBThemeToggle {
     // Update UI to reflect current theme
     this.updateUI();
 
-    // eslint-disable-next-line no-console
-    console.log(`BSB Theme Toggle: Initialized with theme "${this.currentTheme}"`);
+    // Log initialization in development only
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log(`BSB Theme Toggle: Initialized with theme "${this.currentTheme}"`);
+    }
   }
 
   /**
@@ -422,8 +425,11 @@ function initializeThemeToggles() {
     new BSBThemeToggle(toggle);
   });
 
-  // eslint-disable-next-line no-console
-  console.log(`BSB Theme Toggle: Initialized ${toggles.length} toggle(s) 🎨`);
+  // Log initialization in development only
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.log(`BSB Theme Toggle: Initialized ${toggles.length} toggle(s) 🎨`);
+  }
 }
 
 // Initialize when DOM is ready

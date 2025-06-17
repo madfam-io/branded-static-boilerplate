@@ -21,6 +21,8 @@
  * =============================================================================
  */
 
+import { debug } from '../../scripts/core/debug.js';
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
   initializeHeader();
@@ -54,7 +56,7 @@ function setupMobileMenu(header) {
   const nav = header.querySelector('.bsb-header__nav');
 
   if (!toggle || !nav) {
-    console.warn('BSB Header: Missing toggle button or navigation element');
+    debug.warn('BSB Header: Missing toggle button or navigation element');
     return;
   }
 

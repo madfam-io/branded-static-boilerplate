@@ -193,7 +193,7 @@ export default defineConfig({
             resolve(__dirname, 'src/robots.txt'),
             resolve(__dirname, 'dist/robots.txt')
           );
-          console.log('✓ Copied robots.txt to dist');
+          if (process.env.VITE_VERBOSE !== 'false') console.log('✓ Copied robots.txt to dist');
         } catch (err) {
           console.error('Failed to copy robots.txt:', err);
         }
@@ -204,7 +204,7 @@ export default defineConfig({
             resolve(__dirname, 'src/manifest.json'),
             resolve(__dirname, 'dist/manifest.json')
           );
-          console.log('✓ Copied manifest.json to dist');
+          if (process.env.VITE_VERBOSE !== 'false') console.log('✓ Copied manifest.json to dist');
         } catch (err) {
           console.error('Failed to copy manifest.json:', err);
         }
@@ -228,7 +228,7 @@ export default defineConfig({
                 resolve(__dirname, 'src/assets/images', file),
                 resolve(imagesDir, file)
               );
-              console.log(`✓ Copied ${file} to dist/assets/images`);
+              if (process.env.VITE_VERBOSE !== 'false') console.log(`✓ Copied ${file} to dist/assets/images`);
             } catch (err) {
               console.error(`Failed to copy ${file}:`, err);
             }

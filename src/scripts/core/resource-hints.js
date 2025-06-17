@@ -19,6 +19,8 @@
  * =============================================================================
  */
 
+import { debug } from './debug.js';
+
 /**
  * Resource Hints Manager
  * @class ResourceHints
@@ -301,7 +303,7 @@ class ResourceHints {
         for (const entry of list.getEntries()) {
           // Track slow resources
           if (entry.duration > 1000) {
-            console.warn(`Slow resource: ${entry.name} took ${entry.duration}ms`);
+            debug.warn(`Slow resource: ${entry.name} took ${entry.duration}ms`);
             
             // Add to critical resources for next visit
             if (entry.initiatorType === 'css' || entry.initiatorType === 'script') {
@@ -319,7 +321,7 @@ class ResourceHints {
     if ('PerformanceObserver' in window && 'PerformanceLongTaskTiming' in window) {
       const longTaskObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          console.warn(`Long task detected: ${entry.duration}ms`);
+          debug.warn(`Long task detected: ${entry.duration}ms`);
         }
       });
       

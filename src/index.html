@@ -50,7 +50,7 @@
     Configured for GitHub Pages deployment with strict security.
     Learn more: /docs/tutorials/security.md#content-security-policy
   -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-src 'self' data:;">
   
   <!-- 
     Additional Security Headers
@@ -464,7 +464,7 @@
             <a href="#learning-journey" class="btn btn--primary btn--large">
               Start Learning Journey
             </a>
-            <a href="https://github.com/madfam-io/branded-static-boilerplate" class="btn btn--secondary btn--large">
+            <a href="https://github.com/madfam-io/branded-static-boilerplate" class="btn btn--secondary btn--large" rel="noopener noreferrer" target="_blank">
               View Source Code
             </a>
             <button onclick="enableLearningMode()" class="btn btn--ghost btn--large">
@@ -626,18 +626,18 @@ npm run dev
           <div class="bsb-footer__column">
             <h4 class="bsb-footer__heading">Learn</h4>
             <ul class="bsb-footer__links">
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/">Tutorials</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/">API Docs</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/">Examples</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/" rel="noopener noreferrer" target="_blank">Tutorials</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/" rel="noopener noreferrer" target="_blank">API Docs</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/" rel="noopener noreferrer" target="_blank">Examples</a></li>
             </ul>
           </div>
           
           <div class="bsb-footer__column">
             <h4 class="bsb-footer__heading">Community</h4>
             <ul class="bsb-footer__links">
-              <li><a href="https://github.com/yourusername/branded-static-boilerplate">GitHub</a></li>
-              <li><a href="https://github.com/yourusername/branded-static-boilerplate/discussions">Discussions</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md">Contributing</a></li>
+              <li><a href="https://github.com/yourusername/branded-static-boilerplate" rel="noopener noreferrer" target="_blank">GitHub</a></li>
+              <li><a href="https://github.com/yourusername/branded-static-boilerplate/discussions" rel="noopener noreferrer" target="_blank">Discussions</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md" rel="noopener noreferrer" target="_blank">Contributing</a></li>
             </ul>
           </div>
           

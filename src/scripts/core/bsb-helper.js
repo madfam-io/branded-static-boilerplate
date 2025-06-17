@@ -21,6 +21,8 @@
  * =============================================================================
  */
 
+import { debug } from './debug.js';
+
 /**
  * BSB Helper - Development Mode Assistant
  * @class BSBHelper
@@ -47,7 +49,7 @@ class BSBHelper {
    * @returns {void}
    */
   init() {
-    console.log('BSB Dev Mode: Enabled 🛠️');
+    debug.log('BSB Dev Mode: Enabled 🛠️');
 
     // Wait for DOM
     if (document.readyState === 'loading') {
@@ -88,7 +90,7 @@ class BSBHelper {
       this.components.get(name).push(component);
     });
 
-    console.log(`BSB Dev Mode: Found ${components.length} components`);
+    debug.log(`BSB Dev Mode: Found ${components.length} components`);
   }
 
   /**
@@ -677,7 +679,7 @@ class BSBHelper {
     // Remove event listeners
     document.removeEventListener('keydown', this.handleKeydown);
 
-    console.log('🎓 BSB Learning mode disabled');
+    debug.log('🎓 BSB Learning mode disabled');
   }
 }
 
