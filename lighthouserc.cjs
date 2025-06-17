@@ -62,7 +62,7 @@ module.exports = {
         'total-blocking-time': ['warn', { maxNumericValue: 300 }],
         
         // Accessibility
-        'accessibility': ['error', { minScore: 0.9 }],
+        'categories:accessibility': ['error', { minScore: 0.9 }],
         'color-contrast': 'error',
         'heading-order': 'error',
         'image-alt': 'error',
@@ -75,7 +75,7 @@ module.exports = {
         'no-document-write': 'error',
         'geolocation-on-start': 'error',
         'notification-on-start': 'error',
-        'no-vulnerable-libraries': 'error',
+        // 'no-vulnerable-libraries' was removed in Lighthouse v10.0.0
         'uses-http2': 'warn',
         'uses-passive-event-listeners': 'warn',
         
@@ -87,7 +87,7 @@ module.exports = {
         'robots-txt': 'warn',
         'hreflang': 'warn',
         'canonical': 'warn',
-        'structured-data': 'warn',
+        // 'structured-data' is a manual audit that doesn't generate automatic scores
         
         // PWA (Progressive Web App)
         'viewport': 'error',
@@ -122,7 +122,13 @@ module.exports = {
         'resource-summary:stylesheet:size': ['warn', { maxNumericValue: 100000 }],
         'resource-summary:image:size': ['warn', { maxNumericValue: 500000 }],
         'resource-summary:font:size': ['warn', { maxNumericValue: 200000 }],
-        'resource-summary:total:size': ['error', { maxNumericValue: 2000000 }]
+        'resource-summary:total:size': ['error', { maxNumericValue: 2000000 }],
+        
+        // Category-level assertions (as a backup/overview)
+        'categories:performance': ['warn', { minScore: 0.9 }],
+        'categories:best-practices': ['warn', { minScore: 0.9 }],
+        'categories:seo': ['warn', { minScore: 0.9 }],
+        'categories:pwa': ['off'] // Not a PWA yet
       }
     },
     

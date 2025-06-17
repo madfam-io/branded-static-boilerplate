@@ -15,7 +15,6 @@ const axe = configureAxe({
     // Customize axe rules for educational content
     'color-contrast': { enabled: true },
     'focus-order-semantics': { enabled: true },
-    'keyboard-navigation': { enabled: true },
     'landmark-unique': { enabled: true },
     'page-has-heading-one': { enabled: true },
     'region': { enabled: true }

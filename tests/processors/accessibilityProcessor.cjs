@@ -6,21 +6,22 @@
  * and generate comprehensive accessibility reports.
  */
 
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 /**
  * Process test results and generate accessibility report
  * @param {Object} testResults - Jest test results object
  * @returns {Object} Modified test results
  */
-export default function accessibilityProcessor(testResults) {
+module.exports = function accessibilityProcessor(testResults) {
   const accessibilityViolations = [];
   const accessibilityPasses = [];
   
   // Extract accessibility test results
   testResults.testResults.forEach(testFile => {
-    testFile.assertionResults.forEach(assertion => {
+    if (testFile.assertionResults) {
+      testFile.assertionResults.forEach(assertion => {
       // Look for accessibility-related tests
       if (assertion.title.includes('accessibility') || 
           assertion.title.includes('a11y') ||
@@ -41,7 +42,8 @@ export default function accessibilityProcessor(testResults) {
           });
         }
       }
-    });
+      });
+    }
   });
   
   // Generate accessibility report

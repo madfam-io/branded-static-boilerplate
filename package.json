@@ -24,7 +24,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "prepare": "husky install",
     "prebuild": "rm -rf dist",
-    "postbuild": "echo 'Build completed successfully!'",
+    "postbuild": "npm run generate:sitemap && echo 'Build completed successfully!'",
     "setup": "node scripts/setup.js",
     "postinstall": "husky install || true",
     "validate": "npm run lint && npm run test:coverage && npm run format:check",
@@ -36,8 +36,7 @@
     "lighthouse:local": "node scripts/lighthouse-local.js",
     "lighthouse:mobile": "node scripts/lighthouse-local.js -- --mobile",
     "lighthouse:ci": "lhci autorun",
-    "generate:sitemap": "node scripts/generate-sitemap.js",
-    "postbuild": "npm run generate:sitemap && echo 'Build completed successfully!'"
+    "generate:sitemap": "node scripts/generate-sitemap.js"
   },
   "keywords": [
     "static-site",
@@ -58,6 +57,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.23.0",
     "@babel/preset-env": "^7.23.0",
+    "@lhci/cli": "^0.15.0",
     "autoprefixer": "^10.4.16",
     "axe-core": "^4.8.3",
     "babel-jest": "^29.7.0",

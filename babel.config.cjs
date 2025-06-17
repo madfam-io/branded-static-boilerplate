@@ -10,7 +10,7 @@
  * - Environment-specific optimizations
  */
 
-export default {
+module.exports = {
   presets: [
     [
       '@babel/preset-env',
@@ -57,7 +57,7 @@ export default {
     test: {
       plugins: [
         // Istanbul coverage for testing
-        'babel-plugin-istanbul'
+        ['babel-plugin-istanbul', {}, 'istanbul-for-jest']
       ]
     },
     
