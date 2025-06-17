@@ -65,30 +65,14 @@ export default defineConfig({
         
         // Manual chunk splitting for optimal loading
         manualChunks(id) {
-          // Vendor chunks
+          // Only create vendor chunk if there are actual node_modules
           if (id.includes('node_modules')) {
             return 'vendor';
           }
           
-          // i18n system
-          if (id.includes('translations.js')) {
-            return 'i18n';
-          }
-          
-          // Learning components
-          if (id.includes('learning-toggle') || id.includes('bsb-helper')) {
-            return 'learning';
-          }
-          
-          // Interactive components
-          if (id.includes('code-playground') || id.includes('file-explorer')) {
-            return 'interactive';
-          }
-          
-          // UI components
-          if (id.includes('theme-toggle') || id.includes('language-toggle')) {
-            return 'ui';
-          }
+          // Don't create separate chunks for small modules
+          // Let Vite handle automatic chunking based on imports
+          return undefined;
         }
       },
       

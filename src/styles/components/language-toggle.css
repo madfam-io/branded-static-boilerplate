@@ -1,0 +1,251 @@
+/**
+ * Language Toggle Component Styles
+ * ================================
+ * 
+ * Styles for the bilingual language toggle component that allows users
+ * to switch between English and Spanish content.
+ * 
+ * Features:
+ * - Accessible design with clear visual indicators
+ * - Smooth animations for better UX
+ * - Responsive design for all screen sizes
+ * - High contrast support
+ * - Focus states for keyboard navigation
+ */
+
+.bsb-language-toggle {
+  display: flex;
+  align-items: center;
+  margin-right: var(--bsb-space-4);
+}
+
+.bsb-language-toggle__button {
+  display: flex;
+  align-items: center;
+  gap: var(--bsb-space-2);
+  
+  /* Reset button styles */
+  background: none;
+  border: 1px solid var(--bsb-border-color);
+  padding: var(--bsb-space-2) var(--bsb-space-3);
+  border-radius: var(--bsb-radius-md);
+  
+  /* Typography */
+  font-family: var(--bsb-font-mono);
+  font-size: var(--bsb-text-sm);
+  font-weight: var(--bsb-font-medium);
+  color: var(--bsb-text-secondary);
+  
+  /* Interactive states */
+  cursor: pointer;
+  transition: all var(--bsb-transition-base);
+  
+  /* Accessibility */
+  position: relative;
+}
+
+.bsb-language-toggle__button:hover {
+  border-color: var(--bsb-primary);
+  color: var(--bsb-primary);
+  background-color: var(--bsb-primary-light);
+}
+
+.bsb-language-toggle__button:focus {
+  outline: 2px solid var(--bsb-primary);
+  outline-offset: 2px;
+  border-color: var(--bsb-primary);
+}
+
+.bsb-language-toggle__button:active {
+  transform: translateY(1px);
+}
+
+/* Language indicators */
+.bsb-language-toggle__current {
+  font-weight: var(--bsb-font-bold);
+  color: var(--bsb-primary);
+}
+
+.bsb-language-toggle__arrow {
+  font-size: var(--bsb-text-xs);
+  opacity: 0.7;
+  transition: transform var(--bsb-transition-base);
+}
+
+.bsb-language-toggle__button:hover .bsb-language-toggle__arrow {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.bsb-language-toggle__target {
+  opacity: 0.6;
+  font-size: var(--bsb-text-xs);
+}
+
+.bsb-language-toggle__button:hover .bsb-language-toggle__target {
+  opacity: 1;
+  color: var(--bsb-primary);
+}
+
+/* Animation for language switching */
+.bsb-language-toggle__button.switching {
+  animation: languageSwitch 0.3s ease-in-out;
+}
+
+@keyframes languageSwitch {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Dark mode adaptations */
+[data-theme="dark"] .bsb-language-toggle__button {
+  border-color: var(--bsb-border-color-dark);
+  color: var(--bsb-text-secondary-dark);
+}
+
+[data-theme="dark"] .bsb-language-toggle__button:hover {
+  background-color: var(--bsb-primary-dark);
+  border-color: var(--bsb-primary);
+}
+
+[data-theme="dark"] .bsb-language-toggle__current {
+  color: var(--bsb-primary-light);
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .bsb-language-toggle__button {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+  
+  .bsb-language-toggle__button:focus {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .bsb-language-toggle__button,
+  .bsb-language-toggle__arrow {
+    transition: none;
+  }
+  
+  .bsb-language-toggle__button.switching {
+    animation: none;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .bsb-language-toggle {
+    margin-right: var(--bsb-space-2);
+  }
+  
+  .bsb-language-toggle__button {
+    padding: var(--bsb-space-1) var(--bsb-space-2);
+    font-size: var(--bsb-text-xs);
+  }
+  
+  /* Show only current language on very small screens */
+  @media (max-width: 480px) {
+    .bsb-language-toggle__arrow,
+    .bsb-language-toggle__target {
+      display: none;
+    }
+  }
+}
+
+/* Print styles */
+@media print {
+  .bsb-language-toggle {
+    display: none;
+  }
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Language-specific typography adjustments */
+[lang="es"] {
+  /* Spanish text tends to be longer, adjust spacing */
+  letter-spacing: -0.01em;
+}
+
+[lang="es"] .bsb-hero__title {
+  /* Adjust line height for Spanish typography */
+  line-height: 1.1;
+}
+
+/* Educational tooltips for language features */
+.bsb-language-toggle__tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: var(--bsb-space-2);
+  
+  /* Styling */
+  background: var(--bsb-bg-primary);
+  border: 1px solid var(--bsb-border-color);
+  border-radius: var(--bsb-radius-md);
+  padding: var(--bsb-space-2) var(--bsb-space-3);
+  box-shadow: var(--bsb-shadow-lg);
+  
+  /* Typography */
+  font-size: var(--bsb-text-xs);
+  color: var(--bsb-text-secondary);
+  white-space: nowrap;
+  
+  /* Initial state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-4px);
+  transition: all var(--bsb-transition-base);
+  z-index: 1000;
+}
+
+.bsb-language-toggle__button:hover .bsb-language-toggle__tooltip,
+.bsb-language-toggle__button:focus .bsb-language-toggle__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Arrow for tooltip */
+.bsb-language-toggle__tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--bsb-border-color);
+}
+
+.bsb-language-toggle__tooltip::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid var(--bsb-bg-primary);
+}

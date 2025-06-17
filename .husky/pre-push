@@ -14,36 +14,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Run quick Lighthouse check
-node -e "
-const { exec } = require('child_process');
-const chalk = require('chalk');
-
-console.log(chalk.blue('Running quick Lighthouse audit...'));
-
-// Just check the main page for speed
-exec('npm run lighthouse:local -- --url index.html --no-open', (error, stdout, stderr) => {
-  if (error) {
-    console.error(chalk.red('Lighthouse audit failed. Check performance before pushing.'));
-    process.exit(1);
-  }
-  
-  // Extract scores from output
-  const performanceMatch = stdout.match(/Performance: (\\d+)/);
-  const accessibilityMatch = stdout.match(/Accessibility: (\\d+)/);
-  
-  if (performanceMatch && parseInt(performanceMatch[1]) < 70) {
-    console.error(chalk.red('Performance score is too low. Please optimize before pushing.'));
-    process.exit(1);
-  }
-  
-  if (accessibilityMatch && parseInt(accessibilityMatch[1]) < 90) {
-    console.error(chalk.red('Accessibility score is too low. Please fix a11y issues before pushing.'));
-    process.exit(1);
-  }
-  
-  console.log(chalk.green('✅ Lighthouse checks passed!'));
-});
-" || exit 1
+# Run quick Lighthouse check using ES modules
+node scripts/lighthouse-check.mjs || exit 1
 
 echo "✅ All pre-push checks passed!"
