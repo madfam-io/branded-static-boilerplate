@@ -23,7 +23,7 @@
  */
 
 import lighthouse from 'lighthouse';
-import chromeLauncher from 'chrome-launcher';
+import * as chromeLauncher from 'chrome-launcher';
 import { createServer } from 'http';
 import { readFileSync } from 'fs';
 import { join, resolve } from 'path';
