@@ -4,7 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { resolve } from 'path';
-import { readdirSync } from 'fs';
+import { readdirSync, copyFileSync, mkdirSync } from 'fs';
 
 // Get all HTML files in src and src/pages
 const getHtmlEntries = () => {
@@ -181,7 +181,35 @@ export default defineConfig({
       gzipSize: true,
       brotliSize: true,
       filename: 'dist/stats.html'
-    })
+    }),
+    
+    // Copy static files plugin
+    {
+      name: 'copy-static-files',
+      writeBundle() {
+        // Copy robots.txt
+        try {
+          copyFileSync(
+            resolve(__dirname, 'src/robots.txt'),
+            resolve(__dirname, 'dist/robots.txt')
+          );
+          console.log('✓ Copied robots.txt to dist');
+        } catch (err) {
+          console.error('Failed to copy robots.txt:', err);
+        }
+        
+        // Copy manifest.json
+        try {
+          copyFileSync(
+            resolve(__dirname, 'src/manifest.json'),
+            resolve(__dirname, 'dist/manifest.json')
+          );
+          console.log('✓ Copied manifest.json to dist');
+        } catch (err) {
+          console.error('Failed to copy manifest.json:', err);
+        }
+      }
+    }
   ].filter(Boolean),
   
   // Optimize dependencies

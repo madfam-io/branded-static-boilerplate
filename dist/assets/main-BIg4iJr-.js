@@ -21,6 +21,7 @@
  */
 
 // Import component modules
+import debug from './debug.js';
 import './bsb-helper.js';
 import '../../components/header/header.js';
 import './resource-hints.js';
@@ -51,8 +52,8 @@ function initializeBSB() {
   // Update dynamic content
   updateDynamicContent();
 
-  // Log initialization
-  console.log('BSB: All systems initialized 🚀');
+  // Log initialization in development only
+  debug.log('BSB: All systems initialized 🚀');
 }
 
 /**
@@ -260,10 +261,10 @@ function monitorPerformance() {
     window.addEventListener('load', () => {
       const [perfData] = performance.getEntriesByType('navigation');
 
-      console.log('BSB Performance Metrics:');
-      console.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
-      console.log(`- Page Load Complete: ${Math.round(perfData.loadEventEnd)}ms`);
-      console.log(`- Total Resources: ${performance.getEntriesByType('resource').length}`);
+      debug.log('BSB Performance Metrics:');
+      debug.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
+      debug.log(`- Page Load Complete: ${Math.round(perfData.loadEventEnd)}ms`);
+      debug.log(`- Total Resources: ${performance.getEntriesByType('resource').length}`);
     });
   }
 }

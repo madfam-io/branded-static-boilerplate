@@ -675,8 +675,16 @@ class BSBCodePlayground {
     const newWindow = window.open('', '_blank');
 
     if (newWindow) {
-      newWindow.document.write(previewDoc);
-      newWindow.document.close();
+      // Use modern DOM methods instead of document.write
+      newWindow.document.documentElement.innerHTML = previewDoc;
+      
+      // Re-execute scripts since innerHTML doesn't execute them
+      const scripts = newWindow.document.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        const newScript = newWindow.document.createElement('script');
+        newScript.textContent = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
     } else {
       this.showConsoleMessage('❌ Could not open new window - popup blocked?', 'error');
     }

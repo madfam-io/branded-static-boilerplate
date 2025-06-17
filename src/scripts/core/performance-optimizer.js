@@ -17,6 +17,8 @@
  * - Performance budget monitoring
  */
 
+import debug from './debug.js';
+
 class PerformanceOptimizer {
   constructor() {
     this.metrics = {
@@ -46,7 +48,7 @@ class PerformanceOptimizer {
       this.createPerformanceDashboard();
     }
     
-    console.log('BSB Performance: Optimization system initialized ⚡');
+    debug.log('BSB Performance: Optimization system initialized ⚡');
   }
 
   /**
@@ -105,7 +107,7 @@ class PerformanceOptimizer {
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
         this.observers.lcp = observer;
       } catch (e) {
-        console.warn('LCP observation not supported');
+        debug.warn('LCP observation not supported');
       }
     }
   }
@@ -127,7 +129,7 @@ class PerformanceOptimizer {
         observer.observe({ entryTypes: ['first-input'] });
         this.observers.fid = observer;
       } catch (e) {
-        console.warn('FID observation not supported');
+        debug.warn('FID observation not supported');
       }
     }
   }
@@ -154,7 +156,7 @@ class PerformanceOptimizer {
         observer.observe({ entryTypes: ['layout-shift'] });
         this.observers.cls = observer;
       } catch (e) {
-        console.warn('CLS observation not supported');
+        debug.warn('CLS observation not supported');
       }
     }
   }
@@ -178,7 +180,7 @@ class PerformanceOptimizer {
         observer.observe({ entryTypes: ['paint'] });
         this.observers.fcp = observer;
       } catch (e) {
-        console.warn('FCP observation not supported');
+        debug.warn('FCP observation not supported');
       }
     }
   }
@@ -219,7 +221,7 @@ class PerformanceOptimizer {
         observer.observe({ entryTypes: ['resource'] });
         this.observers.resource = observer;
       } catch (e) {
-        console.warn('Resource observation not supported');
+        debug.warn('Resource observation not supported');
       }
     }
   }
@@ -452,7 +454,7 @@ class PerformanceOptimizer {
     // Check for images without proper sizing
     const unsizedImages = document.querySelectorAll('img:not([width]):not([height])');
     if (unsizedImages.length > 0) {
-      console.warn(`${unsizedImages.length} images without explicit dimensions found. This may cause layout shifts.`);
+      debug.warn(`${unsizedImages.length} images without explicit dimensions found. This may cause layout shifts.`);
     }
     
     // Add modern image format support detection

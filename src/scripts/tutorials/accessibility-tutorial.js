@@ -103,17 +103,70 @@ export const accessibilityTutorial = {
   background: #0056b3;
   outline: 2px solid #0056b3;
   outline-offset: 2px;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 4px;
+  background: #333;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease;
+  z-index: 1000;
+}
+
+.notification--success {
+  background: #28a745;
+}
+
+.notification--warning {
+  background: #ffc107;
+  color: #333;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }`,
-      js: `// Demonstrate accessibility differences
+      js: `// Accessible notification function
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = \`notification notification--\${type}\`;
+  notification.setAttribute('role', 'alert');
+  notification.setAttribute('aria-live', 'polite');
+  notification.textContent = message;
+  
+  // Add to page
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+// Demonstrate accessibility differences
 const fakeButton = document.querySelector('.fake-button');
 const realButton = document.querySelector('.real-button');
 
 fakeButton.addEventListener('click', () => {
-  alert('Fake button clicked! This is not accessible to keyboard users.');
+  showNotification('Fake button clicked! This is not accessible to keyboard users.', 'warning');
 });
 
 realButton.addEventListener('click', () => {
-  alert('Real button clicked! This works with keyboard, mouse, and screen readers.');
+  showNotification('Real button clicked! This works with keyboard, mouse, and screen readers.', 'success');
 });
 
 // Keyboard accessibility test

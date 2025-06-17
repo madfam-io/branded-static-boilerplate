@@ -17,6 +17,8 @@
  * - Keyboard shortcut tutorials
  */
 
+import debug from './debug.js';
+
 class AccessibilityEnhancer {
   constructor() {
     this.preferences = this.loadPreferences();
@@ -35,7 +37,7 @@ class AccessibilityEnhancer {
     this.applyUserPreferences();
     this.setupEducationalFeatures();
     
-    console.log('BSB Accessibility: Enhanced features initialized ♿');
+    debug.log('BSB Accessibility: Enhanced features initialized ♿');
   }
 
   /**
