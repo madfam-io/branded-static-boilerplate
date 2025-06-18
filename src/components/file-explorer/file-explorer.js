@@ -60,8 +60,8 @@ class BSBFileExplorer {
   /**
    * Initialize the file explorer
    */
-  init() {
-    this.setupFileData();
+  async init() {
+    await this.setupFileData();
     this.renderFileTree();
     this.setupEventListeners();
     this.hideLoading();
@@ -70,373 +70,9 @@ class BSBFileExplorer {
   /**
    * Define the file structure and educational content
    */
-  setupFileData() {
-    this.fileData = {
-      '/': {
-        type: 'folder',
-        name: 'branded-static-boilerplate',
-        title: 'Project Root Directory',
-        description: 'The main folder containing your entire web project. Everything starts here!',
-        importance: 'high',
-        category: 'root',
-        details: `
-          <p>This is your project's <strong>root directory</strong> - think of it as the main " +
-            "folder that contains your entire website.</p>
-          <h5>🎯 Key Concepts:</h5>
-          <ul>
-            <li><strong>Single Source of Truth:</strong> Everything related to your " +
-              "project lives here</li>
-            <li><strong>Version Control:</strong> This folder is tracked by Git</li>
-            <li><strong>Deployment Unit:</strong> When you deploy, this entire " +
-              "folder goes to the server</li>
-          </ul>
-          <h5>💡 Best Practices:</h5>
-          <ul>
-            <li>Keep the root clean - only essential files and folders</li>
-            <li>Use descriptive folder names that explain their purpose</li>
-            <li>Include a README.md to explain your project</li>
-          </ul>
-        `,
-        links: [
-          { text: 'Project Structure Guide', url: '/docs/tutorials/project-structure.md' },
-          { text: 'Git Best Practices', url: '/docs/tutorials/git-workflow.md' }
-        ]
-      },
-      '/package.json': {
-        type: 'file',
-        fileType: 'config',
-        name: 'package.json',
-        title: 'Project Configuration & Dependencies',
-        description: 'The blueprint of your project - lists dependencies, scripts, ' +
-          'and metadata.',
-        importance: 'high',
-        details: `
-          <p><strong>package.json</strong> is like your project's ID card and instruction manual combined.</p>
-          <h5>📋 What it contains:</h5>
-          <ul>
-            <li><strong>Dependencies:</strong> External libraries your project needs</li>
-            <li><strong>Scripts:</strong> Commands you can run (build, test, deploy)</li>
-            <li><strong>Metadata:</strong> Project name, version, description</li>
-          </ul>
-          <h5>🔧 Example Scripts:</h5>
-          <pre><code>{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "test": "jest"
-  }
-}</code></pre>
-        `,
-        links: [
-          {
-            text: 'NPM Package.json Guide',
-            url: 'https://docs.npmjs.com/cli/v8/configuring-npm/package-json'
-          }
-        ]
-      },
-      '/src': {
-        type: 'folder',
-        name: 'src',
-        title: 'Source Code Directory',
-        description: 'Your website\'s source code lives here - HTML, CSS, ' +
-          'JavaScript, and assets.',
-        importance: 'high',
-        category: 'source',
-        details: `
-          <p>The <strong>src</strong> (source) folder contains all the code that " +
-            "makes your website work.</p>
-          <h5>🏗️ Architecture Pattern:</h5>
-          <ul>
-            <li><strong>Separation of Concerns:</strong> Different types of code in " +
-              "different folders</li>
-            <li><strong>Component-Based:</strong> Reusable UI pieces grouped together</li>
-            <li><strong>Asset Organization:</strong> Images, fonts, and other files organized logically</li>
-          </ul>
-          <h5>📁 Typical Structure:</h5>
-          <pre><code>src/
-├── components/  ← Reusable UI pieces
-├── styles/      ← CSS and styling
-├── scripts/     ← JavaScript functionality
-├── assets/      ← Images, fonts, etc.
-└── pages/       ← Individual HTML pages</code></pre>
-        `,
-        links: [
-          { text: 'Component Architecture', url: '/docs/tutorials/components.md' },
-          { text: 'Asset Organization', url: '/docs/tutorials/assets.md' }
-        ]
-      },
-      '/src/components': {
-        type: 'folder',
-        name: 'components',
-        title: 'Reusable UI Components',
-        description: 'LEGO blocks for your website - reusable pieces of HTML, CSS, and JavaScript.',
-        importance: 'high',
-        category: 'source',
-        details: `
-          <p><strong>Components</strong> are like LEGO blocks - reusable pieces you can combine to build your website.</p>
-          <h5>🧩 Component Benefits:</h5>
-          <ul>
-            <li><strong>Reusability:</strong> Write once, use everywhere</li>
-            <li><strong>Maintainability:</strong> Fix bugs in one place</li>
-            <li><strong>Consistency:</strong> Same look and behavior across pages</li>
-            <li><strong>Testability:</strong> Easy to test individual pieces</li>
-          </ul>
-          <h5>📦 Component Structure:</h5>
-          <pre><code>header/
-├── header.html  ← Structure
-├── header.css   ← Styling
-├── header.js    ← Behavior
-└── README.md    ← Documentation</code></pre>
-        `,
-        links: [
-          { text: 'Building Components', url: '/docs/tutorials/component-creation.md' },
-          { text: 'Component Best Practices', url: '/docs/tutorials/component-patterns.md' }
-        ]
-      },
-      '/src/components/header': {
-        type: 'folder',
-        name: 'header',
-        title: 'Header Component',
-        description: 'Site navigation and branding component used across all pages.',
-        importance: 'medium',
-        category: 'source'
-      },
-      '/src/components/header/header.html': {
-        type: 'file',
-        fileType: 'markup',
-        name: 'header.html',
-        title: 'Header Structure',
-        description: 'HTML structure for the site header with navigation and branding.',
-        importance: 'medium'
-      },
-      '/src/components/header/header.css': {
-        type: 'file',
-        fileType: 'style',
-        name: 'header.css',
-        title: 'Header Styling',
-        description: 'CSS styles for header appearance, layout, and responsive behavior.',
-        importance: 'medium'
-      },
-      '/src/components/header/header.js': {
-        type: 'file',
-        fileType: 'script',
-        name: 'header.js',
-        title: 'Header Functionality',
-        description: 'JavaScript for mobile menu toggle and interactive features.',
-        importance: 'medium'
-      },
-      '/src/styles': {
-        type: 'folder',
-        name: 'styles',
-        title: 'CSS Styling System',
-        description: 'Organized CSS architecture with variables, utilities, and component styles.',
-        importance: 'high',
-        category: 'source',
-        details: `
-          <p>A well-organized <strong>CSS architecture</strong> makes your styles maintainable and scalable.</p>
-          <h5>🎨 CSS Organization:</h5>
-          <ul>
-            <li><strong>Variables:</strong> Design tokens (colors, spacing, fonts)</li>
-            <li><strong>Base:</strong> Fundamental styles and resets</li>
-            <li><strong>Utilities:</strong> Helper classes for rapid development</li>
-            <li><strong>Components:</strong> Specific component styling</li>
-          </ul>
-          <h5>📏 CSS Methodology:</h5>
-          <pre><code>/* BEM Naming Convention */
-.bsb-header { }           /* Block */
-.bsb-header__logo { }     /* Element */
-.bsb-header--dark { }     /* Modifier */</code></pre>
-        `,
-        links: [
-          { text: 'CSS Architecture Guide', url: '/docs/tutorials/css-architecture.md' },
-          { text: 'Design System', url: '/docs/tutorials/design-system.md' }
-        ]
-      },
-      '/src/styles/base': {
-        type: 'folder',
-        name: 'base',
-        title: 'Base Styles',
-        description: 'Fundamental CSS including variables, typography, and browser resets.',
-        importance: 'high',
-        category: 'source'
-      },
-      '/src/styles/base/variables.css': {
-        type: 'file',
-        fileType: 'style',
-        name: 'variables.css',
-        title: 'CSS Custom Properties',
-        description: 'Design tokens for colors, spacing, typography, and theme switching.',
-        importance: 'high',
-        details: `
-          <p><strong>CSS Custom Properties</strong> (variables) are your design system's foundation.</p>
-          <h5>🎨 Design Tokens:</h5>
-          <pre><code>:root {
-  /* Colors */
-  --bsb-primary: #3b82f6;
-  --bsb-secondary: #8b5cf6;
-
-  /* Spacing */
-  --bsb-space-1: 0.25rem;
-  --bsb-space-2: 0.5rem;
-
-  /* Typography */
-  --bsb-font-sans: system-ui, sans-serif;
-}</code></pre>
-          <h5>✨ Benefits:</h5>
-          <ul>
-            <li><strong>Consistency:</strong> Same values across all components</li>
-            <li><strong>Theming:</strong> Easy light/dark mode switching</li>
-            <li><strong>Maintainability:</strong> Change once, update everywhere</li>
-          </ul>
-        `
-      },
-      '/src/scripts': {
-        type: 'folder',
-        name: 'scripts',
-        title: 'JavaScript Functionality',
-        description: 'Interactive behavior and application logic for your website.',
-        importance: 'high',
-        category: 'source',
-        details: `
-          <p><strong>JavaScript</strong> brings your website to life with interactivity and dynamic behavior.</p>
-          <h5>⚡ Modern JavaScript Features:</h5>
-          <ul>
-            <li><strong>ES6+ Modules:</strong> Import/export for code organization</li>
-            <li><strong>Progressive Enhancement:</strong> Works without JS, better with JS</li>
-            <li><strong>Performance:</strong> Lazy loading and code splitting</li>
-          </ul>
-          <h5>🏗️ Architecture Pattern:</h5>
-          <pre><code>scripts/
-├── core/      ← Essential functionality
-├── modules/   ← Feature-specific code
-└── utils/     ← Helper functions</code></pre>
-        `
-      },
-      '/tests': {
-        type: 'folder',
-        name: 'tests',
-        title: 'Test Suite',
-        description: 'Automated tests to ensure your code works correctly and prevent bugs.',
-        importance: 'high',
-        category: 'quality',
-        details: `
-          <p><strong>Testing</strong> is your safety net - it catches bugs before users do!</p>
-          <h5>🧪 Testing Strategy:</h5>
-          <ul>
-            <li><strong>Unit Tests:</strong> Test individual functions and components</li>
-            <li><strong>Integration Tests:</strong> Test how parts work together</li>
-            <li><strong>Accessibility Tests:</strong> Ensure inclusive design</li>
-          </ul>
-          <h5>🛡️ Benefits:</h5>
-          <ul>
-            <li><strong>Confidence:</strong> Deploy without fear</li>
-            <li><strong>Documentation:</strong> Tests show how code should work</li>
-            <li><strong>Refactoring:</strong> Change code safely</li>
-          </ul>
-        `,
-        links: [
-          { text: 'Testing Guide', url: '/docs/tutorials/testing.md' },
-          { text: 'Jest Documentation', url: 'https://jestjs.io/docs/getting-started' }
-        ]
-      },
-      '/docs': {
-        type: 'folder',
-        name: 'docs',
-        title: 'Documentation',
-        description: 'Project documentation, tutorials, and guides for developers.',
-        importance: 'medium',
-        category: 'docs',
-        details: `
-          <p><strong>Documentation</strong> is your project's instruction manual - essential for collaboration and maintenance.</p>
-          <h5>📚 Documentation Types:</h5>
-          <ul>
-            <li><strong>README:</strong> Project overview and getting started</li>
-            <li><strong>Tutorials:</strong> Step-by-step learning guides</li>
-            <li><strong>API Docs:</strong> Function and component references</li>
-            <li><strong>Examples:</strong> Real-world usage patterns</li>
-          </ul>
-          <h5>✍️ Writing Tips:</h5>
-          <ul>
-            <li>Write for your future self who forgot everything</li>
-            <li>Include code examples for every concept</li>
-            <li>Keep it up-to-date with code changes</li>
-          </ul>
-        `
-      },
-      '/vite.config.js': {
-        type: 'file',
-        fileType: 'config',
-        name: 'vite.config.js',
-        title: 'Build Tool Configuration',
-        description: 'Vite bundler settings for development server and production builds.',
-        importance: 'high',
-        details: `
-          <p><strong>Vite</strong> is your build tool - it transforms your source code into optimized websites.</p>
-          <h5>⚡ What Vite Does:</h5>
-          <ul>
-            <li><strong>Development Server:</strong> Hot reload for instant feedback</li>
-            <li><strong>Bundling:</strong> Combines multiple files for performance</li>
-            <li><strong>Optimization:</strong> Minifies and compresses for faster loading</li>
-          </ul>
-          <h5>🔧 Common Configuration:</h5>
-          <pre><code>export default {
-  root: './src',
-  build: {
-    outDir: '../dist'
-  }
-}</code></pre>
-        `,
-        links: [
-          { text: 'Vite Guide', url: 'https://vitejs.dev/guide/' }
-        ]
-      },
-      '/.gitignore': {
-        type: 'file',
-        fileType: 'config',
-        name: '.gitignore',
-        title: 'Git Ignore Rules',
-        description: 'Tells Git which files to ignore (node_modules, build outputs, etc.).',
-        importance: 'medium',
-        details: `
-          <p><strong>.gitignore</strong> keeps your repository clean by excluding unnecessary files.</p>
-          <h5>🚫 Common Ignores:</h5>
-          <pre><code>node_modules/    # Dependencies
-dist/           # Build output
-.env            # Secret keys
-.DS_Store       # Mac system files</code></pre>
-          <h5>💡 Why Ignore?</h5>
-          <ul>
-            <li><strong>Size:</strong> node_modules can be huge</li>
-            <li><strong>Security:</strong> Never commit secrets</li>
-            <li><strong>Cleanliness:</strong> Focus on source code</li>
-          </ul>
-        `
-      },
-      '/README.md': {
-        type: 'file',
-        fileType: 'docs',
-        name: 'README.md',
-        title: 'Project Documentation',
-        description: 'The first thing people see - explains what your project does and how to use it.',
-        importance: 'high',
-        details: `
-          <p><strong>README.md</strong> is your project's front door - make a great first impression!</p>
-          <h5>📋 Essential Sections:</h5>
-          <ul>
-            <li><strong>Project Title & Description:</strong> What does it do?</li>
-            <li><strong>Installation:</strong> How to get started</li>
-            <li><strong>Usage:</strong> Basic examples</li>
-            <li><strong>Contributing:</strong> How others can help</li>
-          </ul>
-          <h5>✨ Pro Tips:</h5>
-          <ul>
-            <li>Use screenshots and GIFs to show functionality</li>
-            <li>Include live demo links</li>
-            <li>Keep it concise but comprehensive</li>
-          </ul>
-        `
-      }
-    };
+  async setupFileData() {
+    const { getAllFileData } = await import('./file-data/index.js');
+    this.fileData = getAllFileData();
   }
 
   /**
@@ -470,7 +106,9 @@ dist/           # Build output
       { path: '/docs', indent: CONSTANTS.INDENT_LEVEL_0 }
     ];
 
-    rootList.innerHTML = this.generateFileTreeHTML(structure);
+    this.generateFileTreeHTML(structure).then(html => {
+      rootList.innerHTML = html;
+    });
   }
 
   /**
@@ -478,82 +116,42 @@ dist/           # Build output
    * @param {Array} items - Array of file/folder items to render
    * @returns {string} HTML string for the file tree
    */
-  generateFileTreeHTML(items) {
-    return items.map(item => {
+  async generateFileTreeHTML(items) {
+    // Import renderer
+    const { renderFileItem } = await import('./file-tree-renderer.js');
+
+    const htmlParts = [];
+
+    for (const item of items) {
       const data = this.fileData[item.path];
-      if (!data) {
-        return '';
-      }
+      if (!data) {continue;}
 
-      const isFolder = data.type === 'folder';
       const isExpanded = this.expandedFolders.has(item.path);
-      const hasChildren = item.children && item.children.length > 0;
+      let itemHtml = renderFileItem(item, data, isExpanded);
 
-      let html = `
-        <li class="bsb-file-explorer__item bsb-file-explorer__item--${data.type}${isExpanded ? '' : ' bsb-file-explorer__item--collapsed'}"
-            role="treeitem"
-            ${isFolder ? `aria-expanded="${isExpanded}"` : ''}
-            data-type="${data.type}"
-            data-path="${item.path}"
-            data-tooltip="${item.path}"
-            ${data.fileType ? `data-file-type="${data.fileType}"` : ''}
-            ${data.importance ? `data-importance="${data.importance}"` : ''}>
-          <div class="bsb-file-explorer__item-content">
-      `;
-
-      if (isFolder) {
-        const icon = isExpanded ? '📂' : '📁';
-        html += `
-          <button class="bsb-file-explorer__toggle" aria-label="${isExpanded ? 'Collapse' : 'Expand'} ${data.name}">
-            <span class="bsb-file-explorer__toggle-icon">${icon}</span>
-          </button>
-        `;
-      } else {
-        const icon = this.getFileIcon(data.fileType || 'file');
-        html += `<span class="bsb-file-explorer__toggle-icon">${icon}</span>`;
+      // Handle nested children
+      if (item.children && item.children.length > 0 && isExpanded) {
+        const childrenHtml = await this.generateFileTreeHTML(item.children);
+        itemHtml = itemHtml.replace(
+          `data-children-path="${item.path}">`,
+          `data-children-path="${item.path}">${childrenHtml}`
+        );
       }
 
-      html += `
-            <span class="bsb-file-explorer__name">${data.name}</span>
-      `;
+      htmlParts.push(itemHtml);
+    }
 
-      if (data.importance === 'high') {
-        html += '<span class="bsb-file-explorer__badge">Essential</span>';
-      } else if (data.importance === 'medium') {
-        html += '<span class="bsb-file-explorer__badge">Important</span>';
-      }
-
-      html += '</div>';
-
-      if (hasChildren) {
-        html += `
-          <ul class="bsb-file-explorer__list bsb-file-explorer__list--nested" role="group">
-            ${this.generateFileTreeHTML(item.children)}
-          </ul>
-        `;
-      }
-
-      html += '</li>';
-      return html;
-    }).join('');
+    return htmlParts.join('');
   }
 
   /**
    * Get appropriate icon for file type
    * @param {string} fileType - Type of file
-   * @returns {string} Emoji icon for the file type
+   * @returns {Promise<string>} Emoji icon for the file type
    */
-  getFileIcon(fileType) {
-    const icons = {
-      config: '⚙️',
-      docs: '📝',
-      style: '🎨',
-      script: '⚡',
-      markup: '📄',
-      test: '🧪',
-      file: '📄'
-    };
-    return icons[fileType] || icons.file;
+  async getFileIcon(fileType) {
+    const { getFileIcon } = await import('./file-tree-renderer.js');
+    return getFileIcon(fileType);
   }
 
   /**

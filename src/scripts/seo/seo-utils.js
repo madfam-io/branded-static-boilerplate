@@ -454,135 +454,45 @@ const getGradeFromScore = function getGradeFromScore(score) {
  * @param {Object} page - Page data to analyze
  * @returns {Object} SEO score with detailed breakdown
  */
-export const calculateSEOScore = function calculateSEOScore(page) {
+export const calculateSEOScore = async function calculateSEOScore(page) {
+  // Import score calculators at the top of the function
+  const {
+    calculateTitleScore,
+    calculateDescriptionScore,
+    calculateHeadingsScore,
+    calculateImagesScore,
+    calculateLinksScore,
+    calculateContentScore,
+    calculateTechnicalScore
+  } = await import('./seo-score-calculators.js');
+
+  // Calculate individual scores
+  const titleScore = calculateTitleScore(page.title);
+  const descriptionScore = calculateDescriptionScore(page.description);
+  const headingsResult = calculateHeadingsScore(page);
+  const imagesResult = calculateImagesScore(page);
+  const linksResult = calculateLinksScore(page);
+  const contentResult = calculateContentScore(page);
+  const technicalScore = calculateTechnicalScore(page);
+
+  // Compile scores
   const scores = {
-    title: 0,
-    description: 0,
-    headings: 0,
-    images: 0,
-    links: 0,
-    content: 0,
-    technical: 0
+    title: titleScore,
+    description: descriptionScore,
+    headings: headingsResult.score,
+    images: imagesResult.score,
+    links: linksResult.score,
+    content: contentResult.score,
+    technical: technicalScore
   };
 
-  const insights = [];
-
-  // Title score
-  const titleValidation = validateTitle(page.title || '');
-  if (titleValidation.status === 'excellent') {
-    scores.title = SEO_CONFIG.scoreExcellent;
-  } else if (titleValidation.status === 'good') {
-    scores.title = SEO_CONFIG.scoreGood;
-  } else if (titleValidation.status === 'warning') {
-    scores.title = SEO_CONFIG.scoreAverage;
-  } else {
-    scores.title = SEO_CONFIG.scorePoor;
-  }
-
-  // Description score
-  const descValidation = validateDescription(page.description || '');
-  if (descValidation.status === 'excellent') {
-    scores.description = SEO_CONFIG.scoreExcellent;
-  } else if (descValidation.status === 'good') {
-    scores.description = SEO_CONFIG.scoreGood;
-  } else if (descValidation.status === 'warning') {
-    scores.description = SEO_CONFIG.scoreAverage;
-  } else {
-    scores.description = SEO_CONFIG.scorePoor;
-  }
-
-  // Headings score
-  if (page.h1Count === 1) {
-    scores.headings += SEO_CONFIG.scoreHeadingBonus;
-  } else {
-    insights.push({
-      category: 'Headings',
-      issue: page.h1Count === 0 ? 'Missing H1 tag' : 'Multiple H1 tags found',
-      impact: 'high',
-      solution: 'Use exactly one H1 tag per page'
-    });
-  }
-
-  if (page.headingHierarchy) {
-    scores.headings += SEO_CONFIG.scoreHeadingBonus;
-  } else {
-    insights.push({
-      category: 'Headings',
-      issue: 'Improper heading hierarchy',
-      impact: 'medium',
-      solution: 'Use headings in sequential order (H1 → H2 → H3)'
-    });
-  }
-
-  // Images score
-  const imagesWithoutAlt = page.images?.filter(img => !img.alt).length || 0;
-  if (imagesWithoutAlt === 0) {
-    scores.images = SEO_CONFIG.scoreExcellent;
-  } else {
-    scores.images = Math.max(0,
-      SEO_CONFIG.scoreExcellent - (imagesWithoutAlt * SEO_CONFIG.scoreImagePenalty)
-    );
-    insights.push({
-      category: 'Images',
-      issue: `${imagesWithoutAlt} images missing alt text`,
-      impact: 'high',
-      solution: 'Add descriptive alt text to all images'
-    });
-  }
-
-  // Links score
-  if (page.links?.internal > 0) {
-    scores.links += 50;
-  } else {
-    insights.push({
-      category: 'Links',
-      issue: 'No internal links found',
-      impact: 'medium',
-      solution: 'Add relevant internal links to improve navigation'
-    });
-  }
-
-  if (page.links?.external > 0 && page.links?.externalNofollow > 0) {
-    scores.links += 50;
-  } else if (page.links?.external > 0) {
-    scores.links += 25;
-    insights.push({
-      category: 'Links',
-      issue: 'External links without nofollow',
-      impact: 'low',
-      solution: 'Consider adding rel="nofollow" to untrusted external links'
-    });
-  }
-
-  // Content score
-  const wordCount = page.content?.wordCount || 0;
-  if (wordCount >= SEO_CONFIG.minWordCount) {
-    scores.content = Math.min(
-      SEO_CONFIG.scoreExcellent,
-      (wordCount / SEO_CONFIG.scoreWordCountDivisor)
-    );
-  } else {
-    insights.push({
-      category: 'Content',
-      issue: `Low word count (${wordCount} words)`,
-      impact: 'high',
-      solution: `Add more substantial content (aim for ${SEO_CONFIG.minWordCount}+ words)`
-    });
-  }
-
-  // Technical score
-  if (page.canonical) {
-    scores.technical += 25;
-  }
-  if (page.structuredData) {
-    scores.technical += 25;
-  }
-  if (page.mobileFriendly) {
-    scores.technical += 25;
-  }
-  if (page.https) {
-    scores.technical += 25;
-  }
+  // Compile insights
+  const insights = [
+    ...headingsResult.insights,
+    ...imagesResult.insights,
+    ...linksResult.insights,
+    ...contentResult.insights
+  ];
 
   // Calculate overall score
   const overallScore = Math.round(

@@ -368,7 +368,7 @@ class BSBCodePlayground {
    * @description Generates and displays the live preview of the code
    * @returns {void}
    */
-  updatePreview() {
+  async updatePreview() {
     const startTime = performance.now();
     this.showLoading();
 
@@ -378,7 +378,7 @@ class BSBCodePlayground {
       const js = this.editors.get('js').value;
 
       // Create preview document
-      const previewDoc = this.generatePreviewDocument(html, css, js);
+      const previewDoc = await this.generatePreviewDocument(html, css, js);
 
       // Update iframe
       const iframe = this.previewFrame;
@@ -417,102 +417,9 @@ class BSBCodePlayground {
    * @description Creates a complete HTML document for the preview
    * @returns {string} Complete HTML document
    */
-  generatePreviewDocument(html, css, js) {
-    return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BSB Code Preview</title>
-  <style>
-    body {
-      margin: 16px;
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.6;
-    }
-    ${css}
-  </style>
-</head>
-<body>
-  ${html}
-  <script>
-    // Console capture setup
-    const originalConsole = {
-      log: console.log,
-      warn: console.warn,
-      error: console.error
-    };
-
-    window.capturedLogs = [];
-
-    ['log', 'warn', 'error'].forEach(method => {
-      console[method] = function(...args) {
-        window.capturedLogs.push({
-          type: method,
-          message: args.join(' '),
-          timestamp: Date.now()
-        });
-        originalConsole[method].apply(console, args);
-
-        // Send to parent
-        if (window.parent && window.parent.postMessage) {
-          window.parent.postMessage({
-            type: 'console',
-            method: method,
-            message: args.join(' ')
-          }, '*');
-        }
-      };
-    });
-
-    // Error handling - capture errors without logging to console
-    window.addEventListener('error', event => {
-      const message = \`\${event.filename}:\${event.lineno} - \${event.message}\`;
-      // Store error for debugging without console.error
-      window.capturedLogs.push({
-        type: 'error',
-        message: message,
-        timestamp: Date.now()
-      });
-
-      // Send to parent for display
-      if (window.parent && window.parent.postMessage) {
-        window.parent.postMessage({
-          type: 'console',
-          method: 'error',
-          message: message
-        }, '*');
-      }
-
-      // Prevent default error logging
-      event.preventDefault();
-      return true;
-    });
-
-    try {
-      ${js}
-    } catch (error) {
-      // Capture error without logging to console
-      const errorMessage = 'JavaScript Error: ' + error.message;
-      window.capturedLogs.push({
-        type: 'error',
-        message: errorMessage,
-        timestamp: Date.now()
-      });
-
-      // Send to parent for display
-      if (window.parent && window.parent.postMessage) {
-        window.parent.postMessage({
-          type: 'console',
-          method: 'error',
-          message: errorMessage
-        }, '*');
-      }
-    }
-  </script>
-</body>
-</html>`.trim();
+  async generatePreviewDocument(html, css, js) {
+    const { generatePreviewDocument } = await import('./preview-document-generator.js');
+    return generatePreviewDocument(html, css, js);
   }
 
   /**
@@ -670,33 +577,10 @@ class BSBCodePlayground {
    * @description Shows a custom confirmation dialog for code reset
    * @returns {void}
    */
-  showResetConfirmation() {
-    const confirmDialog = document.createElement('div');
-    confirmDialog.className = 'bsb-code-playground__confirm-dialog';
-    confirmDialog.innerHTML = `
-      <div class="bsb-code-playground__confirm-backdrop"></div>
-      <div class="bsb-code-playground__confirm-content">
-        <h3>Reset Code</h3>
-        <p>Are you sure you want to reset all code? This cannot be undone.</p>
-        <div class="bsb-code-playground__confirm-actions">
-          <button class="bsb-code-playground__confirm-cancel">Cancel</button>
-          <button class="bsb-code-playground__confirm-reset">Reset Code</button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(confirmDialog);
-
-    // Add event listeners
-    const cancelBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-cancel');
-    const resetBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-reset');
-    const backdrop = confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop');
-
-    const closeDialog = () => {
-      document.body.removeChild(confirmDialog);
-    };
-
-    const confirmReset = () => {
+  async showResetConfirmation() {
+    const { showResetConfirmation } = await import('./reset-confirmation-dialog.js');
+    
+    showResetConfirmation(() => {
       // Reset to original values from HTML
       this.editors.forEach(editor => {
         const originalContent = editor.defaultValue || editor.getAttribute('data-original');
@@ -708,109 +592,7 @@ class BSBCodePlayground {
       this.updatePreview();
       this.updateMetrics();
       this.showConsoleMessage('🔄 Code reset to defaults', 'info');
-      closeDialog();
-    };
-
-    cancelBtn.addEventListener('click', closeDialog);
-    resetBtn.addEventListener('click', confirmReset);
-    backdrop.addEventListener('click', closeDialog);
-
-    // Add escape key handler
-    const escapeHandler = event => {
-      if (event.key === 'Escape') {
-        closeDialog();
-        document.removeEventListener('keydown', escapeHandler);
-      }
-    };
-    document.addEventListener('keydown', escapeHandler);
-
-    // Add styles if not already added
-    if (!document.querySelector('#bsb-confirm-dialog-styles')) {
-      const styles = document.createElement('style');
-      styles.id = 'bsb-confirm-dialog-styles';
-      styles.textContent = `
-        .bsb-code-playground__confirm-dialog {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 9999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .bsb-code-playground__confirm-backdrop {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.5);
-        }
-
-        .bsb-code-playground__confirm-content {
-          position: relative;
-          background: var(--bsb-bg-primary, white);
-          border-radius: 8px;
-          padding: 24px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-          max-width: 400px;
-          width: 90%;
-        }
-
-        .bsb-code-playground__confirm-content h3 {
-          margin: 0 0 12px 0;
-          font-size: 1.25rem;
-          color: var(--bsb-text-primary, #333);
-        }
-
-        .bsb-code-playground__confirm-content p {
-          margin: 0 0 20px 0;
-          color: var(--bsb-text-secondary, #666);
-          line-height: 1.5;
-        }
-
-        .bsb-code-playground__confirm-actions {
-          display: flex;
-          gap: 12px;
-          justify-content: flex-end;
-        }
-
-        .bsb-code-playground__confirm-cancel,
-        .bsb-code-playground__confirm-reset {
-          padding: 8px 16px;
-          border: 1px solid;
-          border-radius: 4px;
-          font-size: 0.875rem;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .bsb-code-playground__confirm-cancel {
-          background: transparent;
-          border-color: var(--bsb-border-color, #ccc);
-          color: var(--bsb-text-secondary, #666);
-        }
-
-        .bsb-code-playground__confirm-cancel:hover {
-          background: var(--bsb-bg-secondary, #f5f5f5);
-        }
-
-        .bsb-code-playground__confirm-reset {
-          background: var(--bsb-error, #dc3545);
-          border-color: var(--bsb-error, #dc3545);
-          color: white;
-        }
-
-        .bsb-code-playground__confirm-reset:hover {
-          background: #c82333;
-          border-color: #c82333;
-        }
-      `;
-      document.head.appendChild(styles);
-    }
+    });
   }
 
   /**
