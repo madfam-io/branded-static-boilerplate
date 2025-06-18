@@ -679,12 +679,12 @@ class BSBLearningProgress {
       .filter(name => !this.progress.componentsExplored.has(name));
 
     if (allComponents.length > 0) {
-      const next = allComponents[0];
+      const [nextComponent] = allComponents;
       recommendations.push({
         icon: '🔍',
-        title: `Explore the ${next} Component`,
+        title: `Explore the ${nextComponent} Component`,
         description: 'Discover new patterns and techniques.',
-        link: `#${next}`
+        link: `#${nextComponent}`
       });
     }
 
@@ -742,6 +742,9 @@ class BSBLearningProgress {
       case 'reset-progress':
         this.resetProgress();
         break;
+      default:
+        // Unknown action - no operation needed
+        break;
     }
   }
 
@@ -771,7 +774,8 @@ class BSBLearningProgress {
 
     const downloadLink = document.createElement('a');
     downloadLink.href = url;
-    downloadLink.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
+    const [datePart] = new Date().toISOString().split('T');
+    downloadLink.download = `bsb-learning-progress-${datePart}.json`;
     downloadLink.click();
 
     URL.revokeObjectURL(url);
@@ -782,9 +786,143 @@ class BSBLearningProgress {
    * @method resetProgress
    */
   resetProgress() {
-    if (confirm('Are you sure you want to reset all learning progress? This cannot be undone.')) {
+    this.showResetConfirmation();
+  }
+
+  /**
+   * Show reset confirmation dialog
+   * @method showResetConfirmation
+   */
+  showResetConfirmation() {
+    const confirmDialog = document.createElement('div');
+    confirmDialog.className = 'learning-progress__confirm-dialog';
+    confirmDialog.innerHTML = `
+      <div class="learning-progress__confirm-backdrop"></div>
+      <div class="learning-progress__confirm-content">
+        <h3>Reset Learning Progress</h3>
+        <p>Are you sure you want to reset all learning progress? This cannot be undone.</p>
+        <div class="learning-progress__confirm-actions">
+          <button class="learning-progress__confirm-cancel">Cancel</button>
+          <button class="learning-progress__confirm-reset">Reset Progress</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(confirmDialog);
+
+    // Add event listeners
+    const cancelBtn = confirmDialog.querySelector('.learning-progress__confirm-cancel');
+    const resetBtn = confirmDialog.querySelector('.learning-progress__confirm-reset');
+    const backdrop = confirmDialog.querySelector('.learning-progress__confirm-backdrop');
+
+    const closeDialog = () => {
+      document.body.removeChild(confirmDialog);
+    };
+
+    const confirmReset = () => {
       localStorage.removeItem('bsb-learning-progress');
       location.reload();
+    };
+
+    cancelBtn.addEventListener('click', closeDialog);
+    resetBtn.addEventListener('click', confirmReset);
+    backdrop.addEventListener('click', closeDialog);
+
+    // Add escape key handler
+    const escapeHandler = event => {
+      if (event.key === 'Escape') {
+        closeDialog();
+        document.removeEventListener('keydown', escapeHandler);
+      }
+    };
+    document.addEventListener('keydown', escapeHandler);
+
+    // Add styles if not already added
+    if (!document.querySelector('#learning-progress-confirm-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'learning-progress-confirm-styles';
+      styles.textContent = `
+        .learning-progress__confirm-dialog {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .learning-progress__confirm-backdrop {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .learning-progress__confirm-content {
+          position: relative;
+          background: var(--bsb-bg-primary, white);
+          border-radius: 8px;
+          padding: 24px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+          max-width: 400px;
+          width: 90%;
+        }
+        
+        .learning-progress__confirm-content h3 {
+          margin: 0 0 12px 0;
+          font-size: 1.25rem;
+          color: var(--bsb-text-primary, #333);
+        }
+        
+        .learning-progress__confirm-content p {
+          margin: 0 0 20px 0;
+          color: var(--bsb-text-secondary, #666);
+          line-height: 1.5;
+        }
+        
+        .learning-progress__confirm-actions {
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+        }
+        
+        .learning-progress__confirm-cancel,
+        .learning-progress__confirm-reset {
+          padding: 8px 16px;
+          border: 1px solid;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .learning-progress__confirm-cancel {
+          background: transparent;
+          border-color: var(--bsb-border-color, #ccc);
+          color: var(--bsb-text-secondary, #666);
+        }
+        
+        .learning-progress__confirm-cancel:hover {
+          background: var(--bsb-bg-secondary, #f5f5f5);
+        }
+        
+        .learning-progress__confirm-reset {
+          background: var(--bsb-error, #dc3545);
+          border-color: var(--bsb-error, #dc3545);
+          color: white;
+        }
+        
+        .learning-progress__confirm-reset:hover {
+          background: #c82333;
+          border-color: #c82333;
+        }
+      `;
+      document.head.appendChild(styles);
     }
   }
 

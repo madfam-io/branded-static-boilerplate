@@ -616,6 +616,9 @@ dist/           # Build output
           this.toggleFolder(item, path);
         }
         break;
+      default:
+        // No action needed for other keys
+        break;
     }
   }
 
@@ -742,7 +745,9 @@ dist/           # Build output
 document.addEventListener('DOMContentLoaded', () => {
   const explorers = document.querySelectorAll('[data-bsb-component="file-explorer"]');
   explorers.forEach(explorer => {
-    new BSBFileExplorer(explorer);
+    const fileExplorer = new BSBFileExplorer(explorer);
+    // Store reference if needed for later access
+    explorer.fileExplorerInstance = fileExplorer;
   });
 });
 

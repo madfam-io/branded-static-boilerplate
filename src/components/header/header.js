@@ -101,7 +101,7 @@ const setupMobileMenu = function setupMobileMenu(header) {
   });
 
   // Close menu when window is resized to desktop size
-  let resizeTimer;
+  let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {

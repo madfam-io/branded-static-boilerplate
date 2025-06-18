@@ -224,7 +224,7 @@ areas.forEach(area => {
   }
 }`,
       js: `// Add resize listener to show responsiveness
-let resizeTimeout;
+let resizeTimeout = null;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {

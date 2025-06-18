@@ -425,15 +425,15 @@ export const generateBreadcrumbSchema = function generateBreadcrumbSchema(breadc
 function getGradeFromScore(score) {
   if (score >= 90) {
     return 'A';
-  } else if (score >= 80) {
+  } if (score >= 80) {
     return 'B';
-  } else if (score >= 70) {
+  } if (score >= 70) {
     return 'C';
-  } else if (score >= 60) {
+  } if (score >= 60) {
     return 'D';
-  } else {
-    return 'F';
   }
+  return 'F';
+
 }
 
 /**
@@ -548,7 +548,7 @@ export const calculateSEOScore = function calculateSEOScore(page) {
       category: 'Content',
       issue: `Low word count (${wordCount} words)`,
       impact: 'high',
-      solution: 'Add more substantial content (aim for 300+ words)'
+      solution: `Add more substantial content (aim for ${SEO_CONFIG.minWordCount}+ words)`
     });
   }
 
@@ -568,7 +568,7 @@ export const calculateSEOScore = function calculateSEOScore(page) {
 
   // Calculate overall score
   const overallScore = Math.round(
-    Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length
+    Object.values(scores).reduce((accumulator, currentValue) => accumulator + currentValue, 0) / Object.keys(scores).length
   );
 
   return {

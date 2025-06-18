@@ -277,7 +277,7 @@ class BSBSEOAnalyzer {
 
     allHeadings.forEach(heading => {
       headings.push({
-        level: parseInt(heading.tagName.charAt(1)),
+        level: parseInt(heading.tagName.charAt(1), 10),
         text: heading.textContent.trim(),
         length: heading.textContent.trim().length
       });
@@ -297,7 +297,7 @@ class BSBSEOAnalyzer {
     let isValid = true;
 
     headings.forEach(heading => {
-      const level = parseInt(heading.tagName.charAt(1));
+      const level = parseInt(heading.tagName.charAt(1), 10);
       if (level > lastLevel + 1) {
         isValid = false;
       }
@@ -431,7 +431,7 @@ class BSBSEOAnalyzer {
     this.scoreCircle.setAttribute('data-grade', score.grade);
 
     // Update message
-    let message;
+    let message = '';
     if (score.overall >= CONSTANTS.EXCELLENT_THRESHOLD) {
       message = 'Excellent SEO! Your page is well-optimized.';
     } else if (score.overall >= CONSTANTS.GOOD_THRESHOLD) {
@@ -483,7 +483,7 @@ class BSBSEOAnalyzer {
     }
 
     const items = insights.map(insight => {
-      let icon;
+      let icon = 'ℹ️';
       if (insight.impact === 'high') {
         icon = '❗';
       } else if (insight.impact === 'medium') {
@@ -635,7 +635,7 @@ class BSBSEOAnalyzer {
     const titleValue = this.titleInput.value;
     const titleValidation = validateTitle(titleValue);
     this.titleCount.textContent = titleValue.length;
-    let titleStatusText;
+    let titleStatusText = '';
     if (titleValidation.status === 'excellent') {
       titleStatusText = '✓ Perfect!';
     } else if (titleValidation.status === 'good') {
@@ -652,7 +652,7 @@ class BSBSEOAnalyzer {
     const descValue = this.descriptionInput.value;
     const descValidation = validateDescription(descValue);
     this.descriptionCount.textContent = descValue.length;
-    let descStatusText;
+    let descStatusText = '';
     if (descValidation.status === 'excellent') {
       descStatusText = '✓ Perfect!';
     } else if (descValidation.status === 'good') {
@@ -768,7 +768,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const analyzers = document.querySelectorAll('[data-bsb-component="seo-analyzer"]');
 
   analyzers.forEach(analyzer => {
-    new BSBSEOAnalyzer(analyzer);
+    const seoAnalyzer = new BSBSEOAnalyzer(analyzer);
+    // Store reference if needed for later access
+    analyzer.seoAnalyzerInstance = seoAnalyzer;
   });
 });
 

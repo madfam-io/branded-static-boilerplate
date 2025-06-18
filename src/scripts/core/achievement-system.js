@@ -15,7 +15,10 @@ const CONSTANTS = {
   CODE_TIME_HOURS: 9,
   CODE_TIME_DAY: 22,
   TIMER_INTERVAL: 600000, // 10 minutes
-  MIN_DURATION_TIME: 10
+  MIN_DURATION_TIME: 10,
+  // UI dimensions
+  TOGGLE_BUTTON_SIZE: 60,
+  TOGGLE_BUTTON_SMALL: 50
 };
 
 export class AchievementSystem {
@@ -302,8 +305,8 @@ export class AchievementSystem {
           color: white;
           border: none;
           border-radius: 50%;
-          width: 60px;
-          height: 60px;
+          width: ${CONSTANTS.TOGGLE_BUTTON_SIZE}px;
+          height: ${CONSTANTS.TOGGLE_BUTTON_SIZE}px;
           cursor: pointer;
           box-shadow: var(--bsb-shadow-lg);
           z-index: var(--bsb-z-40);
@@ -559,8 +562,8 @@ export class AchievementSystem {
           
           .achievement-toggle {
             right: 15px;
-            width: 50px;
-            height: 50px;
+            width: ${CONSTANTS.TOGGLE_BUTTON_SMALL}px;
+            height: ${CONSTANTS.TOGGLE_BUTTON_SMALL}px;
             font-size: 1.25rem;
           }
         }

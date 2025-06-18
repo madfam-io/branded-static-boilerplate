@@ -170,8 +170,8 @@ realButton.addEventListener('click', () => {
 });
 
 // Keyboard accessibility test
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') {
+document.addEventListener('keydown', keyboardEvent => {
+  if (keyboardEvent.key === 'Tab') {
     console.log('Tab pressed - watch which elements get focus!');
   }
 });
@@ -423,8 +423,8 @@ document.head.appendChild(style);
 
 // Demo interactions
 document.querySelectorAll('.good button').forEach(button => {
-  button.addEventListener('click', (e) => {
-    e.preventDefault();
+  button.addEventListener('click', clickEvent => {
+    clickEvent.preventDefault();
     announceToScreenReader('Form interaction detected');
     console.log('Form would be submitted with proper validation');
   });
@@ -677,14 +677,14 @@ class AccessibleModal {
     this.okButton.addEventListener('click', () => this.close());
     
     // Escape key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !this.modal.classList.contains('hidden')) {
+    document.addEventListener('keydown', keyboardEvent => {
+      if (keyboardEvent.key === 'Escape' && !this.modal.classList.contains('hidden')) {
         this.close();
       }
     });
     
     // Trap focus in modal
-    this.modal.addEventListener('keydown', (e) => this.trapFocus(e));
+    this.modal.addEventListener('keydown', keyEvent => this.trapFocus(keyEvent));
   }
   
   open() {
@@ -752,7 +752,7 @@ class AccessibleDropdown {
   init() {
     // Toggle dropdown
     this.toggle.addEventListener('click', () => this.toggleDropdown());
-    this.toggle.addEventListener('keydown', (e) => this.handleToggleKeydown(e));
+    this.toggle.addEventListener('keydown', keyEvent => this.handleToggleKeydown(keyEvent));
     
     // Option selection
     this.options.forEach((option, index) => {
@@ -760,8 +760,8 @@ class AccessibleDropdown {
     });
     
     // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!this.dropdown.contains(e.target)) {
+    document.addEventListener('click', clickEvent => {
+      if (!this.dropdown.contains(clickEvent.target)) {
         this.closeDropdown();
       }
     });
@@ -797,6 +797,9 @@ class AccessibleDropdown {
       case 'Escape':
         this.closeDropdown();
         break;
+      default:
+        // No action needed for other keys
+        break;
     }
   }
   
@@ -824,12 +827,18 @@ class AccessibleDropdown {
 }
 
 // Initialize components
-new AccessibleModal('modal');
-new AccessibleDropdown(document.querySelector('.dropdown'));
+const accessibleModal = new AccessibleModal('modal');
+const accessibleDropdown = new AccessibleDropdown(document.querySelector('.dropdown'));
+
+// Store references if needed for later access
+window.accessibilityTutorialInstances = {
+  modal: accessibleModal,
+  dropdown: accessibleDropdown
+};
 
 // Visual focus indicators
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Tab') {
+document.addEventListener('keydown', keyboardEvent => {
+  if (keyboardEvent.key === 'Tab') {
     document.body.classList.add('keyboard-navigation');
   }
 });

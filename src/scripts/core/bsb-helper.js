@@ -255,6 +255,9 @@ class BSBHelper {
             event.preventDefault();
             this.toggleDevPanel();
             break;
+          default:
+            // No action needed for other key combinations
+            break;
         }
       }
     });
@@ -411,6 +414,9 @@ class BSBHelper {
             break;
           case 'inspect':
             this.toggleInspectMode();
+            break;
+          default:
+            // Unknown action - no operation needed
             break;
         }
       });

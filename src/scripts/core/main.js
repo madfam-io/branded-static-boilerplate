@@ -89,12 +89,12 @@ const initSmoothScrolling = function initSmoothScrolling() {
   const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
 
   anchorLinks.forEach(link => {
-    link.addEventListener('click', e => {
+    link.addEventListener('click', event => {
       const targetId = link.getAttribute('href');
       const targetElement = document.querySelector(targetId);
 
       if (targetElement) {
-        e.preventDefault();
+        event.preventDefault();
 
         // Calculate offset for fixed header
         const header = document.querySelector('.bsb-header');
@@ -305,7 +305,7 @@ window.BSBUtils = {
    * @returns {Function} The debounced function
    */
   debounce(func, wait) {
-    let timeout;
+    let timeout = null;
     return function executedFunction(...args) {
       const later = () => {
         clearTimeout(timeout);
@@ -324,7 +324,7 @@ window.BSBUtils = {
    * @returns {Function} The throttled function
    */
   throttle(func, limit) {
-    let inThrottle;
+    let inThrottle = false;
     return function throttledFunction(...args) {
       if (!inThrottle) {
         func.apply(this, args);

@@ -107,7 +107,9 @@ class BSBThemeToggle {
 
     // Click outside to close menu
     document.addEventListener('click', event => {
-      if (!this.element.contains(event.target)) {
+      if (this.element.contains(event.target)) {
+        // Click is inside element, do nothing
+      } else {
         this.closeMenu();
       }
     });
@@ -245,18 +247,17 @@ class BSBThemeToggle {
    * @returns {void}
    */
   setTheme(theme) {
-    if (!['light', 'dark', 'auto'].includes(theme)) {
+    if (['light', 'dark', 'auto'].includes(theme)) {
+      this.currentTheme = theme;
+      this.applyTheme(theme);
+      this.storeTheme(theme);
+      this.updateUI();
+
+      // Dispatch custom event
+      this.dispatchThemeChange(theme);
+    } else {
       debug.warn(`BSB Theme Toggle: Invalid theme "${theme}"`);
-      return;
     }
-
-    this.currentTheme = theme;
-    this.applyTheme(theme);
-    this.storeTheme(theme);
-    this.updateUI();
-
-    // Dispatch custom event
-    this.dispatchThemeChange(theme);
   }
 
   /**
@@ -270,25 +271,43 @@ class BSBThemeToggle {
   applyTheme(theme, animate = true) {
     const { body } = document;
 
-    // Temporarily disable transitions for instant theme switching
-    if (!animate) {
-      body.classList.add('no-transition');
+    if (animate) {
+      // Apply theme with animations
+      this.applyThemeWithTransitions(theme, body);
+    } else {
+      // Apply theme instantly without transitions
+      this.applyThemeInstantly(theme, body);
     }
+  }
 
+  /**
+   * Apply theme with transitions enabled
+   */
+  applyThemeWithTransitions(theme, body) {
     if (theme === 'auto') {
-      // Remove theme attribute to use system preference
       body.removeAttribute('data-bsb-theme');
     } else {
-      // Set explicit theme
+      body.setAttribute('data-bsb-theme', theme);
+    }
+  }
+
+  /**
+   * Apply theme instantly without transitions
+   */
+  applyThemeInstantly(theme, body) {
+    // Temporarily disable transitions for instant theme switching
+    body.classList.add('no-transition');
+
+    if (theme === 'auto') {
+      body.removeAttribute('data-bsb-theme');
+    } else {
       body.setAttribute('data-bsb-theme', theme);
     }
 
     // Re-enable transitions after a brief delay
-    if (!animate) {
-      setTimeout(() => {
-        body.classList.remove('no-transition');
-      }, CONSTANTS.TRANSITION_DELAY);
-    }
+    setTimeout(() => {
+      body.classList.remove('no-transition');
+    }, CONSTANTS.TRANSITION_DELAY);
   }
 
   /**
@@ -425,7 +444,9 @@ const initializeThemeToggles = function initializeThemeToggles() {
   const toggles = document.querySelectorAll('[data-bsb-component="theme-toggle"]');
 
   toggles.forEach(toggle => {
-    new BSBThemeToggle(toggle);
+    const themeToggle = new BSBThemeToggle(toggle);
+    // Store reference if needed for later access
+    toggle.themeToggleInstance = themeToggle;
   });
 
   // Log initialization in development only

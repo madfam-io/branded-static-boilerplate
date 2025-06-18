@@ -141,17 +141,23 @@ class BSBLanguageToggle {
    * Handle keyboard navigation
    */
   handleKeyboard(event) {
-    if (!this.isOpen) {
+    if (this.isOpen) {
+      // Menu is open - handle navigation
+      const focusableElements = Array.from(this.options);
+      this.handleOpenMenuKeyboard(event, focusableElements);
+    } else {
       // If menu is closed, only handle space/enter on button
       if ((event.key === ' ' || event.key === 'Enter') && event.target === this.button) {
         event.preventDefault();
         this.openMenu();
       }
-      return;
     }
+  }
 
-    // Menu is open - handle navigation
-    const focusableElements = Array.from(this.options);
+  /**
+   * Handle keyboard navigation when menu is open
+   */
+  handleOpenMenuKeyboard(event, focusableElements) {
     const currentIndex = focusableElements.indexOf(document.activeElement);
 
     switch (event.key) {
@@ -171,12 +177,14 @@ class BSBLanguageToggle {
 
       case 'Home':
         event.preventDefault();
-        focusableElements[0].focus();
+        const [firstElement] = focusableElements;
+        firstElement.focus();
         break;
 
       case 'End':
         event.preventDefault();
-        focusableElements[focusableElements.length - 1].focus();
+        const lastElement = focusableElements[focusableElements.length - 1];
+        lastElement.focus();
         break;
 
       case 'Enter':
@@ -190,6 +198,10 @@ class BSBLanguageToggle {
       case 'Tab':
         // Allow tab to close menu and continue normal tab flow
         this.closeMenu();
+        break;
+
+      default:
+        // No action needed for other keys
         break;
     }
   }
@@ -250,27 +262,26 @@ class BSBLanguageToggle {
    * Set the current language
    */
   setLanguage(language) {
-    if (!this.supportedLanguages.includes(language)) {
+    if (this.supportedLanguages.includes(language)) {
+      const previousLanguage = this.currentLanguage;
+      this.currentLanguage = language;
+
+      // Save to localStorage
+      localStorage.setItem('bsb-language', language);
+
+      // Update UI
+      this.updateUI();
+      this.updateContent();
+      this.updateDocumentLanguage();
+
+      // Dispatch custom event for other components
+      this.dispatchLanguageChange(language, previousLanguage);
+
+      // Update URL parameter without page reload
+      this.updateURL(language);
+    } else {
       debug.warn(`Unsupported language: ${language}`);
-      return;
     }
-
-    const previousLanguage = this.currentLanguage;
-    this.currentLanguage = language;
-
-    // Save to localStorage
-    localStorage.setItem('bsb-language', language);
-
-    // Update UI
-    this.updateUI();
-    this.updateContent();
-    this.updateDocumentLanguage();
-
-    // Dispatch custom event for other components
-    this.dispatchLanguageChange(language, previousLanguage);
-
-    // Update URL parameter without page reload
-    this.updateURL(language);
   }
 
   /**
@@ -447,7 +458,9 @@ class BSBLanguageToggle {
 document.addEventListener('DOMContentLoaded', () => {
   const toggles = document.querySelectorAll('[data-bsb-component="language-toggle"]');
   toggles.forEach(toggle => {
-    new BSBLanguageToggle(toggle);
+    const languageToggle = new BSBLanguageToggle(toggle);
+    // Store reference if needed for later access
+    toggle.languageToggleInstance = languageToggle;
   });
 });
 

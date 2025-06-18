@@ -35,7 +35,8 @@ const CONSTANTS = {
   DELEGATED_LISTENER_COUNT: 3,
   ATTRIBUTE_SPLIT_PARTS: 2,
   PERFORMANCE_DIVISOR: 10,
-  HUNDRED_PERCENT: 100
+  HUNDRED_PERCENT: 100,
+  NOTIFICATION_DURATION: 3000
 };
 
 /**
@@ -703,6 +704,9 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
       case 'open-full-playground':
         this.openInPlayground();
         break;
+      default:
+        // Unknown action - no operation needed
+        break;
     }
   }
 
@@ -778,7 +782,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     // Remove after 3 seconds
     setTimeout(() => {
       notification.remove();
-    }, 3000);
+    }, CONSTANTS.NOTIFICATION_DURATION);
   }
 
   /**

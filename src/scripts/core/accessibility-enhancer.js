@@ -25,6 +25,7 @@ const CONSTANTS = {
   NOTIFICATION_DURATION: 1000,
   SKIP_NAV_COUNT: 5,
   TOAST_DURATION: 3000,
+  TOOLTIP_MAX_WIDTH: 300,
   TOOLTIP_SPACING: 5
 };
 
@@ -641,7 +642,7 @@ class AccessibilityEnhancer {
         border-radius: 4px;
         font-size: 12px;
         line-height: 1.3;
-        max-width: 300px;
+        max-width: ${CONSTANTS.TOOLTIP_MAX_WIDTH}px;
         z-index: 10001;
         pointer-events: none;
       `;

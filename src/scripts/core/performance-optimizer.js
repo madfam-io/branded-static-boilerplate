@@ -221,7 +221,7 @@ class PerformanceOptimizer {
    */
   measureTTFB() {
     if ('performance' in window && 'getEntriesByType' in performance) {
-      const navigation = performance.getEntriesByType('navigation')[0];
+      const [navigation] = performance.getEntriesByType('navigation');
       if (navigation) {
         this.metrics.vitals.ttfb = Math.round(navigation.responseStart - navigation.requestStart);
         this.updateDashboard();
@@ -320,7 +320,7 @@ class PerformanceOptimizer {
   trackNavigationPerformance() {
     if ('performance' in window && 'getEntriesByType' in performance) {
       window.addEventListener('load', () => {
-        const navigation = performance.getEntriesByType('navigation')[0];
+        const [navigation] = performance.getEntriesByType('navigation');
         if (navigation) {
           this.metrics.navigation = {
             domContentLoaded: Math.round(navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart),

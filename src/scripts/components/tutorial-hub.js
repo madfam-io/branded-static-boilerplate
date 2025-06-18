@@ -149,16 +149,16 @@ class TutorialHub {
     }
 
     // Tutorial card interactions
-    document.addEventListener('click', e => {
-      if (e.target.closest('.tutorial-card')) {
-        this.handleTutorialCardClick(e);
+    document.addEventListener('click', event => {
+      if (event.target.closest('.tutorial-card')) {
+        this.handleTutorialCardClick(event);
       }
     });
 
     // Learning path interactions
-    document.addEventListener('click', e => {
-      if (e.target.closest('.learning-path')) {
-        this.handleLearningPathClick(e);
+    document.addEventListener('click', event => {
+      if (event.target.closest('.learning-path')) {
+        this.handleLearningPathClick(event);
       }
     });
 
@@ -245,6 +245,12 @@ class TutorialHub {
         break;
 
       case 'recommended':
+        // Keep original order (recommended learning sequence)
+        this.filteredTutorials = this.tutorials.filter(tutorial =>
+          this.filteredTutorials.find(filtered => filtered.id === tutorial.id)
+        );
+        break;
+
       default:
         // Keep original order (recommended learning sequence)
         this.filteredTutorials = this.tutorials.filter(tutorial =>
@@ -543,7 +549,7 @@ class TutorialHub {
    */
   recordTimeSpent(timeMs) {
     const currentPath = window.location.pathname;
-    const tutorial = this.tutorials.find(t => currentPath.includes(t.id));
+    const tutorial = this.tutorials.find(tutorialItem => currentPath.includes(tutorialItem.id));
 
     if (tutorial) {
       if (!this.progressData[tutorial.id]) {
@@ -637,9 +643,9 @@ class TutorialHub {
     }
 
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (entry.target.classList.contains('progress-circle')) {
+      entries.forEach(observerEntry => {
+        if (observerEntry.isIntersecting) {
+          if (observerEntry.target.classList.contains('progress-circle')) {
             // Animate progress circle
             setTimeout(() => this.updateProgressCircle(), CONSTANTS.NOTIFICATION_DELAY);
           }
@@ -677,7 +683,7 @@ class TutorialHub {
     const link = card.querySelector('a[href]');
     if (link) {
       const href = link.getAttribute('href');
-      return this.tutorials.find(t => href.includes(t.id))?.id;
+      return this.tutorials.find(tutorialItem => href.includes(tutorialItem.id))?.id;
     }
     return null;
   }
@@ -722,7 +728,7 @@ class TutorialHub {
       version: '1.0',
       timestamp: new Date().toISOString(),
       progress: this.progressData,
-      tutorials: this.tutorials.map(t => ({ id: t.id, title: t.title }))
+      tutorials: this.tutorials.map(tutorialItem => ({ id: tutorialItem.id, title: tutorialItem.title }))
     };
 
     const dataStr = JSON.stringify(exportData, null, 2);
@@ -730,7 +736,8 @@ class TutorialHub {
 
     const link = document.createElement('a');
     link.href = URL.createObjectURL(dataBlob);
-    link.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
+    const [datePart] = new Date().toISOString().split('T');
+    link.download = `bsb-learning-progress-${datePart}.json`;
     link.click();
 
     this.trackEvent('progress_exported');
@@ -740,14 +747,149 @@ class TutorialHub {
    * Reset all progress (with confirmation)
    */
   resetProgress() {
-    if (confirm('Are you sure you want to reset all learning progress? This cannot be undone.')) {
+    this.showResetConfirmation();
+  }
+
+  /**
+   * Show reset confirmation dialog
+   */
+  showResetConfirmation() {
+    const confirmDialog = document.createElement('div');
+    confirmDialog.className = 'tutorial-hub__confirm-dialog';
+    confirmDialog.innerHTML = `
+      <div class="tutorial-hub__confirm-backdrop"></div>
+      <div class="tutorial-hub__confirm-content">
+        <h3>Reset Learning Progress</h3>
+        <p>Are you sure you want to reset all learning progress? This cannot be undone.</p>
+        <div class="tutorial-hub__confirm-actions">
+          <button class="tutorial-hub__confirm-cancel">Cancel</button>
+          <button class="tutorial-hub__confirm-reset">Reset Progress</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(confirmDialog);
+
+    // Add event listeners
+    const cancelBtn = confirmDialog.querySelector('.tutorial-hub__confirm-cancel');
+    const resetBtn = confirmDialog.querySelector('.tutorial-hub__confirm-reset');
+    const backdrop = confirmDialog.querySelector('.tutorial-hub__confirm-backdrop');
+
+    const closeDialog = () => {
+      document.body.removeChild(confirmDialog);
+    };
+
+    const confirmReset = () => {
       this.progressData = {};
       this.saveProgress();
       this.updateProgressDisplay();
 
       this.trackEvent('progress_reset');
 
-      alert('Learning progress has been reset.');
+      // Show success notification
+      this.showNotification('Learning progress has been reset.', 'success');
+      closeDialog();
+    };
+
+    cancelBtn.addEventListener('click', closeDialog);
+    resetBtn.addEventListener('click', confirmReset);
+    backdrop.addEventListener('click', closeDialog);
+
+    // Add escape key handler
+    const escapeHandler = event => {
+      if (event.key === 'Escape') {
+        closeDialog();
+        document.removeEventListener('keydown', escapeHandler);
+      }
+    };
+    document.addEventListener('keydown', escapeHandler);
+
+    // Add styles if not already added
+    if (!document.querySelector('#tutorial-hub-confirm-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'tutorial-hub-confirm-styles';
+      styles.textContent = `
+        .tutorial-hub__confirm-dialog {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .tutorial-hub__confirm-backdrop {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .tutorial-hub__confirm-content {
+          position: relative;
+          background: var(--bsb-bg-primary, white);
+          border-radius: 8px;
+          padding: 24px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+          max-width: 400px;
+          width: 90%;
+        }
+        
+        .tutorial-hub__confirm-content h3 {
+          margin: 0 0 12px 0;
+          font-size: 1.25rem;
+          color: var(--bsb-text-primary, #333);
+        }
+        
+        .tutorial-hub__confirm-content p {
+          margin: 0 0 20px 0;
+          color: var(--bsb-text-secondary, #666);
+          line-height: 1.5;
+        }
+        
+        .tutorial-hub__confirm-actions {
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+        }
+        
+        .tutorial-hub__confirm-cancel,
+        .tutorial-hub__confirm-reset {
+          padding: 8px 16px;
+          border: 1px solid;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .tutorial-hub__confirm-cancel {
+          background: transparent;
+          border-color: var(--bsb-border-color, #ccc);
+          color: var(--bsb-text-secondary, #666);
+        }
+        
+        .tutorial-hub__confirm-cancel:hover {
+          background: var(--bsb-bg-secondary, #f5f5f5);
+        }
+        
+        .tutorial-hub__confirm-reset {
+          background: var(--bsb-error, #dc3545);
+          border-color: var(--bsb-error, #dc3545);
+          color: white;
+        }
+        
+        .tutorial-hub__confirm-reset:hover {
+          background: #c82333;
+          border-color: #c82333;
+        }
+      `;
+      document.head.appendChild(styles);
     }
   }
 }

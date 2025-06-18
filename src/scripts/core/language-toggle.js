@@ -43,7 +43,7 @@ class LanguageToggle {
     const supportedLanguages = ['en', 'es'];
 
     // Check if browser language is supported
-    const langCode = browserLang.split('-')[0];
+    const [langCode] = browserLang.split('-');
     return supportedLanguages.includes(langCode) ? langCode : 'es';
   }
 
@@ -300,19 +300,17 @@ class LanguageToggle {
     announcement.className = 'sr-only';
 
     const langName = language === 'en' ? 'English' : 'Español';
-    let message;
+    let message = '';
     if (isChange) {
       if (language === 'es') {
         message = `Idioma cambiado a ${langName}`;
       } else {
         message = `Language changed to ${langName}`;
       }
+    } else if (language === 'es') {
+      message = `Idioma actual: ${langName}`;
     } else {
-      if (language === 'es') {
-        message = `Idioma actual: ${langName}`;
-      } else {
-        message = `Current language: ${langName}`;
-      }
+      message = `Current language: ${langName}`;
     }
 
     announcement.textContent = message;

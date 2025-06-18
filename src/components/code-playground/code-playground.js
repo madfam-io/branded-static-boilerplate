@@ -212,9 +212,10 @@ class BSBCodePlayground {
           case '3': {
             event.preventDefault();
             const tabIndex = parseInt(event.key, 10);
-            const tabs = ['html', 'css', 'js'];
-            if (tabs[tabIndex - 1]) {
-              this.switchTab(tabs[tabIndex - 1]);
+            const [htmlTab, cssTab, jsTab] = ['html', 'css', 'js'];
+            const selectedTab = [htmlTab, cssTab, jsTab][tabIndex - 1];
+            if (selectedTab) {
+              this.switchTab(selectedTab);
             }
             break;
           }
@@ -239,9 +240,15 @@ class BSBCodePlayground {
    * @returns {void}
    */
   switchTab(tabName) {
-    if (!tabName || this.currentTab === tabName) {
-      return;
+    if (tabName && this.currentTab !== tabName) {
+      this.performTabSwitch(tabName);
     }
+  }
+
+  /**
+   * Perform the actual tab switch
+   */
+  performTabSwitch(tabName) {
 
     // Update tab states
     this.tabs.forEach(tab => {
@@ -291,6 +298,9 @@ class BSBCodePlayground {
         break;
       case 'new-window':
         this.openInNewWindow();
+        break;
+      default:
+        // Unknown action - no operation needed
         break;
     }
   }
@@ -456,7 +466,7 @@ class BSBCodePlayground {
     });
     
     // Error handling - capture errors without logging to console
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       const message = \`\${event.filename}:\${event.lineno} - \${event.message}\`;
       // Store error for debugging without console.error
       window.capturedLogs.push({
@@ -561,7 +571,8 @@ class BSBCodePlayground {
     // Limit console messages
     const messages = this.consoleContainer.children;
     if (messages.length > CONSTANTS.MAX_CONSOLE_MESSAGES) {
-      this.consoleContainer.removeChild(messages[0]);
+      const [firstMessage] = messages;
+      this.consoleContainer.removeChild(firstMessage);
     }
   }
 
@@ -648,7 +659,42 @@ class BSBCodePlayground {
    * @returns {void}
    */
   resetCode() {
-    if (confirm('Are you sure you want to reset all code? This cannot be undone.')) {
+    this.showResetConfirmation();
+  }
+
+  /**
+   * Show reset confirmation dialog
+   * @method showResetConfirmation
+   * @description Shows a custom confirmation dialog for code reset
+   * @returns {void}
+   */
+  showResetConfirmation() {
+    const confirmDialog = document.createElement('div');
+    confirmDialog.className = 'bsb-code-playground__confirm-dialog';
+    confirmDialog.innerHTML = `
+      <div class="bsb-code-playground__confirm-backdrop"></div>
+      <div class="bsb-code-playground__confirm-content">
+        <h3>Reset Code</h3>
+        <p>Are you sure you want to reset all code? This cannot be undone.</p>
+        <div class="bsb-code-playground__confirm-actions">
+          <button class="bsb-code-playground__confirm-cancel">Cancel</button>
+          <button class="bsb-code-playground__confirm-reset">Reset Code</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(confirmDialog);
+
+    // Add event listeners
+    const cancelBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-cancel');
+    const resetBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-reset');
+    const backdrop = confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop');
+
+    const closeDialog = () => {
+      document.body.removeChild(confirmDialog);
+    };
+
+    const confirmReset = () => {
       // Reset to original values from HTML
       this.editors.forEach(editor => {
         const originalContent = editor.defaultValue || editor.getAttribute('data-original');
@@ -660,6 +706,108 @@ class BSBCodePlayground {
       this.updatePreview();
       this.updateMetrics();
       this.showConsoleMessage('🔄 Code reset to defaults', 'info');
+      closeDialog();
+    };
+
+    cancelBtn.addEventListener('click', closeDialog);
+    resetBtn.addEventListener('click', confirmReset);
+    backdrop.addEventListener('click', closeDialog);
+
+    // Add escape key handler
+    const escapeHandler = event => {
+      if (event.key === 'Escape') {
+        closeDialog();
+        document.removeEventListener('keydown', escapeHandler);
+      }
+    };
+    document.addEventListener('keydown', escapeHandler);
+
+    // Add styles if not already added
+    if (!document.querySelector('#bsb-confirm-dialog-styles')) {
+      const styles = document.createElement('style');
+      styles.id = 'bsb-confirm-dialog-styles';
+      styles.textContent = `
+        .bsb-code-playground__confirm-dialog {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .bsb-code-playground__confirm-backdrop {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .bsb-code-playground__confirm-content {
+          position: relative;
+          background: var(--bsb-bg-primary, white);
+          border-radius: 8px;
+          padding: 24px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+          max-width: 400px;
+          width: 90%;
+        }
+        
+        .bsb-code-playground__confirm-content h3 {
+          margin: 0 0 12px 0;
+          font-size: 1.25rem;
+          color: var(--bsb-text-primary, #333);
+        }
+        
+        .bsb-code-playground__confirm-content p {
+          margin: 0 0 20px 0;
+          color: var(--bsb-text-secondary, #666);
+          line-height: 1.5;
+        }
+        
+        .bsb-code-playground__confirm-actions {
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+        }
+        
+        .bsb-code-playground__confirm-cancel,
+        .bsb-code-playground__confirm-reset {
+          padding: 8px 16px;
+          border: 1px solid;
+          border-radius: 4px;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .bsb-code-playground__confirm-cancel {
+          background: transparent;
+          border-color: var(--bsb-border-color, #ccc);
+          color: var(--bsb-text-secondary, #666);
+        }
+        
+        .bsb-code-playground__confirm-cancel:hover {
+          background: var(--bsb-bg-secondary, #f5f5f5);
+        }
+        
+        .bsb-code-playground__confirm-reset {
+          background: var(--bsb-error, #dc3545);
+          border-color: var(--bsb-error, #dc3545);
+          color: white;
+        }
+        
+        .bsb-code-playground__confirm-reset:hover {
+          background: #c82333;
+          border-color: #c82333;
+        }
+      `;
+      document.head.appendChild(styles);
     }
   }
 
@@ -755,9 +903,15 @@ class BSBCodePlayground {
    * @returns {void}
    */
   saveCode() {
-    if (!this.autoSave) {
-      return;
+    if (this.autoSave) {
+      this.performSave();
     }
+  }
+
+  /**
+   * Perform the actual save operation
+   */
+  performSave() {
 
     const code = {
       html: this.editors.get('html').value,
@@ -828,7 +982,9 @@ const initializeCodePlaygrounds = function initializeCodePlaygrounds() {
   const playgrounds = document.querySelectorAll('[data-bsb-component="code-playground"]');
 
   playgrounds.forEach(playground => {
-    new BSBCodePlayground(playground);
+    const codePlayground = new BSBCodePlayground(playground);
+    // Store reference if needed for later access
+    playground.codePlaygroundInstance = codePlayground;
   });
 
   // Initialization complete - playground count: playgrounds.length

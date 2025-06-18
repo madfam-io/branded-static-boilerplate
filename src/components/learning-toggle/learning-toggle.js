@@ -121,6 +121,9 @@ class BSBLearningToggle {
         event.preventDefault();
         this.toggleLearningMode();
         break;
+      default:
+        // No action needed for other keys
+        break;
     }
   }
 
@@ -515,7 +518,9 @@ class BSBLearningToggle {
 document.addEventListener('DOMContentLoaded', () => {
   const toggles = document.querySelectorAll('[data-bsb-component="learning-toggle"]');
   toggles.forEach(toggle => {
-    new BSBLearningToggle(toggle);
+    const learningToggle = new BSBLearningToggle(toggle);
+    // Store reference if needed for later access
+    toggle.learningToggleInstance = learningToggle;
   });
 });
 
