@@ -6,24 +6,26 @@
  * for completing tutorials, challenges, and exploring components.
  */
 
+import { getAchievementDefinitions } from './achievements/achievement-definitions.js';
+import { injectAchievementStyles } from './achievements/achievement-styles.js';
+import {
+  createAchievementUI,
+  updateAchievementList,
+  showAchievementNotification,
+  updateToggleBadge,
+  toggleAchievementPanel,
+  closeAchievementPanel,
+  updateCategoryFilter
+} from './achievements/achievement-ui.js';
+
 // Constants
 const CONSTANTS = {
-  EXPLORER_THRESHOLD: 5,
-  MASTER_THRESHOLD: 10,
-  LEGEND_THRESHOLD: 25,
   NOTIFICATION_DURATION: 4000,
   CODE_TIME_HOURS: 9,
   CODE_TIME_DAY: 22,
   TIMER_INTERVAL: 600000, // 10 minutes
   MIN_DURATION_TIME: 10,
-  // UI dimensions
-  TOGGLE_BUTTON_SIZE: 60,
-  TOGGLE_BUTTON_SMALL: 50,
-  // Other values
-  PERCENTAGE_MAX: 100,
-  BADGE_ANIMATION_INTERVAL: 10,
-  BADGE_COUNT_THRESHOLD: 5,
-  BADGE_SECOND_THRESHOLD: 10
+  PERCENTAGE_MAX: 100
 };
 
 /**
@@ -34,8 +36,9 @@ export class AchievementSystem {
    * Initialize the achievement system
    */
   constructor() {
-    this.achievements = this.initializeAchievements();
+    this.achievements = getAchievementDefinitions();
     this.userProgress = this.loadProgress();
+    this.currentFilter = 'all';
     this.init();
   }
 
@@ -43,160 +46,11 @@ export class AchievementSystem {
    * Initialize UI and event bindings
    */
   init() {
-    this.createAchievementUI();
+    injectAchievementStyles();
+    createAchievementUI(this.userProgress);
+    this.updateUI();
     this.bindEvents();
     this.checkInitialAchievements();
-  }
-
-  /**
-   * Initialize all available achievements
-   * @returns {Object} Object containing all achievement definitions
-   */
-  initializeAchievements() {
-    return {
-      // Tutorial Completion Achievements
-      'first-tutorial': {
-        id: 'first-tutorial',
-        title: 'Getting Started',
-        description: 'Complete your first tutorial',
-        icon: '🎯',
-        points: 10,
-        type: 'tutorial',
-        unlocked: false,
-        condition: 'complete_tutorial',
-        count: 1
-      },
-
-      'tutorial-master': {
-        id: 'tutorial-master',
-        title: 'Tutorial Master',
-        description: 'Complete 5 tutorials',
-        icon: '🎓',
-        points: 50,
-        type: 'tutorial',
-        unlocked: false,
-        condition: 'complete_tutorial',
-        count: CONSTANTS.EXPLORER_THRESHOLD
-      },
-
-      'css-ninja': {
-        id: 'css-ninja',
-        title: 'CSS Ninja',
-        description: 'Complete all CSS tutorials (Grid + Flexbox)',
-        icon: '🥷',
-        points: 75,
-        type: 'tutorial',
-        unlocked: false,
-        condition: 'complete_css_tutorials'
-      },
-
-      // Component Exploration Achievements
-      'component-explorer': {
-        id: 'component-explorer',
-        title: 'Component Explorer',
-        description: 'View 10 different components',
-        icon: '🔍',
-        points: 25,
-        type: 'exploration',
-        unlocked: false,
-        condition: 'view_components',
-        count: 10
-      },
-
-      'playground-enthusiast': {
-        id: 'playground-enthusiast',
-        title: 'Playground Enthusiast',
-        description: `Run code in the playground ${CONSTANTS.LEGEND_THRESHOLD} times`,
-        icon: '⚡',
-        points: 30,
-        type: 'interaction',
-        unlocked: false,
-        condition: 'run_code',
-        count: CONSTANTS.LEGEND_THRESHOLD
-      },
-
-      // Learning Mode Achievements
-      'learning-advocate': {
-        id: 'learning-advocate',
-        title: 'Learning Advocate',
-        description: 'Use learning mode for 10 minutes',
-        icon: '📚',
-        points: 20,
-        type: 'engagement',
-        unlocked: false,
-        condition: 'learning_time',
-        count: CONSTANTS.TIMER_INTERVAL // 10 minutes in milliseconds
-      },
-
-      // Accessibility Achievements
-      'accessibility-champion': {
-        id: 'accessibility-champion',
-        title: 'Accessibility Champion',
-        description: 'Complete the accessibility tutorial',
-        icon: '♿',
-        points: 40,
-        type: 'tutorial',
-        unlocked: false,
-        condition: 'complete_accessibility'
-      },
-
-      // Special Achievements
-      'dark-mode-fan': {
-        id: 'dark-mode-fan',
-        title: 'Dark Mode Fan',
-        description: 'Switch to dark mode',
-        icon: '🌙',
-        points: 5,
-        type: 'interaction',
-        unlocked: false,
-        condition: 'use_dark_mode'
-      },
-
-      'bilingual': {
-        id: 'bilingual',
-        title: 'Bilingual',
-        description: 'Switch languages',
-        icon: '🌐',
-        points: 5,
-        type: 'interaction',
-        unlocked: false,
-        condition: 'switch_language'
-      },
-
-      'perfectionist': {
-        id: 'perfectionist',
-        title: 'Perfectionist',
-        description: 'Complete a challenge without hints',
-        icon: '💎',
-        points: 100,
-        type: 'challenge',
-        unlocked: false,
-        condition: 'perfect_challenge'
-      },
-
-      // Time-based Achievements
-      'early-bird': {
-        id: 'early-bird',
-        title: 'Early Bird',
-        description: `Visit BSB before ${CONSTANTS.CODE_TIME_HOURS} AM`,
-        icon: '🌅',
-        points: 15,
-        type: 'special',
-        unlocked: false,
-        condition: 'early_visit'
-      },
-
-      'night-owl': {
-        id: 'night-owl',
-        title: 'Night Owl',
-        description: 'Visit BSB after 10 PM',
-        icon: '🦉',
-        points: 15,
-        type: 'special',
-        unlocked: false,
-        condition: 'late_visit'
-      }
-    };
   }
 
   /**
@@ -206,7 +60,7 @@ export class AchievementSystem {
   loadProgress() {
     const stored = localStorage.getItem('bsb-achievements');
     const defaultProgress = {
-      unlockedAchievements: [],
+      achievements: {},
       totalPoints: 0,
       tutorialsCompleted: [],
       componentsViewed: [],
@@ -216,7 +70,12 @@ export class AchievementSystem {
       lastVisit: Date.now()
     };
 
-    return stored ? { ...defaultProgress, ...JSON.parse(stored) } : defaultProgress;
+    if (stored) {
+      const parsedProgress = JSON.parse(stored);
+      return { ...defaultProgress, ...parsedProgress };
+    }
+
+    return defaultProgress;
   }
 
   /**
@@ -227,385 +86,14 @@ export class AchievementSystem {
   }
 
   /**
-   * Create achievement UI elements
+   * Update all UI components
    */
-  createAchievementUI() {
-    // Create achievement notification element
-    const notification = document.createElement('div');
-    notification.id = 'achievement-notification';
-    notification.className = 'achievement-notification hidden';
-    notification.setAttribute('role', 'status');
-    notification.setAttribute('aria-live', 'polite');
+  updateUI() {
+    const unlockedCount = Object.values(this.userProgress.achievements || {})
+      .filter(achievement => achievement.unlocked).length;
 
-    document.body.appendChild(notification);
-
-    // Create achievement panel toggle
-    const toggle = document.createElement('button');
-    toggle.id = 'achievement-toggle';
-    toggle.className = 'achievement-toggle';
-    toggle.innerHTML = `
-      <span class="achievement-icon">🏆</span>
-      <span class="achievement-count">${this.userProgress.unlockedAchievements.length}</span>
-    `;
-    toggle.setAttribute('aria-label', `View achievements (${this.userProgress.unlockedAchievements.length} unlocked)`);
-
-    // Create achievement panel
-    const panel = document.createElement('div');
-    panel.id = 'achievement-panel';
-    panel.className = 'achievement-panel hidden';
-    panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-labelledby', 'achievement-title');
-
-    panel.innerHTML = this.generatePanelHTML();
-
-    document.body.appendChild(toggle);
-    document.body.appendChild(panel);
-
-    // Add styles
-    this.addAchievementStyles();
-  }
-
-  /**
-   * Generate HTML for achievement panel
-   * @returns {string} HTML string for achievement panel
-   */
-  generatePanelHTML() {
-    const { totalPoints } = this.userProgress;
-    const unlockedCount = this.userProgress.unlockedAchievements.length;
-    const totalCount = Object.keys(this.achievements).length;
-
-    let achievementsList = '';
-    Object.values(this.achievements).forEach(achievement => {
-      const isUnlocked = this.userProgress.unlockedAchievements.includes(achievement.id);
-      const className = isUnlocked ? 'achievement-item unlocked' : 'achievement-item locked';
-
-      achievementsList += `
-        <div class="${className}">
-          <div class="achievement-icon">${achievement.icon}</div>
-          <div class="achievement-info">
-            <h4 class="achievement-title">${achievement.title}</h4>
-            <p class="achievement-description">${achievement.description}</p>
-            <div class="achievement-points">${achievement.points} points</div>
-          </div>
-          ${isUnlocked ? '<div class="achievement-badge">✓</div>' : '<div class="achievement-badge">🔒</div>'}
-        </div>
-      `;
-    });
-
-    return `
-      <div class="achievement-header">
-        <h2 id="achievement-title">Achievements</h2>
-        <button id="close-achievements" aria-label="Close achievements panel">×</button>
-      </div>
-
-      <div class="achievement-stats">
-        <div class="stat">
-          <div class="stat-value">${totalPoints}</div>
-          <div class="stat-label">Total Points</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">${unlockedCount}/${totalCount}</div>
-          <div class="stat-label">Unlocked</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">${Math.round((unlockedCount / totalCount) * CONSTANTS.PERCENTAGE_MAX)}%</div>
-          <div class="stat-label">Complete</div>
-        </div>
-      </div>
-
-      <div class="achievement-categories">
-        <button class="category-filter active" data-type="all">All</button>
-        <button class="category-filter" data-type="tutorial">Tutorials</button>
-        <button class="category-filter" data-type="interaction">Interactive</button>
-        <button class="category-filter" data-type="special">Special</button>
-      </div>
-
-      <div class="achievement-list">
-        ${achievementsList}
-      </div>
-    `;
-  }
-
-  /**
-   * Add achievement styles to the document
-   */
-  addAchievementStyles() {
-    const styles = `
-      <style>
-        .achievement-toggle {
-          position: fixed;
-          top: 50%;
-          right: 20px;
-          background: var(--bsb-primary);
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: ${CONSTANTS.TOGGLE_BUTTON_SIZE}px;
-          height: ${CONSTANTS.TOGGLE_BUTTON_SIZE}px;
-          cursor: pointer;
-          box-shadow: var(--bsb-shadow-lg);
-          z-index: var(--bsb-z-40);
-          transition: all var(--bsb-transition-base);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-        }
-
-        .achievement-toggle:hover {
-          transform: scale(1.1);
-          box-shadow: var(--bsb-shadow-xl);
-        }
-
-        .achievement-count {
-          font-size: 0.75rem;
-          background: var(--bsb-error);
-          border-radius: 10px;
-          padding: 2px 6px;
-          position: absolute;
-          top: -5px;
-          right: -5px;
-          min-width: 20px;
-          text-align: center;
-        }
-
-        .achievement-panel {
-          position: fixed;
-          top: 50%;
-          right: 20px;
-          transform: translateY(-50%);
-          background: var(--bsb-bg-primary);
-          border: 1px solid var(--bsb-border-color);
-          border-radius: var(--bsb-radius-lg);
-          box-shadow: var(--bsb-shadow-xl);
-          width: 400px;
-          max-height: 80vh;
-          overflow-y: auto;
-          z-index: var(--bsb-z-50);
-          animation: slideIn 0.3s ease-out;
-        }
-
-        .achievement-panel.hidden {
-          display: none;
-        }
-
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(-50%) translateX(100px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(-50%) translateX(0);
-          }
-        }
-
-        .achievement-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          border-bottom: 1px solid var(--bsb-border-color);
-        }
-
-        .achievement-header h2 {
-          margin: 0;
-          color: var(--bsb-text-primary);
-        }
-
-        #close-achievements {
-          background: none;
-          border: none;
-          font-size: 1.5rem;
-          cursor: pointer;
-          color: var(--bsb-text-secondary);
-          border-radius: var(--bsb-radius-sm);
-          width: 30px;
-          height: 30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        #close-achievements:hover {
-          background: var(--bsb-bg-hover);
-          color: var(--bsb-text-primary);
-        }
-
-        .achievement-stats {
-          display: flex;
-          justify-content: space-around;
-          padding: 20px;
-          background: var(--bsb-bg-secondary);
-        }
-
-        .stat {
-          text-align: center;
-        }
-
-        .stat-value {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: var(--bsb-primary);
-        }
-
-        .stat-label {
-          font-size: 0.875rem;
-          color: var(--bsb-text-secondary);
-        }
-
-        .achievement-categories {
-          display: flex;
-          padding: 15px 20px;
-          gap: 10px;
-          border-bottom: 1px solid var(--bsb-border-color);
-        }
-
-        .category-filter {
-          background: var(--bsb-bg-secondary);
-          border: 1px solid var(--bsb-border-color);
-          border-radius: var(--bsb-radius-md);
-          padding: 5px 12px;
-          font-size: 0.875rem;
-          cursor: pointer;
-          transition: all var(--bsb-transition-base);
-        }
-
-        .category-filter:hover,
-        .category-filter.active {
-          background: var(--bsb-primary);
-          color: white;
-          border-color: var(--bsb-primary);
-        }
-
-        .achievement-list {
-          padding: 20px;
-        }
-
-        .achievement-item {
-          display: flex;
-          align-items: center;
-          padding: 15px;
-          margin: 10px 0;
-          border-radius: var(--bsb-radius-md);
-          border: 1px solid var(--bsb-border-color);
-          transition: all var(--bsb-transition-base);
-        }
-
-        .achievement-item.unlocked {
-          background: var(--bsb-bg-secondary);
-          border-color: var(--bsb-success);
-        }
-
-        .achievement-item.locked {
-          opacity: 0.6;
-          background: var(--bsb-bg-tertiary);
-        }
-
-        .achievement-item .achievement-icon {
-          font-size: 2rem;
-          margin-right: 15px;
-        }
-
-        .achievement-info {
-          flex: 1;
-        }
-
-        .achievement-title {
-          margin: 0 0 5px 0;
-          font-size: 1rem;
-          font-weight: bold;
-          color: var(--bsb-text-primary);
-        }
-
-        .achievement-description {
-          margin: 0 0 5px 0;
-          font-size: 0.875rem;
-          color: var(--bsb-text-secondary);
-        }
-
-        .achievement-points {
-          font-size: 0.75rem;
-          color: var(--bsb-primary);
-          font-weight: bold;
-        }
-
-        .achievement-badge {
-          font-size: 1.25rem;
-          margin-left: 10px;
-        }
-
-        .achievement-notification {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: var(--bsb-success);
-          color: white;
-          padding: 15px 20px;
-          border-radius: var(--bsb-radius-lg);
-          box-shadow: var(--bsb-shadow-lg);
-          z-index: var(--bsb-z-modal);
-          animation: achievementPop 0.5s ease-out;
-          max-width: 300px;
-        }
-
-        .achievement-notification.hidden {
-          display: none;
-        }
-
-        @keyframes achievementPop {
-          0% {
-            opacity: 0;
-            transform: translateX(100px) scale(0.8);
-          }
-          70% {
-            transform: translateX(-10px) scale(1.05);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
-        }
-
-        .achievement-notification-content {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .achievement-notification-icon {
-          font-size: 2rem;
-        }
-
-        .achievement-notification-text h4 {
-          margin: 0 0 5px 0;
-          font-size: 1rem;
-        }
-
-        .achievement-notification-text p {
-          margin: 0;
-          font-size: 0.875rem;
-          opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-          .achievement-panel {
-            width: calc(100vw - 40px);
-            right: 20px;
-          }
-
-          .achievement-toggle {
-            right: 15px;
-            width: ${CONSTANTS.TOGGLE_BUTTON_SMALL}px;
-            height: ${CONSTANTS.TOGGLE_BUTTON_SMALL}px;
-            font-size: 1.25rem;
-          }
-        }
-      </style>
-    `;
-
-    document.head.insertAdjacentHTML('beforeend', styles);
+    updateToggleBadge(unlockedCount);
+    updateAchievementList(this.achievements, this.userProgress, this.currentFilter);
   }
 
   /**
@@ -630,66 +118,159 @@ export class AchievementSystem {
       }
     });
 
-    // Track various events for achievements
-    this.bindAchievementTracking();
+    // Listen for achievement triggers
+    this.bindAchievementTriggers();
   }
 
   /**
-   * Bind event listeners for achievement tracking
+   * Bind event listeners for achievement triggers
    */
-  bindAchievementTracking() {
-    // Track tutorial completions
+  bindAchievementTriggers() {
+    // Tutorial completion
     document.addEventListener('tutorial-completed', event => {
-      this.trackTutorialCompletion(event.detail.tutorialId);
+      this.recordAchievement('complete_tutorial', event.detail);
     });
 
-    // Track component views
+    // Component viewing
     document.addEventListener('component-viewed', event => {
-      this.trackComponentView(event.detail.componentId);
+      this.recordAchievement('view_components', event.detail);
     });
 
-    // Track code runs
+    // Code execution
     document.addEventListener('code-executed', () => {
-      this.trackCodeRun();
+      this.recordAchievement('run_code');
     });
 
-    // Track theme changes
+    // Theme changes
     document.addEventListener('theme-changed', event => {
       if (event.detail.theme === 'dark') {
-        this.unlockAchievement('dark-mode-fan');
+        this.recordAchievement('use_dark_mode');
       }
     });
 
-    // Track language changes
+    // Language changes
     document.addEventListener('language-changed', () => {
-      this.unlockAchievement('bilingual');
+      this.recordAchievement('switch_language');
     });
-
-    // Track learning mode usage
-    this.trackLearningMode();
-
-    // Check time-based achievements
-    this.checkTimeBasedAchievements();
   }
 
   /**
-   * Toggle achievement panel visibility
+   * Check for time-based achievements on initialization
+   */
+  checkInitialAchievements() {
+    const hour = new Date().getHours();
+
+    if (hour < CONSTANTS.CODE_TIME_HOURS) {
+      this.recordAchievement('early_visit');
+    } else if (hour >= CONSTANTS.CODE_TIME_DAY) {
+      this.recordAchievement('late_visit');
+    }
+  }
+
+  /**
+   * Record an achievement trigger
+   * @param {string} condition - Achievement condition
+   * @param {*} data - Additional data for the achievement
+   */
+  recordAchievement(condition, data = null) {
+    let shouldSave = false;
+
+    Object.values(this.achievements).forEach(achievement => {
+      if (achievement.condition === condition && !this.isUnlocked(achievement.id)) {
+        if (this.checkAchievementCondition(achievement, data)) {
+          this.unlockAchievement(achievement);
+          shouldSave = true;
+        }
+      }
+    });
+
+    if (shouldSave) {
+      this.saveProgress();
+      this.updateUI();
+    }
+  }
+
+  /**
+   * Check if achievement condition is met
+   * @param {Object} achievement - Achievement definition
+   * @param {*} data - Additional data for checking
+   * @returns {boolean} Whether condition is met
+   */
+  checkAchievementCondition(achievement, data) {
+    const userAchievement = this.userProgress.achievements[achievement.id] || {
+      ...achievement,
+      progress: 0
+    };
+
+    switch (achievement.condition) {
+      case 'complete_tutorial':
+        this.userProgress.tutorialsCompleted = this.userProgress.tutorialsCompleted || [];
+        if (data && !this.userProgress.tutorialsCompleted.includes(data.tutorialId)) {
+          this.userProgress.tutorialsCompleted.push(data.tutorialId);
+        }
+        return this.userProgress.tutorialsCompleted.length >= (achievement.count || 1);
+
+      case 'view_components':
+        this.userProgress.componentsViewed = this.userProgress.componentsViewed || [];
+        if (data && !this.userProgress.componentsViewed.includes(data.componentId)) {
+          this.userProgress.componentsViewed.push(data.componentId);
+        }
+        return this.userProgress.componentsViewed.length >= (achievement.count || 1);
+
+      case 'run_code':
+        this.userProgress.codeRuns = (this.userProgress.codeRuns || 0) + 1;
+        return this.userProgress.codeRuns >= (achievement.count || 1);
+
+      case 'learning_time':
+        this.userProgress.learningModeTime = (this.userProgress.learningModeTime || 0) + CONSTANTS.MIN_DURATION_TIME;
+        return this.userProgress.learningModeTime >= achievement.count;
+
+      default:
+        return true; // Simple one-time achievements
+    }
+  }
+
+  /**
+   * Unlock an achievement
+   * @param {Object} achievement - Achievement to unlock
+   */
+  unlockAchievement(achievement) {
+    if (!this.userProgress.achievements) {
+      this.userProgress.achievements = {};
+    }
+
+    this.userProgress.achievements[achievement.id] = {
+      ...achievement,
+      unlocked: true,
+      unlockedAt: Date.now()
+    };
+
+    this.userProgress.totalPoints = (this.userProgress.totalPoints || 0) + achievement.points;
+
+    showAchievementNotification(achievement);
+  }
+
+  /**
+   * Check if achievement is unlocked
+   * @param {string} achievementId - Achievement ID
+   * @returns {boolean} Whether achievement is unlocked
+   */
+  isUnlocked(achievementId) {
+    return this.userProgress.achievements?.[achievementId]?.unlocked || false;
+  }
+
+  /**
+   * Toggle achievement panel
    */
   togglePanel() {
-    const panel = document.getElementById('achievement-panel');
-    panel.classList.toggle('hidden');
-
-    if (!panel.classList.contains('hidden')) {
-      // Update panel content
-      panel.innerHTML = this.generatePanelHTML();
-    }
+    toggleAchievementPanel();
   }
 
   /**
    * Close achievement panel
    */
   closePanel() {
-    document.getElementById('achievement-panel').classList.add('hidden');
+    closeAchievementPanel();
   }
 
   /**
@@ -697,247 +278,43 @@ export class AchievementSystem {
    * @param {string} type - Achievement type to filter by
    */
   filterAchievements(type) {
-    const filters = document.querySelectorAll('.category-filter');
-    const achievements = document.querySelectorAll('.achievement-item');
-
-    // Update active filter
-    filters.forEach(filter => {
-      filter.classList.toggle('active', filter.dataset.type === type);
-    });
-
-    // Filter achievements
-    achievements.forEach(item => {
-      const achievementId = item.querySelector('.achievement-title').textContent.toLowerCase().replace(/\s+/gu, '-');
-      const achievement = Object.values(this.achievements).find(ach => ach.title.toLowerCase().replace(/\s+/gu, '-') === achievementId);
-
-      if (type === 'all' || (achievement && achievement.type === type)) {
-        item.style.display = 'flex';
-      } else {
-        item.style.display = 'none';
-      }
-    });
+    this.currentFilter = type;
+    updateCategoryFilter(type);
+    updateAchievementList(this.achievements, this.userProgress, type);
   }
 
   /**
-   * Unlock an achievement
-   * @param {string} achievementId - ID of the achievement to unlock
+   * Get user statistics
+   * @returns {Object} User statistics
    */
-  unlockAchievement(achievementId) {
-    const achievement = this.achievements[achievementId];
-    if (!achievement || this.userProgress.unlockedAchievements.includes(achievementId)) {
-      return;
-    }
+  getStats() {
+    const unlockedAchievements = Object.values(this.userProgress.achievements || {})
+      .filter(achievement => achievement.unlocked);
 
-    // Unlock achievement
-    this.userProgress.unlockedAchievements.push(achievementId);
-    this.userProgress.totalPoints += achievement.points;
-
-    // Save progress
-    this.saveProgress();
-
-    // Show notification
-    this.showAchievementNotification(achievement);
-
-    // Update UI
-    this.updateAchievementCount();
-
-    // Trigger custom event
-    document.dispatchEvent(new CustomEvent('achievement-unlocked', {
-      detail: { achievement }
-    }));
+    return {
+      totalPoints: this.userProgress.totalPoints || 0,
+      unlockedCount: unlockedAchievements.length,
+      totalAchievements: Object.keys(this.achievements).length,
+      completionPercentage: Math.round(
+        (unlockedAchievements.length / Object.keys(this.achievements).length) * CONSTANTS.PERCENTAGE_MAX
+      )
+    };
   }
 
   /**
-   * Show achievement notification
-   * @param {Object} achievement - Achievement object to show notification for
+   * Reset all progress (for testing/debugging)
    */
-  showAchievementNotification(achievement) {
-    const notification = document.getElementById('achievement-notification');
-
-    notification.innerHTML = `
-      <div class="achievement-notification-content">
-        <div class="achievement-notification-icon">${achievement.icon}</div>
-        <div class="achievement-notification-text">
-          <h4>Achievement Unlocked!</h4>
-          <p>${achievement.title} (+${achievement.points} points)</p>
-        </div>
-      </div>
-    `;
-
-    notification.classList.remove('hidden');
-
-    // Auto-hide after 4 seconds
-    setTimeout(() => {
-      notification.classList.add('hidden');
-    }, CONSTANTS.NOTIFICATION_DURATION);
-  }
-
-  /**
-   * Update achievement count in UI
-   */
-  updateAchievementCount() {
-    const countElement = document.querySelector('.achievement-count');
-    if (countElement) {
-      countElement.textContent = this.userProgress.unlockedAchievements.length;
-    }
-
-    const toggle = document.getElementById('achievement-toggle');
-    if (toggle) {
-      toggle.setAttribute('aria-label', `View achievements (${this.userProgress.unlockedAchievements.length} unlocked)`);
-    }
-  }
-
-  // Tracking methods
-  /**
-   * Track tutorial completion for achievements
-   * @param {string} tutorialId - ID of the completed tutorial
-   */
-  trackTutorialCompletion(tutorialId) {
-    if (!this.userProgress.tutorialsCompleted.includes(tutorialId)) {
-      this.userProgress.tutorialsCompleted.push(tutorialId);
-      this.saveProgress();
-
-      // Check tutorial achievements
-      if (this.userProgress.tutorialsCompleted.length === 1) {
-        this.unlockAchievement('first-tutorial');
-      } else if (this.userProgress.tutorialsCompleted.length >= CONSTANTS.EXPLORER_THRESHOLD) {
-        this.unlockAchievement('tutorial-master');
-      }
-
-      // Check CSS-specific achievements
-      const cssGridCompleted = this.userProgress.tutorialsCompleted.includes('css-grid');
-      const flexboxCompleted = this.userProgress.tutorialsCompleted.includes('flexbox');
-      if (cssGridCompleted && flexboxCompleted) {
-        this.unlockAchievement('css-ninja');
-      }
-
-      // Check accessibility achievement
-      if (tutorialId === 'accessibility') {
-        this.unlockAchievement('accessibility-champion');
-      }
-    }
-  }
-
-  /**
-   * Track component view for achievements
-   * @param {string} componentId - ID of the viewed component
-   */
-  trackComponentView(componentId) {
-    if (!this.userProgress.componentsViewed.includes(componentId)) {
-      this.userProgress.componentsViewed.push(componentId);
-      this.saveProgress();
-
-      if (this.userProgress.componentsViewed.length >= CONSTANTS.MASTER_THRESHOLD) {
-        this.unlockAchievement('component-explorer');
-      }
-    }
-  }
-
-  /**
-   * Track code execution for achievements
-   */
-  trackCodeRun() {
-    this.userProgress.codeRuns += 1;
-    this.saveProgress();
-
-    if (this.userProgress.codeRuns >= CONSTANTS.LEGEND_THRESHOLD) {
-      this.unlockAchievement('playground-enthusiast');
-    }
-  }
-
-  /**
-   * Track learning mode usage for achievements
-   */
-  trackLearningMode() {
-    let learningModeStartTime = null;
-
-    // Listen for learning mode toggle
-    document.addEventListener('learning-mode-changed', event => {
-      if (event.detail.enabled) {
-        learningModeStartTime = Date.now();
-      } else if (learningModeStartTime) {
-        const sessionTime = Date.now() - learningModeStartTime;
-        this.userProgress.learningModeTime += sessionTime;
-        this.saveProgress();
-
-        if (this.userProgress.learningModeTime >= CONSTANTS.TIMER_INTERVAL) { // 10 minutes
-          this.unlockAchievement('learning-advocate');
-        }
-
-        learningModeStartTime = null;
-      }
-    });
-  }
-
-  /**
-   * Check and unlock time-based achievements
-   */
-  checkTimeBasedAchievements() {
-    const now = new Date();
-    const hour = now.getHours();
-
-    if (hour < CONSTANTS.CODE_TIME_HOURS) {
-      this.unlockAchievement('early-bird');
-    } else if (hour >= CONSTANTS.CODE_TIME_DAY) {
-      this.unlockAchievement('night-owl');
-    }
-  }
-
-  /**
-   * Check and unlock achievements based on existing progress
-   */
-  checkInitialAchievements() {
-    // Check if user has already unlocked some achievements based on current state
-    this.checkTimeBasedAchievements();
-
-    // Check existing progress
-    if (this.userProgress.tutorialsCompleted.length >= 1) {
-      this.unlockAchievement('first-tutorial');
-    }
-    if (this.userProgress.tutorialsCompleted.length >= CONSTANTS.EXPLORER_THRESHOLD) {
-      this.unlockAchievement('tutorial-master');
-    }
-    if (this.userProgress.componentsViewed.length >= CONSTANTS.MASTER_THRESHOLD) {
-      this.unlockAchievement('component-explorer');
-    }
-    if (this.userProgress.codeRuns >= CONSTANTS.LEGEND_THRESHOLD) {
-      this.unlockAchievement('playground-enthusiast');
-    }
-  }
-
-  // Public API for triggering achievements
-  /**
-   * Trigger tutorial completion event
-   * @param {string} tutorialId - ID of the completed tutorial
-   */
-  static triggerTutorialComplete(tutorialId) {
-    document.dispatchEvent(new CustomEvent('tutorial-completed', {
-      detail: { tutorialId }
-    }));
-  }
-
-  /**
-   * Trigger component view event
-   * @param {string} componentId - ID of the viewed component
-   */
-  static triggerComponentView(componentId) {
-    document.dispatchEvent(new CustomEvent('component-viewed', {
-      detail: { componentId }
-    }));
-  }
-
-  /**
-   * Trigger code execution event
-   */
-  static triggerCodeExecution() {
-    document.dispatchEvent(new CustomEvent('code-executed'));
+  resetProgress() {
+    localStorage.removeItem('bsb-achievements');
+    this.userProgress = this.loadProgress();
+    this.updateUI();
   }
 }
 
-// Initialize achievement system when DOM is ready
+// Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   window.bsbAchievements = new AchievementSystem();
 });
 
-// Export for use in other modules
-export default AchievementSystem;
+// Export for manual initialization
+export { AchievementSystem as default };

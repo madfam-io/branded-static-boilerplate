@@ -579,7 +579,7 @@ class BSBCodePlayground {
    */
   async showResetConfirmation() {
     const { showResetConfirmation } = await import('./reset-confirmation-dialog.js');
-    
+
     showResetConfirmation(() => {
       // Reset to original values from HTML
       this.editors.forEach(editor => {

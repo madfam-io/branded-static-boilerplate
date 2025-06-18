@@ -1,0 +1,310 @@
+/**
+ * Performance Dashboard UI
+ * ========================
+ *
+ * Manages the performance dashboard interface and visualization
+ */
+
+// UI Constants
+const UI_CONSTANTS = {
+  ANIMATION_DURATION: 300,
+  ANIMATION_DELAY_STEP: 2,
+  TOAST_DURATION: 4000,
+  FLOAT_PRECISION: 0.25,
+  PRECISION_MULTIPLIER: 10000
+};
+
+/**
+ * Create performance dashboard HTML template
+ * @param {Object} metrics - Performance metrics
+ * @returns {string} Dashboard HTML
+ */
+export const createDashboardTemplate = (metrics) => {
+  const score = metrics.score || 0;
+  const scoreClass = getScoreClass(score);
+
+  return `
+    <div class="bsb-performance-dashboard" id="performance-dashboard">
+      <div class="bsb-performance-dashboard__header">
+        <h3 class="bsb-performance-dashboard__title">
+          ⚡ Performance Monitor
+        </h3>
+        <div class="bsb-performance-dashboard__score">
+          <div class="bsb-performance-dashboard__score-circle ${scoreClass}">
+            <span class="bsb-performance-dashboard__score-value">${score}</span>
+          </div>
+        </div>
+        <button class="bsb-performance-dashboard__toggle" 
+                aria-label="Toggle dashboard">
+          <span>−</span>
+        </button>
+      </div>
+
+      <div class="bsb-performance-dashboard__content">
+        ${createVitalsSection(metrics.vitals)}
+        ${createResourcesSection(metrics.resources)}
+        ${createRecommendationsSection(metrics.recommendations)}
+      </div>
+    </div>
+  `;
+};
+
+/**
+ * Create Web Vitals section
+ * @param {Object} vitals - Web Vitals data
+ * @returns {string} Vitals section HTML
+ */
+const createVitalsSection = (vitals) => {
+  if (!vitals) return '';
+
+  return `
+    <div class="bsb-performance-dashboard__section">
+      <h4 class="bsb-performance-dashboard__section-title">Web Vitals</h4>
+      <div class="bsb-performance-dashboard__vitals">
+        ${createVitalMetric('LCP', vitals.lcp, 'ms', 2500, 4000)}
+        ${createVitalMetric('FID', vitals.fid, 'ms', 100, 300)}
+        ${createVitalMetric('CLS', vitals.cls, '', 0.1, 0.25)}
+        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', 600, 1500)}
+      </div>
+    </div>
+  `;
+};
+
+/**
+ * Create individual vital metric
+ * @param {string} name - Metric name
+ * @param {number} value - Metric value
+ * @param {string} unit - Value unit
+ * @param {number} goodThreshold - Good performance threshold
+ * @param {number} poorThreshold - Poor performance threshold
+ * @returns {string} Metric HTML
+ */
+const createVitalMetric = (name, value, unit, goodThreshold, poorThreshold) => {
+  if (value === null || value === undefined) {
+    return `
+      <div class="bsb-performance-dashboard__vital">
+        <div class="bsb-performance-dashboard__vital-name">${name}</div>
+        <div class="bsb-performance-dashboard__vital-value">—</div>
+        <div class="bsb-performance-dashboard__vital-status neutral">N/A</div>
+      </div>
+    `;
+  }
+
+  const status = getVitalStatus(value, goodThreshold, poorThreshold);
+  const formattedValue = formatMetricValue(value);
+
+  return `
+    <div class="bsb-performance-dashboard__vital">
+      <div class="bsb-performance-dashboard__vital-name">${name}</div>
+      <div class="bsb-performance-dashboard__vital-value">${formattedValue}${unit}</div>
+      <div class="bsb-performance-dashboard__vital-status ${status}">${status.toUpperCase()}</div>
+    </div>
+  `;
+};
+
+/**
+ * Create resources section
+ * @param {Array} resources - Resource metrics
+ * @returns {string} Resources section HTML
+ */
+const createResourcesSection = (resources) => {
+  if (!resources || resources.length === 0) return '';
+
+  const totalSize = resources.reduce((sum, r) => sum + r.size, 0);
+  const largeResources = resources.filter(r => r.isLarge);
+  const slowResources = resources.filter(r => r.isSlow);
+
+  return `
+    <div class="bsb-performance-dashboard__section">
+      <h4 class="bsb-performance-dashboard__section-title">Resources</h4>
+      <div class="bsb-performance-dashboard__resources-summary">
+        <div class="bsb-performance-dashboard__resource-stat">
+          <span class="label">Total:</span>
+          <span class="value">${resources.length}</span>
+        </div>
+        <div class="bsb-performance-dashboard__resource-stat">
+          <span class="label">Size:</span>
+          <span class="value">${formatBytes(totalSize)}</span>
+        </div>
+        <div class="bsb-performance-dashboard__resource-stat">
+          <span class="label">Large:</span>
+          <span class="value ${largeResources.length > 0 ? 'warning' : ''}">${largeResources.length}</span>
+        </div>
+        <div class="bsb-performance-dashboard__resource-stat">
+          <span class="label">Slow:</span>
+          <span class="value ${slowResources.length > 0 ? 'warning' : ''}">${slowResources.length}</span>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+/**
+ * Create recommendations section
+ * @param {Array} recommendations - Performance recommendations
+ * @returns {string} Recommendations section HTML
+ */
+const createRecommendationsSection = (recommendations) => {
+  if (!recommendations || recommendations.length === 0) {
+    return `
+      <div class="bsb-performance-dashboard__section">
+        <h4 class="bsb-performance-dashboard__section-title">Recommendations</h4>
+        <div class="bsb-performance-dashboard__no-recommendations">
+          ✅ No performance issues detected!
+        </div>
+      </div>
+    `;
+  }
+
+  const recommendationsHTML = recommendations.map(rec => `
+    <div class="bsb-performance-dashboard__recommendation ${rec.severity}">
+      <div class="bsb-performance-dashboard__rec-icon">
+        ${getRecommendationIcon(rec.type)}
+      </div>
+      <div class="bsb-performance-dashboard__rec-content">
+        <div class="bsb-performance-dashboard__rec-message">${rec.message}</div>
+        <div class="bsb-performance-dashboard__rec-severity">${rec.severity.toUpperCase()}</div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="bsb-performance-dashboard__section">
+      <h4 class="bsb-performance-dashboard__section-title">Recommendations</h4>
+      <div class="bsb-performance-dashboard__recommendations">
+        ${recommendationsHTML}
+      </div>
+    </div>
+  `;
+};
+
+/**
+ * Get performance score CSS class
+ * @param {number} score - Performance score
+ * @returns {string} CSS class
+ */
+const getScoreClass = (score) => {
+  if (score >= 90) return 'excellent';
+  if (score >= 70) return 'good';
+  if (score >= 50) return 'fair';
+  return 'poor';
+};
+
+/**
+ * Get vital metric status
+ * @param {number} value - Metric value
+ * @param {number} goodThreshold - Good threshold
+ * @param {number} poorThreshold - Poor threshold
+ * @returns {string} Status class
+ */
+const getVitalStatus = (value, goodThreshold, poorThreshold) => {
+  if (value <= goodThreshold) return 'good';
+  if (value <= poorThreshold) return 'fair';
+  return 'poor';
+};
+
+/**
+ * Format metric value for display
+ * @param {number} value - Raw value
+ * @returns {string} Formatted value
+ */
+const formatMetricValue = (value) => {
+  if (value < 1) {
+    return (Math.round(value * UI_CONSTANTS.PRECISION_MULTIPLIER) / UI_CONSTANTS.PRECISION_MULTIPLIER).toString();
+  }
+  return Math.round(value).toString();
+};
+
+/**
+ * Format bytes to human readable format
+ * @param {number} bytes - Byte count
+ * @returns {string} Formatted string
+ */
+const formatBytes = (bytes) => {
+  if (bytes === 0) return '0 B';
+  
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
+
+/**
+ * Get recommendation icon
+ * @param {string} type - Recommendation type
+ * @returns {string} Icon
+ */
+const getRecommendationIcon = (type) => {
+  const icons = {
+    lcp: '🖼️',
+    fid: '⚡',
+    cls: '📐',
+    resources: '📦',
+    memory: '💾',
+    default: '💡'
+  };
+  return icons[type] || icons.default;
+};
+
+/**
+ * Update dashboard with new metrics
+ * @param {HTMLElement} dashboard - Dashboard element
+ * @param {Object} metrics - New metrics data
+ */
+export const updateDashboard = (dashboard, metrics) => {
+  if (!dashboard) return;
+
+  // Update score
+  const scoreElement = dashboard.querySelector('.bsb-performance-dashboard__score-value');
+  const scoreCircle = dashboard.querySelector('.bsb-performance-dashboard__score-circle');
+  
+  if (scoreElement && scoreCircle) {
+    const newScore = metrics.score || 0;
+    scoreElement.textContent = newScore;
+    scoreCircle.className = `bsb-performance-dashboard__score-circle ${getScoreClass(newScore)}`;
+  }
+
+  // Update content sections
+  const content = dashboard.querySelector('.bsb-performance-dashboard__content');
+  if (content) {
+    content.innerHTML = `
+      ${createVitalsSection(metrics.vitals)}
+      ${createResourcesSection(metrics.resources)}
+      ${createRecommendationsSection(metrics.recommendations)}
+    `;
+  }
+};
+
+/**
+ * Show performance toast notification
+ * @param {string} message - Toast message
+ * @param {string} type - Toast type (success, warning, error)
+ */
+export const showPerformanceToast = (message, type = 'info') => {
+  const toast = document.createElement('div');
+  toast.className = `bsb-performance-toast bsb-performance-toast--${type}`;
+  toast.textContent = message;
+
+  toast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bsb-${type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'success'});
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-size: 14px;
+    max-width: 300px;
+    animation: slideInRight 0.3s ease;
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => toast.remove(), UI_CONSTANTS.ANIMATION_DURATION);
+  }, UI_CONSTANTS.TOAST_DURATION);
+};
