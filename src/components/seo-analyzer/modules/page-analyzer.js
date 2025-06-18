@@ -26,20 +26,6 @@ const CONSTANTS = {
  * Gather comprehensive page data for analysis
  * @returns {Object} Page data
  */
-export const gatherPageData = () => {
-  return {
-    title: document.title,
-    description: document.querySelector('meta[name="description"]')?.content || '',
-    keywords: document.querySelector('meta[name="keywords"]')?.content || '',
-    url: window.location.href,
-    headings: analyzeHeadings(),
-    images: analyzeImages(),
-    links: analyzeLinks(),
-    content: analyzeContent(),
-    hasStructuredData: hasStructuredData(),
-    isMobileFriendly: isMobileFriendly()
-  };
-};
 
 /**
  * Check heading hierarchy for SEO best practices
@@ -200,4 +186,23 @@ const hasStructuredData = () => {
 const isMobileFriendly = () => {
   const viewport = document.querySelector('meta[name="viewport"]');
   return viewport && viewport.content.includes('width=device-width');
+};
+
+/**
+ * Gather comprehensive page data for analysis
+ * @returns {Object} Page data
+ */
+export const gatherPageData = () => {
+  return {
+    title: document.title,
+    description: document.querySelector('meta[name="description"]')?.content || '',
+    keywords: document.querySelector('meta[name="keywords"]')?.content || '',
+    url: window.location.href,
+    headings: analyzeHeadings(),
+    images: analyzeImages(),
+    links: analyzeLinks(),
+    content: analyzeContent(),
+    hasStructuredData: hasStructuredData(),
+    isMobileFriendly: isMobileFriendly()
+  };
 };

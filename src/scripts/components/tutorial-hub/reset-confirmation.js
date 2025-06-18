@@ -142,21 +142,24 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
   const resetBtn = confirmDialog.querySelector('.tutorial-hub__confirm-reset');
   const backdrop = confirmDialog.querySelector('.tutorial-hub__confirm-backdrop');
 
+  // Declare handler variable first to avoid circular dependency
+  let escapeHandler;
+
   // Close dialog function
   const closeDialog = () => {
     if (confirmDialog.parentNode) {
       document.body.removeChild(confirmDialog);
     }
-    document.removeEventListener('keydown', escapeHandler);
+    if (escapeHandler) document.removeEventListener('keydown', escapeHandler);
   };
 
   // Escape key handler
-  function escapeHandler(event) {
+  escapeHandler = (event) => {
     if (event.key === 'Escape') {
       closeDialog();
       if (onCancel) {onCancel();}
     }
-  }
+  };
 
   // Event handlers
   const handleCancel = () => {

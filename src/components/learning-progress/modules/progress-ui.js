@@ -35,7 +35,8 @@ export const formatTime = milliseconds => {
 
   if (hours > 0) {
     return `${hours}h ${minutes % UI_CONSTANTS.SECONDS_PER_MINUTE}m`;
-  } if (minutes > 0) {
+  }
+  if (minutes > 0) {
     return `${minutes}m`;
   }
   return `${seconds}s`;
@@ -52,9 +53,11 @@ export const formatTimeAgo = timestamp => {
 
   if (seconds < UI_CONSTANTS.SECONDS_PER_MINUTE) {
     return 'Just now';
-  } if (seconds < UI_CONSTANTS.SECONDS_PER_HOUR) {
+  }
+  if (seconds < UI_CONSTANTS.SECONDS_PER_HOUR) {
     return `${Math.floor(seconds / UI_CONSTANTS.SECONDS_PER_MINUTE)}m ago`;
-  } if (seconds < UI_CONSTANTS.MILLISECONDS_PER_DAY / UI_CONSTANTS.MILLISECONDS_PER_SECOND) {
+  }
+  if (seconds < UI_CONSTANTS.MILLISECONDS_PER_DAY / UI_CONSTANTS.MILLISECONDS_PER_SECOND) {
     return `${Math.floor(seconds / UI_CONSTANTS.SECONDS_PER_HOUR)}h ago`;
   }
   return `${Math.floor(seconds / (UI_CONSTANTS.MILLISECONDS_PER_DAY / UI_CONSTANTS.MILLISECONDS_PER_SECOND))}d ago`;
@@ -83,7 +86,10 @@ const getActivityIcon = type => {
  * @returns {string} Learning paths HTML
  */
 const generateLearningPaths = progress => {
-  const recommendations = getRecommendedPaths(progress.componentsExplored, progress.conceptsLearned);
+  const recommendations = getRecommendedPaths(
+    progress.componentsExplored,
+    progress.conceptsLearned
+  );
 
   if (recommendations.length === 0) {
     return `
@@ -103,7 +109,9 @@ const generateLearningPaths = progress => {
       progress.checkpoints.has(checkpoint.id)
     ).length;
     const totalCheckpoints = path.checkpoints.length;
-    const progressPercent = Math.round((completedCheckpoints / totalCheckpoints) * UI_CONSTANTS.PERCENTAGE_MAX);
+    const progressPercent = Math.round(
+      (completedCheckpoints / totalCheckpoints) * UI_CONSTANTS.PERCENTAGE_MAX
+    );
 
     return `
       <div class="bsb-learning-progress__path" data-priority="${rec.priority}">
@@ -248,7 +256,9 @@ export const getTemplate = progress => {
  * @param {Object} progress - Current progress data
  */
 export const updateUI = (element, progress) => {
-  if (!element) {return;}
+  if (!element) {
+    return;
+  }
 
   element.innerHTML = getTemplate(progress);
 

@@ -153,23 +153,6 @@ export const validateDescription = function validateDescription(description) {
 };
 
 /**
- * Generate comprehensive meta tags for a page
- * @param {Object} options - Meta tag options
- * @returns {Object} Meta tags object with educational insights
- */
-export const generateMetaTags = options => {
-  const config = extractMetaConfig(options);
-  const metaTags = createMetaTagsStructure();
-  
-  addBasicMetaTags(metaTags, config);
-  addOpenGraphTags(metaTags, config);
-  addTwitterTags(metaTags, config);
-  addEducationalTags(metaTags, config);
-  
-  return metaTags;
-};
-
-/**
  * Extract and set defaults for meta tag configuration
  * @param {Object} options - Meta tag options
  * @returns {Object} Processed configuration
@@ -198,33 +181,6 @@ const createMetaTagsStructure = () => ({
   twitter: [],
   educational: []
 });
-
-/**
- * Add basic meta tags
- * @param {Object} metaTags - Meta tags structure
- * @param {Object} config - Configuration
- */
-const addBasicMetaTags = (metaTags, config) => {
-  // Title tag
-  metaTags.basic.push({
-    tag: 'title',
-    content: config.title,
-    insight: validateTitle(config.title)
-  });
-
-  // Description tag
-  metaTags.basic.push({
-    name: 'description',
-    content: config.description,
-    insight: validateDescription(config.description)
-  });
-
-  // Optional tags
-  addKeywordsTags(metaTags, config.keywords);
-  addAuthorTag(metaTags, config.author);
-  addRobotsTag(metaTags, config.noindex);
-  addCanonicalTag(metaTags, config.canonical, config.url);
-};
 
 /**
  * Add keywords meta tag if provided
@@ -298,6 +254,33 @@ const addCanonicalTag = (metaTags, canonical, url) => {
       }
     });
   }
+};
+
+/**
+ * Add basic meta tags
+ * @param {Object} metaTags - Meta tags structure
+ * @param {Object} config - Configuration
+ */
+const addBasicMetaTags = (metaTags, config) => {
+  // Title tag
+  metaTags.basic.push({
+    tag: 'title',
+    content: config.title,
+    insight: validateTitle(config.title)
+  });
+
+  // Description tag
+  metaTags.basic.push({
+    name: 'description',
+    content: config.description,
+    insight: validateDescription(config.description)
+  });
+
+  // Optional tags
+  addKeywordsTags(metaTags, config.keywords);
+  addAuthorTag(metaTags, config.author);
+  addRobotsTag(metaTags, config.noindex);
+  addCanonicalTag(metaTags, config.canonical, config.url);
 };
 
 /**
@@ -392,6 +375,23 @@ const addEducationalTags = (metaTags, config) => {
       ]
     }
   ];
+};
+
+/**
+ * Generate comprehensive meta tags for a page
+ * @param {Object} options - Meta tag options
+ * @returns {Object} Meta tags object with educational insights
+ */
+export const generateMetaTags = options => {
+  const config = extractMetaConfig(options);
+  const metaTags = createMetaTagsStructure();
+  
+  addBasicMetaTags(metaTags, config);
+  addOpenGraphTags(metaTags, config);
+  addTwitterTags(metaTags, config);
+  addEducationalTags(metaTags, config);
+  
+  return metaTags;
 };
 
 /**

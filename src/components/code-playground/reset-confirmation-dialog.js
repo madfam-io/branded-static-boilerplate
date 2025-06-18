@@ -141,18 +141,21 @@ export const showResetConfirmation = onConfirm => {
   const resetBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-reset');
   const backdrop = confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop');
 
+  // Declare handler variable first to avoid circular dependency
+  let escapeHandler;
+
+  // Close dialog function
+  const closeDialog = () => {
+    document.body.removeChild(confirmDialog);
+    if (escapeHandler) document.removeEventListener('keydown', escapeHandler);
+  };
+
   // Escape key handler
-  function escapeHandler(event) {
+  escapeHandler = (event) => {
     if (event.key === 'Escape') {
       closeDialog();
     }
-  }
-
-  // Close dialog function
-  function closeDialog() {
-    document.body.removeChild(confirmDialog);
-    document.removeEventListener('keydown', escapeHandler);
-  }
+  };
 
   // Add event listeners
   cancelBtn.addEventListener('click', closeDialog);
