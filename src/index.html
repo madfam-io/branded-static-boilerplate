@@ -207,8 +207,8 @@
           Tu logo o nombre del sitio. La etiqueta <strong> añade énfasis semántico.
         -->
         <div class="bsb-header__brand">
-          <a href="/branded-static-boilerplate/" class="bsb-header__logo">
-            <strong>Tu Marca</strong>
+          <a href="/branded-static-boilerplate/" class="bsb-header__logo" aria-label="BSB - Home">
+            <strong>BSB</strong>
           </a>
         </div>
         
@@ -219,13 +219,47 @@
           El patrón de navegación soporta navegación por teclado y menús móviles.
         -->
         <nav class="bsb-header__nav" aria-label="Navegación principal" id="main-nav">
-          <ul class="bsb-header__menu">
-            <li><a href="/branded-static-boilerplate/" class="bsb-header__link" aria-current="page">Inicio</a></li>
-            <li><a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link">Acerca de</a></li>
-            <li><a href="/branded-static-boilerplate/pages/component-library.html" class="bsb-header__link">Componentes</a></li>
-            <li><a href="/branded-static-boilerplate/pages/design-system.html" class="bsb-header__link">Sistema de Diseño</a></li>
-            <li><a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link">Laboratorio</a></li>
-            <li><a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link">Estructura</a></li>
+          <ul class="bsb-header__menu" role="menubar">
+            <li role="none">
+              <a href="/branded-static-boilerplate/" class="bsb-header__link" role="menuitem" aria-current="page" data-i18n="nav.home">
+                Inicio
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/about.html" class="bsb-header__link" role="menuitem" data-i18n="nav.about">
+                Acerca de
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/project-structure.html" class="bsb-header__link" role="menuitem" data-i18n="nav.project-structure">
+                Estructura
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/component-library.html" class="bsb-header__link" role="menuitem" data-i18n="nav.component-library">
+                Componentes
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/design-system.html" class="bsb-header__link" role="menuitem" data-i18n="nav.design-system">
+                Sistema de Diseño
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/interactive-playground.html" class="bsb-header__link" role="menuitem" data-i18n="nav.playground">
+                Laboratorio
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/docs/tutorials/" class="bsb-header__link" role="menuitem" data-i18n="nav.tutorials">
+                Tutoriales
+              </a>
+            </li>
+            <li role="none">
+              <a href="/branded-static-boilerplate/pages/contact.html" class="bsb-header__link" role="menuitem" data-i18n="nav.contact">
+                Contacto
+              </a>
+            </li>
           </ul>
         </nav>
         
@@ -324,7 +358,7 @@
           <div class="bsb-theme-toggle" data-bsb-component="theme-toggle">
             <button 
               class="bsb-theme-toggle__button" 
-              aria-label="Switch theme" 
+              aria-label="Cambiar tema" 
               aria-expanded="false"
               aria-haspopup="true"
               type="button"
@@ -351,7 +385,7 @@
               </span>
               
               <span class="bsb-theme-toggle__label">
-                Current theme: <span data-bsb-theme-label>Auto</span>
+                Tema actual: <span data-bsb-theme-label>Automático</span>
               </span>
             </button>
             
@@ -363,7 +397,7 @@
                       <circle cx="12" cy="12" r="5"/>
                       <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
                     </svg>
-                    <span class="bsb-theme-toggle__option-text">Light</span>
+                    <span class="bsb-theme-toggle__option-text">Claro</span>
                     <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
                   </button>
                 </li>
@@ -372,7 +406,7 @@
                     <svg class="bsb-theme-toggle__option-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
-                    <span class="bsb-theme-toggle__option-text">Dark</span>
+                    <span class="bsb-theme-toggle__option-text">Oscuro</span>
                     <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
                   </button>
                 </li>
@@ -383,7 +417,7 @@
                       <line x1="8" y1="21" x2="16" y2="21"/>
                       <line x1="12" y1="17" x2="12" y2="21"/>
                     </svg>
-                    <span class="bsb-theme-toggle__option-text">Auto</span>
+                    <span class="bsb-theme-toggle__option-text">Automático</span>
                     <span class="bsb-theme-toggle__option-check" aria-hidden="true">✓</span>
                   </button>
                 </li>
@@ -397,7 +431,13 @@
             Hidden on desktop, visible on mobile. Uses semantic button element.
             JavaScript enhancement adds toggle functionality.
           -->
-          <button class="bsb-header__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+          <button 
+            class="bsb-header__toggle" 
+            aria-label="Alternar menú de navegación"
+            aria-expanded="false"
+            aria-controls="main-nav"
+            type="button"
+          >
             <span class="bsb-header__toggle-icon" aria-hidden="true">
               <span></span>
               <span></span>
@@ -612,51 +652,98 @@ npm run dev
     <div class="container">
       <div class="bsb-footer__main">
         <div class="bsb-footer__grid">
+          <!-- Company Info Column -->
           <div class="bsb-footer__column bsb-footer__column--wide">
             <div class="bsb-footer__brand">
               <a href="/branded-static-boilerplate/" class="bsb-footer__logo">
-                <strong>Your Brand</strong>
+                <strong>BSB</strong>
               </a>
               <p class="bsb-footer__tagline">
-                Building better websites with modern best practices.
+                Plantilla educativa que enseña desarrollo web moderno a través de ejemplos interactivos y código documentado.
               </p>
+            </div>
+            
+            <!-- Social Media Links -->
+            <div class="bsb-footer__social">
+              <a href="https://github.com/madfam-io/branded-static-boilerplate" aria-label="Encuéntranos en GitHub" class="bsb-footer__social-link" rel="noopener noreferrer" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+              </a>
+              <a href="https://github.com/madfam-io/branded-static-boilerplate/discussions" aria-label="Únete a las discusiones de la comunidad" class="bsb-footer__social-link" rel="noopener noreferrer" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16.85 11.1c0-.7-.4-1.3-1-1.6l-4.4-2c-.9-.4-1.9.2-1.9 1.2v4c0 1 1 1.6 1.9 1.2l4.4-2c.6-.3 1-.9 1-1.6v-.2zm4.15 0c0 6.6-5.4 12-12 12s-12-5.4-12-12 5.4-12 12-12 12 5.4 12 12zm-2 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z"/>
+                </svg>
+              </a>
+              <a href="https://github.com/madfam-io/branded-static-boilerplate/issues" aria-label="Reportar problemas o sugerencias" class="bsb-footer__social-link" rel="noopener noreferrer" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+              </a>
             </div>
           </div>
           
+          <!-- Products/Services Column -->
           <div class="bsb-footer__column">
-            <h4 class="bsb-footer__heading">Learn</h4>
+            <h3 class="bsb-footer__heading">Aprender</h3>
             <ul class="bsb-footer__links">
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/tutorials/" rel="noopener noreferrer" target="_blank">Tutorials</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/api/" rel="noopener noreferrer" target="_blank">API Docs</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/examples/" rel="noopener noreferrer" target="_blank">Examples</a></li>
+              <li><a href="/branded-static-boilerplate/docs/tutorials/">Tutoriales</a></li>
+              <li><a href="/branded-static-boilerplate/pages/component-library.html">Componentes</a></li>
+              <li><a href="/branded-static-boilerplate/pages/design-system.html">Sistema de Diseño</a></li>
+              <li><a href="/branded-static-boilerplate/pages/interactive-playground.html">Laboratorio</a></li>
             </ul>
           </div>
           
+          <!-- Resources Column -->
           <div class="bsb-footer__column">
-            <h4 class="bsb-footer__heading">Community</h4>
+            <h3 class="bsb-footer__heading">Recursos</h3>
             <ul class="bsb-footer__links">
-              <li><a href="https://github.com/yourusername/branded-static-boilerplate" rel="noopener noreferrer" target="_blank">GitHub</a></li>
-              <li><a href="https://github.com/yourusername/branded-static-boilerplate/discussions" rel="noopener noreferrer" target="_blank">Discussions</a></li>
-              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md" rel="noopener noreferrer" target="_blank">Contributing</a></li>
+              <li><a href="/branded-static-boilerplate/pages/project-structure.html">Estructura del Proyecto</a></li>
+              <li><a href="/branded-static-boilerplate/pages/meta-learning-showcase.html">Aprendizaje Meta</a></li>
+              <li><a href="/branded-static-boilerplate/pages/seo-playground.html">SEO Playground</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate" rel="noopener noreferrer" target="_blank">Código Fuente</a></li>
             </ul>
           </div>
           
+          <!-- Company Column -->
           <div class="bsb-footer__column">
-            <h4 class="bsb-footer__heading">More</h4>
+            <h3 class="bsb-footer__heading">Compañía</h3>
             <ul class="bsb-footer__links">
-              <li><a href="/branded-static-boilerplate/pages/about.html">About</a></li>
-              <li><a href="/branded-static-boilerplate/pages/contact.html">Contact</a></li>
-              <li><a href="/branded-static-boilerplate/pages/privacy.html">Privacy</a></li>
+              <li><a href="/branded-static-boilerplate/pages/about.html">Acerca de</a></li>
+              <li><a href="/branded-static-boilerplate/pages/services.html">Servicios</a></li>
+              <li><a href="/branded-static-boilerplate/pages/contact.html">Contacto</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/discussions" rel="noopener noreferrer" target="_blank">Comunidad</a></li>
+            </ul>
+          </div>
+          
+          <!-- Legal Column -->
+          <div class="bsb-footer__column">
+            <h3 class="bsb-footer__heading">Legal</h3>
+            <ul class="bsb-footer__links">
+              <li><a href="/branded-static-boilerplate/pages/privacy.html">Política de Privacidad</a></li>
+              <li><a href="/branded-static-boilerplate/pages/terms.html">Términos de Servicio</a></li>
+              <li><a href="/branded-static-boilerplate/pages/accessibility.html">Accesibilidad</a></li>
+              <li><a href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE" rel="noopener noreferrer" target="_blank">Licencia</a></li>
             </ul>
           </div>
         </div>
       </div>
       
+      <!-- Footer Bottom Section -->
       <div class="bsb-footer__bottom">
         <div class="bsb-footer__bottom-content">
+          <!-- Copyright Notice -->
           <p class="bsb-footer__copyright">
-            © <time datetime="2024">2024</time> Branded Static Boilerplate. Built with BSB.
+            © <time datetime="2024">2024</time> Branded Static Boilerplate. Construido con BSB.
           </p>
+          
+          <!-- Additional Links -->
+          <nav class="bsb-footer__bottom-links" aria-label="Footer bottom navigation">
+            <a href="/branded-static-boilerplate/sitemap">Sitemap</a>
+            <a href="/branded-static-boilerplate/accessibility">Accessibility</a>
+            <a href="/branded-static-boilerplate/security">Security</a>
+            <a href="/branded-static-boilerplate/status">Status</a>
+          </nav>
         </div>
       </div>
     </div>
