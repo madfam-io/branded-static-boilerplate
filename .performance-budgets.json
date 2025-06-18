@@ -1,0 +1,55 @@
+{
+  "budgets": [
+    {
+      "resourceType": "script",
+      "budget": 250000
+    },
+    {
+      "resourceType": "stylesheet",
+      "budget": 50000
+    },
+    {
+      "resourceType": "image",
+      "budget": 500000
+    },
+    {
+      "resourceType": "font",
+      "budget": 100000
+    },
+    {
+      "resourceType": "total",
+      "budget": 1000000
+    },
+    {
+      "resourceType": "third-party",
+      "budget": 50000
+    }
+  ],
+  "thresholds": {
+    "performance": 90,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 95,
+    "largest-contentful-paint": 2500,
+    "first-input-delay": 100,
+    "cumulative-layout-shift": 0.1,
+    "first-contentful-paint": 1800,
+    "time-to-interactive": 3800,
+    "speed-index": 3400,
+    "total-blocking-time": 200
+  },
+  "alerts": {
+    "performance-regression": {
+      "enabled": true,
+      "threshold": 10
+    },
+    "budget-exceeded": {
+      "enabled": true,
+      "notify": ["console", "file"]
+    },
+    "core-web-vitals": {
+      "enabled": true,
+      "threshold": "needs-improvement"
+    }
+  }
+}

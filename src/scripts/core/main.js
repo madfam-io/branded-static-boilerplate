@@ -33,8 +33,18 @@ import './performance-optimizer.js';
 /**
  * Initialize all BSB features
  * @function initializeBSB
- * @description Sets up all interactive components and features of the BSB framework
+ * @description Sets up all interactive components and features of the BSB framework.
+ *              This is the main entry point that coordinates all subsystem initialization.
+ * @throws {Error} Throws if critical DOM elements are missing
  * @returns {void}
+ * @since 1.0.0
+ * @example
+ * // Initialize BSB when DOM is ready
+ * if (document.readyState === 'loading') {
+ *   document.addEventListener('DOMContentLoaded', initializeBSB);
+ * } else {
+ *   initializeBSB();
+ * }
  */
 function initializeBSB() {
   // Initialize smooth scrolling
@@ -59,8 +69,15 @@ function initializeBSB() {
 /**
  * Smooth scrolling for anchor links
  * @function initSmoothScrolling
- * @description Enables smooth scrolling behavior for internal anchor links
+ * @description Enables smooth scrolling behavior for internal anchor links with automatic
+ *              header offset calculation for improved user experience.
  * @returns {void}
+ * @since 1.0.0
+ * @performance O(n) where n is the number of anchor links
+ * @accessibility Preserves focus management and screen reader compatibility
+ * @example
+ * // Automatically called during BSB initialization
+ * // Handles links like <a href="#section1">Go to Section 1</a>
  */
 function initSmoothScrolling() {
   // Find all links that point to anchors

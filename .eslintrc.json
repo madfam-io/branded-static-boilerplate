@@ -6,7 +6,8 @@
     "jest": true
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "eslint:all"
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -109,6 +110,58 @@
       }
     }],
     
+    // Code Complexity and Quality
+    "complexity": ["error", { "max": 10 }],
+    "max-depth": ["error", 4],
+    "max-nested-callbacks": ["error", 3],
+    "max-params": ["error", 4],
+    "max-statements": ["error", 25],
+    "max-statements-per-line": ["error", { "max": 1 }],
+    "max-lines": ["error", { "max": 500, "skipBlankLines": true, "skipComments": true }],
+    "max-lines-per-function": ["error", { "max": 50, "skipBlankLines": true, "skipComments": true }],
+    
+    // Code Style and Maintainability
+    "capitalized-comments": ["error", "always", { "ignoreConsecutiveComments": true }],
+    "consistent-return": "error",
+    "default-case": "error",
+    "default-case-last": "error",
+    "guard-for-in": "error",
+    "no-alert": "error",
+    "no-caller": "error",
+    "no-div-regex": "error",
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
+    "no-eq-null": "error",
+    "no-extend-native": "error",
+    "no-extra-bind": "error",
+    "no-floating-decimal": "error",
+    "no-implicit-coercion": "error",
+    "no-implicit-globals": "error",
+    "no-lone-blocks": "error",
+    "no-magic-numbers": ["error", { "ignore": [0, 1, -1], "ignoreArrayIndexes": true }],
+    "no-multi-spaces": "error",
+    "no-multi-str": "error",
+    "no-new": "error",
+    "no-new-object": "error",
+    "no-new-wrappers": "error",
+    "no-octal-escape": "error",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-proto": "error",
+    "no-return-assign": ["error", "always"],
+    "no-script-url": "error",
+    "no-sequences": "error",
+    "no-unmodified-loop-condition": "error",
+    "no-unused-expressions": "error",
+    "no-useless-call": "error",
+    "no-useless-concat": "error",
+    "no-void": "error",
+    "prefer-named-capture-group": "error",
+    "prefer-regex-literals": "error",
+    "radix": ["error", "always"],
+    "vars-on-top": "error",
+    "wrap-iife": ["error", "inside"],
+    "yoda": ["error", "never"],
+    
     // Project-specific overrides
     "max-len": ["error", { 
       "code": 100, 
@@ -119,7 +172,14 @@
     }],
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "one-var": ["error", "never"],
+    "sort-imports": "off",
+    "sort-keys": "off",
+    "no-ternary": "off",
+    "multiline-comment-style": "off",
+    "line-comment-position": "off",
+    "no-inline-comments": "off"
   },
   "overrides": [
     {

@@ -64,7 +64,8 @@ module.exports = {
     '!**/dist/**'
   ],
   
-  // Coverage thresholds (temporarily reduced - should be increased)
+  // Coverage thresholds temporarily disabled for standardization commit
+  // Will be re-enabled once adequate test coverage is implemented
   coverageThreshold: {
     global: {
       branches: 0,
@@ -87,6 +88,11 @@ module.exports = {
   // Test execution settings
   verbose: true,
   testTimeout: 10000,
+  
+  // Performance and quality monitoring
+  slowTestThreshold: 5,
+  detectOpenHandles: true,
+  forceExit: false,
   
   // Clear mocks between tests
   clearMocks: true,

@@ -180,7 +180,10 @@ export default defineConfig({
       open: true,
       gzipSize: true,
       brotliSize: true,
-      filename: 'dist/stats.html'
+      filename: 'dist/stats.html',
+      template: 'treemap', // Use treemap for better visualization
+      title: 'BSB Bundle Analysis',
+      projectRoot: process.cwd()
     }),
     
     // Copy static files plugin
