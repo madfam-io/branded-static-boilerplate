@@ -45,7 +45,9 @@ class MockBSBHelper {
         <button class="bsb-dev-panel__close" aria-label="Close dev panel">×</button>
       </div>
       <div class="bsb-dev-panel__content">
-        <p>Components: <span class="bsb-dev-panel__component-count">${this.components.size}</span></p>
+        <p>Components: <span class="bsb-dev-panel__component-count">
+          ${this.components.size}
+        </span></p>
       </div>
     `;
     document.body.appendChild(panel);

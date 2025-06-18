@@ -175,9 +175,9 @@ class TutorialHub {
 
     if (tutorialId && event.target.tagName === 'A') {
       this.trackEvent('tutorial_clicked', {
-        tutorial_id: tutorialId,
-        tutorial_title: this.getTutorialById(tutorialId)?.title,
-        click_source: 'tutorial_hub'
+        tutorialId: tutorialId,
+        tutorialTitle: this.getTutorialById(tutorialId)?.title,
+        clickSource: 'tutorial_hub'
       });
     }
   }
@@ -191,8 +191,8 @@ class TutorialHub {
 
     if (pathType && event.target.tagName === 'A') {
       this.trackEvent('learning_path_clicked', {
-        path_type: pathType,
-        click_source: 'tutorial_hub'
+        pathType: pathType,
+        clickSource: 'tutorial_hub'
       });
     }
   }
@@ -575,9 +575,9 @@ class TutorialHub {
 
     // Track completion
     this.trackEvent('tutorial_completed', {
-      tutorial_id: tutorialId,
-      tutorial_title: this.getTutorialById(tutorialId)?.title,
-      time_spent: this.progressData[tutorialId].timeSpent
+      tutorialId: tutorialId,
+      tutorialTitle: this.getTutorialById(tutorialId)?.title,
+      timeSpent: this.progressData[tutorialId].timeSpent
     });
 
     // Show completion celebration

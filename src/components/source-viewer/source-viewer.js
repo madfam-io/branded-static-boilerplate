@@ -114,11 +114,13 @@ class BSBSourceViewer {
             Component Source Code
           </h3>
           <div class="bsb-source-viewer__subtitle" data-component-name></div>
-          <button class="bsb-source-viewer__close" aria-label="Close source viewer" type="button">✕</button>
+          <button class="bsb-source-viewer__close" aria-label="Close source viewer" " +
+            "type="button">✕</button>
         </div>
         
         <nav class="bsb-source-viewer__tabs" role="tablist">
-          <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active" data-tab="html">📄 HTML</button>
+          <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active" " +
+            "data-tab="html">📄 HTML</button>
           <button class="bsb-source-viewer__tab" data-tab="css">🎨 CSS</button>
           <button class="bsb-source-viewer__tab" data-tab="js">⚡ JavaScript</button>
           <button class="bsb-source-viewer__tab" data-tab="info">📊 Insights</button>
@@ -130,7 +132,8 @@ class BSBSourceViewer {
               <span class="bsb-source-viewer__file-path" data-html-path></span>
               <div class="bsb-source-viewer__actions">
                 <button class="bsb-source-viewer__action" data-action="copy-html">📋 Copy</button>
-                <button class="bsb-source-viewer__action" data-action="open-playground-html">🚀 Try It</button>
+                <button class="bsb-source-viewer__action" " +
+                  "data-action="open-playground-html">🚀 Try It</button>
               </div>
             </div>
             <pre class="bsb-source-viewer__code" data-language="html"><code data-html-content></code></pre>

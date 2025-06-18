@@ -591,12 +591,14 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
       <li><strong>Configure security headers</strong> in your web server or CDN</li>
       <li><strong>Implement CSP</strong> to prevent XSS attacks</li>
       <li><strong>Use HTTPS</strong> for all production deployments</li>
-      <li><strong>Review file permissions</strong> and remove sensitive files from public directory</li>
+      <li><strong>Review file permissions</strong> and remove sensitive files " +
+        "from public directory</li>
     </ul>
     
     <h3>Resources</h3>
     <ul>
-      <li><a href="https://owasp.org/www-project-secure-headers/">OWASP Secure Headers Project</a></li>
+      <li><a href="https://owasp.org/www-project-secure-headers/">" +
+        "OWASP Secure Headers Project</a></li>
       <li><a href="https://content-security-policy.com/">CSP Reference</a></li>
       <li><a href="https://securityheaders.com/">Security Headers Checker</a></li>
     </ul>

@@ -72,7 +72,7 @@ export default defineConfig({
           
           // Don't create separate chunks for small modules
           // Let Vite handle automatic chunking based on imports
-          return undefined;
+          return null;
         }
       },
       

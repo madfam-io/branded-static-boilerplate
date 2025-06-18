@@ -73,12 +73,15 @@ class BSBFileExplorer {
         importance: 'high',
         category: 'root',
         details: `
-          <p>This is your project's <strong>root directory</strong> - think of it as the main folder that contains your entire website.</p>
+          <p>This is your project's <strong>root directory</strong> - think of it as the main " +
+            "folder that contains your entire website.</p>
           <h5>🎯 Key Concepts:</h5>
           <ul>
-            <li><strong>Single Source of Truth:</strong> Everything related to your project lives here</li>
+            <li><strong>Single Source of Truth:</strong> Everything related to your " +
+              "project lives here</li>
             <li><strong>Version Control:</strong> This folder is tracked by Git</li>
-            <li><strong>Deployment Unit:</strong> When you deploy, this entire folder goes to the server</li>
+            <li><strong>Deployment Unit:</strong> When you deploy, this entire " +
+              "folder goes to the server</li>
           </ul>
           <h5>💡 Best Practices:</h5>
           <ul>
@@ -97,7 +100,8 @@ class BSBFileExplorer {
         fileType: 'config',
         name: 'package.json',
         title: 'Project Configuration & Dependencies',
-        description: 'The blueprint of your project - lists dependencies, scripts, and metadata.',
+        description: 'The blueprint of your project - lists dependencies, scripts, " +
+          "and metadata.',
         importance: 'high',
         details: `
           <p><strong>package.json</strong> is like your project's ID card and instruction manual combined.</p>
@@ -117,21 +121,27 @@ class BSBFileExplorer {
 }</code></pre>
         `,
         links: [
-          { text: 'NPM Package.json Guide', url: 'https://docs.npmjs.com/cli/v8/configuring-npm/package-json' }
+          {
+            text: 'NPM Package.json Guide',
+            url: 'https://docs.npmjs.com/cli/v8/configuring-npm/package-json'
+          }
         ]
       },
       '/src': {
         type: 'folder',
         name: 'src',
         title: 'Source Code Directory',
-        description: 'Your website\'s source code lives here - HTML, CSS, JavaScript, and assets.',
+        description: 'Your website\'s source code lives here - HTML, CSS, " +
+          "JavaScript, and assets.',
         importance: 'high',
         category: 'source',
         details: `
-          <p>The <strong>src</strong> (source) folder contains all the code that makes your website work.</p>
+          <p>The <strong>src</strong> (source) folder contains all the code that " +
+            "makes your website work.</p>
           <h5>🏗️ Architecture Pattern:</h5>
           <ul>
-            <li><strong>Separation of Concerns:</strong> Different types of code in different folders</li>
+            <li><strong>Separation of Concerns:</strong> Different types of code in " +
+              "different folders</li>
             <li><strong>Component-Based:</strong> Reusable UI pieces grouped together</li>
             <li><strong>Asset Organization:</strong> Images, fonts, and other files organized logically</li>
           </ul>

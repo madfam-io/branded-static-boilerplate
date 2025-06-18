@@ -293,7 +293,7 @@ console.log('Click containers to cycle through alignment options!');`,
       js: `// Simulate responsive behavior
 let isMobile = window.innerWidth < 768;
 
-function updateLayout() {
+const updateLayout = function updateLayout() {
   const main = document.querySelector('.main');
   const sidebar = document.querySelector('.sidebar');
   

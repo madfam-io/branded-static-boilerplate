@@ -215,7 +215,7 @@ const extractMetrics = function extractMetrics(lighthouseResult) {
  * @since 1.0.0
  */
 const evaluateMetric = function evaluateMetric(value, thresholds) {
-  if (value === null || value === undefined) {
+  if (value === null || typeof value === 'undefined') {
     return 'unknown';
   }
   if (value <= thresholds.good) {
@@ -292,20 +292,21 @@ const detectRegressions = function detectRegressions(currentMetrics, filename) {
     
     metrics.forEach(metric => {
       const currentValue = currentMetrics[metric];
-      if (currentValue === null || currentValue === undefined) {
+      if (currentValue === null || typeof currentValue === 'undefined') {
         return;
       }
       
       const baselineValues = baseline
         .map(data => data[metric])
-        .filter(val => val !== null && val !== undefined);
+        .filter(val => val !== null && typeof val !== 'undefined');
       
       if (baselineValues.length === 0) {
         return;
       }
       
       const baselineAvg = baselineValues.reduce((sum, val) => sum + val, 0) / baselineValues.length;
-      const regressionThreshold = metric === 'performance' ? 0.9 : 1.2; // 10% worse for scores, 20% worse for times
+      // 10% worse for scores, 20% worse for times
+      const regressionThreshold = metric === 'performance' ? 0.9 : 1.2;
       
       const isRegression = metric === 'performance' 
         ? currentValue < baselineAvg * regressionThreshold
@@ -374,15 +375,29 @@ const displayPerformanceReport = function displayPerformanceReport(metrics, regr
     const displayValue = vital.unit === 'ms' ? `${Math.round(vital.value)}${vital.unit}` : 
                         vital.value.toFixed(3);
     
-    console.log(`  ${icon} ${vital.name.padEnd(4)} ${color(displayValue.padEnd(8))} (${evaluation})`);
+    console.log(
+      `  ${icon} ${vital.name.padEnd(4)} ${color(displayValue.padEnd(8))} (${evaluation})`
+    );
   });
   
   // Lighthouse Scores
   console.log('\n🏆 Lighthouse Scores:');
   const scores = [
-    { name: 'Performance', value: metrics.performance, thresholds: PERFORMANCE_CONFIG.lighthouse.performance },
-    { name: 'Accessibility', value: metrics.accessibility, thresholds: PERFORMANCE_CONFIG.lighthouse.accessibility },
-    { name: 'Best Practices', value: metrics.bestPractices, thresholds: PERFORMANCE_CONFIG.lighthouse.bestPractices },
+    {
+      name: 'Performance',
+      value: metrics.performance,
+      thresholds: PERFORMANCE_CONFIG.lighthouse.performance
+    },
+    {
+      name: 'Accessibility',
+      value: metrics.accessibility,
+      thresholds: PERFORMANCE_CONFIG.lighthouse.accessibility
+    },
+    {
+      name: 'Best Practices',
+      value: metrics.bestPractices,
+      thresholds: PERFORMANCE_CONFIG.lighthouse.bestPractices
+    },
     { name: 'SEO', value: metrics.seo, thresholds: PERFORMANCE_CONFIG.lighthouse.seo }
   ];
   
@@ -398,7 +413,10 @@ const displayPerformanceReport = function displayPerformanceReport(metrics, regr
     const icon = evaluation === 'good' ? '✅' : 
                  evaluation === 'needs-improvement' ? '⚠️' : '❌';
     
-    console.log(`  ${icon} ${score.name.padEnd(15)} ${color(Math.round(score.value).toString().padStart(3))} (${evaluation})`);
+    console.log(
+      `  ${icon} ${score.name.padEnd(15)} ${color(Math.round(score.value).toString().padStart(3))} ` +
+      `(${evaluation})`
+    );
   });
   
   // Performance Regressions
@@ -408,7 +426,9 @@ const displayPerformanceReport = function displayPerformanceReport(metrics, regr
       const severity = regression.severity === 'high' ? chalk.red : chalk.yellow;
       const icon = regression.severity === 'high' ? '🔴' : '🟡';
       
-      console.log(`  ${icon} ${regression.metric.toUpperCase()}: ${severity(regression.change)} change`);
+      console.log(
+        `  ${icon} ${regression.metric.toUpperCase()}: ${severity(regression.change)} change`
+      );
       console.log(`     Current: ${regression.current} | Baseline: ${regression.baseline}`);
     });
   }
@@ -421,7 +441,8 @@ const displayPerformanceReport = function displayPerformanceReport(metrics, regr
       .slice(0, 5);
     
     topOpportunities.forEach((opp, index) => {
-      const savings = opp.savings > 1000 ? `${(opp.savings / 1000).toFixed(1)}s` : `${opp.savings}ms`;
+      const savings = opp.savings > 1000 ? 
+        `${(opp.savings / 1000).toFixed(1)}s` : `${opp.savings}ms`;
       console.log(`  ${index + 1}. ${opp.title} (saves ~${savings})`);
     });
   }

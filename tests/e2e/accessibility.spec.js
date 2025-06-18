@@ -277,7 +277,9 @@ test.describe('BSB Accessibility Tests', () => {
       await page.goto('/');
       
       // Look for modal triggers
-      const modalTriggers = page.locator('[data-bs-toggle="modal"], [aria-haspopup="dialog"], [data-modal]');
+      const modalTriggers = page.locator(
+        '[data-bs-toggle="modal"], [aria-haspopup="dialog"], [data-modal]'
+      );
       const triggerCount = await modalTriggers.count();
       
       if (triggerCount > 0) {
@@ -336,7 +338,9 @@ test.describe('BSB Accessibility Tests', () => {
       await page.goto('/');
       
       // Look for skip links
-      const skipLinks = page.locator('a[href^="#"]:has-text("Skip"), a[href^="#"]:has-text("Saltar")');
+      const skipLinks = page.locator(
+        'a[href^="#"]:has-text("Skip"), a[href^="#"]:has-text("Saltar")'
+      );
       const skipLinkCount = await skipLinks.count();
       
       if (skipLinkCount > 0) {

@@ -102,7 +102,7 @@ const getLastModified = function getLastModified(filePath) {
  */
 const calculatePriority = function calculatePriority(relativePath) {
   // Check predefined priorities
-  if (CONFIG.priorities[relativePath] !== undefined) {
+  if (typeof CONFIG.priorities[relativePath] !== 'undefined') {
     return CONFIG.priorities[relativePath];
   }
   
@@ -128,7 +128,8 @@ const getChangeFrequency = function getChangeFrequency(relativePath) {
 const generateAlternates = function generateAlternates(url) {
   return CONFIG.languages.map(lang => ({
     lang,
-    url: lang === CONFIG.defaultLang ? url : url.replace(CONFIG.baseUrl, `${CONFIG.baseUrl}/${lang}`)
+    url: lang === CONFIG.defaultLang ? url : 
+      url.replace(CONFIG.baseUrl, `${CONFIG.baseUrl}/${lang}`)
   }));
 }
 
@@ -162,7 +163,8 @@ const generateXml = function generateXml(urls) {
     '  ',
     '  📚 Learn More:',
     '  - Sitemaps Protocol: https://www.sitemaps.org/protocol.html',
-    '  - Google Sitemap Guidelines: https://developers.google.com/search/docs/advanced/sitemaps/overview',
+    '  - Google Sitemap Guidelines: ' +
+      'https://developers.google.com/search/docs/advanced/sitemaps/overview',
     '  ',
     '  Generated: ' + new Date().toISOString(),
     '  =============================================================================',
@@ -209,7 +211,9 @@ const main = async function() {
     
     for (const file of htmlFiles) {
       const relativePath = relative(CONFIG.distDir, file);
-      const url = `${CONFIG.baseUrl}/${relativePath}`.replace(/\\/gu, '/').replace(/index\.html$/u, '');
+      const url = `${CONFIG.baseUrl}/${relativePath}`
+        .replace(/\\/gu, '/')
+        .replace(/index\.html$/u, '');
       
       const entry = {
         loc: url,

@@ -23,7 +23,8 @@ const createSVG = (size) => `
     </linearGradient>
   </defs>
   <rect width="100" height="100" rx="20" fill="url(#gradient)"/>
-  <text x="50" y="65" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">BSB</text>
+  <text x="50" y="65" font-family="Arial, sans-serif" font-size="48" 
+        font-weight="bold" text-anchor="middle" fill="white">BSB</text>
 </svg>`;
 
 // Create simple colored rectangles as PNG placeholders
@@ -49,7 +50,8 @@ const createPlaceholderPNG = (width, height, color = '#0066cc') => {
   }
   
   // For now, create a simple data URL that we'll write as base64
-  const canvas = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==`;
+  const canvas = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ` +
+    `AAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==`;
   
   // Return a placeholder message for now
   return `Placeholder ${width}x${height} PNG`;
@@ -100,5 +102,8 @@ const faviconIco = path.join(imagesDir, 'favicon.ico');
 fs.writeFileSync(faviconIco, 'ICO placeholder file');
 console.log(`✓ Created placeholder for favicon.ico`);
 
-console.log('\n📌 Note: These are placeholder files. For production, generate proper PNG files using an image processing tool.');
+console.log(
+  '\n📌 Note: These are placeholder files. For production, generate proper PNG files ' +
+  'using an image processing tool.'
+);
 console.log('📚 Learn how to create proper icons: https://web.dev/add-manifest/');

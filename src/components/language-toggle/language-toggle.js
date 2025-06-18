@@ -395,7 +395,10 @@ class BSBLanguageToggle {
     const descriptionMeta = document.querySelector('meta[name="description"]');
     if (descriptionMeta && descriptionMeta.dataset.i18n) {
       const currentTranslations = translations[this.currentLanguage];
-      const translation = this.getNestedTranslation(currentTranslations, descriptionMeta.dataset.i18n);
+      const translation = this.getNestedTranslation(
+        currentTranslations,
+        descriptionMeta.dataset.i18n
+      );
       if (translation) {
         descriptionMeta.content = translation;
       }

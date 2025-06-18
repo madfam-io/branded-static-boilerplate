@@ -206,7 +206,10 @@ test.describe('BSB Performance Tests', () => {
       expect(cssRequests.length).toBeLessThan(5);
       expect(imageRequests.length).toBeLessThan(20);
       
-      console.log(`Resource requests - JS: ${jsRequests.length}, CSS: ${cssRequests.length}, Images: ${imageRequests.length}`);
+      console.log(
+        `Resource requests - JS: ${jsRequests.length}, CSS: ${cssRequests.length}, ` +
+        `Images: ${imageRequests.length}`
+      );
     });
   });
 
@@ -250,10 +253,14 @@ test.describe('BSB Performance Tests', () => {
         
         if (finalMemory) {
           // Memory should not increase dramatically (allow 50% increase)
-          const memoryIncrease = (finalMemory.usedJSHeapSize - initialMemory.usedJSHeapSize) / initialMemory.usedJSHeapSize;
+          const memoryIncrease = (finalMemory.usedJSHeapSize - initialMemory.usedJSHeapSize) /
+            initialMemory.usedJSHeapSize;
           expect(memoryIncrease).toBeLessThan(0.5);
           
-          console.log(`Memory usage - Initial: ${(initialMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB, Final: ${(finalMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`);
+          console.log(
+            `Memory usage - Initial: ${(initialMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB, ` +
+            `Final: ${(finalMemory.usedJSHeapSize / 1024 / 1024).toFixed(2)}MB`
+          );
         }
       }
     });
@@ -360,7 +367,10 @@ test.describe('BSB Performance Tests', () => {
       const compressionRatio = compressedResponses.length / responses.length;
       expect(compressionRatio).toBeGreaterThan(0.5);
       
-      console.log(`Compression ratio: ${(compressionRatio * 100).toFixed(1)}% (${compressedResponses.length}/${responses.length})`);
+      console.log(
+        `Compression ratio: ${(compressionRatio * 100).toFixed(1)}% ` +
+        `(${compressedResponses.length}/${responses.length})`
+      );
     });
   });
 

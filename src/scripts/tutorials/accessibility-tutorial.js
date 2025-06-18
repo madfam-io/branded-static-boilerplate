@@ -140,7 +140,7 @@ export const accessibilityTutorial = {
   }
 }`,
       js: `// Accessible notification function
-function showNotification(message, type = 'info') {
+const showNotification = function showNotification(message, type = 'info') {
   // Create notification element
   const notification = document.createElement('div');
   notification.className = \`notification notification--\${type}\`;
@@ -177,7 +177,7 @@ document.addEventListener('keydown', keyboardEvent => {
 });
 
 // Screen reader simulation
-function announceElement(element) {
+const announceElement = function announceElement(element) {
   const announcement = \`\${element.tagName.toLowerCase()}: \${element.textContent}\`;
   console.log(\`Screen reader would announce: "\${announcement}"\`);
 }
@@ -360,7 +360,7 @@ console.log('Try tabbing through the elements to see the difference!');`,
   border: 2px solid #28a745;
 }`,
       js: `// ARIA attribute demonstrations
-function checkAccessibility() {
+const checkAccessibility = function checkAccessibility() {
   const inputs = document.querySelectorAll('input');
   const buttons = document.querySelectorAll('button');
   
@@ -390,7 +390,7 @@ function checkAccessibility() {
 }
 
 // Live ARIA announcements
-function announceToScreenReader(message) {
+const announceToScreenReader = function announceToScreenReader(message) {
   const announcement = document.createElement('div');
   announcement.setAttribute('aria-live', 'polite');
   announcement.setAttribute('aria-atomic', 'true');

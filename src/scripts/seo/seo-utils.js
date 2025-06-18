@@ -422,7 +422,7 @@ export const generateBreadcrumbSchema = function generateBreadcrumbSchema(breadc
  * @param {number} score - Numeric score (0-100)
  * @returns {string} Letter grade
  */
-function getGradeFromScore(score) {
+const getGradeFromScore = function getGradeFromScore(score) {
   if (score >= 90) {
     return 'A';
   } if (score >= 80) {
@@ -434,7 +434,7 @@ function getGradeFromScore(score) {
   }
   return 'F';
 
-}
+};
 
 /**
  * Calculate comprehensive SEO score

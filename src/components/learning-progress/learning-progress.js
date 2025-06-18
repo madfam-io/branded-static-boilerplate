@@ -89,26 +89,58 @@ class BSBLearningProgress {
         name: 'HTML & Structure',
         icon: '🏗️',
         checkpoints: [
-          { id: 'semantic-html', name: 'Explored semantic HTML elements', trigger: 'view-header' },
-          { id: 'component-structure', name: 'Understood component structure', trigger: 'view-card' },
-          { id: 'accessibility-markup', name: 'Learned accessibility markup', trigger: 'view-accessibility' }
+          {
+            id: 'semantic-html',
+            name: 'Explored semantic HTML elements',
+            trigger: 'view-header'
+          },
+          {
+            id: 'component-structure',
+            name: 'Understood component structure',
+            trigger: 'view-card'
+          },
+          {
+            id: 'accessibility-markup',
+            name: 'Learned accessibility markup',
+            trigger: 'view-accessibility'
+          }
         ]
       },
       'css-styling': {
         name: 'CSS & Styling',
         icon: '🎨',
         checkpoints: [
-          { id: 'css-architecture', name: 'Understood CSS architecture', trigger: 'view-theme-toggle' },
-          { id: 'responsive-design', name: 'Mastered responsive design', trigger: 'resize-viewport' },
-          { id: 'css-variables', name: 'Used CSS custom properties', trigger: 'modify-css-vars' }
+          {
+            id: 'css-architecture',
+            name: 'Understood CSS architecture',
+            trigger: 'view-theme-toggle'
+          },
+          {
+            id: 'responsive-design',
+            name: 'Mastered responsive design',
+            trigger: 'resize-viewport'
+          },
+          {
+            id: 'css-variables',
+            name: 'Used CSS custom properties',
+            trigger: 'modify-css-vars'
+          }
         ]
       },
       'javascript': {
         name: 'JavaScript & Interactivity',
         icon: '⚡',
         checkpoints: [
-          { id: 'event-handling', name: 'Implemented event handling', trigger: 'playground-interact' },
-          { id: 'component-state', name: 'Managed component state', trigger: 'toggle-component' },
+          {
+            id: 'event-handling',
+            name: 'Implemented event handling',
+            trigger: 'playground-interact'
+          },
+          {
+            id: 'component-state',
+            name: 'Managed component state',
+            trigger: 'toggle-component'
+          },
           { id: 'es6-patterns', name: 'Applied ES6+ patterns', trigger: 'view-modern-js' }
         ]
       },
@@ -220,7 +252,8 @@ class BSBLearningProgress {
             Your Learning Journey
           </h3>
           <button class="bsb-learning-progress__toggle" aria-label="Toggle panel">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+                 stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
@@ -555,7 +588,8 @@ class BSBLearningProgress {
    */
   updateProgressBar() {
     const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
-    const progress = (this.progress.componentsExplored.size / totalComponents) * CONSTANTS.PERCENTAGE_MAX;
+    const progress = (this.progress.componentsExplored.size / totalComponents) * 
+      CONSTANTS.PERCENTAGE_MAX;
 
     const progressBar = this.element.querySelector('[data-progress-bar]');
     const progressText = this.element.querySelector('[data-progress-text]');
@@ -632,8 +666,13 @@ class BSBLearningProgress {
       const isUnlocked = this.progress.achievements.has(id);
 
       return `
-        <div class="bsb-learning-progress__badge ${isUnlocked ? 'bsb-learning-progress__badge--unlocked' : 'bsb-learning-progress__badge--locked'}">
-          <span class="bsb-learning-progress__badge-icon">${isUnlocked ? achievement.icon : '🔒'}</span>
+        <div class="bsb-learning-progress__badge ${
+          isUnlocked ? 'bsb-learning-progress__badge--unlocked' : 
+          'bsb-learning-progress__badge--locked'
+        }">
+          <span class="bsb-learning-progress__badge-icon">
+            ${isUnlocked ? achievement.icon : '🔒'}
+          </span>
           <span class="bsb-learning-progress__badge-name">${achievement.name}</span>
           <span class="bsb-learning-progress__badge-desc">${achievement.description}</span>
         </div>
@@ -764,12 +803,19 @@ class BSBLearningProgress {
         checkpoints: Array.from(this.progress.checkpoints.entries()),
         stats: {
           totalComponents: document.querySelectorAll('[data-bsb-component]').length,
-          completionPercentage: Math.round((this.progress.componentsExplored.size / document.querySelectorAll('[data-bsb-component]').length) * CONSTANTS.PERCENTAGE_MAX)
+          completionPercentage: Math.round(
+            (this.progress.componentsExplored.size / 
+             document.querySelectorAll('[data-bsb-component]').length) * 
+            CONSTANTS.PERCENTAGE_MAX
+          )
         }
       }
     };
 
-    const blob = new Blob([JSON.stringify(exportData, null, CONSTANTS.PATH_DIVISOR)], { type: 'application/json' });
+    const blob = new Blob(
+      [JSON.stringify(exportData, null, CONSTANTS.PATH_DIVISOR)],
+      { type: 'application/json' }
+    );
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement('a');

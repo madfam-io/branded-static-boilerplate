@@ -203,7 +203,7 @@ const checkBudgets = function checkBudgets(metrics) {
 
   // Check category scores
   Object.entries(PERFORMANCE_BUDGETS).forEach(([key, budget]) => {
-    if (metrics.scores[key] !== undefined) {
+    if (typeof metrics.scores[key] !== 'undefined') {
       const score = metrics.scores[key];
       const status = score >= budget ? 'passed' : 'failed';
       results[status].push({
@@ -395,7 +395,10 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
       return `
         <div class="score-card">
           <div class="score-value ${scoreClass}">${score}</div>
-          <div>${category.charAt(0).toUpperCase() + category.slice(1).replace(/([A-Z])/gu, ' $1')}</div>
+          <div>
+            ${category.charAt(0).toUpperCase() + 
+              category.slice(1).replace(/([A-Z])/gu, ' $1')}
+          </div>
         </div>
       `;
     }).join('')}
@@ -411,7 +414,9 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
     </div>
     <div class="metric-row">
       <span>Largest Contentful Paint</span>
-      <span class="${metrics.metrics.largestContentfulPaint <= 2500 ? 'metric-pass' : 'metric-fail'}">
+      <span class="${
+        metrics.metrics.largestContentfulPaint <= 2500 ? 'metric-pass' : 'metric-fail'
+      }">
         ${Math.round(metrics.metrics.largestContentfulPaint)}ms
       </span>
     </div>

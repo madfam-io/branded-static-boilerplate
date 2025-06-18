@@ -80,9 +80,18 @@ filesToProcess.forEach(filePath => {
   content = content.replace(/src="\/scripts\//gu, `src="${prefix}/scripts/`);
   
   // Documentation links - these will point to GitHub
-  content = content.replace(/href="\/docs\//gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/');
-  content = content.replace(/href="\/CONTRIBUTING\.html"/gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md"');
-  content = content.replace(/href="\/LICENSE\.html"/gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE"');
+  content = content.replace(
+    /href="\/docs\//gu,
+    'href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/'
+  );
+  content = content.replace(
+    /href="\/CONTRIBUTING\.html"/gu,
+    'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md"'
+  );
+  content = content.replace(
+    /href="\/LICENSE\.html"/gu,
+    'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE"'
+  );
   
   // Fix any remaining absolute paths we might have missed
   content = content.replace(/href="\/([^"]+)"/gu, (match, path) => {

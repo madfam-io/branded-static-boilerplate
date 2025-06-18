@@ -40,15 +40,30 @@ filesToProcess.forEach(filePath => {
   const prefix = isRootFile ? '.' : '..';
   
   // Fix CSS paths back to relative
-  content = content.replace(/href="\/branded-static-boilerplate\/styles\//gu, `href="${prefix}/styles/`);
-  content = content.replace(/href="\/branded-static-boilerplate\/components\//gu, `href="${prefix}/components/`);
+  content = content.replace(
+    /href="\/branded-static-boilerplate\/styles\//gu,
+    `href="${prefix}/styles/`
+  );
+  content = content.replace(
+    /href="\/branded-static-boilerplate\/components\//gu,
+    `href="${prefix}/components/`
+  );
   
   // Fix JS paths back to relative
-  content = content.replace(/src="\/branded-static-boilerplate\/scripts\//gu, `src="${prefix}/scripts/`);
+  content = content.replace(
+    /src="\/branded-static-boilerplate\/scripts\//gu,
+    `src="${prefix}/scripts/`
+  );
   
   // Fix asset paths back to relative (favicon)
-  content = content.replace(/href="\/branded-static-boilerplate\/assets\//gu, `href="${prefix}/assets/`);
-  content = content.replace(/src="\/branded-static-boilerplate\/assets\//gu, `src="${prefix}/assets/`);
+  content = content.replace(
+    /href="\/branded-static-boilerplate\/assets\//gu,
+    `href="${prefix}/assets/`
+  );
+  content = content.replace(
+    /src="\/branded-static-boilerplate\/assets\//gu,
+    `src="${prefix}/assets/`
+  );
   
   // Write back only if changed
   if (content !== originalContent) {
@@ -60,4 +75,6 @@ filesToProcess.forEach(filePath => {
 });
 
 console.log('\n📝 Vite path fixing complete!');
-console.log('Navigation links remain absolute for GitHub Pages, but assets use relative paths for Vite.');
+console.log(
+  'Navigation links remain absolute for GitHub Pages, but assets use relative paths for Vite.'
+);

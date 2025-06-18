@@ -364,7 +364,8 @@ class BSBSEOAnalyzer {
    */
   analyzeContent() {
     const textContent = document.body.innerText || document.body.textContent || '';
-    const words = textContent.trim().split(/\s+/u).filter(word => word.length > CONSTANTS.MIN_WORD_LENGTH);
+    const words = textContent.trim().split(/\s+/u)
+      .filter(word => word.length > CONSTANTS.MIN_WORD_LENGTH);
 
     // Calculate keyword density
     const wordFrequency = {};
@@ -382,7 +383,8 @@ class BSBSEOAnalyzer {
       .map(([word, count]) => ({
         word,
         count,
-        density: ((count / words.length) * CONSTANTS.PERCENTAGE_MAX).toFixed(CONSTANTS.DECIMAL_PLACES)
+        density: ((count / words.length) * CONSTANTS.PERCENTAGE_MAX)
+          .toFixed(CONSTANTS.DECIMAL_PLACES)
       }));
 
     return {
@@ -478,7 +480,8 @@ class BSBSEOAnalyzer {
    */
   updateInsights(insights) {
     if (insights.length === 0) {
-      this.insightsArea.innerHTML = '<li class="bsb-seo-analyzer__insight">No major issues found! 🎉</li>';
+      this.insightsArea.innerHTML = 
+        '<li class="bsb-seo-analyzer__insight">No major issues found! 🎉</li>';
       return;
     }
 

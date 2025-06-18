@@ -170,11 +170,23 @@ const checkBudget = function checkBudget(sizeKB, category) {
   const percentage = (sizeKB / budget) * 100;
   
   if (percentage <= 75) {
-    return { status: 'good', percentage, message: chalk.green(`✓ Within budget (${percentage.toFixed(1)}%)`) };
+    return {
+      status: 'good',
+      percentage,
+      message: chalk.green(`✓ Within budget (${percentage.toFixed(1)}%)`)
+    };
   } else if (percentage <= 100) {
-    return { status: 'warning', percentage, message: chalk.yellow(`⚠ Near budget limit (${percentage.toFixed(1)}%)`) };
+    return {
+      status: 'warning',
+      percentage,
+      message: chalk.yellow(`⚠ Near budget limit (${percentage.toFixed(1)}%)`)
+    };
   } else {
-    return { status: 'exceeded', percentage, message: chalk.red(`❌ Exceeds budget (${percentage.toFixed(1)}%)`) };
+    return {
+      status: 'exceeded',
+      percentage,
+      message: chalk.red(`❌ Exceeds budget (${percentage.toFixed(1)}%)`)
+    };
   }
 }
 
@@ -190,10 +202,14 @@ const generateRecommendations = function generateRecommendations(analysis) {
   const recommendations = [];
   
   // Check for large JavaScript files
-  const largeJSFiles = analysis.categories.js.files.filter(file => file.sizeKB > SIZE_THRESHOLDS.warning);
+  const largeJSFiles = analysis.categories.js.files.filter(
+    file => file.sizeKB > SIZE_THRESHOLDS.warning
+  );
   if (largeJSFiles.length > 0) {
     recommendations.push(
-      `Consider code splitting for large JS files: ${largeJSFiles.map(file => file.name).join(', ')}`
+      `Consider code splitting for large JS files: ${
+        largeJSFiles.map(file => file.name).join(', ')
+      }`
     );
   }
   
@@ -255,7 +271,10 @@ const displayReport = function displayReport(analysis) {
     const budget = checkBudget(sizeKB, category);
     const percentage = ((data.size / analysis.totalSize) * 100).toFixed(1);
     
-    console.log(`  ${category.toUpperCase().padEnd(8)} ${formatSize(data.size).padEnd(12)} (${percentage}%) ${budget.message}`);
+    console.log(
+      `  ${category.toUpperCase().padEnd(8)} ${formatSize(data.size).padEnd(12)} ` +
+      `(${percentage}%) ${budget.message}`
+    );
     
     // Show largest files in category
     const sortedFiles = data.files.sort((a, b) => b.size - a.size).slice(0, 3);
@@ -280,7 +299,10 @@ const displayReport = function displayReport(analysis) {
     const actualSize = category === 'total' ? totalSizeKB : (categoryData?.size || 0) / 1024;
     const budgetCheck = checkBudget(actualSize, category);
     
-    console.log(`  ${category.toUpperCase().padEnd(8)} ${actualSize.toFixed(1)}KB / ${budget}KB ${budgetCheck.message}`);
+    console.log(
+      `  ${category.toUpperCase().padEnd(8)} ${actualSize.toFixed(1)}KB / ` +
+      `${budget}KB ${budgetCheck.message}`
+    );
   });
   
   // Recommendations
@@ -300,7 +322,10 @@ const displayReport = function displayReport(analysis) {
   largestFiles.forEach((file, index) => {
     const indicator = file.sizeKB > SIZE_THRESHOLDS.error ? '🔴' : 
                      file.sizeKB > SIZE_THRESHOLDS.warning ? '🟡' : '🟢';
-    console.log(`  ${(index + 1).toString().padStart(2)}. ${indicator} ${file.path.padEnd(40)} ${formatSize(file.size)}`);
+    console.log(
+      `  ${(index + 1).toString().padStart(2)}. ${indicator} ` +
+      `${file.path.padEnd(40)} ${formatSize(file.size)}`
+    );
   });
   
   console.log(chalk.cyan('\n=' .repeat(50)));

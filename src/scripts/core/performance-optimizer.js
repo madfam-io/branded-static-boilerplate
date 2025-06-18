@@ -786,7 +786,7 @@ class PerformanceOptimizer {
    */
   updateMetric(metricName, value, unit, thresholds = null) {
     const element = document.querySelector(`[data-metric="${metricName}"]`);
-    if (!element || value === undefined) {
+    if (!element || typeof value === 'undefined') {
       return;
     }
 
