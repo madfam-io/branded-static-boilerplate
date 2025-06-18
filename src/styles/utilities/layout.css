@@ -2,21 +2,21 @@
   =============================================================================
   BSB LAYOUT UTILITIES - Building Blocks for Page Structure
   =============================================================================
-  
+
   These utilities provide common layout patterns and helpers for creating
   responsive, flexible layouts without writing custom CSS.
-  
+
   🎯 Features:
   - Container system for consistent widths
   - Flexbox utilities for alignment
   - Grid system for complex layouts
   - Display and position helpers
-  
+
   📚 Learn More:
   - Layout Guide: /docs/tutorials/layout-system.md
   - CSS Grid: https://css-tricks.com/snippets/css/complete-guide-grid/
   - Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-  
+
   💡 Pro Tips:
   - Start with mobile layout, enhance for larger screens
   - Use semantic HTML before adding layout utilities
@@ -24,7 +24,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Container
   =========
   Centers content and provides consistent max-widths.
@@ -84,7 +84,7 @@
   max-width: 100%;
 }
 
-/* 
+/*
   Section
   ========
   Consistent vertical spacing for page sections
@@ -130,7 +130,7 @@
   margin-top: var(--bsb-space-8);
 }
 
-/* 
+/*
   Display Utilities
   =================
   Control how elements are displayed
@@ -169,7 +169,7 @@
   .lg\:hidden { display: none; }
 }
 
-/* 
+/*
   Flexbox Utilities
   =================
   Create flexible layouts with proper alignment
@@ -218,7 +218,7 @@
 .flex-shrink { flex-shrink: 1; }
 .flex-shrink-0 { flex-shrink: 0; }
 
-/* 
+/*
   Grid Utilities
   ==============
   Create responsive grid layouts
@@ -286,7 +286,7 @@
   gap: var(--bsb-space-6);
 }
 
-/* 
+/*
   Position Utilities
   ==================
   Control element positioning
@@ -306,7 +306,7 @@
 .bottom-0 { bottom: 0; }
 .left-0 { left: 0; }
 
-/* 
+/*
   Width and Height
   ================
   Common sizing utilities
@@ -339,7 +339,7 @@
 .max-w-full { max-width: 100%; }
 .max-w-prose { max-width: 65ch; }
 
-/* 
+/*
   Overflow
   ========
   Control content overflow
@@ -353,7 +353,7 @@
 .overflow-x-hidden { overflow-x: hidden; }
 .overflow-y-hidden { overflow-y: hidden; }
 
-/* 
+/*
   Z-Index
   =======
   Control stacking order
@@ -366,7 +366,7 @@
 .z-50 { z-index: var(--bsb-z-50); }
 .z-auto { z-index: auto; }
 
-/* 
+/*
   Text Alignment
   ==============
 */
@@ -375,14 +375,14 @@
 .text-right { text-align: right; }
 .text-justify { text-align: justify; }
 
-/* 
+/*
   Visibility
   ==========
 */
 .visible { visibility: visible; }
 .invisible { visibility: hidden; }
 
-/* 
+/*
   Aspect Ratio
   ============
   Maintain consistent aspect ratios for media

@@ -2,16 +2,16 @@
   =============================================================================
   BSB CARD COMPONENT STYLES
   =============================================================================
-  
+
   Flexible card component with multiple variants.
   Cards are perfect for organizing content into digestible chunks.
-  
+
   🎯 Features:
   - Multiple layout options
   - Hover effects
   - Responsive design
   - Image support
-  
+
   📚 Customization:
   - Override CSS variables for spacing/colors
   - Add custom hover effects
@@ -20,7 +20,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Base Card Styles
   ================
 */
@@ -31,7 +31,7 @@
   --bsb-card-shadow: var(--bsb-shadow-base);
   --bsb-card-radius: var(--bsb-radius-lg);
   --bsb-card-hover-shadow: var(--bsb-shadow-lg);
-  
+
   display: flex;
   flex-direction: column;
   background-color: var(--bsb-card-bg);
@@ -56,7 +56,7 @@
   }
 }
 
-/* 
+/*
   Card Image
   ==========
 */
@@ -89,7 +89,7 @@
   aspect-ratio: 1;
 }
 
-/* 
+/*
   Card Body
   =========
 */
@@ -103,7 +103,7 @@
   padding-top: var(--bsb-space-4);
 }
 
-/* 
+/*
   Card Icon
   =========
 */
@@ -127,7 +127,7 @@
   border-radius: var(--bsb-radius-lg);
 }
 
-/* 
+/*
   Card Title
   ==========
 */
@@ -145,7 +145,7 @@
   font-size: var(--bsb-text-lg);
 }
 
-/* 
+/*
   Card Text
   =========
 */
@@ -156,7 +156,7 @@
   color: var(--bsb-text-secondary);
 }
 
-/* 
+/*
   Card Meta
   =========
   For dates, categories, etc.
@@ -176,7 +176,7 @@
   border-radius: var(--bsb-radius-full);
 }
 
-/* 
+/*
   Card Footer
   ===========
 */
@@ -186,7 +186,7 @@
   background-color: var(--bsb-bg-secondary);
 }
 
-/* 
+/*
   Card Link
   =========
 */
@@ -214,7 +214,7 @@
   transform: translateX(4px);
 }
 
-/* 
+/*
   Card Variants
   =============
 */
@@ -239,7 +239,7 @@
   .bsb-card--horizontal {
     flex-direction: column;
   }
-  
+
   .bsb-card--horizontal .bsb-card__image {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -300,7 +300,7 @@
   color: var(--bsb-primary);
 }
 
-/* 
+/*
   Card Grid Layouts
   =================
   Use with grid utilities
@@ -326,7 +326,7 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
-/* 
+/*
   Dark Mode Support
   =================
 */

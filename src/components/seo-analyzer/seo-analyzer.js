@@ -161,7 +161,7 @@ class BSBSEOAnalyzer {
     const deviceToggles = this.element.querySelectorAll('[data-device-toggle]');
     deviceToggles.forEach(toggle => {
       toggle.addEventListener('click', () => {
-        deviceToggles.forEach(t => t.classList.remove('active'));
+        deviceToggles.forEach(deviceToggle => deviceToggle.classList.remove('active'));
         toggle.classList.add('active');
         // In a real implementation, adjust preview for device
       });
@@ -205,7 +205,7 @@ class BSBSEOAnalyzer {
    * Analyze current page
    * @method analyzePage
    */
-  async analyzePage() {
+  analyzePage() {
     // Show loading state
     this.scoreMessage.textContent = 'Analyzing page...';
 

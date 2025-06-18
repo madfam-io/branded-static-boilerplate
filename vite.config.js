@@ -9,15 +9,15 @@ import { readdirSync, copyFileSync, mkdirSync } from 'fs';
 // Get all HTML files in src and src/pages
 const getHtmlEntries = () => {
   const entries = {};
-  
+
   // Add index.html
   entries.main = resolve(__dirname, 'src/index.html');
-  
+
   // Add all pages
   try {
     const pagesDir = resolve(__dirname, 'src/pages');
     const pageFiles = readdirSync(pagesDir).filter(file => file.endsWith('.html'));
-    
+
     pageFiles.forEach(file => {
       const name = file.replace('.html', '');
       entries[name] = resolve(pagesDir, file);
@@ -25,14 +25,14 @@ const getHtmlEntries = () => {
   } catch (e) {
     // Pages directory might not exist yet
   }
-  
+
   return entries;
 };
 
 export default defineConfig({
   root: 'src',
   base: '/branded-static-boilerplate/',
-  
+
   build: {
     outDir: '../dist',
     emptyOutDir: true,
@@ -40,7 +40,7 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV === 'development',
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
-    
+
     rollupOptions: {
       input: getHtmlEntries(),
       output: {
@@ -62,20 +62,20 @@ export default defineConfig({
         },
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
-        
+
         // Manual chunk splitting for optimal loading
         manualChunks(id) {
           // Only create vendor chunk if there are actual node_modules
           if (id.includes('node_modules')) {
             return 'vendor';
           }
-          
+
           // Don't create separate chunks for small modules
           // Let Vite handle automatic chunking based on imports
           return null;
         }
       },
-      
+
       // Optimize tree shaking
       treeshake: {
         moduleSideEffects: false,
@@ -83,7 +83,7 @@ export default defineConfig({
         tryCatchDeoptimization: false
       }
     },
-    
+
     // Minification settings
     minify: 'terser',
     terserOptions: {
@@ -102,17 +102,17 @@ export default defineConfig({
         preserve_annotations: true
       }
     },
-    
+
     // CSS code splitting
     cssCodeSplit: true,
-    
+
     // Asset inlining threshold (4kb)
     assetsInlineLimit: 4096,
-    
+
     // Enable rollup watcher for better rebuilds
     watch: process.env.NODE_ENV === 'development' ? {} : null
   },
-  
+
   plugins: [
     // HTML optimization
     createHtmlPlugin({
@@ -128,7 +128,7 @@ export default defineConfig({
         minifyJS: true
       }
     }),
-    
+
     // Gzip compression
     viteCompression({
       verbose: true,
@@ -137,7 +137,7 @@ export default defineConfig({
       algorithm: 'gzip',
       ext: '.gz'
     }),
-    
+
     // Brotli compression for modern browsers
     viteCompression({
       verbose: true,
@@ -146,7 +146,7 @@ export default defineConfig({
       algorithm: 'brotliCompress',
       ext: '.br'
     }),
-    
+
     // Image optimization
     ViteImageOptimizer({
       png: {
@@ -174,7 +174,7 @@ export default defineConfig({
         ]
       }
     }),
-    
+
     // Bundle visualization (only in analyze mode)
     process.env.ANALYZE && visualizer({
       open: true,
@@ -185,7 +185,7 @@ export default defineConfig({
       title: 'BSB Bundle Analysis',
       projectRoot: process.cwd()
     }),
-    
+
     // Copy static files plugin
     {
       name: 'copy-static-files',
@@ -202,7 +202,7 @@ export default defineConfig({
         } catch (err) {
           console.error('Failed to copy robots.txt:', err);
         }
-        
+
         // Copy manifest.json
         try {
           copyFileSync(
@@ -215,7 +215,7 @@ export default defineConfig({
         } catch (err) {
           console.error('Failed to copy manifest.json:', err);
         }
-        
+
         // Copy icon files
         const iconFiles = [
           'icon-192.png',
@@ -223,12 +223,12 @@ export default defineConfig({
           'playground-icon.png',
           'components-icon.png'
         ];
-        
+
         try {
           // Create assets/images directory if it doesn't exist
           const imagesDir = resolve(__dirname, 'dist/assets/images');
           mkdirSync(imagesDir, { recursive: true });
-          
+
           iconFiles.forEach(file => {
             try {
               copyFileSync(
@@ -248,7 +248,7 @@ export default defineConfig({
       }
     }
   ].filter(Boolean),
-  
+
   // Optimize dependencies
   optimizeDeps: {
     include: [
@@ -258,7 +258,7 @@ export default defineConfig({
       // Exclude dependencies that should be loaded dynamically
     ]
   },
-  
+
   server: {
     port: 3000,
     open: true,
@@ -276,12 +276,12 @@ export default defineConfig({
       ]
     }
   },
-  
+
   preview: {
     port: 4000,
     open: true
   },
-  
+
   // CSS optimization
   css: {
     postcss: './postcss.config.js',
@@ -292,14 +292,14 @@ export default defineConfig({
     // Extract CSS for better caching
     extract: true
   },
-  
+
   // Define global constants
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
     '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
     '__VERSION__': JSON.stringify(process.env.npm_package_version)
   },
-  
+
   // Worker optimization
   worker: {
     format: 'es',

@@ -2,17 +2,17 @@
  * =============================================================================
  * LEARNING PROGRESS TRACKER STYLES
  * =============================================================================
- * 
+ *
  * Styles for the learning progress tracker that visualizes a user's journey
  * through the BSB codebase, creating a gamified meta-learning experience.
- * 
+ *
  * Design Principles:
  * - Clear visual hierarchy for progress tracking
  * - Motivating color scheme with achievement feel
  * - Smooth animations for state changes
  * - Responsive layout for all devices
  * - Accessible contrast ratios
- * 
+ *
  * Visual Language:
  * - Progress bars for quantitative feedback
  * - Checkboxes for discrete achievements
@@ -473,11 +473,11 @@
     right: var(--bsb-space-4, 1rem);
     bottom: var(--bsb-space-4, 1rem);
   }
-  
+
   .bsb-learning-progress__stats {
     grid-template-columns: 1fr;
   }
-  
+
   .bsb-learning-progress__badges {
     grid-template-columns: repeat(3, 1fr);
   }

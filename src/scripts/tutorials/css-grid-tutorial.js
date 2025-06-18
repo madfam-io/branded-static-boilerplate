@@ -47,14 +47,14 @@ console.log('Grid container created!');`,
       explanation: `
         <h3>Grid Container Basics</h3>
         <p>CSS Grid is a powerful layout system that allows you to create complex layouts with ease.</p>
-        
+
         <h4>Key Properties:</h4>
         <ul>
           <li><code>display: grid</code> - Creates a grid container</li>
           <li><code>grid-template-columns</code> - Defines column sizes</li>
           <li><code>grid-gap</code> - Sets spacing between grid items</li>
         </ul>
-        
+
         <h4>Try This:</h4>
         <p>Change <code>repeat(3, 1fr)</code> to <code>200px 1fr 100px</code> to see different column sizes!</p>
       `,
@@ -90,8 +90,8 @@ console.log('Grid container created!');`,
   border-radius: 8px;
 }
 
-.header { 
-  grid-area: header; 
+.header {
+  grid-area: header;
   background: #28a745;
   color: white;
   padding: 20px;
@@ -99,24 +99,24 @@ console.log('Grid container created!');`,
   border-radius: 4px;
 }
 
-.sidebar { 
-  grid-area: sidebar; 
+.sidebar {
+  grid-area: sidebar;
   background: #ffc107;
   color: black;
   padding: 20px;
   border-radius: 4px;
 }
 
-.content { 
-  grid-area: content; 
+.content {
+  grid-area: content;
   background: #007bff;
   color: white;
   padding: 20px;
   border-radius: 4px;
 }
 
-.footer { 
-  grid-area: footer; 
+.footer {
+  grid-area: footer;
   background: #6c757d;
   color: white;
   padding: 20px;
@@ -134,14 +134,14 @@ areas.forEach(area => {
       explanation: `
         <h3>Grid Template Areas</h3>
         <p>Named grid areas make layouts more semantic and easier to understand.</p>
-        
+
         <h4>Benefits:</h4>
         <ul>
           <li>Visual representation in CSS</li>
           <li>Easy to rearrange layouts</li>
           <li>More readable code</li>
         </ul>
-        
+
         <h4>Try This:</h4>
         <p>Rearrange the areas in <code>grid-template-areas</code> to change the layout!</p>
       `,
@@ -231,9 +231,9 @@ window.addEventListener('resize', () => {
     const grid = document.querySelector('.responsive-grid');
     const computedStyle = window.getComputedStyle(grid);
     const columns = computedStyle.gridTemplateColumns.split(' ').length;
-    
+
     console.log(\`Current grid has \${columns} columns\`);
-    
+
     // Visual feedback
     const cards = document.querySelectorAll('.card');
     cards.forEach((card, index) => {
@@ -251,14 +251,14 @@ window.dispatchEvent(new Event('resize'));`,
       explanation: `
         <h3>Responsive Grid Magic</h3>
         <p>CSS Grid provides powerful responsive features without media queries!</p>
-        
+
         <h4>Key Functions:</h4>
         <ul>
           <li><code>auto-fit</code> - Fills available space</li>
           <li><code>auto-fill</code> - Creates empty columns if space available</li>
           <li><code>minmax()</code> - Sets minimum and maximum sizes</li>
         </ul>
-        
+
         <h4>Try This:</h4>
         <p>Change <code>auto-fit</code> to <code>auto-fill</code> and resize the window to see the difference!</p>
       `,

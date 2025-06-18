@@ -2,16 +2,16 @@
   =============================================================================
   BSB HEADER COMPONENT STYLES
   =============================================================================
-  
+
   Responsive header with mobile menu support.
   Uses CSS custom properties for easy customization.
-  
+
   🎯 Features:
   - Sticky header option
   - Mobile-first responsive design
   - Smooth transitions
   - Accessible focus states
-  
+
   📚 Customization:
   - Change --bsb-header-height for different header sizes
   - Modify --bsb-header-bg for background color
@@ -19,7 +19,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Header Container
   ================
 */
@@ -28,7 +28,7 @@
   --bsb-header-bg: var(--bsb-bg-primary);
   --bsb-header-shadow: var(--bsb-shadow-sm);
   --bsb-header-border: var(--bsb-border-color);
-  
+
   position: relative;
   background-color: var(--bsb-header-bg);
   border-bottom: 1px solid var(--bsb-header-border);
@@ -42,7 +42,7 @@
   top: 0;
 }
 
-/* 
+/*
   Header Inner Container
   ======================
   Flexbox layout for logo and navigation
@@ -55,7 +55,7 @@
   padding: var(--bsb-space-2) 0;
 }
 
-/* 
+/*
   Brand/Logo Area
   ===============
 */
@@ -90,7 +90,7 @@
   width: auto;
 }
 
-/* 
+/*
   Navigation
   ==========
 */
@@ -106,7 +106,7 @@
   }
 }
 
-/* 
+/*
   Menu List
   =========
 */
@@ -119,7 +119,7 @@
   list-style: none;
 }
 
-/* 
+/*
   Menu Links
   ==========
 */
@@ -152,7 +152,7 @@
   background-color: var(--bsb-bg-secondary);
 }
 
-/* 
+/*
   Header Actions
   ==============
   Container for theme toggle and mobile menu toggle
@@ -164,7 +164,7 @@
   flex-shrink: 0;
 }
 
-/* 
+/*
   Mobile Menu Toggle
   ==================
   Hamburger menu button for mobile
@@ -205,7 +205,7 @@
   border-radius: var(--bsb-radius-base);
 }
 
-/* 
+/*
   Hamburger Icon
   ==============
   Three animated lines
@@ -255,7 +255,7 @@
   transform: translateY(50%) rotate(-45deg);
 }
 
-/* 
+/*
   Mobile Menu Styles
   ==================
   Full-screen overlay on mobile
@@ -272,12 +272,12 @@
     transition: transform var(--bsb-transition-base);
     overflow-y: auto;
   }
-  
+
   /* Show mobile menu when active */
   .bsb-header__nav--active {
     transform: translateX(0);
   }
-  
+
   /* Mobile menu list */
   .bsb-header__menu {
     flex-direction: column;
@@ -285,7 +285,7 @@
     width: 100%;
     gap: var(--bsb-space-1);
   }
-  
+
   /* Mobile menu links */
   .bsb-header__link {
     display: block;
@@ -294,7 +294,7 @@
   }
 }
 
-/* 
+/*
   Dropdown Menu Support
   ====================
   For future enhancement

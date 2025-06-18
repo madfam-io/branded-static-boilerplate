@@ -2,17 +2,17 @@
  * =============================================================================
  * SOURCE VIEWER COMPONENT STYLES
  * =============================================================================
- * 
+ *
  * Styles for the meta-learning source code viewer that reveals component
  * implementation details for educational purposes.
- * 
+ *
  * Design Principles:
  * - High contrast for code readability
  * - Clear visual hierarchy
  * - Responsive layout for all screen sizes
  * - Smooth animations for better UX
  * - Accessible color schemes
- * 
+ *
  * CSS Architecture:
  * - BEM naming convention for maintainability
  * - CSS custom properties for theming
@@ -37,7 +37,7 @@
   flex-direction: column;
   opacity: 0;
   visibility: hidden;
-  transition: 
+  transition:
     opacity 0.3s ease,
     transform 0.3s ease,
     visibility 0.3s ease;
@@ -62,7 +62,7 @@
   backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
-  transition: 
+  transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
   z-index: 9999;
@@ -475,47 +475,47 @@
     height: 90vh;
     max-width: none;
   }
-  
+
   .bsb-source-viewer__header {
     padding: var(--bsb-space-3, 0.75rem);
   }
-  
+
   .bsb-source-viewer__title {
     font-size: var(--bsb-text-base, 1rem);
   }
-  
+
   .bsb-source-viewer__subtitle {
     display: none;
   }
-  
+
   .bsb-source-viewer__tabs {
     padding: 0 var(--bsb-space-3, 0.75rem);
   }
-  
+
   .bsb-source-viewer__tab {
     padding: var(--bsb-space-2, 0.5rem) var(--bsb-space-3, 0.75rem);
   }
-  
+
   .bsb-source-viewer__tab-icon {
     font-size: 1rem;
   }
-  
+
   .bsb-source-viewer__code-header,
   .bsb-source-viewer__code,
   .bsb-source-viewer__info {
     padding: var(--bsb-space-3, 0.75rem);
   }
-  
+
   .bsb-source-viewer__footer {
     flex-direction: column;
     gap: var(--bsb-space-3, 0.75rem);
     padding: var(--bsb-space-3, 0.75rem);
   }
-  
+
   .bsb-source-viewer__learning-tip {
     text-align: center;
   }
-  
+
   .bsb-source-viewer__footer-actions {
     width: 100%;
     justify-content: center;

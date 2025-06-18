@@ -1,7 +1,7 @@
 /**
  * Component Accessibility Tests
  * =============================
- * 
+ *
  * Comprehensive accessibility testing for all BSB components.
  * Tests WCAG 2.1 AA compliance and screen reader compatibility.
  */
@@ -19,10 +19,10 @@ describe('Component Accessibility', () => {
           </div>
         </article>
       `;
-      
+
       createMockDocument(cardHtml);
       const card = document.querySelector('.bsb-card');
-      
+
       await testAccessibility(card);
     });
 
@@ -38,10 +38,10 @@ describe('Component Accessibility', () => {
           </div>
         </article>
       `;
-      
+
       createMockDocument(cardWithMediaHtml);
       const card = document.querySelector('.bsb-card');
-      
+
       await testAccessibility(card);
     });
 
@@ -57,10 +57,10 @@ describe('Component Accessibility', () => {
           </div>
         </article>
       `;
-      
+
       createMockDocument(cardWithActionHtml);
       const card = document.querySelector('.bsb-card');
-      
+
       await testAccessibility(card);
     });
 
@@ -73,10 +73,10 @@ describe('Component Accessibility', () => {
           </div>
         </article>
       `;
-      
+
       createMockDocument(cardHtml);
       const heading = document.querySelector('.bsb-card__title');
-      
+
       expect(heading.tagName.toLowerCase()).toBe('h3');
       expect(heading.textContent).toBeTruthy();
     });
@@ -90,10 +90,10 @@ describe('Component Accessibility', () => {
           </div>
         </article>
       `;
-      
+
       createMockDocument(cardHtml);
       const card = document.querySelector('.bsb-card');
-      
+
       expect(card.tagName.toLowerCase()).toBe('article');
       expect(card.querySelector('h3')).toBeTruthy();
     });
@@ -111,10 +111,10 @@ describe('Component Accessibility', () => {
           </div>
         </section>
       `;
-      
+
       createMockDocument(heroHtml);
       const hero = document.querySelector('.bsb-hero');
-      
+
       await testAccessibility(hero);
     });
 
@@ -133,10 +133,10 @@ describe('Component Accessibility', () => {
           </div>
         </section>
       `;
-      
+
       createMockDocument(heroWithActionsHtml);
       const hero = document.querySelector('.bsb-hero');
-      
+
       await testAccessibility(hero);
     });
 
@@ -151,10 +151,10 @@ describe('Component Accessibility', () => {
           </div>
         </section>
       `;
-      
+
       createMockDocument(heroHtml);
       const h1Elements = document.querySelectorAll('h1');
-      
+
       expect(h1Elements).toHaveLength(1);
       expect(h1Elements[0].textContent).toBe('Main Page Title');
     });
@@ -169,10 +169,10 @@ describe('Component Accessibility', () => {
           </div>
         </section>
       `;
-      
+
       createMockDocument(heroHtml);
       const hero = document.querySelector('.bsb-hero');
-      
+
       expect(hero.tagName.toLowerCase()).toBe('section');
     });
   });
@@ -193,8 +193,8 @@ describe('Component Accessibility', () => {
                   <li><a href="/contact" class="bsb-header__link">Contact</a></li>
                 </ul>
               </nav>
-              <button class="bsb-header__toggle" 
-                      aria-label="Toggle navigation" 
+              <button class="bsb-header__toggle"
+                      aria-label="Toggle navigation"
                       aria-expanded="false">
                 <span class="bsb-header__toggle-icon">☰</span>
               </button>
@@ -202,10 +202,10 @@ describe('Component Accessibility', () => {
           </div>
         </header>
       `;
-      
+
       createMockDocument(headerHtml);
       const header = document.querySelector('.bsb-header');
-      
+
       await testAccessibility(header);
     });
 
@@ -219,11 +219,11 @@ describe('Component Accessibility', () => {
           </nav>
         </header>
       `;
-      
+
       createMockDocument(headerHtml);
       const header = document.querySelector('.bsb-header');
       const nav = document.querySelector('.bsb-header__nav');
-      
+
       expect(header.getAttribute('role')).toBe('banner');
       expect(nav.getAttribute('aria-label')).toBe('Main navigation');
     });
@@ -231,8 +231,8 @@ describe('Component Accessibility', () => {
     test('should have accessible mobile toggle button', () => {
       const headerHtml = `
         <header class="bsb-header" data-bsb-component="header">
-          <button class="bsb-header__toggle" 
-                  aria-label="Toggle navigation menu" 
+          <button class="bsb-header__toggle"
+                  aria-label="Toggle navigation menu"
                   aria-expanded="false"
                   aria-controls="main-nav">
             <span class="bsb-header__toggle-icon">☰</span>
@@ -242,10 +242,10 @@ describe('Component Accessibility', () => {
           </nav>
         </header>
       `;
-      
+
       createMockDocument(headerHtml);
       const toggleButton = document.querySelector('.bsb-header__toggle');
-      
+
       expect(toggleButton.getAttribute('aria-label')).toBeTruthy();
       expect(toggleButton.getAttribute('aria-expanded')).toBe('false');
       expect(toggleButton.getAttribute('aria-controls')).toBe('main-nav');
@@ -269,10 +269,10 @@ describe('Component Accessibility', () => {
           </div>
         </footer>
       `;
-      
+
       createMockDocument(footerHtml);
       const footer = document.querySelector('.bsb-footer');
-      
+
       await testAccessibility(footer);
     });
 
@@ -303,10 +303,10 @@ describe('Component Accessibility', () => {
           </div>
         </footer>
       `;
-      
+
       createMockDocument(footerWithNavHtml);
       const footer = document.querySelector('.bsb-footer');
-      
+
       await testAccessibility(footer);
     });
 
@@ -316,10 +316,10 @@ describe('Component Accessibility', () => {
           <p>Footer content</p>
         </footer>
       `;
-      
+
       createMockDocument(footerHtml);
       const footer = document.querySelector('.bsb-footer');
-      
+
       expect(footer.getAttribute('role')).toBe('contentinfo');
     });
   });
@@ -330,37 +330,37 @@ describe('Component Accessibility', () => {
         <form data-bsb-validate>
           <div class="form-group">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" 
-                   id="email" 
-                   class="form-input" 
-                   required 
+            <input type="email"
+                   id="email"
+                   class="form-input"
+                   required
                    aria-describedby="email-help">
             <div id="email-help" class="form-help">
               We'll never share your email with anyone else.
             </div>
           </div>
-          
+
           <div class="form-group">
             <label for="message" class="form-label">Message</label>
-            <textarea id="message" 
-                      class="form-textarea" 
-                      rows="4" 
+            <textarea id="message"
+                      class="form-textarea"
+                      rows="4"
                       required
                       aria-describedby="message-help"></textarea>
             <div id="message-help" class="form-help">
               Please provide details about your inquiry.
             </div>
           </div>
-          
+
           <button type="submit" class="btn btn--primary">
             Send Message
           </button>
         </form>
       `;
-      
+
       createMockDocument(formHtml);
       const form = document.querySelector('form');
-      
+
       await testAccessibility(form);
     });
 
@@ -371,11 +371,11 @@ describe('Component Accessibility', () => {
           <input type="text" id="username" class="form-input" required>
         </form>
       `;
-      
+
       createMockDocument(formHtml);
       const label = document.querySelector('label');
       const input = document.querySelector('input');
-      
+
       expect(label.getAttribute('for')).toBe('username');
       expect(input.getAttribute('id')).toBe('username');
     });
@@ -385,28 +385,28 @@ describe('Component Accessibility', () => {
         <form>
           <div class="form-group form-group--error">
             <label for="email-error" class="form-label">Email</label>
-            <input type="email" 
-                   id="email-error" 
-                   class="form-input form-input--error" 
+            <input type="email"
+                   id="email-error"
+                   class="form-input form-input--error"
                    aria-invalid="true"
                    aria-describedby="email-error-message">
-            <div id="email-error-message" 
-                 class="form-error" 
+            <div id="email-error-message"
+                 class="form-error"
                  role="alert">
               Please enter a valid email address.
             </div>
           </div>
         </form>
       `;
-      
+
       createMockDocument(formWithErrorHtml);
       const formGroup = document.querySelector('.form-group--error');
-      
+
       await testAccessibility(formGroup);
-      
+
       const input = document.querySelector('.form-input--error');
       const errorMessage = document.querySelector('.form-error');
-      
+
       expect(input.getAttribute('aria-invalid')).toBe('true');
       expect(errorMessage.getAttribute('role')).toBe('alert');
     });
@@ -419,12 +419,12 @@ describe('Component Accessibility', () => {
         <header>Header content</header>
         <main id="main">Main content</main>
       `;
-      
+
       createMockDocument(pageHtml);
       const skipLink = document.querySelector('.skip-link');
-      
+
       await testAccessibility(skipLink);
-      
+
       expect(skipLink.getAttribute('href')).toBe('#main');
       expect(skipLink.textContent).toBe('Skip to main content');
     });
@@ -446,15 +446,15 @@ describe('Component Accessibility', () => {
           <a href="/action">Call to Action</a>
         </main>
       `;
-      
+
       createMockDocument(pageHtml);
-      
+
       const focusableElements = document.querySelectorAll(
         'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
       );
-      
+
       expect(focusableElements.length).toBeGreaterThan(0);
-      
+
       // First focusable element should be skip link
       expect(focusableElements[0].classList.contains('skip-link')).toBe(true);
     });
@@ -471,18 +471,18 @@ describe('Component Accessibility', () => {
           <a href="#" style="color: #007bff;">Link text</a>
         </div>
       `;
-      
+
       createMockDocument(contentHtml);
-      
+
       // Verify elements exist for contrast testing
       const heading = document.querySelector('h1');
       const paragraph = document.querySelector('p');
       const link = document.querySelector('a');
-      
+
       expect(heading).toBeTruthy();
       expect(paragraph).toBeTruthy();
       expect(link).toBeTruthy();
-      
+
       // In a real test, you would use axe-core to check actual contrast ratios
     });
   });

@@ -253,13 +253,13 @@ class BSBLearningProgress {
             Your Learning Journey
           </h3>
           <button class="bsb-learning-progress__toggle" aria-label="Toggle panel">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" 
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
         </header>
-        
+
         <div class="bsb-learning-progress__content">
           <!-- Content sections will be dynamically populated -->
         </div>
@@ -900,7 +900,7 @@ class BSBLearningProgress {
           align-items: center;
           justify-content: center;
         }
-        
+
         .learning-progress__confirm-backdrop {
           position: absolute;
           top: 0;
@@ -909,7 +909,7 @@ class BSBLearningProgress {
           height: 100%;
           background: rgba(0, 0, 0, 0.5);
         }
-        
+
         .learning-progress__confirm-content {
           position: relative;
           background: var(--bsb-bg-primary, white);
@@ -919,25 +919,25 @@ class BSBLearningProgress {
           max-width: 400px;
           width: 90%;
         }
-        
+
         .learning-progress__confirm-content h3 {
           margin: 0 0 12px 0;
           font-size: 1.25rem;
           color: var(--bsb-text-primary, #333);
         }
-        
+
         .learning-progress__confirm-content p {
           margin: 0 0 20px 0;
           color: var(--bsb-text-secondary, #666);
           line-height: 1.5;
         }
-        
+
         .learning-progress__confirm-actions {
           display: flex;
           gap: 12px;
           justify-content: flex-end;
         }
-        
+
         .learning-progress__confirm-cancel,
         .learning-progress__confirm-reset {
           padding: 8px 16px;
@@ -947,23 +947,23 @@ class BSBLearningProgress {
           cursor: pointer;
           transition: all 0.2s ease;
         }
-        
+
         .learning-progress__confirm-cancel {
           background: transparent;
           border-color: var(--bsb-border-color, #ccc);
           color: var(--bsb-text-secondary, #666);
         }
-        
+
         .learning-progress__confirm-cancel:hover {
           background: var(--bsb-bg-secondary, #f5f5f5);
         }
-        
+
         .learning-progress__confirm-reset {
           background: var(--bsb-error, #dc3545);
           border-color: var(--bsb-error, #dc3545);
           color: white;
         }
-        
+
         .learning-progress__confirm-reset:hover {
           background: #c82333;
           border-color: #c82333;

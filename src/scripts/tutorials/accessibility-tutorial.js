@@ -147,10 +147,10 @@ const showNotification = function showNotification(message, type = 'info') {
   notification.setAttribute('role', 'alert');
   notification.setAttribute('aria-live', 'polite');
   notification.textContent = message;
-  
+
   // Add to page
   document.body.appendChild(notification);
-  
+
   // Remove after 3 seconds
   setTimeout(() => {
     notification.remove();
@@ -190,7 +190,7 @@ console.log('Try tabbing through the elements to see the difference!');`,
       explanation: `
         <h3>Semantic HTML is the Foundation</h3>
         <p>Using the right HTML elements provides built-in accessibility features.</p>
-        
+
         <h4>Benefits of Semantic HTML:</h4>
         <ul>
           <li><strong>Keyboard Navigation:</strong> Buttons are focusable by default</li>
@@ -198,7 +198,7 @@ console.log('Try tabbing through the elements to see the difference!');`,
           <li><strong>Built-in Interactions:</strong> Enter/Space key support</li>
           <li><strong>Better SEO:</strong> Search engines understand structure</li>
         </ul>
-        
+
         <h4>Key Elements:</h4>
         <ul>
           <li><code>&lt;button&gt;</code> for interactive actions</li>
@@ -221,7 +221,7 @@ console.log('Try tabbing through the elements to see the difference!');`,
       description: 'Enhance accessibility with ARIA attributes',
       html: `<div class="aria-demo">
   <h2>Form Examples</h2>
-  
+
   <!-- Bad: No labels -->
   <div class="form-section bad">
     <h3>❌ Without ARIA</h3>
@@ -229,36 +229,36 @@ console.log('Try tabbing through the elements to see the difference!');`,
     <input type="email" placeholder="Enter your email">
     <button>Submit</button>
   </div>
-  
+
   <!-- Good: Proper labels and ARIA -->
   <div class="form-section good">
     <h3>✅ With ARIA</h3>
     <label for="username">Name:</label>
-    <input 
-      type="text" 
+    <input
+      type="text"
       id="username"
       aria-describedby="name-help"
       aria-required="true"
       placeholder="Enter your full name">
     <div id="name-help" class="help-text">This will be displayed publicly</div>
-    
+
     <label for="email">Email:</label>
-    <input 
-      type="email" 
+    <input
+      type="email"
       id="email"
       aria-describedby="email-help"
       aria-required="true"
       placeholder="your@email.com">
     <div id="email-help" class="help-text">We'll never share your email</div>
-    
-    <button 
+
+    <button
       type="submit"
       aria-describedby="submit-help">
       Submit Form
     </button>
     <div id="submit-help" class="help-text">Press Enter or click to submit</div>
   </div>
-  
+
   <!-- Icon buttons demo -->
   <div class="icon-demo">
     <h3>Icon Button Examples</h3>
@@ -363,28 +363,28 @@ console.log('Try tabbing through the elements to see the difference!');`,
 const checkAccessibility = function checkAccessibility() {
   const inputs = document.querySelectorAll('input');
   const buttons = document.querySelectorAll('button');
-  
+
   console.log('=== Accessibility Audit ===');
-  
+
   // Check inputs
   inputs.forEach((input, index) => {
-    const hasLabel = input.hasAttribute('aria-label') || 
-                    input.hasAttribute('aria-labelledby') || 
+    const hasLabel = input.hasAttribute('aria-label') ||
+                    input.hasAttribute('aria-labelledby') ||
                     document.querySelector(\`label[for="\${input.id}"]\`);
-    
+
     const hasDescription = input.hasAttribute('aria-describedby');
-    
+
     console.log(\`Input \${index + 1}:\`);
     console.log(\`  - Has label: \${hasLabel ? '✅' : '❌'}\`);
     console.log(\`  - Has description: \${hasDescription ? '✅' : '❌'}\`);
   });
-  
+
   // Check buttons
   buttons.forEach((button, index) => {
-    const hasAccessibleName = button.textContent.trim() || 
+    const hasAccessibleName = button.textContent.trim() ||
                              button.hasAttribute('aria-label') ||
                              button.hasAttribute('aria-labelledby');
-    
+
     console.log(\`Button \${index + 1}: \${hasAccessibleName ? '✅' : '❌'} Accessible name\`);
   });
 }
@@ -396,9 +396,9 @@ const announceToScreenReader = function announceToScreenReader(message) {
   announcement.setAttribute('aria-atomic', 'true');
   announcement.className = 'sr-only';
   announcement.textContent = message;
-  
+
   document.body.appendChild(announcement);
-  
+
   // Remove after announcement
   setTimeout(() => {
     document.body.removeChild(announcement);
@@ -437,7 +437,7 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
       explanation: `
         <h3>ARIA: Accessibility Rich Internet Applications</h3>
         <p>ARIA attributes provide additional semantic information to assistive technologies.</p>
-        
+
         <h4>Essential ARIA Attributes:</h4>
         <ul>
           <li><code>aria-label</code> - Provides accessible name</li>
@@ -446,7 +446,7 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
           <li><code>aria-required</code> - Indicates required fields</li>
           <li><code>aria-live</code> - Announces dynamic content changes</li>
         </ul>
-        
+
         <h4>Best Practices:</h4>
         <ul>
           <li>Use semantic HTML first, ARIA second</li>
@@ -468,7 +468,7 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
       description: 'Ensure all functionality is accessible via keyboard',
       html: `<div class="keyboard-demo">
   <h2>Keyboard Navigation Examples</h2>
-  
+
   <!-- Tab order demo -->
   <div class="tab-order-demo">
     <h3>Tab Order</h3>
@@ -478,12 +478,12 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
     <button tabindex="2">Second (tabindex="2")</button>
     <button tabindex="-1">Skipped (tabindex="-1")</button>
   </div>
-  
+
   <!-- Focus management -->
   <div class="focus-demo">
     <h3>Focus Management</h3>
     <button id="open-modal">Open Modal</button>
-    
+
     <div id="modal" class="modal hidden" role="dialog" aria-labelledby="modal-title" aria-modal="true">
       <div class="modal-content">
         <h3 id="modal-title">Modal Dialog</h3>
@@ -496,7 +496,7 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
       </div>
     </div>
   </div>
-  
+
   <!-- Custom components -->
   <div class="custom-demo">
     <h3>Custom Dropdown</h3>
@@ -663,64 +663,64 @@ class AccessibleModal {
     this.closeButton = document.getElementById('close-modal');
     this.okButton = document.getElementById('modal-ok');
     this.cancelButton = document.getElementById('modal-cancel');
-    
+
     this.focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
     this.previousFocus = null;
-    
+
     this.init();
   }
-  
+
   init() {
     this.openButton.addEventListener('click', () => this.open());
     this.closeButton.addEventListener('click', () => this.close());
     this.cancelButton.addEventListener('click', () => this.close());
     this.okButton.addEventListener('click', () => this.close());
-    
+
     // Escape key to close
     document.addEventListener('keydown', keyboardEvent => {
       if (keyboardEvent.key === 'Escape' && !this.modal.classList.contains('hidden')) {
         this.close();
       }
     });
-    
+
     // Trap focus in modal
     this.modal.addEventListener('keydown', keyEvent => this.trapFocus(keyEvent));
   }
-  
+
   open() {
     this.previousFocus = document.activeElement;
     this.modal.classList.remove('hidden');
     this.modal.setAttribute('aria-hidden', 'false');
-    
+
     // Focus first focusable element
     const focusableElements = this.modal.querySelectorAll(this.focusableElements);
     if (focusableElements.length) {
       focusableElements[0].focus();
     }
   }
-  
+
   close() {
     this.modal.classList.add('hidden');
     this.modal.setAttribute('aria-hidden', 'true');
-    
+
     // Return focus to trigger element
     if (this.previousFocus) {
       this.previousFocus.focus();
     }
   }
-  
+
   trapFocus(e) {
     if (e.key !== 'Tab') {
       return;
     }
-    
+
     const focusableElements = Array.from(
       this.modal.querySelectorAll(this.focusableElements)
     );
-    
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-    
+
     if (e.shiftKey) {
       if (document.activeElement === firstElement) {
         e.preventDefault();
@@ -742,23 +742,23 @@ class AccessibleDropdown {
     this.toggle = this.dropdown.querySelector('.dropdown-toggle');
     this.menu = this.dropdown.querySelector('.dropdown-menu');
     this.options = Array.from(this.menu.querySelectorAll('[role="option"]'));
-    
+
     this.isOpen = false;
     this.selectedIndex = -1;
-    
+
     this.init();
   }
-  
+
   init() {
     // Toggle dropdown
     this.toggle.addEventListener('click', () => this.toggleDropdown());
     this.toggle.addEventListener('keydown', keyEvent => this.handleToggleKeydown(keyEvent));
-    
+
     // Option selection
     this.options.forEach((option, index) => {
       option.addEventListener('click', () => this.selectOption(index));
     });
-    
+
     // Close on outside click
     document.addEventListener('click', clickEvent => {
       if (!this.dropdown.contains(clickEvent.target)) {
@@ -766,11 +766,11 @@ class AccessibleDropdown {
       }
     });
   }
-  
+
   toggleDropdown() {
     this.isOpen ? this.closeDropdown() : this.openDropdown();
   }
-  
+
   openDropdown() {
     this.isOpen = true;
     this.dropdown.setAttribute('aria-expanded', 'true');
@@ -778,14 +778,14 @@ class AccessibleDropdown {
     this.selectedIndex = 0;
     this.updateSelection();
   }
-  
+
   closeDropdown() {
     this.isOpen = false;
     this.dropdown.setAttribute('aria-expanded', 'false');
     this.menu.setAttribute('aria-hidden', 'true');
     this.toggle.focus();
   }
-  
+
   handleToggleKeydown(e) {
     switch (e.key) {
       case 'Enter':
@@ -802,17 +802,17 @@ class AccessibleDropdown {
         break;
     }
   }
-  
+
   selectOption(index) {
     this.selectedIndex = index;
     const selectedText = this.options[index].textContent;
     this.toggle.firstChild.textContent = selectedText;
     this.closeDropdown();
-    
+
     // Announce selection
     console.log(\`Selected: \${selectedText}\`);
   }
-  
+
   updateSelection() {
     this.options.forEach((option, index) => {
       option.setAttribute('aria-selected', index === this.selectedIndex);
@@ -861,7 +861,7 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
       explanation: `
         <h3>Keyboard Navigation Essentials</h3>
         <p>All functionality must be accessible via keyboard for users who cannot use a mouse.</p>
-        
+
         <h4>Key Navigation Patterns:</h4>
         <ul>
           <li><strong>Tab:</strong> Move to next focusable element</li>
@@ -870,7 +870,7 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
           <li><strong>Escape:</strong> Close modal dialogs and menus</li>
           <li><strong>Arrow Keys:</strong> Navigate within components</li>
         </ul>
-        
+
         <h4>Focus Management:</h4>
         <ul>
           <li>Logical tab order (use tabindex carefully)</li>
@@ -878,7 +878,7 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
           <li>Return focus after closing modals</li>
           <li>Skip links for main content</li>
         </ul>
-        
+
         <h4>Testing Tips:</h4>
         <ul>
           <li>Navigate using only the keyboard</li>
@@ -903,12 +903,12 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
       starterCode: {
         html: `<form class="contact-form">
   <h2>Contact Us</h2>
-  
+
   <!-- Add proper labels and ARIA attributes -->
   <input type="text" placeholder="Your name">
   <input type="email" placeholder="Your email">
   <textarea placeholder="Your message"></textarea>
-  
+
   <button type="submit">Send Message</button>
 </form>`,
         css: `/* Make the form accessible and user-friendly */
@@ -923,15 +923,15 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
       solution: `<!-- Solution -->
 <form class="contact-form" novalidate>
   <h2>Contact Us</h2>
-  
+
   <label for="name">Name (required):</label>
-  <input 
-    type="text" 
-    id="name" 
+  <input
+    type="text"
+    id="name"
     aria-required="true"
     aria-describedby="name-error">
   <div id="name-error" role="alert" aria-live="polite"></div>
-  
+
   <!-- Similar pattern for other fields -->
 </form>`,
       hints: [

@@ -2,7 +2,7 @@
   =============================================================================
   BSB FILE EXPLORER COMPONENT STYLES
   =============================================================================
-  
+
   Interactive file tree explorer with educational tooltips and smooth animations.
   Designed to teach project structure through visual exploration.
 */
@@ -411,11 +411,11 @@
     font-size: var(--bsb-text-xs);
     max-width: 280px;
   }
-  
+
   .bsb-file-explorer__tips {
     flex-direction: column;
   }
-  
+
   .bsb-file-explorer__panel-content {
     max-height: 300px;
   }
@@ -430,7 +430,7 @@
   .bsb-file-explorer__learning-panel {
     transition: none;
   }
-  
+
   .bsb-file-explorer__spinner {
     animation: none;
   }
@@ -441,7 +441,7 @@
   .bsb-file-explorer {
     border-width: 2px;
   }
-  
+
   .bsb-file-explorer__item-content:focus-within {
     box-shadow: 0 0 0 3px var(--bsb-primary);
   }

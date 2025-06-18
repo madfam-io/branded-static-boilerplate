@@ -1,10 +1,10 @@
 /**
  * Accessibility Enhancement Styles
  * ================================
- * 
+ *
  * Styles to support accessibility features and user preferences:
  * - High contrast mode
- * - Large text mode  
+ * - Large text mode
  * - Reduced motion preferences
  * - Focus indicators
  * - Screen reader utilities
@@ -138,7 +138,7 @@
   :root {
     --bsb-border-color: currentColor;
   }
-  
+
   .btn,
   .bsb-card,
   input,
@@ -146,7 +146,7 @@
   select {
     border-width: 2px !important;
   }
-  
+
   *:focus {
     outline-width: 4px !important;
   }
@@ -399,13 +399,13 @@ th {
   .bsb-a11y-inspector-toggle {
     display: none !important;
   }
-  
+
   /* Ensure sufficient contrast for printing */
   * {
     background: white !important;
     color: black !important;
   }
-  
+
   a::after {
     content: " (" attr(href) ")";
     font-size: 0.8em;

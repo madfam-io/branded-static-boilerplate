@@ -1,7 +1,7 @@
 /**
  * Jest Setup Configuration
  * =========================
- * 
+ *
  * Global test environment setup for BSB.
  * Configures testing utilities, mocks, and accessibility testing.
  */
@@ -114,7 +114,7 @@ global.console = {
 // Global DOM testing utilities
 global.createMockElement = (tagName, attributes = {}, textContent = '') => {
   const element = document.createElement(tagName);
-  
+
   Object.entries(attributes).forEach(([key, value]) => {
     if (key === 'className') {
       element.className = value;
@@ -126,11 +126,11 @@ global.createMockElement = (tagName, attributes = {}, textContent = '') => {
       element.setAttribute(key, value);
     }
   });
-  
+
   if (textContent) {
     element.textContent = textContent;
   }
-  
+
   return element;
 };
 
@@ -170,7 +170,7 @@ global.mockViewport = (width, height = 768) => {
     configurable: true,
     value: height,
   });
-  
+
   // Trigger resize event
   window.dispatchEvent(new Event('resize'));
 };
@@ -180,22 +180,22 @@ afterEach(() => {
   // Clear DOM
   document.body.innerHTML = '';
   document.head.innerHTML = '';
-  
+
   // Clear mocks
   jest.clearAllMocks();
-  
+
   // Reset localStorage
   localStorageMock.getItem.mockClear();
   localStorageMock.setItem.mockClear();
   localStorageMock.removeItem.mockClear();
   localStorageMock.clear.mockClear();
-  
+
   // Reset sessionStorage
   sessionStorageMock.getItem.mockClear();
   sessionStorageMock.setItem.mockClear();
   sessionStorageMock.removeItem.mockClear();
   sessionStorageMock.clear.mockClear();
-  
+
   // Reset viewport
   mockViewport(1024, 768);
 });
@@ -204,7 +204,7 @@ afterEach(() => {
 beforeAll(() => {
   // Set default viewport
   mockViewport(1024, 768);
-  
+
   // Add BSB CSS custom properties for testing
   const style = document.createElement('style');
   style.textContent = `

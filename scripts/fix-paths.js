@@ -95,7 +95,9 @@ filesToProcess.forEach(filePath => {
   );
 
   // Fix any remaining absolute paths we might have missed
-  content = content.replace(/href="\/([^"]+)"/gu, (match, path) => {
+  content = content.replace(/href="\/(?<path>[^"]+)"/gu, (match, ...args) => {
+    const groups = args[args.length - 1];
+    const path = groups.path;
     if (path.startsWith('http') || path.startsWith('#') || path.startsWith('mailto:')) {
       return match; // Don't change external links or anchors
     }

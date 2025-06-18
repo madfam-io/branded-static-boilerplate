@@ -2,7 +2,7 @@
   =============================================================================
   COMPONENT LIBRARY STYLES
   =============================================================================
-  
+
   Styles specific to the component library showcase page.
   Includes demo layouts, code blocks, and interactive elements.
 */
@@ -354,32 +354,32 @@
   .component-nav {
     top: 60px; /* Adjusted for mobile header */
   }
-  
+
   .component-nav__menu {
     gap: var(--bsb-space-1);
   }
-  
+
   .component-nav__item {
     font-size: var(--bsb-text-xs);
     padding: var(--bsb-space-1) var(--bsb-space-3);
   }
-  
+
   .component-section__title {
     font-size: var(--bsb-text-2xl);
   }
-  
+
   .component-demo__preview {
     padding: var(--bsb-space-4);
   }
-  
+
   .button-group {
     gap: var(--bsb-space-2);
   }
-  
+
   .component-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .section-title {
     font-size: var(--bsb-text-3xl);
   }
@@ -390,7 +390,7 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .component-demo__iframe {
     height: 150px;
   }

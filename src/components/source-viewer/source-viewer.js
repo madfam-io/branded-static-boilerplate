@@ -114,31 +114,31 @@ class BSBSourceViewer {
             Component Source Code
           </h3>
           <div class="bsb-source-viewer__subtitle" data-component-name></div>
-          <button class="bsb-source-viewer__close" aria-label="Close source viewer" " +
-            "type="button">✕</button>
+          <button class="bsb-source-viewer__close" aria-label="Close source viewer"
+            type="button">✕</button>
         </div>
-        
+
         <nav class="bsb-source-viewer__tabs" role="tablist">
-          <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active" " +
-            "data-tab="html">📄 HTML</button>
+          <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active"
+            data-tab="html">📄 HTML</button>
           <button class="bsb-source-viewer__tab" data-tab="css">🎨 CSS</button>
           <button class="bsb-source-viewer__tab" data-tab="js">⚡ JavaScript</button>
           <button class="bsb-source-viewer__tab" data-tab="info">📊 Insights</button>
         </nav>
-        
+
         <div class="bsb-source-viewer__panels">
           <div class="bsb-source-viewer__panel bsb-source-viewer__panel--active" data-panel="html">
             <div class="bsb-source-viewer__code-header">
               <span class="bsb-source-viewer__file-path" data-html-path></span>
               <div class="bsb-source-viewer__actions">
                 <button class="bsb-source-viewer__action" data-action="copy-html">📋 Copy</button>
-                <button class="bsb-source-viewer__action" " +
-                  "data-action="open-playground-html">🚀 Try It</button>
+                <button class="bsb-source-viewer__action"
+                  data-action="open-playground-html">🚀 Try It</button>
               </div>
             </div>
             <pre class="bsb-source-viewer__code" data-language="html"><code data-html-content></code></pre>
           </div>
-          
+
           <div class="bsb-source-viewer__panel" data-panel="css">
             <div class="bsb-source-viewer__code-header">
               <span class="bsb-source-viewer__file-path" data-css-path></span>
@@ -149,7 +149,7 @@ class BSBSourceViewer {
             </div>
             <pre class="bsb-source-viewer__code" data-language="css"><code data-css-content></code></pre>
           </div>
-          
+
           <div class="bsb-source-viewer__panel" data-panel="js">
             <div class="bsb-source-viewer__code-header">
               <span class="bsb-source-viewer__file-path" data-js-path></span>
@@ -160,7 +160,7 @@ class BSBSourceViewer {
             </div>
             <pre class="bsb-source-viewer__code" data-language="javascript"><code data-js-content></code></pre>
           </div>
-          
+
           <div class="bsb-source-viewer__panel" data-panel="info">
             <div class="bsb-source-viewer__info">
               <section class="bsb-source-viewer__metrics">
@@ -184,12 +184,12 @@ class BSBSourceViewer {
                   </div>
                 </dl>
               </section>
-              
+
               <section class="bsb-source-viewer__practices">
                 <h4>Best Practices Used</h4>
                 <ul class="bsb-source-viewer__practices-list" data-practices></ul>
               </section>
-              
+
               <section class="bsb-source-viewer__resources">
                 <h4>Learn More</h4>
                 <ul class="bsb-source-viewer__resources-list">
@@ -201,10 +201,10 @@ class BSBSourceViewer {
             </div>
           </div>
         </div>
-        
+
         <footer class="bsb-source-viewer__footer">
           <div class="bsb-source-viewer__learning-tip">
-            💡 <strong>Learning Tip:</strong> 
+            💡 <strong>Learning Tip:</strong>
             <span data-learning-tip>Click "Try It" to experiment with this code in the playground!</span>
           </div>
           <div class="bsb-source-viewer__footer-actions">
@@ -214,7 +214,7 @@ class BSBSourceViewer {
           </div>
         </footer>
       </div>
-      
+
       <div class="bsb-source-viewer__overlay" data-bsb-source-overlay></div>
     `;
   }
@@ -490,13 +490,13 @@ class BSBSourceViewer {
     // For now, return a placeholder with educational content
     return `/**
  * ${componentName.toUpperCase()} COMPONENT
- * 
+ *
  * This component's JavaScript handles:
  * - Event listeners and interactions
  * - State management
  * - DOM updates
  * - Accessibility features
- * 
+ *
  * To see the full implementation:
  * 1. Check /src/components/${componentName}/${componentName}.js
  * 2. View the source on GitHub
@@ -509,7 +509,7 @@ class BSB${componentName.charAt(0).toUpperCase() + componentName.slice(1)} {
     this.element = element;
     this.init();
   }
-  
+
   init() {
     // Setup event listeners
     // Initialize state

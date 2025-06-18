@@ -1,10 +1,10 @@
 /**
  * Language Toggle Component Styles
  * ================================
- * 
+ *
  * Styles for the bilingual language toggle component that allows users
  * to switch between English and Spanish content.
- * 
+ *
  * Features:
  * - Accessible design with clear visual indicators
  * - Smooth animations for better UX
@@ -23,23 +23,23 @@
   display: flex;
   align-items: center;
   gap: var(--bsb-space-2);
-  
+
   /* Reset button styles */
   background: none;
   border: 1px solid var(--bsb-border-color);
   padding: var(--bsb-space-2) var(--bsb-space-3);
   border-radius: var(--bsb-radius-md);
-  
+
   /* Typography */
   font-family: var(--bsb-font-mono);
   font-size: var(--bsb-text-sm);
   font-weight: var(--bsb-font-medium);
   color: var(--bsb-text-secondary);
-  
+
   /* Interactive states */
   cursor: pointer;
   transition: all var(--bsb-transition-base);
-  
+
   /* Accessibility */
   position: relative;
 }
@@ -119,7 +119,7 @@
     border-width: 2px;
     border-color: currentColor;
   }
-  
+
   .bsb-language-toggle__button:focus {
     outline-width: 3px;
   }
@@ -131,7 +131,7 @@
   .bsb-language-toggle__arrow {
     transition: none;
   }
-  
+
   .bsb-language-toggle__button.switching {
     animation: none;
   }
@@ -142,12 +142,12 @@
   .bsb-language-toggle {
     margin-right: var(--bsb-space-2);
   }
-  
+
   .bsb-language-toggle__button {
     padding: var(--bsb-space-1) var(--bsb-space-2);
     font-size: var(--bsb-text-xs);
   }
-  
+
   /* Show only current language on very small screens */
   @media (max-width: 480px) {
     .bsb-language-toggle__arrow,
@@ -195,19 +195,19 @@
   left: 50%;
   transform: translateX(-50%);
   margin-top: var(--bsb-space-2);
-  
+
   /* Styling */
   background: var(--bsb-bg-primary);
   border: 1px solid var(--bsb-border-color);
   border-radius: var(--bsb-radius-md);
   padding: var(--bsb-space-2) var(--bsb-space-3);
   box-shadow: var(--bsb-shadow-lg);
-  
+
   /* Typography */
   font-size: var(--bsb-text-xs);
   color: var(--bsb-text-secondary);
   white-space: nowrap;
-  
+
   /* Initial state */
   opacity: 0;
   visibility: hidden;

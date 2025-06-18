@@ -2,19 +2,19 @@
   =============================================================================
   BSB SPACING UTILITIES - Consistent Spatial Rhythm
   =============================================================================
-  
+
   Utility classes for margin and padding based on our 8px grid system.
   These utilities help maintain consistent spacing throughout your site.
-  
+
   🎯 Usage:
   - Use these instead of arbitrary spacing values
   - Combine with responsive prefixes (sm:, md:, lg:)
   - Follow the naming pattern: {property}-{side}-{size}
-  
+
   📚 Learn More:
   - Spacing System: /docs/tutorials/spacing-system.md
   - 8px Grid: https://spec.fm/specifics/8-pt-grid
-  
+
   💡 Examples:
   - mt-4 = margin-top: 1rem (16px)
   - px-6 = padding-left: 1.5rem, padding-right: 1.5rem
@@ -22,7 +22,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Margin Utilities
   ================
   m = margin
@@ -134,7 +134,7 @@
 .my-16 { margin-top: var(--bsb-space-16); margin-bottom: var(--bsb-space-16); }
 .my-20 { margin-top: var(--bsb-space-20); margin-bottom: var(--bsb-space-20); }
 
-/* 
+/*
   Padding Utilities
   =================
   p = padding
@@ -239,7 +239,7 @@
 .py-16 { padding-top: var(--bsb-space-16); padding-bottom: var(--bsb-space-16); }
 .py-20 { padding-top: var(--bsb-space-20); padding-bottom: var(--bsb-space-20); }
 
-/* 
+/*
   Gap Utilities
   =============
   For flexbox and grid layouts
@@ -274,7 +274,7 @@
 .gap-y-6 { row-gap: var(--bsb-space-6); }
 .gap-y-8 { row-gap: var(--bsb-space-8); }
 
-/* 
+/*
   Space Between Children
   ======================
   Adds consistent spacing between child elements

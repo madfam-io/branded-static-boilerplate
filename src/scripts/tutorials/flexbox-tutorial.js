@@ -28,7 +28,7 @@ export const flexboxTutorial = {
   padding: 20px;
   border-radius: 8px;
   min-height: 200px;
-  
+
   /* Try changing these properties: */
   flex-direction: row;
   justify-content: flex-start;
@@ -43,7 +43,7 @@ export const flexboxTutorial = {
   border-radius: 4px;
   text-align: center;
   font-weight: bold;
-  
+
   /* Flex item properties: */
   flex: 0 1 auto;
 }`,
@@ -65,7 +65,7 @@ console.log('Click any item to toggle its flex-grow property!');`,
       explanation: `
         <h3>Flexbox Fundamentals</h3>
         <p>Flexbox is a one-dimensional layout method for arranging items in rows or columns.</p>
-        
+
         <h4>Main Concepts:</h4>
         <ul>
           <li><strong>Flex Container:</strong> The parent element with <code>display: flex</code></li>
@@ -73,7 +73,7 @@ console.log('Click any item to toggle its flex-grow property!');`,
           <li><strong>Main Axis:</strong> Primary axis (horizontal by default)</li>
           <li><strong>Cross Axis:</strong> Perpendicular to main axis</li>
         </ul>
-        
+
         <h4>Try This:</h4>
         <p>Click on the items to see how <code>flex-grow</code> affects their size!</p>
       `,
@@ -95,7 +95,7 @@ console.log('Click any item to toggle its flex-grow property!');`,
     <div class="flex-item">B</div>
     <div class="flex-item">C</div>
   </div>
-  
+
   <h3>Align Items (Cross Axis)</h3>
   <div class="flex-container align-demo">
     <div class="flex-item small">Small</div>
@@ -172,7 +172,7 @@ const alignContainer = document.querySelector('.align-demo');
 justifyContainer.addEventListener('click', () => {
   justifyIndex = (justifyIndex + 1) % justifyValues.length;
   justifyContainer.style.justifyContent = justifyValues[justifyIndex];
-  
+
   // Show current value
   console.log(\`justify-content: \${justifyValues[justifyIndex]}\`);
 });
@@ -181,7 +181,7 @@ justifyContainer.addEventListener('click', () => {
 alignContainer.addEventListener('click', () => {
   alignIndex = (alignIndex + 1) % alignValues.length;
   alignContainer.style.alignItems = alignValues[alignIndex];
-  
+
   // Show current value
   console.log(\`align-items: \${alignValues[alignIndex]}\`);
 });
@@ -190,7 +190,7 @@ console.log('Click containers to cycle through alignment options!');`,
       explanation: `
         <h3>Flexbox Alignment</h3>
         <p>Control how flex items are positioned and spaced within the container.</p>
-        
+
         <h4>Main Axis (justify-content):</h4>
         <ul>
           <li><code>flex-start</code> - Items at start</li>
@@ -199,7 +199,7 @@ console.log('Click containers to cycle through alignment options!');`,
           <li><code>space-around</code> - Equal space around items</li>
           <li><code>space-evenly</code> - Equal space between and around</li>
         </ul>
-        
+
         <h4>Cross Axis (align-items):</h4>
         <ul>
           <li><code>stretch</code> - Items fill container height</li>
@@ -280,11 +280,11 @@ console.log('Click containers to cycle through alignment options!');`,
   .main {
     flex-direction: row;
   }
-  
+
   .article {
     flex: 2;
   }
-  
+
   .sidebar {
     flex: 1;
     order: 0; /* Normal order on desktop */
@@ -296,7 +296,7 @@ let isMobile = window.innerWidth < 768;
 const updateLayout = function updateLayout() {
   const main = document.querySelector('.main');
   const sidebar = document.querySelector('.sidebar');
-  
+
   if (window.innerWidth < 768 && !isMobile) {
     isMobile = true;
     console.log('Switched to mobile layout');
@@ -321,10 +321,10 @@ const layout = document.querySelector('.responsive-layout');
 layout.addEventListener('click', () => {
   const main = document.querySelector('.main');
   const isColumn = window.getComputedStyle(main).flexDirection === 'column';
-  
+
   // Toggle for demonstration
   main.style.flexDirection = isColumn ? 'row' : 'column';
-  
+
   // Update sidebar order
   const sidebar = document.querySelector('.sidebar');
   if (isColumn) {
@@ -338,7 +338,7 @@ console.log('Resize window or click layout to see responsive behavior!');`,
       explanation: `
         <h3>Responsive Flexbox Layouts</h3>
         <p>Flexbox makes responsive design intuitive with powerful properties.</p>
-        
+
         <h4>Key Responsive Techniques:</h4>
         <ul>
           <li><code>flex-direction</code> changes with media queries</li>
@@ -346,7 +346,7 @@ console.log('Resize window or click layout to see responsive behavior!');`,
           <li><code>flex</code> property controls sizing ratios</li>
           <li>Nested flex containers for complex layouts</li>
         </ul>
-        
+
         <h4>Best Practices:</h4>
         <ul>
           <li>Start with mobile-first design</li>
@@ -437,7 +437,7 @@ console.log('Resize window or click layout to see responsive behavior!');`,
   .navbar {
     flex-wrap: wrap;
   }
-  
+
   .navbar-menu {
     flex-direction: column;
     width: 100%;

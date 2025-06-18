@@ -2,16 +2,16 @@
   =============================================================================
   BSB HERO COMPONENT STYLES
   =============================================================================
-  
+
   Flexible hero section with multiple layout options.
   Optimized for performance and visual impact.
-  
+
   🎯 Features:
   - Multiple layout variants
   - Responsive typography
   - Background image support
   - Smooth animations
-  
+
   📚 Customization:
   - Modify padding with CSS variables
   - Change background colors/gradients
@@ -20,7 +20,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Base Hero Styles
   ================
 */
@@ -29,7 +29,7 @@
   --bsb-hero-padding-y-mobile: var(--bsb-space-16);
   --bsb-hero-bg: var(--bsb-bg-primary);
   --bsb-hero-text-color: var(--bsb-text-primary);
-  
+
   position: relative;
   padding-top: var(--bsb-hero-padding-y-mobile);
   padding-bottom: var(--bsb-hero-padding-y-mobile);
@@ -45,7 +45,7 @@
   }
 }
 
-/* 
+/*
   Hero Content
   ============
 */
@@ -63,7 +63,7 @@
   text-align: left;
 }
 
-/* 
+/*
   Hero Title
   ==========
 */
@@ -73,12 +73,12 @@
   font-weight: var(--bsb-font-bold);
   line-height: var(--bsb-leading-tight);
   letter-spacing: -0.02em;
-  
+
   /* Responsive font size */
   @media (width >= 640px) {
     font-size: var(--bsb-text-4xl);
   }
-  
+
   @media (width >= 1024px) {
     font-size: var(--bsb-text-5xl);
   }
@@ -94,7 +94,7 @@
   letter-spacing: normal;
 }
 
-/* 
+/*
   Hero Lead Text
   ==============
 */
@@ -103,13 +103,13 @@
   font-size: var(--bsb-text-lg);
   line-height: var(--bsb-leading-relaxed);
   color: var(--bsb-text-secondary);
-  
+
   @media (width >= 768px) {
     font-size: var(--bsb-text-xl);
   }
 }
 
-/* 
+/*
   Hero Actions
   ============
 */
@@ -131,13 +131,13 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .bsb-hero__actions .btn {
     width: 100%;
   }
 }
 
-/* 
+/*
   Social Proof Section
   ====================
 */
@@ -167,7 +167,7 @@
   width: auto;
 }
 
-/* 
+/*
   Background Pattern
   ==================
   Decorative element
@@ -178,10 +178,10 @@
   right: -10%;
   bottom: 0;
   width: 50%;
-  background-image: 
+  background-image:
     radial-gradient(
-      circle at 1px 1px, 
-      var(--bsb-primary) 1px, 
+      circle at 1px 1px,
+      var(--bsb-primary) 1px,
       transparent 1px
     );
   background-size: 40px 40px;
@@ -189,7 +189,7 @@
   z-index: 1;
 }
 
-/* 
+/*
   Hero with Background Image
   ==========================
 */
@@ -222,7 +222,7 @@
   color: rgb(255 255 255 / 90%);
 }
 
-/* 
+/*
   Split Hero Layout
   =================
 */
@@ -234,7 +234,7 @@
   display: grid;
   gap: var(--bsb-space-8);
   align-items: center;
-  
+
   @media (width >= 768px) {
     grid-template-columns: 1fr 1fr;
     gap: var(--bsb-space-12);
@@ -248,7 +248,7 @@
 
 .bsb-hero__image {
   position: relative;
-  
+
   img {
     width: 100%;
     height: auto;
@@ -257,7 +257,7 @@
   }
 }
 
-/* 
+/*
   Centered Hero
   =============
 */
@@ -271,7 +271,7 @@
   width: 100%;
 }
 
-/* 
+/*
   Video Background
   ================
 */
@@ -295,7 +295,7 @@
   object-fit: cover;
 }
 
-/* 
+/*
   Gradient Backgrounds
   ====================
 */
@@ -320,7 +320,7 @@
   --bsb-hero-text-color: white;
 }
 
-/* 
+/*
   Animation Classes
   =================
   Add these for entrance animations

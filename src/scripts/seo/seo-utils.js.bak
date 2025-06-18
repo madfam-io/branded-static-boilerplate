@@ -519,7 +519,7 @@ export const calculateSEOScore = function calculateSEOScore(page) {
   if (imagesWithoutAlt === 0) {
     scores.images = SEO_CONFIG.scoreExcellent;
   } else {
-    scores.images = Math.max(0,
+    scores.images = Math.max(0, 
       SEO_CONFIG.scoreExcellent - (imagesWithoutAlt * SEO_CONFIG.scoreImagePenalty)
     );
     insights.push({
@@ -558,7 +558,7 @@ export const calculateSEOScore = function calculateSEOScore(page) {
   const wordCount = page.content?.wordCount || 0;
   if (wordCount >= SEO_CONFIG.minWordCount) {
     scores.content = Math.min(
-      SEO_CONFIG.scoreExcellent,
+      SEO_CONFIG.scoreExcellent, 
       (wordCount / SEO_CONFIG.scoreWordCountDivisor)
     );
   } else {
@@ -586,7 +586,7 @@ export const calculateSEOScore = function calculateSEOScore(page) {
 
   // Calculate overall score
   const overallScore = Math.round(
-    Object.values(scores).reduce((accumulator, currentValue) =>
+    Object.values(scores).reduce((accumulator, currentValue) => 
       accumulator + currentValue, 0
     ) / Object.keys(scores).length
   );

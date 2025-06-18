@@ -1,7 +1,7 @@
 /**
  * BSB Language Toggle Component Styles
  * =====================================
- * 
+ *
  * Responsive language switcher with smooth animations and accessibility support.
  * Follows the same design patterns as the theme toggle for consistency.
  */
@@ -31,7 +31,7 @@
   font-size: var(--bsb-text-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: 
+  transition:
     background-color var(--bsb-transition-base),
     border-color var(--bsb-transition-base),
     transform var(--bsb-transition-fast);
@@ -84,7 +84,7 @@
   justify-content: center;
   opacity: 0;
   transform: scale(0.8);
-  transition: 
+  transition:
     opacity var(--bsb-transition-base),
     transform var(--bsb-transition-base);
 }
@@ -129,7 +129,7 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
-  transition: 
+  transition:
     opacity var(--bsb-transition-base),
     visibility var(--bsb-transition-base),
     transform var(--bsb-transition-base);
@@ -210,11 +210,11 @@
   .bsb-language-toggle__button {
     padding: var(--bsb-space-2);
   }
-  
+
   .bsb-language-toggle__label {
     display: none;
   }
-  
+
   .bsb-language-toggle__menu {
     right: auto;
     left: 0;
@@ -247,7 +247,7 @@
   .bsb-language-toggle__button {
     border-width: 2px;
   }
-  
+
   .bsb-language-toggle__option:focus {
     outline-width: 3px;
   }
@@ -265,7 +265,7 @@
   .bsb-language-toggle__option-check {
     transition: none;
   }
-  
+
   .bsb-language-toggle__button[aria-expanded="true"] .bsb-language-toggle__icons {
     animation: none;
   }

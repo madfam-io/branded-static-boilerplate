@@ -275,8 +275,8 @@ class BSBLearningToggle {
       actionsHTML = `
         <div class="bsb-learning-notification__actions" style="margin-top: 1rem; display: flex; gap: 0.5rem;">
           ${actions.map(action => `
-            <button 
-              class="btn btn--small ${action.primary ? 'btn--primary' : 'btn--secondary'}" 
+            <button
+              class="btn btn--small ${action.primary ? 'btn--primary' : 'btn--secondary'}"
               onclick="this.closest('.bsb-learning-notification').bsbAction_${actions.indexOf(action)}()"
             >
               ${action.text}
@@ -375,14 +375,22 @@ class BSBLearningToggle {
       // Initialize Source Viewer
       if (!window.BSBSourceViewer) {
         const { default: BSBSourceViewer } = await import('../source-viewer/source-viewer.js');
-        window.BSBSourceViewer = new BSBSourceViewer();
+        // Check again after await to avoid race condition
+        if (!window.BSBSourceViewer) {
+          const instance = new BSBSourceViewer();
+          window.BSBSourceViewer = instance;
+        }
       }
       window.BSBSourceViewer.addViewSourceButtons();
 
       // Initialize Learning Progress Tracker
       if (!window.BSBLearningProgress) {
         const { default: BSBLearningProgress } = await import('../learning-progress/learning-progress.js');
-        window.BSBLearningProgress = new BSBLearningProgress();
+        // Check again after await to avoid race condition
+        if (!window.BSBLearningProgress) {
+          const instance = new BSBLearningProgress();
+          window.BSBLearningProgress = instance;
+        }
       }
 
       // Initialize BSB Helper if available
@@ -406,7 +414,7 @@ class BSBLearningToggle {
   /**
    * Load styles for meta-learning components
    */
-  async loadMetaLearningStyles() {
+  loadMetaLearningStyles() {
     const components = ['source-viewer', 'learning-progress'];
 
     for (const component of components) {
@@ -498,7 +506,7 @@ class BSBLearningToggle {
         title: '📊 Your Learning Progress',
         message: `You've explored ${progress.componentsExplored.size} of ${totalComponents} ` +
           `components (${completion}% complete) and spent ${this.formatTime(progress.timeSpent)} ` +
-          `learning. Great job!`,
+          'learning. Great job!',
         type: 'success',
         duration: 8000
       });
@@ -537,7 +545,7 @@ style.textContent = `
   [data-learning-mode="true"] .bsb-has-tooltip {
     position: relative;
   }
-  
+
   [data-learning-mode="true"] .bsb-has-tooltip::after {
     content: attr(data-learning-tooltip);
     position: absolute;
@@ -558,18 +566,18 @@ style.textContent = `
     white-space: normal;
     text-align: center;
   }
-  
+
   [data-learning-mode="true"] .bsb-has-tooltip:hover::after {
     opacity: 1;
     transform: translateX(-50%) translateY(-12px);
   }
-  
+
   /* View source buttons */
   .bsb-view-source-btn {
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   .bsb-view-source-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

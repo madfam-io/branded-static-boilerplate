@@ -529,7 +529,7 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
       `).join('') :
     '<p>No security headers detected</p>'
 }
-    
+
     <h3>Missing Headers</h3>
     ${Object.keys(headers.missing || {}).length > 0 ?
     Object.entries(headers.missing).map(([name, info]) => `
@@ -547,7 +547,7 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
     `<li><code>${name}</code>: ${values.join(' ')}</li>`
   ).join('')}
     </ul>
-    
+
     ${headers.csp.issues.length > 0 ? `
     <h4>CSP Issues</h4>
     ${headers.csp.issues.map(issue => `
@@ -573,7 +573,7 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
       </div>
     `).join('')}
     ` : '<p class="status-good">✅ No static site security issues found</p>'}
-    
+
     ${staticSite.recommendations.length > 0 ? `
     <h3>Recommendations</h3>
     ${staticSite.recommendations.map(rec => `
@@ -596,7 +596,7 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
       <li><strong>Review file permissions</strong> and remove sensitive files " +
         "from public directory</li>
     </ul>
-    
+
     <h3>Resources</h3>
     <ul>
       <li><a href="https://owasp.org/www-project-secure-headers/">" +

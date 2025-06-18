@@ -2,17 +2,17 @@
  * ============================================================================
  * BSB CODE PLAYGROUND STYLES
  * ============================================================================
- * 
+ *
  * Interactive code editing component with live preview capabilities.
  * Designed for educational purposes with focus on accessibility and UX.
- * 
+ *
  * Features:
  * - Responsive tabbed interface
  * - Syntax highlighting preparation
  * - Live preview with iframe sandboxing
  * - Console output and metrics display
  * - Accessibility-first design
- * 
+ *
  * Architecture:
  * - Mobile-first responsive design
  * - CSS Grid and Flexbox layouts
@@ -424,32 +424,32 @@
     min-height: 500px;
     max-height: 90vh;
   }
-  
+
   .bsb-code-playground__header {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-  
+
   .bsb-code-playground__controls {
     justify-content: flex-end;
   }
-  
+
   .bsb-code-playground__tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .bsb-code-playground__tab {
     flex-shrink: 0;
     padding: 0.5rem 0.75rem;
   }
-  
+
   .bsb-code-playground__status {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .bsb-code-playground__metrics {
     flex-wrap: wrap;
     gap: 0.75rem;
@@ -460,15 +460,15 @@
   .bsb-code-playground__header {
     padding: 1rem;
   }
-  
+
   .bsb-code-playground__panel {
     padding: 0.75rem;
   }
-  
+
   .bsb-code-playground__preview-wrapper {
     padding: 1rem;
   }
-  
+
   .bsb-code-playground__status {
     padding: 0.75rem 1rem;
   }
@@ -503,7 +503,7 @@
   .bsb-code-playground__editor {
     border-width: 2px;
   }
-  
+
   .bsb-code-playground__tab--active {
     outline: 2px solid var(--bsb-primary);
     outline-offset: -2px;
@@ -518,7 +518,7 @@
   .bsb-code-playground__preview-loading {
     transition: none;
   }
-  
+
   .bsb-code-playground__spinner {
     animation: none;
   }

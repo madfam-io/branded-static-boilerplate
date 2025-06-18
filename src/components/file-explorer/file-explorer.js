@@ -28,7 +28,14 @@ const CONSTANTS = {
   TOOLTIP_SPACING: 10
 };
 
+/**
+ * File explorer component class
+ */
 class BSBFileExplorer {
+  /**
+   * Initialize file explorer component
+   * @param {HTMLElement} container - Container element for the component
+   */
   constructor(container) {
     this.container = container;
     this.tooltip = container.querySelector('[data-tooltip-container]');
@@ -267,11 +274,11 @@ class BSBFileExplorer {
   /* Colors */
   --bsb-primary: #3b82f6;
   --bsb-secondary: #8b5cf6;
-  
+
   /* Spacing */
   --bsb-space-1: 0.25rem;
   --bsb-space-2: 0.5rem;
-  
+
   /* Typography */
   --bsb-font-sans: system-ui, sans-serif;
 }</code></pre>
@@ -468,6 +475,8 @@ dist/           # Build output
 
   /**
    * Generate HTML for file tree structure
+   * @param {Array} items - Array of file/folder items to render
+   * @returns {string} HTML string for the file tree
    */
   generateFileTreeHTML(items) {
     return items.map(item => {
@@ -531,6 +540,8 @@ dist/           # Build output
 
   /**
    * Get appropriate icon for file type
+   * @param {string} fileType - Type of file
+   * @returns {string} Emoji icon for the file type
    */
   getFileIcon(fileType) {
     const icons = {
@@ -572,6 +583,7 @@ dist/           # Build output
 
   /**
    * Handle item interactions (clicks, hovers)
+   * @param {Event} event - DOM event
    */
   handleItemInteraction(event) {
     const item = event.target.closest('.bsb-file-explorer__item');
@@ -595,6 +607,7 @@ dist/           # Build output
 
   /**
    * Handle keyboard navigation
+   * @param {KeyboardEvent} event - Keyboard event
    */
   handleKeyboard(event) {
     const item = event.target.closest('.bsb-file-explorer__item');
@@ -634,6 +647,8 @@ dist/           # Build output
 
   /**
    * Toggle folder expanded/collapsed state
+   * @param {HTMLElement} item - The folder item element
+   * @param {string} path - Path of the folder
    */
   toggleFolder(item, path) {
     const isExpanded = this.expandedFolders.has(path);
@@ -657,6 +672,8 @@ dist/           # Build output
 
   /**
    * Show tooltip for file/folder
+   * @param {Event} event - Mouse event
+   * @param {string} path - Path of the item
    */
   showTooltip(event, path) {
     const data = this.fileData[path];
@@ -708,6 +725,7 @@ dist/           # Build output
 
   /**
    * Show detailed learning panel
+   * @param {string} path - Path of the item to show details for
    */
   showDetails(path) {
     const data = this.fileData[path];

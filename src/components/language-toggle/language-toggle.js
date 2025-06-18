@@ -24,7 +24,14 @@ const CONSTANTS = {
   LANGUAGE_CODE_LENGTH: 2
 };
 
+/**
+ * Language toggle component class
+ */
 class BSBLanguageToggle {
+  /**
+   * Initialize language toggle component
+   * @param {HTMLElement} container - Container element for the component
+   */
   constructor(container) {
     this.container = container;
     this.button = container.querySelector('[data-bsb-language-button]');
@@ -111,6 +118,7 @@ class BSBLanguageToggle {
 
   /**
    * Handle button click
+   * @param {Event} event - Click event
    */
   handleButtonClick(event) {
     event.preventDefault();
@@ -125,6 +133,7 @@ class BSBLanguageToggle {
 
   /**
    * Handle option selection
+   * @param {Event} event - Click event
    */
   handleOptionClick(event) {
     event.preventDefault();
@@ -139,6 +148,7 @@ class BSBLanguageToggle {
 
   /**
    * Handle keyboard navigation
+   * @param {KeyboardEvent} event - Keyboard event
    */
   handleKeyboard(event) {
     if (this.isOpen) {
@@ -154,6 +164,8 @@ class BSBLanguageToggle {
 
   /**
    * Handle keyboard navigation when menu is open
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {HTMLElement[]} focusableElements - Array of focusable elements
    */
   handleOpenMenuKeyboard(event, focusableElements) {
     const currentIndex = focusableElements.indexOf(document.activeElement);
@@ -208,6 +220,7 @@ class BSBLanguageToggle {
 
   /**
    * Handle clicks outside the component
+   * @param {Event} event - Click event
    */
   handleClickOutside(event) {
     if (this.isOpen && !this.container.contains(event.target)) {
@@ -217,6 +230,7 @@ class BSBLanguageToggle {
 
   /**
    * Handle storage changes for multi-tab sync
+   * @param {StorageEvent} event - Storage event
    */
   handleStorageChange(event) {
     if (event.key === 'bsb-language' && event.newValue) {
@@ -260,6 +274,7 @@ class BSBLanguageToggle {
 
   /**
    * Set the current language
+   * @param {string} language - Language code to set
    */
   setLanguage(language) {
     if (this.supportedLanguages.includes(language)) {
@@ -338,13 +353,17 @@ class BSBLanguageToggle {
 
   /**
    * Get nested translation from dot notation key
+   * @param {Object} translationsObj - Translations object
+   * @param {string} key - Dot notation key
+   * @returns {string|undefined} Translation value
    */
-  getNestedTranslation(translations, key) {
-    return key.split('.').reduce((obj, keyPart) => obj && obj[keyPart], translations);
+  getNestedTranslation(translationsObj, key) {
+    return key.split('.').reduce((obj, keyPart) => obj && obj[keyPart], translationsObj);
   }
 
   /**
    * Update navigation items
+   * @param {Object} translationKey - Current language translations
    */
   updateNavigation(translationKey) {
     const navLinks = document.querySelectorAll('.bsb-header__link');
@@ -407,6 +426,7 @@ class BSBLanguageToggle {
 
   /**
    * Update URL parameter
+   * @param {string} language - Language code to set in URL
    */
   updateURL(language) {
     const url = new URL(window.location);
@@ -420,6 +440,8 @@ class BSBLanguageToggle {
 
   /**
    * Dispatch language change event
+   * @param {string} newLanguage - New language code
+   * @param {string} previousLanguage - Previous language code
    */
   dispatchLanguageChange(newLanguage, previousLanguage) {
     const event = new CustomEvent('bsb:languageChange', {
@@ -436,6 +458,7 @@ class BSBLanguageToggle {
 
   /**
    * Get current language
+   * @returns {string} Current language code
    */
   getCurrentLanguage() {
     return this.currentLanguage;
@@ -443,6 +466,7 @@ class BSBLanguageToggle {
 
   /**
    * Get current translations
+   * @returns {Object} Current language translations
    */
   getCurrentTranslations() {
     return translations[this.currentLanguage];
@@ -450,6 +474,8 @@ class BSBLanguageToggle {
 
   /**
    * Check if language is RTL
+   * @param {string} language - Language code to check
+   * @returns {boolean} True if language is RTL
    */
   isRTL(language = this.currentLanguage) {
     const rtlLanguages = ['ar', 'he', 'fa', 'ur'];

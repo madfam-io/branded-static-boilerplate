@@ -2,10 +2,10 @@
  * =============================================================================
  * SEO ANALYZER COMPONENT STYLES
  * =============================================================================
- * 
+ *
  * Styles for the real-time SEO analyzer component that teaches SEO best
  * practices through interactive analysis and feedback.
- * 
+ *
  * Features:
  * - Floating/docked analyzer panel
  * - Score visualization
@@ -504,11 +504,11 @@
     left: 0;
     border-radius: var(--bsb-radius-lg) var(--bsb-radius-lg) 0 0;
   }
-  
+
   .bsb-seo-analyzer__content {
     max-height: 50vh;
   }
-  
+
   .bsb-seo-analyzer__tab {
     font-size: var(--bsb-text-xs);
     padding: 0.5rem;

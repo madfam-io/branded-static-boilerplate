@@ -2,16 +2,16 @@
   =============================================================================
   BSB THEME TOGGLE COMPONENT STYLES
   =============================================================================
-  
+
   Styles for the theme toggle component that allows users to switch between
   light, dark, and system preference themes.
-  
+
   🎯 Features:
   - Responsive design for mobile and desktop
   - Smooth animations and transitions
   - Accessible focus states and hover effects
   - Clean, minimal design that fits any layout
-  
+
   📚 Related Files:
   - theme-toggle.html: Component markup
   - theme-toggle.js: Component functionality
@@ -19,7 +19,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Theme Toggle Container
   =====================
   Main wrapper for the theme toggle component
@@ -29,7 +29,7 @@
   display: inline-block;
 }
 
-/* 
+/*
   Theme Toggle Button
   ==================
   The main button that shows current theme and opens menu
@@ -74,7 +74,7 @@
   color: var(--bsb-primary);
 }
 
-/* 
+/*
   Theme Icons Container
   ====================
   Container for the theme icons with transitions
@@ -88,7 +88,7 @@
   height: 20px;
 }
 
-/* 
+/*
   Individual Theme Icons
   =====================
   Icons for light, dark, and auto modes
@@ -119,7 +119,7 @@
   opacity: 1;
 }
 
-/* 
+/*
   Screen Reader Label
   ==================
   Hidden text for screen readers
@@ -136,7 +136,7 @@
   border: 0;
 }
 
-/* 
+/*
   Theme Options Menu
   =================
   Dropdown menu with theme options
@@ -164,7 +164,7 @@
   transform: translateY(0);
 }
 
-/* 
+/*
   Theme Options List
   =================
   List container for theme options
@@ -175,7 +175,7 @@
   padding: var(--bsb-space-2);
 }
 
-/* 
+/*
   Individual Theme Option
   ======================
   Each theme option button in the menu
@@ -220,7 +220,7 @@
   color: hsl(var(--bsb-primary-hue) 90% 75%);
 }
 
-/* 
+/*
   Theme Option Components
   ======================
   Icon, text, and check mark for each option
@@ -254,7 +254,7 @@
   opacity: 1;
 }
 
-/* 
+/*
   Responsive Design
   ================
   Adjustments for different screen sizes
@@ -264,19 +264,19 @@
     width: 44px;
     height: 44px;
   }
-  
+
   .bsb-theme-toggle__menu {
     right: -8px;
     min-width: 140px;
   }
-  
+
   .bsb-theme-toggle__option {
     padding: var(--bsb-space-3) var(--bsb-space-4);
     font-size: var(--bsb-text-base);
   }
 }
 
-/* 
+/*
   Reduced Motion Support
   =====================
   Respect user preference for reduced motion
@@ -288,13 +288,13 @@
   .bsb-theme-toggle__option {
     transition: none;
   }
-  
+
   .bsb-theme-toggle__button:active {
     transform: none;
   }
 }
 
-/* 
+/*
   High Contrast Mode Support
   =========================
   Enhanced visibility for high contrast mode
@@ -303,17 +303,17 @@
   .bsb-theme-toggle__button {
     border-width: 2px;
   }
-  
+
   .bsb-theme-toggle__menu {
     border-width: 2px;
   }
-  
+
   .bsb-theme-toggle__option:focus {
     outline-width: 3px;
   }
 }
 
-/* 
+/*
   Print Styles
   ===========
   Hide theme toggle in print

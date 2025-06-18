@@ -2,20 +2,20 @@
   =============================================================================
   BSB DESIGN TOKENS - The Foundation of Your Design System
   =============================================================================
-  
+
   This file contains CSS custom properties (variables) that control the entire
   visual appearance of your site. Think of these as your design system's DNA.
-  
+
   🎯 Quick Customization:
   1. Change --bsb-primary to your brand color
   2. Update --bsb-font-base to your preferred font
   3. Adjust --bsb-space-* values to change spacing rhythm
-  
+
   📚 Learn More:
   - Design Tokens: /docs/tutorials/design-tokens.md
   - Theming Guide: /docs/tutorials/theming.md
   - CSS Variables: https://developer.mozilla.org/en-US/docs/Web/CSS/--*
-  
+
   💡 Pro Tips:
   - Use semantic names (--bsb-color-primary vs --bsb-color-blue)
   - Keep values consistent (8px spacing rhythm)
@@ -24,7 +24,7 @@
 */
 
 :root {
-  /* 
+  /*
     Color Palette
     =============
     Using HSL for easy color manipulation. HSL = Hue, Saturation, Lightness
@@ -33,25 +33,25 @@
     - More intuitive than hex or RGB
     - Better for creating accessible color contrasts
   */
-  
+
   /* Primary Brand Colors */
   --bsb-primary-hue: 211;
   --bsb-primary: hsl(var(--bsb-primary-hue) 100% 50%);
   --bsb-primary-light: hsl(var(--bsb-primary-hue) 100% 65%);
   --bsb-primary-dark: hsl(var(--bsb-primary-hue) 100% 35%);
-  
+
   /* Secondary Colors */
   --bsb-secondary-hue: 208;
   --bsb-secondary: hsl(var(--bsb-secondary-hue) 7% 46%);
   --bsb-secondary-light: hsl(var(--bsb-secondary-hue) 7% 60%);
   --bsb-secondary-dark: hsl(var(--bsb-secondary-hue) 7% 30%);
-  
+
   /* Semantic Colors - Named by purpose, not appearance */
   --bsb-success: hsl(134deg 61% 41%);
   --bsb-warning: hsl(45deg 100% 51%);
   --bsb-error: hsl(354deg 70% 54%);
   --bsb-info: hsl(188deg 78% 41%);
-  
+
   /* Neutral Colors - Grays for text, borders, backgrounds */
   --bsb-gray-50: hsl(210deg 20% 98%);
   --bsb-gray-100: hsl(210deg 20% 96%);
@@ -63,7 +63,7 @@
   --bsb-gray-700: hsl(210deg 20% 30%);
   --bsb-gray-800: hsl(210deg 20% 20%);
   --bsb-gray-900: hsl(210deg 20% 10%);
-  
+
   /* Applied Colors - How colors are used in the UI */
   --bsb-text-primary: var(--bsb-gray-900);
   --bsb-text-secondary: var(--bsb-gray-600);
@@ -74,30 +74,30 @@
   --bsb-bg-tertiary: var(--bsb-gray-100);
   --bsb-border-color: var(--bsb-gray-200);
   --bsb-border-color-dark: var(--bsb-gray-300);
-  
+
   /* Code and syntax highlighting colors */
   --bsb-bg-code: #1e1e1e;
   --bsb-text-code: #d4d4d4;
   --bsb-border-dark: #3e3e42;
-  
+
   /* Interactive element colors */
   --bsb-bg-hover: var(--bsb-gray-100);
   --bsb-bg-active: var(--bsb-gray-200);
   --bsb-text-link: var(--bsb-primary);
   --bsb-text-link-hover: var(--bsb-primary-dark);
-  
-  /* 
+
+  /*
     Typography
     ==========
     System font stacks provide native fonts for each operating system.
     This ensures fast loading and familiar reading experience.
   */
-  
+
   /* Font Families */
   --bsb-font-base: system-ui, -apple-system, "Segoe UI", roboto, "Helvetica Neue", arial, sans-serif;
   --bsb-font-heading: var(--bsb-font-base); /* Same as base, but customizable */
   --bsb-font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", menlo, consolas, "DejaVu Sans Mono", monospace;
-  
+
   /* Font Sizes - Using rem for scalability */
   --bsb-text-xs: 0.75rem;    /* 12px */
   --bsb-text-sm: 0.875rem;   /* 14px */
@@ -108,7 +108,7 @@
   --bsb-text-3xl: 1.875rem;  /* 30px */
   --bsb-text-4xl: 2.25rem;   /* 36px */
   --bsb-text-5xl: 3rem;      /* 48px */
-  
+
   /* Line Heights - Optimized for readability */
   --bsb-leading-none: 1;
   --bsb-leading-tight: 1.25;
@@ -116,14 +116,14 @@
   --bsb-leading-normal: 1.5;
   --bsb-leading-relaxed: 1.625;
   --bsb-leading-loose: 2;
-  
+
   /* Font Weights */
   --bsb-font-normal: 400;
   --bsb-font-medium: 500;
   --bsb-font-semibold: 600;
   --bsb-font-bold: 700;
-  
-  /* 
+
+  /*
     Spacing System
     ==============
     Based on an 8px grid system for consistent spatial rhythm.
@@ -143,20 +143,20 @@
   --bsb-space-20: 5rem;     /* 80px */
   --bsb-space-24: 6rem;     /* 96px */
   --bsb-space-32: 8rem;     /* 128px */
-  
-  /* 
+
+  /*
     Layout
     ======
     Common measurements for consistent layouts
   */
-  
+
   /* Container Widths */
   --bsb-container-sm: 640px;
   --bsb-container-md: 768px;
   --bsb-container-lg: 1024px;
   --bsb-container-xl: 1280px;
   --bsb-container-2xl: 1536px;
-  
+
   /* Border Radius */
   --bsb-radius-none: 0;
   --bsb-radius-sm: 0.125rem;   /* 2px */
@@ -166,30 +166,30 @@
   --bsb-radius-xl: 0.75rem;    /* 12px */
   --bsb-radius-2xl: 1rem;      /* 16px */
   --bsb-radius-full: 9999px;   /* Pill shape */
-  
+
   /* Borders */
   --bsb-border-width: 1px;
   --bsb-border-width-2: 2px;
   --bsb-border-width-4: 4px;
-  
-  /* 
+
+  /*
     Effects
     =======
     Shadows, transitions, and other visual effects
   */
-  
+
   /* Box Shadows - Layered for more realistic depth */
   --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
   --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
   --bsb-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
   --bsb-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
   --bsb-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 4%);
-  
+
   /* Transitions - Consistent timing for animations */
   --bsb-transition-fast: 150ms ease-in-out;
   --bsb-transition-base: 200ms ease-in-out;
   --bsb-transition-slow: 300ms ease-in-out;
-  
+
   /* Z-Index Scale - Manage stacking order */
   --bsb-z-0: 0;
   --bsb-z-10: 10;
@@ -200,8 +200,8 @@
   --bsb-z-modal: 1000;
   --bsb-z-popover: 1100;
   --bsb-z-tooltip: 1200;
-  
-  /* 
+
+  /*
     Breakpoints
     ===========
     Used in CSS and JavaScript for responsive design.
@@ -214,7 +214,7 @@
   --bsb-screen-2xl: 1536px;
 }
 
-/* 
+/*
   Dark Mode Variables
   ==================
   Automatically applied when user prefers dark color scheme.
@@ -227,27 +227,27 @@
     --bsb-text-secondary: var(--bsb-gray-300);
     --bsb-text-muted: var(--bsb-gray-400);
     --bsb-text-inverse: var(--bsb-gray-900);
-    
+
     /* Background colors for dark theme */
     --bsb-bg-primary: hsl(210deg 20% 8%);
     --bsb-bg-secondary: hsl(210deg 20% 12%);
     --bsb-bg-tertiary: hsl(210deg 20% 16%);
-    
+
     /* Border colors with better visibility */
     --bsb-border-color: hsl(210deg 20% 18%);
     --bsb-border-color-dark: hsl(210deg 20% 25%);
-    
+
     /* Interactive element colors for dark mode */
     --bsb-bg-hover: hsl(210deg 20% 16%);
     --bsb-bg-active: hsl(210deg 20% 20%);
     --bsb-text-link: hsl(var(--bsb-primary-hue) 90% 65%);
     --bsb-text-link-hover: hsl(var(--bsb-primary-hue) 90% 75%);
-    
+
     /* Code colors for dark mode */
     --bsb-bg-code: hsl(210deg 20% 6%);
     --bsb-text-code: var(--bsb-gray-200);
     --bsb-border-dark: hsl(210deg 20% 22%);
-    
+
     /* Enhanced shadows for dark mode */
     --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 50%);
     --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 60%), 0 1px 2px 0 rgb(0 0 0 / 40%);
@@ -257,7 +257,7 @@
   }
 }
 
-/* 
+/*
   Manual Theme Override
   ====================
   Allows JavaScript to override theme regardless of system preference
@@ -268,27 +268,27 @@
   --bsb-text-secondary: var(--bsb-gray-300);
   --bsb-text-muted: var(--bsb-gray-400);
   --bsb-text-inverse: var(--bsb-gray-900);
-  
+
   /* Background colors for dark theme */
   --bsb-bg-primary: hsl(210deg 20% 8%);
   --bsb-bg-secondary: hsl(210deg 20% 12%);
   --bsb-bg-tertiary: hsl(210deg 20% 16%);
-  
+
   /* Border colors with better visibility */
   --bsb-border-color: hsl(210deg 20% 18%);
   --bsb-border-color-dark: hsl(210deg 20% 25%);
-  
+
   /* Interactive element colors for dark mode */
   --bsb-bg-hover: hsl(210deg 20% 16%);
   --bsb-bg-active: hsl(210deg 20% 20%);
   --bsb-text-link: hsl(var(--bsb-primary-hue) 90% 65%);
   --bsb-text-link-hover: hsl(var(--bsb-primary-hue) 90% 75%);
-  
+
   /* Code colors for dark mode */
   --bsb-bg-code: hsl(210deg 20% 6%);
   --bsb-text-code: var(--bsb-gray-200);
   --bsb-border-dark: hsl(210deg 20% 22%);
-  
+
   /* Enhanced shadows for dark mode */
   --bsb-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 50%);
   --bsb-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 60%), 0 1px 2px 0 rgb(0 0 0 / 40%);
@@ -297,7 +297,7 @@
   --bsb-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 60%), 0 10px 10px -5px rgb(0 0 0 / 40%);
 }
 
-/* 
+/*
   Light Theme Override
   ====================
   Explicit light theme when user manually selects it
@@ -322,7 +322,7 @@
   --bsb-border-dark: #3e3e42;
 }
 
-/* 
+/*
   Theme Transition Support
   =======================
   Smooth color transitions when switching themes
@@ -330,7 +330,7 @@
 *,
 *::before,
 *::after {
-  transition: 
+  transition:
     background-color var(--bsb-transition-base),
     border-color var(--bsb-transition-base),
     color var(--bsb-transition-base),

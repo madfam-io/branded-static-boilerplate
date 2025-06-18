@@ -282,6 +282,8 @@ class BSBThemeToggle {
 
   /**
    * Apply theme with transitions enabled
+   * @param {string} theme - Theme name to apply
+   * @param {HTMLElement} body - Document body element
    */
   applyThemeWithTransitions(theme, body) {
     if (theme === 'auto') {
@@ -293,6 +295,8 @@ class BSBThemeToggle {
 
   /**
    * Apply theme instantly without transitions
+   * @param {string} theme - Theme name to apply
+   * @param {HTMLElement} body - Document body element
    */
   applyThemeInstantly(theme, body) {
     // Temporarily disable transitions for instant theme switching

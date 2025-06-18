@@ -178,7 +178,7 @@ class PerformanceOptimizer {
         entries.forEach(entry => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
-            this.metrics.vitals.cls = Math.round(clsValue * CONSTANTS.PRECISION_MULTIPLIER) /
+            this.metrics.vitals.cls = Math.round(clsValue * CONSTANTS.PRECISION_MULTIPLIER) / 
               CONSTANTS.PRECISION_MULTIPLIER;
             this.updateDashboard();
           }
@@ -286,21 +286,21 @@ class PerformanceOptimizer {
     const recommendations = [];
 
     // Check for large resources
-    const largeResources = resources.filter(resource =>
+    const largeResources = resources.filter(resource => 
       resource.size > CONSTANTS.LARGE_RESOURCE_THRESHOLD
     ); // > 1MB
     if (largeResources.length > 0) {
       recommendations.push({
         type: 'warning',
         message: `${largeResources.length} large resources detected. Consider optimization.`,
-        details: largeResources.map(resource =>
+        details: largeResources.map(resource => 
           `${resource.name}: ${this.formatBytes(resource.size)}`
         )
       });
     }
 
     // Check for slow-loading resources
-    const slowResources = resources.filter(resource =>
+    const slowResources = resources.filter(resource => 
       resource.duration > CONSTANTS.SLOW_RESOURCE_THRESHOLD
     ); // > 1s
     if (slowResources.length > 0) {
@@ -669,11 +669,11 @@ class PerformanceOptimizer {
         max-height: 400px;
         overflow-y: auto;
       }
-
+      
       .bsb-perf-dashboard.minimized .bsb-perf-dashboard__content {
         display: none;
       }
-
+      
       .bsb-perf-dashboard__header {
         display: flex;
         justify-content: space-between;
@@ -683,13 +683,13 @@ class PerformanceOptimizer {
         border-bottom: 1px solid #ddd;
         border-radius: 8px 8px 0 0;
       }
-
+      
       .bsb-perf-dashboard__header h3 {
         margin: 0;
         font-size: 14px;
         font-weight: 600;
       }
-
+      
       .bsb-perf-dashboard__toggle {
         background: none;
         border: none;
@@ -702,15 +702,15 @@ class PerformanceOptimizer {
         align-items: center;
         justify-content: center;
       }
-
+      
       .bsb-perf-dashboard__content {
         padding: 12px;
       }
-
+      
       .bsb-perf-section {
         margin-bottom: 16px;
       }
-
+      
       .bsb-perf-section h4 {
         margin: 0 0 8px 0;
         font-size: 12px;
@@ -719,52 +719,52 @@ class PerformanceOptimizer {
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
-
+      
       .bsb-perf-vitals,
       .bsb-perf-resources {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
       }
-
+      
       .bsb-perf-metric {
         background: #f8f9fa;
         padding: 8px;
         border-radius: 4px;
         text-align: center;
       }
-
+      
       .bsb-perf-label {
         display: block;
         font-weight: 600;
         margin-bottom: 4px;
       }
-
+      
       .bsb-perf-value {
         display: block;
         font-weight: normal;
       }
-
+      
       .bsb-perf-value.good { color: #28a745; }
       .bsb-perf-value.needs-improvement { color: #ffc107; }
       .bsb-perf-value.poor { color: #dc3545; }
-
+      
       .bsb-perf-recommendations {
         font-size: 11px;
         line-height: 1.4;
       }
-
+      
       .bsb-perf-recommendation {
         margin-bottom: 8px;
         padding: 6px;
         border-radius: 4px;
       }
-
+      
       .bsb-perf-recommendation.warning {
         background: #fff3cd;
         color: #856404;
       }
-
+      
       .bsb-perf-recommendation.info {
         background: #d1ecf1;
         color: #0c5460;

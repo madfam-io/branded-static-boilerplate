@@ -247,6 +247,7 @@ class BSBCodePlayground {
 
   /**
    * Perform the actual tab switch
+   * @param {string} tabName - Name of the tab to switch to
    */
   performTabSwitch(tabName) {
 
@@ -329,7 +330,7 @@ class BSBCodePlayground {
   /**
    * Handle editor keydown events
    * @method handleEditorKeydown
-   * @param {KeyboardEvent} e - The keyboard event
+   * @param {KeyboardEvent} event - The keyboard event
    * @param {string} language - The editor language
    * @description Handles special keydown events in editors
    * @returns {void}
@@ -442,9 +443,9 @@ class BSBCodePlayground {
       warn: console.warn,
       error: console.error
     };
-    
+
     window.capturedLogs = [];
-    
+
     ['log', 'warn', 'error'].forEach(method => {
       console[method] = function(...args) {
         window.capturedLogs.push({
@@ -453,7 +454,7 @@ class BSBCodePlayground {
           timestamp: Date.now()
         });
         originalConsole[method].apply(console, args);
-        
+
         // Send to parent
         if (window.parent && window.parent.postMessage) {
           window.parent.postMessage({
@@ -464,7 +465,7 @@ class BSBCodePlayground {
         }
       };
     });
-    
+
     // Error handling - capture errors without logging to console
     window.addEventListener('error', event => {
       const message = \`\${event.filename}:\${event.lineno} - \${event.message}\`;
@@ -474,7 +475,7 @@ class BSBCodePlayground {
         message: message,
         timestamp: Date.now()
       });
-      
+
       // Send to parent for display
       if (window.parent && window.parent.postMessage) {
         window.parent.postMessage({
@@ -483,12 +484,12 @@ class BSBCodePlayground {
           message: message
         }, '*');
       }
-      
+
       // Prevent default error logging
       event.preventDefault();
       return true;
     });
-    
+
     try {
       ${js}
     } catch (error) {
@@ -499,7 +500,7 @@ class BSBCodePlayground {
         message: errorMessage,
         timestamp: Date.now()
       });
-      
+
       // Send to parent for display
       if (window.parent && window.parent.postMessage) {
         window.parent.postMessage({
@@ -739,7 +740,7 @@ class BSBCodePlayground {
           align-items: center;
           justify-content: center;
         }
-        
+
         .bsb-code-playground__confirm-backdrop {
           position: absolute;
           top: 0;
@@ -748,7 +749,7 @@ class BSBCodePlayground {
           height: 100%;
           background: rgba(0, 0, 0, 0.5);
         }
-        
+
         .bsb-code-playground__confirm-content {
           position: relative;
           background: var(--bsb-bg-primary, white);
@@ -758,25 +759,25 @@ class BSBCodePlayground {
           max-width: 400px;
           width: 90%;
         }
-        
+
         .bsb-code-playground__confirm-content h3 {
           margin: 0 0 12px 0;
           font-size: 1.25rem;
           color: var(--bsb-text-primary, #333);
         }
-        
+
         .bsb-code-playground__confirm-content p {
           margin: 0 0 20px 0;
           color: var(--bsb-text-secondary, #666);
           line-height: 1.5;
         }
-        
+
         .bsb-code-playground__confirm-actions {
           display: flex;
           gap: 12px;
           justify-content: flex-end;
         }
-        
+
         .bsb-code-playground__confirm-cancel,
         .bsb-code-playground__confirm-reset {
           padding: 8px 16px;
@@ -786,23 +787,23 @@ class BSBCodePlayground {
           cursor: pointer;
           transition: all 0.2s ease;
         }
-        
+
         .bsb-code-playground__confirm-cancel {
           background: transparent;
           border-color: var(--bsb-border-color, #ccc);
           color: var(--bsb-text-secondary, #666);
         }
-        
+
         .bsb-code-playground__confirm-cancel:hover {
           background: var(--bsb-bg-secondary, #f5f5f5);
         }
-        
+
         .bsb-code-playground__confirm-reset {
           background: var(--bsb-error, #dc3545);
           border-color: var(--bsb-error, #dc3545);
           color: white;
         }
-        
+
         .bsb-code-playground__confirm-reset:hover {
           background: #c82333;
           border-color: #c82333;

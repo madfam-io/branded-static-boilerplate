@@ -2,21 +2,21 @@
   =============================================================================
   BSB DEFAULT THEME - Production-Ready Styles
   =============================================================================
-  
+
   This file contains the default theme styles that make your site look
   polished and professional out of the box.
-  
+
   🎯 What's Included:
   - Button styles
   - Form elements
   - Card components
   - Navigation patterns
   - Common UI elements
-  
+
   📚 Learn More:
   - Theming Guide: /docs/tutorials/theming.md
   - Creating Themes: /docs/tutorials/custom-themes.md
-  
+
   💡 Customization:
   - Override variables in variables.css
   - Create your own theme file
@@ -24,7 +24,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Buttons
   =======
   Consistent, accessible button styles
@@ -47,13 +47,13 @@
   border: var(--bsb-border-width) solid transparent;
   border-radius: var(--bsb-radius-base);
   transition: all var(--bsb-transition-fast);
-  
+
   /* Focus styles for accessibility */
   &:focus {
     outline: 2px solid var(--bsb-primary);
     outline-offset: 2px;
   }
-  
+
   /* Disabled state */
   &:disabled,
   &[disabled] {
@@ -67,12 +67,12 @@
   color: var(--bsb-text-inverse);
   background-color: var(--bsb-primary);
   border-color: var(--bsb-primary);
-  
+
   &:hover:not(:disabled) {
     background-color: var(--bsb-primary-dark);
     border-color: var(--bsb-primary-dark);
   }
-  
+
   &:active:not(:disabled) {
     transform: translateY(1px);
   }
@@ -82,7 +82,7 @@
   color: var(--bsb-text-primary);
   background-color: var(--bsb-bg-primary);
   border-color: var(--bsb-border-color-dark);
-  
+
   &:hover:not(:disabled) {
     background-color: var(--bsb-bg-secondary);
     border-color: var(--bsb-gray-400);
@@ -93,7 +93,7 @@
   color: var(--bsb-primary);
   background-color: transparent;
   border-color: transparent;
-  
+
   &:hover:not(:disabled) {
     background-color: var(--bsb-bg-secondary);
   }
@@ -113,20 +113,20 @@
 /* Button groups */
 .btn-group {
   display: inline-flex;
-  
+
   .btn:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     margin-left: -1px;
   }
-  
+
   .btn:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 }
 
-/* 
+/*
   Forms
   =====
   Consistent form element styling
@@ -156,13 +156,13 @@
   border: var(--bsb-border-width) solid var(--bsb-border-color-dark);
   border-radius: var(--bsb-radius-base);
   transition: border-color var(--bsb-transition-fast);
-  
+
   &:focus {
     outline: none;
     border-color: var(--bsb-primary);
     box-shadow: 0 0 0 3px rgb(var(--bsb-primary-hue) 100% 50% / 10%);
   }
-  
+
   &:disabled {
     background-color: var(--bsb-bg-secondary);
     cursor: not-allowed;
@@ -185,7 +185,7 @@
   color: var(--bsb-error);
 }
 
-/* 
+/*
   Skip Link
   =========
   Accessibility feature for keyboard navigation
@@ -200,14 +200,14 @@
   text-decoration: none;
   border-radius: var(--bsb-radius-base);
   z-index: var(--bsb-z-tooltip);
-  
+
   &:focus {
     top: var(--bsb-space-2);
     left: var(--bsb-space-2);
   }
 }
 
-/* 
+/*
   Code Blocks
   ===========
   Styled code blocks for documentation
@@ -229,7 +229,7 @@
   overflow-x: auto;
 }
 
-/* 
+/*
   Steps
   =====
   For tutorial and guide content
@@ -243,7 +243,7 @@
   position: relative;
   margin-bottom: var(--bsb-space-8);
   padding-left: var(--bsb-space-12);
-  
+
   &::before {
     counter-increment: step-counter;
     content: counter(step-counter);
@@ -269,7 +269,7 @@
   font-weight: var(--bsb-font-semibold);
 }
 
-/* 
+/*
   Badges
   ======
   Small labels for status and counts
@@ -309,7 +309,7 @@
   color: var(--bsb-text-inverse);
 }
 
-/* 
+/*
   Alerts
   ======
   Informational messages and notifications
@@ -346,7 +346,7 @@
   color: var(--bsb-error);
 }
 
-/* 
+/*
   Tables
   ======
   Clean, responsive table styles
@@ -375,7 +375,7 @@
   background-color: var(--bsb-bg-secondary);
 }
 
-/* 
+/*
   Responsive Embeds
   =================
   For videos and iframes

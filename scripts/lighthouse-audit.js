@@ -406,7 +406,7 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
           <div class="score-value ${scoreClass}">${score}</div>
           <div>
             ${category.charAt(0).toUpperCase() +
-              category.slice(1).replace(/([A-Z])/gu, ' $1')}
+              category.slice(1).replace(/(?<letter>[A-Z])/gu, ' $<letter>')}
           </div>
         </div>
       `;

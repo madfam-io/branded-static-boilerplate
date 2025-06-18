@@ -244,12 +244,12 @@ class AccessibilityEnhancer {
         outline-offset: 2px !important;
         box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
       }
-      
+
       .keyboard-navigation button:focus,
       .keyboard-navigation .btn:focus {
         outline-color: var(--bsb-secondary, #ff6b6b) !important;
       }
-      
+
       .high-contrast *:focus {
         outline-width: 4px !important;
         outline-color: #ffff00 !important;

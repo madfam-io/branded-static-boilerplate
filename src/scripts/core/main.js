@@ -35,41 +35,7 @@ const CONSTANTS = {
   SCROLL_OFFSET: 20
 };
 
-/**
- * Initialize all BSB features
- * @function initializeBSB
- * @description Sets up all interactive components and features of the BSB framework.
- *              This is the main entry point that coordinates all subsystem initialization.
- * @throws {Error} Throws if critical DOM elements are missing
- * @returns {void}
- * @since 1.0.0
- * @example
- * // Initialize BSB when DOM is ready
- * if (document.readyState === 'loading') {
- *   document.addEventListener('DOMContentLoaded', initializeBSB);
- * } else {
- *   initializeBSB();
- * }
- */
-const initializeBSB = function initializeBSB() {
-  // Initialize smooth scrolling
-  initSmoothScrolling();
-
-  // Initialize form enhancements
-  initFormEnhancements();
-
-  // Initialize lazy loading
-  initLazyLoading();
-
-  // Initialize accessibility features
-  initAccessibility();
-
-  // Update dynamic content
-  updateDynamicContent();
-
-  // Log initialization in development only
-  debug.log('BSB: All systems initialized 🚀');
-};
+// Function definitions must come before usage due to linting rules
 
 /**
  * Smooth scrolling for anchor links
@@ -227,8 +193,8 @@ const updateDynamicContent = function updateDynamicContent() {
     const text = element.innerHTML;
     // Replace year pattern (© YYYY) with current year
     const updatedText = text.replace(
-      /©\s*<time[^>]*>(?:\d{4})<\/time>/u,
-      `© <time datetime="${currentYear}">${currentYear}</time>`
+      /(?<copyright>\u00A9\s*)(?:\d{4})/gu,
+      `$<copyright>${currentYear}`
     );
     if (updatedText !== text) {
       element.innerHTML = updatedText;
@@ -237,25 +203,43 @@ const updateDynamicContent = function updateDynamicContent() {
 };
 
 /**
- * Accessibility enhancements
+ * Initialize accessibility features
  * @function initAccessibility
- * @description Enhances keyboard navigation and screen reader support
+ * @description Sets up keyboard navigation and ARIA attributes
  * @returns {void}
  */
 const initAccessibility = function initAccessibility() {
-  // Add keyboard navigation indicators
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Tab') {
-      document.body.classList.add('keyboard-nav');
-    }
+  // Add keyboard navigation for dropdowns
+  const dropdowns = document.querySelectorAll('[role="menu"]');
+
+  dropdowns.forEach(dropdown => {
+    const items = dropdown.querySelectorAll('[role="menuitem"]');
+    let currentIndex = -1;
+
+    dropdown.addEventListener('keydown', event => {
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          currentIndex = (currentIndex + 1) % items.length;
+          items[currentIndex].focus();
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+          items[currentIndex].focus();
+          break;
+        case 'Escape':
+          event.preventDefault();
+          dropdown.previousElementSibling?.focus();
+          break;
+        default:
+          break;
+      }
+    });
   });
 
-  document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-nav');
-  });
-
-  // Enhance skip links
-  const skipLinks = document.querySelectorAll('.skip-link');
+  // Skip to main content links
+  const skipLinks = document.querySelectorAll('.bsb-skip-link');
 
   skipLinks.forEach(link => {
     link.addEventListener('click', event => {
@@ -292,6 +276,42 @@ const monitorPerformance = function monitorPerformance() {
 };
 
 /**
+ * Initialize all BSB features
+ * @function initializeBSB
+ * @description Sets up all interactive components and features of the BSB framework.
+ *              This is the main entry point that coordinates all subsystem initialization.
+ * @throws {Error} Throws if critical DOM elements are missing
+ * @returns {void}
+ * @since 1.0.0
+ * @example
+ * // Initialize BSB when DOM is ready
+ * if (document.readyState === 'loading') {
+ *   document.addEventListener('DOMContentLoaded', initializeBSB);
+ * } else {
+ *   initializeBSB();
+ * }
+ */
+const initializeBSB = function initializeBSB() {
+  // Initialize smooth scrolling
+  initSmoothScrolling();
+
+  // Initialize form enhancements
+  initFormEnhancements();
+
+  // Initialize lazy loading
+  initLazyLoading();
+
+  // Initialize accessibility features
+  initAccessibility();
+
+  // Update dynamic content
+  updateDynamicContent();
+
+  // Log initialization in development only
+  debug.log('BSB: All systems initialized 🚀');
+};
+
+/**
  * Utility: Debounce function
  * @namespace BSBUtils
  * @description Utility functions for common operations
@@ -325,10 +345,9 @@ window.BSBUtils = {
    */
   throttle(func, limit) {
     let inThrottle = false;
-    return function throttledFunction(...args) {
-      const context = this; // Capture context for clarity
+    return (...args) => {
       if (!inThrottle) {
-        func.apply(context, args);
+        func(...args);
         inThrottle = true;
         setTimeout(() => {
           inThrottle = false;

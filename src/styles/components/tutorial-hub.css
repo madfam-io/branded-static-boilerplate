@@ -1,17 +1,17 @@
 /* =============================================================================
    TUTORIAL HUB COMPONENT STYLES
    =============================================================================
-   
+
    Comprehensive styling for the tutorial hub page, including learning paths,
    progress tracking, tutorial cards, and interactive filtering.
-   
+
    🎯 Design Goals:
    - Clear information hierarchy
    - Engaging visual design
    - Accessible interactions
    - Responsive across all devices
    - Professional educational aesthetic
-   
+
    📚 Educational Notes:
    - Uses CSS Grid for complex layouts
    - Demonstrates modern CSS techniques
@@ -22,8 +22,8 @@
 
 /* Hero Section Enhancements */
 .bsb-hero--tutorials {
-  background: linear-gradient(135deg, 
-    var(--color-primary-50) 0%, 
+  background: linear-gradient(135deg,
+    var(--color-primary-50) 0%,
     var(--color-primary-100) 100%);
   position: relative;
   overflow: hidden;
@@ -36,7 +36,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: 
+  background-image:
     radial-gradient(circle at 25% 25%, var(--color-primary-200) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, var(--color-secondary-200) 0%, transparent 50%);
   opacity: 0.3;
@@ -87,13 +87,13 @@
   .bsb-hero__stats {
     gap: var(--spacing-md);
   }
-  
+
   .hero-stat {
     flex: 1;
     min-width: 0;
     padding: var(--spacing-sm);
   }
-  
+
   .hero-stat__number {
     font-size: var(--font-size-xl);
   }
@@ -212,12 +212,12 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .progress-stats {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
-  
+
   .progress-stat {
     justify-content: center;
   }
@@ -248,8 +248,8 @@
 
 .learning-path--featured {
   border: 2px solid var(--color-primary-500);
-  background: linear-gradient(135deg, 
-    var(--color-primary-50) 0%, 
+  background: linear-gradient(135deg,
+    var(--color-primary-50) 0%,
     var(--color-surface) 100%);
 }
 
@@ -435,11 +435,11 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .learning-path {
     padding: var(--spacing-lg);
   }
-  
+
   .learning-path__meta {
     flex-direction: column;
     gap: var(--spacing-sm);
@@ -495,7 +495,7 @@
     flex-direction: column;
     gap: var(--spacing-md);
   }
-  
+
   .filter-group {
     min-width: unset;
   }
@@ -662,8 +662,8 @@
 
 .progress-bar__fill {
   height: 100%;
-  background: linear-gradient(90deg, 
-    var(--color-primary-500) 0%, 
+  background: linear-gradient(90deg,
+    var(--color-primary-500) 0%,
     var(--color-primary-600) 100%);
   border-radius: var(--border-radius-full);
   transition: width 0.3s ease;
@@ -679,7 +679,7 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .tutorial-card {
     padding: var(--spacing-lg);
   }
@@ -687,8 +687,8 @@
 
 /* CTA Section */
 .section--cta {
-  background: linear-gradient(135deg, 
-    var(--color-primary-600) 0%, 
+  background: linear-gradient(135deg,
+    var(--color-primary-600) 0%,
     var(--color-primary-700) 100%);
   color: white;
 }
@@ -731,7 +731,7 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
   .cta-actions .btn {
     width: 100%;
     max-width: 280px;
@@ -746,7 +746,7 @@
   .progress-circle__progress {
     transition: none;
   }
-  
+
   .learning-path:hover,
   .tutorial-card:hover {
     transform: none;
@@ -759,11 +759,11 @@
   .topic-tag {
     border: 1px solid currentColor;
   }
-  
+
   .progress-bar {
     border: 1px solid currentColor;
   }
-  
+
   .learning-path,
   .tutorial-card {
     border-width: 2px;
@@ -776,13 +776,13 @@
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
   }
-  
+
   .learning-path--featured {
-    background: linear-gradient(135deg, 
-      rgba(var(--color-primary-500), 0.1) 0%, 
+    background: linear-gradient(135deg,
+      rgba(var(--color-primary-500), 0.1) 0%,
       var(--color-surface) 100%);
   }
-  
+
   .tutorial-card__highlights,
   .learning-path__highlights {
     background: rgba(255, 255, 255, 0.02);
@@ -796,13 +796,13 @@
   .cta-content {
     display: none;
   }
-  
+
   .learning-paths-grid,
   .tutorials-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
-  
+
   .learning-path,
   .tutorial-card {
     break-inside: avoid;

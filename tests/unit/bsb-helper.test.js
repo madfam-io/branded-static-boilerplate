@@ -1,7 +1,7 @@
 /**
  * BSB Helper Tests
  * ================
- * 
+ *
  * Unit tests for the BSB Helper development tools.
  * Tests educational features, component inspection, and accessibility.
  */
@@ -225,7 +225,7 @@ describe('BSB Helper', () => {
     test('dev panel should be accessible', async () => {
       helper.init();
       const panel = document.querySelector('.bsb-dev-panel');
-      
+
       // Test basic accessibility
       await testAccessibility(panel);
 
@@ -240,7 +240,7 @@ describe('BSB Helper', () => {
       });
 
       const modal = helper.showComponentDocs('card', element);
-      
+
       // Test modal accessibility
       await testAccessibility(modal);
 
@@ -275,10 +275,10 @@ describe('BSB Helper', () => {
 
     test('should handle large numbers of components efficiently', () => {
       // Create 100 components
-      const components = Array.from({ length: 100 }, (_, i) => 
+      const components = Array.from({ length: 100 }, (_, i) =>
         `<div data-bsb-component="card-${i % 5}">Component ${i}</div>`
       ).join('');
-      
+
       document.body.innerHTML = components;
 
       const { duration } = measurePerformance(() => {
@@ -300,7 +300,7 @@ describe('BSB Helper', () => {
 
     test('should handle malformed HTML gracefully', () => {
       document.body.innerHTML = '<div data-bsb-component="">Empty component name</div>';
-      
+
       expect(() => {
         helper.findComponents();
       }).not.toThrow();
@@ -311,10 +311,10 @@ describe('BSB Helper', () => {
 describe('Learning Mode Integration', () => {
   test('should enable learning mode via localStorage', () => {
     localStorage.setItem('bsb-dev-mode', 'true');
-    
+
     const helper = new MockBSBHelper();
     const isEnabled = localStorage.getItem('bsb-dev-mode') === 'true';
-    
+
     expect(isEnabled).toBe(true);
   });
 
@@ -322,16 +322,16 @@ describe('Learning Mode Integration', () => {
     // Mock enableLearningMode function
     global.enableLearningMode = jest.fn(() => {
       localStorage.setItem('bsb-dev-mode', 'true');
-      
+
       const notification = document.createElement('div');
       notification.textContent = '🎓 Learning mode enabled! Refresh to see interactive tooltips.';
       document.body.appendChild(notification);
-      
+
       return notification;
     });
 
     const notification = global.enableLearningMode();
-    
+
     expect(localStorage.getItem('bsb-dev-mode')).toBe('true');
     expect(notification.textContent).toContain('Learning mode enabled');
     expect(document.body.contains(notification)).toBe(true);

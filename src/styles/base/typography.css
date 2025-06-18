@@ -2,21 +2,21 @@
   =============================================================================
   BSB TYPOGRAPHY - Beautiful, Readable Text
   =============================================================================
-  
+
   This file establishes the typographic hierarchy and rhythm for your site.
   Good typography is invisible - it just feels right.
-  
+
   🎯 Principles:
   1. Establish clear hierarchy
   2. Optimize for readability
   3. Create consistent rhythm
   4. Ensure accessibility
-  
+
   📚 Learn More:
   - Typography Guide: /docs/tutorials/typography.md
   - Modular Scale: https://www.modularscale.com/
   - Line Height: https://www.smashingmagazine.com/2020/07/css-techniques-legibility/
-  
+
   💡 Pro Tips:
   - Test with real content, not Lorem Ipsum
   - Check readability on mobile devices
@@ -24,7 +24,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Base Typography
   ===============
   Applied to body in reset.css, but repeated here for clarity
@@ -34,17 +34,17 @@ body {
   font-size: var(--bsb-text-base);
   line-height: var(--bsb-leading-normal);
   color: var(--bsb-text-primary);
-  
+
   /* Optimize legibility */
   font-variant-ligatures: common-ligatures;
   font-feature-settings: "kern" 1;
-  
+
   /* Better font rendering on Mac/iOS */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 
+/*
   Headings
   ========
   Using a modular scale for consistent hierarchy.
@@ -57,11 +57,11 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--bsb-text-primary);
   margin-top: 0;
   margin-bottom: var(--bsb-space-4);
-  
+
   /* Prevent orphaned headings */
   break-after: avoid;
   page-break-after: avoid;
-  
+
   /* Better kerning for large text */
   font-kerning: normal;
 }
@@ -119,7 +119,7 @@ h6 {
   margin-top: var(--bsb-space-8);
 }
 
-/* 
+/*
   Paragraphs
   ==========
   Optimized for readability with proper spacing
@@ -127,7 +127,7 @@ h6 {
 p {
   margin-top: 0;
   margin-bottom: var(--bsb-space-6);
-  
+
   /* Prevent widows and orphans */
   widows: 3;
   orphans: 3;
@@ -147,7 +147,7 @@ p.lead {
   margin-bottom: var(--bsb-space-8);
 }
 
-/* 
+/*
   Links
   =====
   Accessible, obvious link styling
@@ -178,7 +178,7 @@ a[href^="http"]:not([href*="yourdomain.com"])::after {
   vertical-align: super;
 }
 
-/* 
+/*
   Lists
   =====
   Styled lists for content (navigation lists are unstyled)
@@ -211,7 +211,7 @@ ol:not([class]) ol {
   margin-bottom: var(--bsb-space-2);
 }
 
-/* 
+/*
   Quotes
   ======
   Styled blockquotes and inline quotes
@@ -241,7 +241,7 @@ cite::before {
   content: "— ";
 }
 
-/* 
+/*
   Code
   ====
   Inline and block code styling
@@ -270,7 +270,7 @@ pre {
   border-radius: var(--bsb-radius-base);
   overflow-x: auto;
   line-height: var(--bsb-leading-normal);
-  
+
   /* Prevent horizontal scrolling on mobile */
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -282,7 +282,7 @@ pre code {
   border-radius: 0;
 }
 
-/* 
+/*
   Keyboard Input
   ==============
   Styled to look like actual keys
@@ -298,7 +298,7 @@ kbd {
   white-space: nowrap;
 }
 
-/* 
+/*
   Other Elements
   ==============
 */
@@ -341,7 +341,7 @@ abbr[title] {
   text-decoration: none;
 }
 
-/* 
+/*
   Responsive Typography
   ====================
   Adjust sizes for smaller screens
@@ -350,15 +350,15 @@ abbr[title] {
   h1 {
     font-size: var(--bsb-text-3xl);
   }
-  
+
   h2 {
     font-size: var(--bsb-text-2xl);
   }
-  
+
   h3 {
     font-size: var(--bsb-text-xl);
   }
-  
+
   h4 {
     font-size: var(--bsb-text-lg);
   }

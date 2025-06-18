@@ -2,17 +2,17 @@
   =============================================================================
   BSB FOOTER COMPONENT STYLES
   =============================================================================
-  
+
   Comprehensive footer with multiple sections and responsive layout.
   Designed to be flexible and easily customizable.
-  
+
   🎯 Features:
   - Multi-column layout
   - Responsive grid
   - Social media links
   - Newsletter form styles
   - Dark mode support
-  
+
   📚 Customization:
   - Adjust column widths
   - Change background colors
@@ -21,7 +21,7 @@
   =============================================================================
 */
 
-/* 
+/*
   Base Footer Styles
   ==================
 */
@@ -33,13 +33,13 @@
   --bsb-footer-link-hover: var(--bsb-primary);
   --bsb-footer-border: var(--bsb-border-color);
   --bsb-footer-padding-y: var(--bsb-space-16);
-  
+
   background-color: var(--bsb-footer-bg);
   color: var(--bsb-footer-text);
   margin-top: auto; /* Push footer to bottom */
 }
 
-/* 
+/*
   Footer Top Section
   ==================
   Optional CTA or newsletter section
@@ -94,14 +94,14 @@
   .bsb-footer__newsletter {
     flex-direction: column;
   }
-  
+
   .bsb-footer__newsletter input,
   .bsb-footer__newsletter button {
     width: 100%;
   }
 }
 
-/* 
+/*
   Footer Main Content
   ===================
 */
@@ -127,7 +127,7 @@
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--bsb-space-6);
   }
-  
+
   .bsb-footer__column--wide {
     grid-column: 1 / -1;
   }
@@ -139,7 +139,7 @@
   }
 }
 
-/* 
+/*
   Footer Column
   =============
 */
@@ -186,7 +186,7 @@
   border-radius: var(--bsb-radius-sm);
 }
 
-/* 
+/*
   Footer Brand
   ============
 */
@@ -211,7 +211,7 @@
   max-width: 300px;
 }
 
-/* 
+/*
   Social Media Links
   ==================
 */
@@ -244,7 +244,7 @@
   height: 1.25rem;
 }
 
-/* 
+/*
   Footer Bottom
   =============
 */
@@ -293,13 +293,13 @@
     flex-direction: column;
     text-align: center;
   }
-  
+
   .bsb-footer__bottom-links {
     justify-content: center;
   }
 }
 
-/* 
+/*
   Simple Footer Variant
   ====================
 */
@@ -320,7 +320,7 @@
   gap: var(--bsb-space-6);
 }
 
-/* 
+/*
   Dark Footer Variant
   ===================
 */
@@ -333,7 +333,7 @@
   --bsb-footer-border: var(--bsb-gray-800);
 }
 
-/* 
+/*
   Contact Info Styles
   ===================
 */

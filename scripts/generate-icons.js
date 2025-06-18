@@ -34,7 +34,7 @@ const createSVG = size => `
     </linearGradient>
   </defs>
   <rect width="100" height="100" rx="20" fill="url(#gradient)"/>
-  <text x="50" y="65" font-family="Arial, sans-serif" font-size="48" 
+  <text x="50" y="65" font-family="Arial, sans-serif" font-size="48"
         font-weight="bold" text-anchor="middle" fill="white">BSB</text>
 </svg>`;
 

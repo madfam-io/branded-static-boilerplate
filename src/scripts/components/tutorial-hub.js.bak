@@ -46,13 +46,7 @@ const CONSTANTS = {
   JSON_INDENT: 2
 };
 
-/**
- * Tutorial Hub management class
- */
 class TutorialHub {
-  /**
-   * Initialize tutorial hub
-   */
   constructor() {
     this.tutorials = [
       {
@@ -175,7 +169,6 @@ class TutorialHub {
 
   /**
    * Handle tutorial card clicks for analytics
-   * @param {Event} event - Click event
    */
   handleTutorialCardClick(event) {
     const card = event.target.closest('.tutorial-card');
@@ -192,7 +185,6 @@ class TutorialHub {
 
   /**
    * Handle learning path clicks
-   * @param {Event} event - Click event
    */
   handleLearningPathClick(event) {
     const path = event.target.closest('.learning-path');
@@ -246,13 +238,13 @@ class TutorialHub {
         break;
 
       case 'duration':
-        this.filteredTutorials.sort((tutorialA, tutorialB) =>
+        this.filteredTutorials.sort((tutorialA, tutorialB) => 
           tutorialA.duration - tutorialB.duration
         );
         break;
 
       case 'alphabetical':
-        this.filteredTutorials.sort((tutorialA, tutorialB) =>
+        this.filteredTutorials.sort((tutorialA, tutorialB) => 
           tutorialA.title.localeCompare(tutorialB.title)
         );
         break;
@@ -398,7 +390,6 @@ class TutorialHub {
 
   /**
    * Load progress data from localStorage
-   * @returns {Object} Progress data object
    */
   loadProgress() {
     try {
@@ -458,8 +449,6 @@ class TutorialHub {
 
   /**
    * Calculate skill level based on completed tutorials
-   * @param {number} completedCount - Number of completed tutorials
-   * @returns {string} Skill level
    */
   calculateSkillLevel(completedCount) {
     const total = this.tutorials.length;
@@ -513,9 +502,6 @@ class TutorialHub {
 
   /**
    * Update individual tutorial card progress
-   * @param {HTMLElement} card - Tutorial card element
-   * @param {Object} tutorial - Tutorial object
-   * @param {Object} progress - Progress data
    */
   updateTutorialCardProgress(card, tutorial, progress) {
     const progressBar = card.querySelector('.progress-bar__fill');
@@ -524,8 +510,8 @@ class TutorialHub {
     if (progressBar && progressText) {
       const percentage = progress.completed ? CONSTANTS.PERCENTAGE_MAX :
         Math.min(
-          (progress.timeSpent / (tutorial.duration * CONSTANTS.SECONDS_PER_MINUTE)) *
-          CONSTANTS.PERCENTAGE_MAX,
+          (progress.timeSpent / (tutorial.duration * CONSTANTS.SECONDS_PER_MINUTE)) * 
+          CONSTANTS.PERCENTAGE_MAX, 
           CONSTANTS.MAX_DURATION
         );
 
@@ -573,7 +559,6 @@ class TutorialHub {
 
   /**
    * Record time spent on current page
-   * @param {number} timeMs - Time spent in milliseconds
    */
   recordTimeSpent(timeMs) {
     const currentPath = window.location.pathname;
@@ -593,7 +578,6 @@ class TutorialHub {
 
   /**
    * Mark tutorial as completed
-   * @param {string} tutorialId - ID of the tutorial to mark as completed
    */
   markTutorialCompleted(tutorialId) {
     if (!this.progressData[tutorialId]) {
@@ -617,7 +601,6 @@ class TutorialHub {
 
   /**
    * Show completion celebration
-   * @param {string} tutorialId - ID of the completed tutorial
    */
   showCompletionCelebration(tutorialId) {
     const tutorial = this.getTutorialById(tutorialId);
@@ -693,8 +676,6 @@ class TutorialHub {
 
   /**
    * Utility function to update element content
-   * @param {string} selector - CSS selector for the element
-   * @param {string} content - Content to set
    */
   updateElement(selector, content) {
     const element = document.querySelector(selector);
@@ -705,8 +686,6 @@ class TutorialHub {
 
   /**
    * Get tutorial by ID
-   * @param {string} id - Tutorial ID
-   * @returns {Object|undefined} Tutorial object if found
    */
   getTutorialById(id) {
     return this.tutorials.find(tutorial => tutorial.id === id);
@@ -714,8 +693,6 @@ class TutorialHub {
 
   /**
    * Get tutorial ID from card element
-   * @param {HTMLElement} card - Tutorial card element
-   * @returns {string|null} Tutorial ID if found
    */
   getTutorialIdFromCard(card) {
     const link = card.querySelector('a[href]');
@@ -728,13 +705,11 @@ class TutorialHub {
 
   /**
    * Track analytics events
-   * @param {string} eventName - Name of the event
-   * @param {Object} eventData - Additional event data
    */
   trackEvent(eventName, eventData = {}) {
     // Google Analytics 4
-    if (typeof window.gtag !== 'undefined') {
-      window.gtag('event', eventName, {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', eventName, {
         eventCategory: 'Tutorial Hub',
         ...eventData
       });
@@ -746,7 +721,6 @@ class TutorialHub {
 
   /**
    * Get recommended next tutorial
-   * @returns {Object|null} Next recommended tutorial or null if all completed
    */
   getRecommendedNext() {
     // Find first incomplete tutorial in recommended order
@@ -864,7 +838,7 @@ class TutorialHub {
           align-items: center;
           justify-content: center;
         }
-
+        
         .tutorial-hub__confirm-backdrop {
           position: absolute;
           top: 0;
@@ -873,7 +847,7 @@ class TutorialHub {
           height: 100%;
           background: rgba(0, 0, 0, 0.5);
         }
-
+        
         .tutorial-hub__confirm-content {
           position: relative;
           background: var(--bsb-bg-primary, white);
@@ -883,25 +857,25 @@ class TutorialHub {
           max-width: 400px;
           width: 90%;
         }
-
+        
         .tutorial-hub__confirm-content h3 {
           margin: 0 0 12px 0;
           font-size: 1.25rem;
           color: var(--bsb-text-primary, #333);
         }
-
+        
         .tutorial-hub__confirm-content p {
           margin: 0 0 20px 0;
           color: var(--bsb-text-secondary, #666);
           line-height: 1.5;
         }
-
+        
         .tutorial-hub__confirm-actions {
           display: flex;
           gap: 12px;
           justify-content: flex-end;
         }
-
+        
         .tutorial-hub__confirm-cancel,
         .tutorial-hub__confirm-reset {
           padding: 8px 16px;
@@ -911,23 +885,23 @@ class TutorialHub {
           cursor: pointer;
           transition: all 0.2s ease;
         }
-
+        
         .tutorial-hub__confirm-cancel {
           background: transparent;
           border-color: var(--bsb-border-color, #ccc);
           color: var(--bsb-text-secondary, #666);
         }
-
+        
         .tutorial-hub__confirm-cancel:hover {
           background: var(--bsb-bg-secondary, #f5f5f5);
         }
-
+        
         .tutorial-hub__confirm-reset {
           background: var(--bsb-error, #dc3545);
           border-color: var(--bsb-error, #dc3545);
           color: white;
         }
-
+        
         .tutorial-hub__confirm-reset:hover {
           background: #c82333;
           border-color: #c82333;

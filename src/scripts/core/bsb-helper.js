@@ -195,7 +195,7 @@ class BSBHelper {
         <div class="bsb-dev-modal__info">
           <h4>Location</h4>
           <p><code>/src/components/${componentName}/</code></p>
-          
+
           <h4>Files</h4>
           <ul>
             <li><code>${componentName}.html</code> - HTML structure</li>
@@ -203,10 +203,10 @@ class BSBHelper {
             <li><code>${componentName}.js</code> - JavaScript (if applicable)</li>
             <li><code>README.md</code> - Documentation</li>
           </ul>
-          
+
           <h4>CSS Classes</h4>
           <p>${Array.from(element.classList).map(className => `<code>.${className}</code>`).join(', ')}</p>
-          
+
           <h4>Attributes</h4>
           <ul>
             ${Array.from(element.attributes).map(attr =>
@@ -360,7 +360,7 @@ class BSBHelper {
   /**
    * Handle inspection clicks
    * @method inspectHandler
-   * @param {Event} e - The click event
+   * @param {Event} event - The click event
    * @description Handles clicks during inspection mode to show component docs
    * @returns {void}
    */
@@ -377,7 +377,7 @@ class BSBHelper {
   /**
    * Handle hover highlighting
    * @method highlightHandler
-   * @param {Event} e - The mouseover event
+   * @param {Event} event - The mouseover event
    * @description Highlights components on hover during inspection mode
    * @returns {void}
    */
@@ -451,11 +451,11 @@ class BSBHelper {
         font-size: 14px;
         transition: transform 0.3s ease;
       }
-      
+
       .bsb-dev-panel--hidden {
         transform: translateX(320px);
       }
-      
+
       .bsb-dev-panel__header {
         display: flex;
         justify-content: space-between;
@@ -465,13 +465,13 @@ class BSBHelper {
         background: #f5f5f5;
         border-radius: 8px 8px 0 0;
       }
-      
+
       .bsb-dev-panel__header h5 {
         margin: 0;
         font-size: 14px;
         font-weight: 600;
       }
-      
+
       .bsb-dev-panel__close {
         width: 24px;
         height: 24px;
@@ -482,23 +482,23 @@ class BSBHelper {
         opacity: 0.5;
         transition: opacity 0.2s;
       }
-      
+
       .bsb-dev-panel__close:hover {
         opacity: 1;
       }
-      
+
       .bsb-dev-panel__content {
         padding: 16px;
       }
-      
+
       .bsb-dev-panel__section {
         margin-bottom: 16px;
       }
-      
+
       .bsb-dev-panel__section:last-child {
         margin-bottom: 0;
       }
-      
+
       .bsb-dev-panel__section h6 {
         margin: 0 0 8px 0;
         font-size: 12px;
@@ -506,19 +506,19 @@ class BSBHelper {
         text-transform: uppercase;
         color: #666;
       }
-      
+
       .bsb-dev-panel__section p {
         margin: 4px 0;
         font-size: 13px;
       }
-      
+
       .bsb-dev-panel__section a {
         display: block;
         margin: 4px 0;
         color: #007bff;
         text-decoration: none;
       }
-      
+
       .bsb-dev-panel__action {
         display: block;
         width: 100%;
@@ -530,11 +530,11 @@ class BSBHelper {
         cursor: pointer;
         transition: all 0.2s;
       }
-      
+
       .bsb-dev-panel__action:hover {
         background: #f5f5f5;
       }
-      
+
       /* Component Helpers */
       .bsb-dev-helper {
         position: absolute;
@@ -553,12 +553,12 @@ class BSBHelper {
         transition: opacity 0.2s;
         z-index: 100;
       }
-      
+
       .bsb-show-helpers .bsb-dev-helper,
       [data-bsb-component]:hover .bsb-dev-helper {
         opacity: 1;
       }
-      
+
       /* Grid Overlay */
       .bsb-grid-overlay {
         position: fixed;
@@ -570,11 +570,11 @@ class BSBHelper {
         z-index: 9999;
         display: none;
       }
-      
+
       .bsb-show-grid .bsb-grid-overlay {
         display: block;
       }
-      
+
       .bsb-grid-overlay__grid {
         height: 100vh;
         background-image: repeating-linear-gradient(
@@ -585,17 +585,17 @@ class BSBHelper {
           transparent 8px
         );
       }
-      
+
       /* Inspect Mode */
       .bsb-inspect-mode * {
         cursor: crosshair !important;
       }
-      
+
       .bsb-highlight {
         outline: 2px solid #007bff !important;
         outline-offset: 2px;
       }
-      
+
       /* Dev Modal */
       .bsb-dev-modal {
         position: fixed;
@@ -609,7 +609,7 @@ class BSBHelper {
         justify-content: center;
         z-index: 10001;
       }
-      
+
       .bsb-dev-modal__content {
         background: white;
         padding: 32px;
@@ -618,24 +618,24 @@ class BSBHelper {
         max-height: 80vh;
         overflow-y: auto;
       }
-      
+
       .bsb-dev-modal__content h3 {
         margin-top: 0;
       }
-      
+
       .bsb-dev-modal__info h4 {
         margin-top: 24px;
         margin-bottom: 8px;
         font-size: 14px;
         font-weight: 600;
       }
-      
+
       .bsb-dev-modal__actions {
         margin-top: 32px;
         display: flex;
         gap: 12px;
       }
-      
+
       /* Dark mode support */
       [data-bsb-theme="dark"] .bsb-dev-panel,
       [data-bsb-theme="dark"] .bsb-dev-modal__content {
@@ -643,12 +643,12 @@ class BSBHelper {
         color: #e0e0e0;
         border-color: #333;
       }
-      
+
       [data-bsb-theme="dark"] .bsb-dev-panel__header {
         background: #2a2a2a;
         border-color: #333;
       }
-      
+
       [data-bsb-theme="dark"] .bsb-dev-panel__action {
         background: #2a2a2a;
         color: #e0e0e0;
@@ -661,6 +661,9 @@ class BSBHelper {
 
   /**
    * Disable learning mode and clean up features
+   * @method disable
+   * @description Removes all development mode features and UI elements
+   * @returns {void}
    */
   disable() {
     // Hide development panel
@@ -736,7 +739,10 @@ window.enableLearningMode = function enableLearningMode() {
 
 /**
  * Disable learning mode and clean up features
+ * @function disableLearningMode
  * @global
+ * @description Disables BSB development mode and shows notification
+ * @returns {void}
  */
 window.disableLearningMode = function disableLearningMode() {
   localStorage.setItem('bsb-dev-mode', 'false');

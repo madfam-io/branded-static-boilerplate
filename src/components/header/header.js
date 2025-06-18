@@ -32,22 +32,6 @@ const CONSTANTS = {
 // Function definitions must come before usage due to linting rules
 
 /**
- * Initialize all header functionality
- * @function initializeHeader
- * @description Sets up mobile menu and keyboard navigation for all header components
- * @returns {void}
- */
-const initializeHeader = function initializeHeader() {
-  // Find all headers on the page (supports multiple headers)
-  const headers = document.querySelectorAll('[data-bsb-component="header"]');
-
-  headers.forEach(header => {
-    setupMobileMenu(header);
-    setupKeyboardNavigation(header);
-  });
-};
-
-/**
  * Setup mobile menu toggle functionality
  * @function setupMobileMenu
  * @param {HTMLElement} header - The header element containing the mobile menu
@@ -154,39 +138,50 @@ const setupKeyboardNavigation = function setupKeyboardNavigation(header) {
         return;
       }
 
-      // Tab forward from last element
-      if (!event.shiftKey && document.activeElement === lastFocusable) {
-        event.preventDefault();
-        firstFocusable.focus();
-      }
-
-      // Tab backward from first element
       if (event.shiftKey && document.activeElement === firstFocusable) {
         event.preventDefault();
         lastFocusable.focus();
+      } else if (!event.shiftKey && document.activeElement === lastFocusable) {
+        event.preventDefault();
+        firstFocusable.focus();
       }
     });
   }
 };
 
 /**
- * Utility: Mark current page in navigation
+ * Mark current page in navigation
  * @function markCurrentPage
- * @description Automatically adds aria-current="page" attribute based on current URL
+ * @description Highlights the current page link in navigation
  * @returns {void}
  */
 const markCurrentPage = function markCurrentPage() {
   const currentPath = window.location.pathname;
-  const links = document.querySelectorAll('.bsb-header__link');
+  const navLinks = document.querySelectorAll('.bsb-header__link');
 
-  links.forEach(link => {
+  navLinks.forEach(link => {
     const linkPath = new URL(link.href).pathname;
 
-    if (currentPath === linkPath) {
+    if (linkPath === currentPath) {
       link.setAttribute('aria-current', 'page');
-    } else {
-      link.removeAttribute('aria-current');
+      link.classList.add('bsb-header__link--active');
     }
+  });
+};
+
+/**
+ * Initialize all header functionality
+ * @function initializeHeader
+ * @description Sets up mobile menu and keyboard navigation for all header components
+ * @returns {void}
+ */
+const initializeHeader = function initializeHeader() {
+  // Find all headers on the page (supports multiple headers)
+  const headers = document.querySelectorAll('[data-bsb-component="header"]');
+
+  headers.forEach(header => {
+    setupMobileMenu(header);
+    setupKeyboardNavigation(header);
   });
 };
 

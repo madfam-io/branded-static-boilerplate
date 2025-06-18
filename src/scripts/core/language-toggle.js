@@ -69,7 +69,7 @@ class LanguageToggle {
   /**
    * Load translation data
    */
-  async loadTranslations() {
+  loadTranslations() {
     // In a real application, these would be loaded from external JSON files
     this.translations = {
       en: {
@@ -169,7 +169,7 @@ class LanguageToggle {
     const otherLangName = otherLang === 'en' ? 'English' : 'Español';
 
     toggle.innerHTML = `
-      <button class="bsb-language-toggle__button" 
+      <button class="bsb-language-toggle__button"
               aria-label="${this.t('lang.current')}: ${currentLangName}. ${this.t('lang.switch-to')} ${otherLangName}"
               data-language="${otherLang}">
         <span class="bsb-language-toggle__current">${this.currentLanguage.toUpperCase()}</span>
