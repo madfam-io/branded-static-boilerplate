@@ -8,7 +8,19 @@
 
 import { jest } from '@jest/globals';
 
-// Mock BSB Helper class for testing
+// Mock the debug module
+jest.mock('../../src/scripts/core/debug.js', () => ({
+  debug: {
+    log: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn()
+  }
+}));
+
+// Import the actual BSBHelper class
+import BSBHelper from '../../src/scripts/core/bsb-helper.js';
+
+// Mock BSB Helper class for testing specific behaviors
 class MockBSBHelper {
   constructor() {
     this.devMode = false;
@@ -84,6 +96,11 @@ describe('BSB Helper', () => {
   let helper;
 
   beforeEach(() => {
+    // Clear localStorage
+    localStorage.clear();
+    // Reset DOM
+    document.body.innerHTML = '';
+    // Create a new instance of the mock helper for basic tests
     helper = new MockBSBHelper();
     document.body.innerHTML = '';
     localStorage.clear();
@@ -142,7 +159,7 @@ describe('BSB Helper', () => {
 
       helper.init();
       const componentCount = document.querySelector('.bsb-dev-panel__component-count');
-      expect(componentCount.textContent).toBe('2');
+      expect(componentCount.textContent.trim()).toBe('2');
     });
   });
 

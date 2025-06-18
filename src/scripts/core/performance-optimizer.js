@@ -412,6 +412,57 @@ class PerformanceOptimizer {
   }
 
   /**
+   * Optimize resource hints for faster loading
+   */
+  optimizeResourceHints() {
+    // Add preconnect for common domains
+    const preconnectDomains = ['https://fonts.googleapis.com', 'https://fonts.gstatic.com'];
+    preconnectDomains.forEach(domain => {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = domain;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    });
+  }
+
+  /**
+   * Optimize critical CSS delivery
+   */
+  optimizeCriticalCSS() {
+    // Identify and preload critical CSS
+    const criticalStyles = document.querySelectorAll('link[rel="stylesheet"][data-critical]');
+    criticalStyles.forEach(style => {
+      const preload = document.createElement('link');
+      preload.rel = 'preload';
+      preload.as = 'style';
+      preload.href = style.href;
+      document.head.insertBefore(preload, style);
+    });
+  }
+
+  /**
+   * Optimize image loading and formats
+   */
+  optimizeImages() {
+    // Set up lazy loading for images
+    this.setupIntelligentLazyLoading();
+  }
+
+  /**
+   * Optimize font loading
+   */
+  optimizeFonts() {
+    // Use font-display: swap for better performance
+    if ('CSS' in window && 'supports' in CSS) {
+      const fontDisplaySupport = CSS.supports('font-display', 'swap');
+      if (fontDisplaySupport) {
+        debug.log('BSB Performance: Font-display swap supported');
+      }
+    }
+  }
+
+  /**
    * Intelligent lazy loading with intersection observer
    */
   setupIntelligentLazyLoading() {

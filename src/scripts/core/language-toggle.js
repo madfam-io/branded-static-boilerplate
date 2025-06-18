@@ -336,6 +336,13 @@ class LanguageToggle {
   }
 
   /**
+   * Alias for translate method (used internally)
+   */
+  t(key, fallback = null) {
+    return this.translate(key, fallback);
+  }
+
+  /**
    * Get current language
    */
   getCurrentLanguage() {
