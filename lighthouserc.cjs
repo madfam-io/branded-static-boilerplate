@@ -16,11 +16,11 @@ module.exports = {
       
       // URLs to audit (relative to staticDistDir)
       url: [
-        'https://localhost/index.html',
-        'https://localhost/pages/interactive-playground.html',
-        'https://localhost/pages/project-structure.html',
-        'https://localhost/pages/design-system.html',
-        'https://localhost/pages/about.html'
+        'http://localhost/index.html',
+        'http://localhost/pages/interactive-playground.html',
+        'http://localhost/pages/project-structure.html',
+        'http://localhost/pages/design-system.html',
+        'http://localhost/pages/about.html'
       ],
       
       // Number of runs per URL
