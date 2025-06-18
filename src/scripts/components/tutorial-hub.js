@@ -42,7 +42,8 @@ const CONSTANTS = {
   SECONDS_PER_MINUTE: 60,
   FADE_DURATION: 300,
   TOAST_DURATION: 4000,
-  NOTIFICATION_DELAY: 200
+  NOTIFICATION_DELAY: 200,
+  JSON_INDENT: 2
 };
 
 class TutorialHub {
@@ -216,9 +217,9 @@ class TutorialHub {
 
     // Track filter usage
     this.trackEvent('tutorials_filtered', {
-      difficulty_filter: difficultyFilter,
-      topic_filter: topicFilter,
-      results_count: this.filteredTutorials.length
+      difficultyFilter,
+      topicFilter,
+      resultsCount: this.filteredTutorials.length
     });
   }
 
@@ -230,18 +231,22 @@ class TutorialHub {
 
     switch (sortBy) {
       case 'difficulty':
-        this.filteredTutorials.sort((a, b) => {
+        this.filteredTutorials.sort((tutorialA, tutorialB) => {
           const difficultyOrder = { beginner: 0, intermediate: 1, advanced: 2 };
-          return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+          return difficultyOrder[tutorialA.difficulty] - difficultyOrder[tutorialB.difficulty];
         });
         break;
 
       case 'duration':
-        this.filteredTutorials.sort((a, b) => a.duration - b.duration);
+        this.filteredTutorials.sort((tutorialA, tutorialB) => 
+          tutorialA.duration - tutorialB.duration
+        );
         break;
 
       case 'alphabetical':
-        this.filteredTutorials.sort((a, b) => a.title.localeCompare(b.title));
+        this.filteredTutorials.sort((tutorialA, tutorialB) => 
+          tutorialA.title.localeCompare(tutorialB.title)
+        );
         break;
 
       case 'recommended':
@@ -420,7 +425,8 @@ class TutorialHub {
    * Update progress statistics
    */
   updateProgressStats() {
-    const completedCount = Object.values(this.progressData).filter(p => p.completed).length;
+    const completedCount = Object.values(this.progressData)
+      .filter(progress => progress.completed).length;
     const totalHours = Object.entries(this.progressData).reduce((total, [id, progress]) => {
       if (progress.completed) {
         const tutorial = this.getTutorialById(id);
@@ -430,7 +436,9 @@ class TutorialHub {
     }, 0);
 
     const skillLevel = this.calculateSkillLevel(completedCount);
-    const overallPercentage = Math.round((completedCount / this.tutorials.length) * CONSTANTS.PERCENTAGE_MAX);
+    const overallPercentage = Math.round(
+      (completedCount / this.tutorials.length) * CONSTANTS.PERCENTAGE_MAX
+    );
 
     // Update stat displays
     this.updateElement('[data-progress="tutorials-completed"]', completedCount);
@@ -465,7 +473,8 @@ class TutorialHub {
    * Update progress circle visualization
    */
   updateProgressCircle() {
-    const completedCount = Object.values(this.progressData).filter(p => p.completed).length;
+    const completedCount = Object.values(this.progressData)
+      .filter(progress => progress.completed).length;
     const percentage = (completedCount / this.tutorials.length) * CONSTANTS.PERCENTAGE_MAX;
 
     const progressCircle = document.querySelector('[data-progress-circle]');
@@ -500,7 +509,11 @@ class TutorialHub {
 
     if (progressBar && progressText) {
       const percentage = progress.completed ? CONSTANTS.PERCENTAGE_MAX :
-        Math.min((progress.timeSpent / (tutorial.duration * CONSTANTS.SECONDS_PER_MINUTE)) * CONSTANTS.PERCENTAGE_MAX, CONSTANTS.MAX_DURATION);
+        Math.min(
+          (progress.timeSpent / (tutorial.duration * CONSTANTS.SECONDS_PER_MINUTE)) * 
+          CONSTANTS.PERCENTAGE_MAX, 
+          CONSTANTS.MAX_DURATION
+        );
 
       progressBar.style.width = `${percentage}%`;
 
@@ -556,7 +569,9 @@ class TutorialHub {
         this.progressData[tutorial.id] = { completed: false, timeSpent: 0 };
       }
 
-      this.progressData[tutorial.id].timeSpent += Math.round(timeMs / CONSTANTS.MS_PER_SECOND / CONSTANTS.SECONDS_PER_MINUTE); // Convert to minutes
+      this.progressData[tutorial.id].timeSpent += Math.round(
+        timeMs / CONSTANTS.MS_PER_SECOND / CONSTANTS.SECONDS_PER_MINUTE
+      ); // Convert to minutes
       this.saveProgress();
     }
   }
@@ -695,7 +710,7 @@ class TutorialHub {
     // Google Analytics 4
     if (typeof gtag !== 'undefined') {
       gtag('event', eventName, {
-        event_category: 'Tutorial Hub',
+        eventCategory: 'Tutorial Hub',
         ...eventData
       });
     }
@@ -731,7 +746,7 @@ class TutorialHub {
       tutorials: this.tutorials.map(tutorialItem => ({ id: tutorialItem.id, title: tutorialItem.title }))
     };
 
-    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataStr = JSON.stringify(exportData, null, CONSTANTS.JSON_INDENT);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
 
     const link = document.createElement('a');

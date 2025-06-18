@@ -221,7 +221,7 @@ export const generateMetaTags = function generateMetaTags(options) {
       content: 'noindex, nofollow',
       insight: {
         warning: 'This page will not be indexed by search engines',
-        use_case: 'Use for private, duplicate, or low-quality content'
+        useCase: 'Use for private, duplicate, or low-quality content'
       }
     });
   }
@@ -519,7 +519,9 @@ export const calculateSEOScore = function calculateSEOScore(page) {
   if (imagesWithoutAlt === 0) {
     scores.images = SEO_CONFIG.scoreExcellent;
   } else {
-    scores.images = Math.max(0, SEO_CONFIG.scoreExcellent - (imagesWithoutAlt * SEO_CONFIG.scoreImagePenalty));
+    scores.images = Math.max(0, 
+      SEO_CONFIG.scoreExcellent - (imagesWithoutAlt * SEO_CONFIG.scoreImagePenalty)
+    );
     insights.push({
       category: 'Images',
       issue: `${imagesWithoutAlt} images missing alt text`,
@@ -555,7 +557,10 @@ export const calculateSEOScore = function calculateSEOScore(page) {
   // Content score
   const wordCount = page.content?.wordCount || 0;
   if (wordCount >= SEO_CONFIG.minWordCount) {
-    scores.content = Math.min(SEO_CONFIG.scoreExcellent, (wordCount / SEO_CONFIG.scoreWordCountDivisor));
+    scores.content = Math.min(
+      SEO_CONFIG.scoreExcellent, 
+      (wordCount / SEO_CONFIG.scoreWordCountDivisor)
+    );
   } else {
     insights.push({
       category: 'Content',
@@ -581,7 +586,9 @@ export const calculateSEOScore = function calculateSEOScore(page) {
 
   // Calculate overall score
   const overallScore = Math.round(
-    Object.values(scores).reduce((accumulator, currentValue) => accumulator + currentValue, 0) / Object.keys(scores).length
+    Object.values(scores).reduce((accumulator, currentValue) => 
+      accumulator + currentValue, 0
+    ) / Object.keys(scores).length
   );
 
   return {

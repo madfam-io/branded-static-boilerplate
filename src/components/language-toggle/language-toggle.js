@@ -145,12 +145,10 @@ class BSBLanguageToggle {
       // Menu is open - handle navigation
       const focusableElements = Array.from(this.options);
       this.handleOpenMenuKeyboard(event, focusableElements);
-    } else {
+    } else if ((event.key === ' ' || event.key === 'Enter') && event.target === this.button) {
       // If menu is closed, only handle space/enter on button
-      if ((event.key === ' ' || event.key === 'Enter') && event.target === this.button) {
-        event.preventDefault();
-        this.openMenu();
-      }
+      event.preventDefault();
+      this.openMenu();
     }
   }
 
@@ -342,13 +340,13 @@ class BSBLanguageToggle {
    * Get nested translation from dot notation key
    */
   getNestedTranslation(translations, key) {
-    return key.split('.').reduce((obj, k) => obj && obj[k], translations);
+    return key.split('.').reduce((obj, keyPart) => obj && obj[keyPart], translations);
   }
 
   /**
    * Update navigation items
    */
-  updateNavigation(t) {
+  updateNavigation(translationKey) {
     const navLinks = document.querySelectorAll('.bsb-header__link');
     const navMap = {
       '/': 'nav.home',
@@ -364,7 +362,7 @@ class BSBLanguageToggle {
       const href = link.getAttribute('href');
       const key = Object.keys(navMap).find(path => href.includes(path));
       if (key) {
-        const translation = this.getNestedTranslation(t, navMap[key]);
+        const translation = this.getNestedTranslation(translationKey, navMap[key]);
         if (translation) {
           link.textContent = translation;
         }

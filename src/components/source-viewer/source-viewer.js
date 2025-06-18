@@ -545,7 +545,9 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     this.viewer.querySelector('[data-metric-events]').textContent = eventCount;
 
     // Render time (mock - would use Performance API in production)
-    const renderTime = Math.round(Math.random() * CONSTANTS.RENDER_TIME_RANGE + CONSTANTS.RENDER_TIME_MIN);
+    const renderTime = Math.round(
+      Math.random() * CONSTANTS.RENDER_TIME_RANGE + CONSTANTS.RENDER_TIME_MIN
+    );
     this.viewer.querySelector('[data-metric-render]').textContent = `${renderTime}ms`;
   }
 

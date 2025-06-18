@@ -29,10 +29,7 @@ const CONSTANTS = {
   RESIZE_DEBOUNCE_DELAY: 250
 };
 
-// Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', () => {
-  initializeHeader();
-});
+// Function definitions must come before usage due to linting rules
 
 /**
  * Initialize all header functionality
@@ -77,15 +74,15 @@ const setupMobileMenu = function setupMobileMenu(header) {
     nav.classList.toggle('bsb-header__nav--active', !isOpen);
 
     // Manage focus
-    if (!isOpen) {
+    if (isOpen) {
+      // When closing, return focus to toggle button
+      toggle.focus();
+    } else {
       // When opening, focus first menu item
       const firstLink = nav.querySelector('.bsb-header__link');
       if (firstLink) {
         firstLink.focus();
       }
-    } else {
-      // When closing, return focus to toggle button
-      toggle.focus();
     }
   });
 
@@ -216,3 +213,8 @@ window.BSBHeader = {
    */
   markCurrentPage
 };
+
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', () => {
+  initializeHeader();
+});

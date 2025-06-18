@@ -55,7 +55,8 @@ const CONSTANTS = {
   MINUTES_PER_HOUR: 60,
   SECONDS_PER_HOUR: 3600,
   SECONDS_PER_DAY: 86400,
-  MAX_ACTIVITY_LOG_SIZE: 20
+  MAX_ACTIVITY_LOG_SIZE: 20,
+  TIMELINE_DISPLAY_COUNT: 5
 };
 
 /**
@@ -641,7 +642,7 @@ class BSBLearningProgress {
       return;
     }
 
-    timeline.innerHTML = this.progress.activityLog.slice(0, 5).map(activity => `
+    timeline.innerHTML = this.progress.activityLog.slice(0, CONSTANTS.TIMELINE_DISPLAY_COUNT).map(activity => `
       <li class="bsb-learning-progress__timeline-item">
         <span class="bsb-learning-progress__timeline-icon">${activity.icon}</span>
         <div class="bsb-learning-progress__timeline-content">

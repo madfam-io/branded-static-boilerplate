@@ -205,7 +205,7 @@ class BSBHelper {
           </ul>
           
           <h4>CSS Classes</h4>
-          <p>${Array.from(element.classList).map(c => `<code>.${c}</code>`).join(', ')}</p>
+          <p>${Array.from(element.classList).map(className => `<code>.${className}</code>`).join(', ')}</p>
           
           <h4>Attributes</h4>
           <ul>

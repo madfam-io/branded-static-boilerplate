@@ -227,7 +227,7 @@ const updateDynamicContent = function updateDynamicContent() {
     const text = element.innerHTML;
     // Replace year pattern (© YYYY) with current year
     const updatedText = text.replace(
-      /©\s*<time[^>]*>(\d{4})<\/time>/u,
+      /©\s*<time[^>]*>(?:\d{4})<\/time>/u,
       `© <time datetime="${currentYear}">${currentYear}</time>`
     );
     if (updatedText !== text) {
@@ -326,8 +326,9 @@ window.BSBUtils = {
   throttle(func, limit) {
     let inThrottle = false;
     return function throttledFunction(...args) {
+      const context = this; // Capture context for clarity
       if (!inThrottle) {
-        func.apply(this, args);
+        func.apply(context, args);
         inThrottle = true;
         setTimeout(() => {
           inThrottle = false;

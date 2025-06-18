@@ -18,7 +18,12 @@ const CONSTANTS = {
   MIN_DURATION_TIME: 10,
   // UI dimensions
   TOGGLE_BUTTON_SIZE: 60,
-  TOGGLE_BUTTON_SMALL: 50
+  TOGGLE_BUTTON_SMALL: 50,
+  // Other values
+  PERCENTAGE_MAX: 100,
+  BADGE_ANIMATION_INTERVAL: 10,
+  BADGE_COUNT_THRESHOLD: 5,
+  BADGE_SECOND_THRESHOLD: 10
 };
 
 export class AchievementSystem {
@@ -657,7 +662,7 @@ export class AchievementSystem {
     // Filter achievements
     achievements.forEach(item => {
       const achievementId = item.querySelector('.achievement-title').textContent.toLowerCase().replace(/\s+/gu, '-');
-      const achievement = Object.values(this.achievements).find(a => a.title.toLowerCase().replace(/\s+/gu, '-') === achievementId);
+      const achievement = Object.values(this.achievements).find(ach => ach.title.toLowerCase().replace(/\s+/gu, '-') === achievementId);
 
       if (type === 'all' || (achievement && achievement.type === type)) {
         item.style.display = 'flex';
@@ -734,7 +739,7 @@ export class AchievementSystem {
       // Check tutorial achievements
       if (this.userProgress.tutorialsCompleted.length === 1) {
         this.unlockAchievement('first-tutorial');
-      } else if (this.userProgress.tutorialsCompleted.length >= 5) {
+      } else if (this.userProgress.tutorialsCompleted.length >= CONSTANTS.EXPLORER_THRESHOLD) {
         this.unlockAchievement('tutorial-master');
       }
 
@@ -757,7 +762,7 @@ export class AchievementSystem {
       this.userProgress.componentsViewed.push(componentId);
       this.saveProgress();
 
-      if (this.userProgress.componentsViewed.length >= 10) {
+      if (this.userProgress.componentsViewed.length >= CONSTANTS.MASTER_THRESHOLD) {
         this.unlockAchievement('component-explorer');
       }
     }
@@ -812,10 +817,10 @@ export class AchievementSystem {
     if (this.userProgress.tutorialsCompleted.length >= 1) {
       this.unlockAchievement('first-tutorial');
     }
-    if (this.userProgress.tutorialsCompleted.length >= 5) {
+    if (this.userProgress.tutorialsCompleted.length >= CONSTANTS.EXPLORER_THRESHOLD) {
       this.unlockAchievement('tutorial-master');
     }
-    if (this.userProgress.componentsViewed.length >= 10) {
+    if (this.userProgress.componentsViewed.length >= CONSTANTS.MASTER_THRESHOLD) {
       this.unlockAchievement('component-explorer');
     }
     if (this.userProgress.codeRuns >= CONSTANTS.LEGEND_THRESHOLD) {

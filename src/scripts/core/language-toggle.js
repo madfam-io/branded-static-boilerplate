@@ -15,6 +15,11 @@
  * - Progressive enhancement approach
  */
 
+// Constants
+const CONSTANTS = {
+  ANNOUNCEMENT_DURATION: 1000
+};
+
 class LanguageToggle {
   constructor() {
     this.currentLanguage = this.getStoredLanguage() || this.detectBrowserLanguage() || 'es';
@@ -319,13 +324,13 @@ class LanguageToggle {
     // Remove announcement after it's been read
     setTimeout(() => {
       document.body.removeChild(announcement);
-    }, 1000);
+    }, CONSTANTS.ANNOUNCEMENT_DURATION);
   }
 
   /**
    * Get translation for a key
    */
-  t(key, fallback = null) {
+  translate(key, fallback = null) {
     const translation = this.translations[this.currentLanguage]?.[key];
     return translation || fallback || key;
   }

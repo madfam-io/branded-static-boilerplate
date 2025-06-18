@@ -490,11 +490,15 @@ class BSBLearningToggle {
     if (window.BSBLearningProgress) {
       const { progress } = window.BSBLearningProgress;
       const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
-      const completion = Math.round((progress.componentsExplored.size / totalComponents) * CONSTANTS.PROGRESS_MAX);
+      const completion = Math.round(
+        (progress.componentsExplored.size / totalComponents) * CONSTANTS.PROGRESS_MAX
+      );
 
       this.showNotification({
         title: '📊 Your Learning Progress',
-        message: `You've explored ${progress.componentsExplored.size} of ${totalComponents} components (${completion}% complete) and spent ${this.formatTime(progress.timeSpent)} learning. Great job!`,
+        message: `You've explored ${progress.componentsExplored.size} of ${totalComponents} ` +
+          `components (${completion}% complete) and spent ${this.formatTime(progress.timeSpent)} ` +
+          `learning. Great job!`,
         type: 'success',
         duration: 8000
       });

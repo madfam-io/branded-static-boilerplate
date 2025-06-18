@@ -26,7 +26,8 @@ const CONSTANTS = {
   SKIP_NAV_COUNT: 5,
   TOAST_DURATION: 3000,
   TOOLTIP_MAX_WIDTH: 300,
-  TOOLTIP_SPACING: 5
+  TOOLTIP_SPACING: 5,
+  FOCUS_DELAY: 100
 };
 
 class AccessibilityEnhancer {
@@ -106,10 +107,10 @@ class AccessibilityEnhancer {
   /**
    * Handle global accessibility keyboard shortcuts
    */
-  handleGlobalShortcuts(e) {
+  handleGlobalShortcuts(event) {
     // Alt + 1: Skip to main content
-    if (e.altKey && e.key === '1') {
-      e.preventDefault();
+    if (event.altKey && event.key === '1') {
+      event.preventDefault();
       const main = document.querySelector('#main, main');
       if (main) {
         main.focus();
@@ -119,8 +120,8 @@ class AccessibilityEnhancer {
     }
 
     // Alt + 2: Skip to navigation
-    if (e.altKey && e.key === '2') {
-      e.preventDefault();
+    if (event.altKey && event.key === '2') {
+      event.preventDefault();
       const nav = document.querySelector('[role="navigation"], nav');
       if (nav) {
         const firstLink = nav.querySelector('a, button');
@@ -132,14 +133,14 @@ class AccessibilityEnhancer {
     }
 
     // Alt + A: Toggle accessibility menu
-    if (e.altKey && e.key.toLowerCase() === 'a') {
-      e.preventDefault();
+    if (event.altKey && event.key.toLowerCase() === 'a') {
+      event.preventDefault();
       this.toggleAccessibilityMenu();
     }
 
     // Alt + H: Show keyboard shortcuts help
-    if (e.altKey && e.key.toLowerCase() === 'h') {
-      e.preventDefault();
+    if (event.altKey && event.key.toLowerCase() === 'h') {
+      event.preventDefault();
       this.showKeyboardHelp();
     }
   }
@@ -189,7 +190,7 @@ class AccessibilityEnhancer {
       if (lastFocusedElement) {
         setTimeout(() => {
           lastFocusedElement.focus();
-        }, 100);
+        }, CONSTANTS.FOCUS_DELAY);
       }
     });
 
@@ -218,7 +219,7 @@ class AccessibilityEnhancer {
                 setTimeout(() => {
                   newInteractive.focus();
                   this.announceToScreenReader('New content loaded and focused');
-                }, 100);
+                }, CONSTANTS.FOCUS_DELAY);
               }
             }
           });
@@ -346,7 +347,7 @@ class AccessibilityEnhancer {
       // Clear after announcement
       setTimeout(() => {
         region.textContent = '';
-      }, 1000);
+      }, CONSTANTS.NOTIFICATION_DURATION);
     }
   }
 
@@ -701,10 +702,10 @@ class AccessibilityEnhancer {
     // Image alt text
     if (element.tagName === 'IMG') {
       const alt = element.getAttribute('alt');
-      if (alt !== null) {
-        info.push(`Alt: ${alt || '(empty)'}`);
-      } else {
+      if (alt === null) {
         info.push('⚠️ Missing alt attribute');
+      } else {
+        info.push(`Alt: ${alt || '(empty)'}`);
       }
     }
 

@@ -40,6 +40,7 @@ const CONSTANTS = {
   TOAST_DURATION: 4000,
   FLOAT_PRECISION: 0.25,
   PRECISION_MULTIPLIER: 10000,
+  JSON_INDENT: 2,
 
   // Web Vitals thresholds
   LCP_GOOD_THRESHOLD: 2500,
@@ -137,7 +138,7 @@ class PerformanceOptimizer {
       try {
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
         this.observers.lcp = observer;
-      } catch (e) {
+      } catch (error) {
         debug.warn('LCP observation not supported');
       }
     }
@@ -159,7 +160,7 @@ class PerformanceOptimizer {
       try {
         observer.observe({ entryTypes: ['first-input'] });
         this.observers.fid = observer;
-      } catch (e) {
+      } catch (error) {
         debug.warn('FID observation not supported');
       }
     }
@@ -177,7 +178,8 @@ class PerformanceOptimizer {
         entries.forEach(entry => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
-            this.metrics.vitals.cls = Math.round(clsValue * CONSTANTS.PRECISION_MULTIPLIER) / CONSTANTS.PRECISION_MULTIPLIER;
+            this.metrics.vitals.cls = Math.round(clsValue * CONSTANTS.PRECISION_MULTIPLIER) / 
+              CONSTANTS.PRECISION_MULTIPLIER;
             this.updateDashboard();
           }
         });
@@ -186,7 +188,7 @@ class PerformanceOptimizer {
       try {
         observer.observe({ entryTypes: ['layout-shift'] });
         this.observers.cls = observer;
-      } catch (e) {
+      } catch (error) {
         debug.warn('CLS observation not supported');
       }
     }
@@ -210,7 +212,7 @@ class PerformanceOptimizer {
       try {
         observer.observe({ entryTypes: ['paint'] });
         this.observers.fcp = observer;
-      } catch (e) {
+      } catch (error) {
         debug.warn('FCP observation not supported');
       }
     }
@@ -251,7 +253,7 @@ class PerformanceOptimizer {
       try {
         observer.observe({ entryTypes: ['resource'] });
         this.observers.resource = observer;
-      } catch (e) {
+      } catch (error) {
         debug.warn('Resource observation not supported');
       }
     }
@@ -261,16 +263,16 @@ class PerformanceOptimizer {
    * Get resource type from URL
    */
   getResourceType(url) {
-    if (url.match(/\.(css)$/iu)) {
+    if (url.match(/\.(?:css)$/iu)) {
       return 'stylesheet';
     }
-    if (url.match(/\.(js)$/iu)) {
+    if (url.match(/\.(?:js)$/iu)) {
       return 'script';
     }
-    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/iu)) {
+    if (url.match(/\.(?:png|jpg|jpeg|gif|svg|webp)$/iu)) {
       return 'image';
     }
-    if (url.match(/\.(woff|woff2|ttf|eot)$/iu)) {
+    if (url.match(/\.(?:woff|woff2|ttf|eot)$/iu)) {
       return 'font';
     }
     return 'other';
@@ -284,17 +286,23 @@ class PerformanceOptimizer {
     const recommendations = [];
 
     // Check for large resources
-    const largeResources = resources.filter(resource => resource.size > CONSTANTS.LARGE_RESOURCE_THRESHOLD); // > 1MB
+    const largeResources = resources.filter(resource => 
+      resource.size > CONSTANTS.LARGE_RESOURCE_THRESHOLD
+    ); // > 1MB
     if (largeResources.length > 0) {
       recommendations.push({
         type: 'warning',
         message: `${largeResources.length} large resources detected. Consider optimization.`,
-        details: largeResources.map(resource => `${resource.name}: ${this.formatBytes(resource.size)}`)
+        details: largeResources.map(resource => 
+          `${resource.name}: ${this.formatBytes(resource.size)}`
+        )
       });
     }
 
     // Check for slow-loading resources
-    const slowResources = resources.filter(resource => resource.duration > CONSTANTS.SLOW_RESOURCE_THRESHOLD); // > 1s
+    const slowResources = resources.filter(resource => 
+      resource.duration > CONSTANTS.SLOW_RESOURCE_THRESHOLD
+    ); // > 1s
     if (slowResources.length > 0) {
       recommendations.push({
         type: 'warning',
@@ -323,7 +331,9 @@ class PerformanceOptimizer {
         const [navigation] = performance.getEntriesByType('navigation');
         if (navigation) {
           this.metrics.navigation = {
-            domContentLoaded: Math.round(navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart),
+            domContentLoaded: Math.round(
+              navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart
+            ),
             loadComplete: Math.round(navigation.loadEventEnd - navigation.loadEventStart),
             domInteractive: Math.round(navigation.domInteractive - navigation.fetchStart),
             totalLoadTime: Math.round(navigation.loadEventEnd - navigation.fetchStart)
@@ -353,7 +363,9 @@ class PerformanceOptimizer {
           this.metrics.interactions = {
             count: interactionCount,
             sessionDuration: Math.round(sessionDuration),
-            interactionsPerMinute: Math.round((interactionCount / sessionDuration) * CONSTANTS.MS_PER_MINUTE)
+            interactionsPerMinute: Math.round(
+              (interactionCount / sessionDuration) * CONSTANTS.MS_PER_MINUTE
+            )
           };
         }
       }, { passive: true });
@@ -470,7 +482,7 @@ class PerformanceOptimizer {
         if (url.hostname !== window.location.hostname) {
           externalDomains.add(url.origin);
         }
-      } catch (e) {
+      } catch (error) {
         // Invalid URL, skip
       }
     });
@@ -777,7 +789,7 @@ class PerformanceOptimizer {
 
     // Update resource metrics
     this.updateMetric('resourceCount', this.metrics.resources.length, '');
-    const totalSize = this.metrics.resources.reduce((sum, r) => sum + r.size, 0);
+    const totalSize = this.metrics.resources.reduce((sum, resource) => sum + resource.size, 0);
     this.updateMetric('totalSize', this.formatBytes(totalSize), '');
   }
 
@@ -863,7 +875,7 @@ class PerformanceOptimizer {
       recommendations: this.generateRecommendations()
     };
 
-    const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(report, null, CONSTANTS.JSON_INDENT)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const downloadLink = document.createElement('a');
     downloadLink.href = url;

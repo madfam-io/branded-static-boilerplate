@@ -1,0 +1,317 @@
+
+> branded-static-boilerplate@1.0.0 lint
+> eslint src/**/*.js
+
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/code-playground/code-playground.js
+  193:42  error    Arrow function has a complexity of 12. Maximum allowed is 10                     complexity
+  248:3   warning  Missing JSDoc for parameter 'tabName'                                            valid-jsdoc
+  332:6   warning  Expected JSDoc for 'event' but found 'e'                                         valid-jsdoc
+  419:3   error    Method 'generatePreviewDocument' has too many lines (89). Maximum allowed is 50  max-lines-per-function
+  672:3   error    Method 'showResetConfirmation' has too many lines (120). Maximum allowed is 50   max-lines-per-function
+  788:1   error    File has too many lines (639). Maximum allowed is 500                            max-lines
+  937:16  error    Method 'loadSavedCode' has a complexity of 12. Maximum allowed is 10             complexity
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/file-explorer/file-explorer.js
+   31:1   warning  Missing JSDoc comment                                                         require-jsdoc
+   32:14  warning  Missing JSDoc comment                                                         require-jsdoc
+   66:3   error    Method 'setupFileData' has too many lines (366). Maximum allowed is 50        max-lines-per-function
+  469:3   warning  Missing JSDoc @returns for function                                           valid-jsdoc
+  469:3   warning  Missing JSDoc for parameter 'items'                                           valid-jsdoc
+  472:3   error    Method 'generateFileTreeHTML' has too many lines (51). Maximum allowed is 50  max-lines-per-function
+  473:22  error    Arrow function has a complexity of 14. Maximum allowed is 10                  complexity
+  532:3   warning  Missing JSDoc @returns for function                                           valid-jsdoc
+  532:3   warning  Missing JSDoc for parameter 'fileType'                                        valid-jsdoc
+  570:1   error    File has too many lines (633). Maximum allowed is 500                         max-lines
+  573:3   warning  Missing JSDoc for parameter 'event'                                           valid-jsdoc
+  596:3   warning  Missing JSDoc for parameter 'event'                                           valid-jsdoc
+  599:17  error    Method 'handleKeyboard' has a complexity of 11. Maximum allowed is 10         complexity
+  635:3   warning  Missing JSDoc for parameter 'item'                                            valid-jsdoc
+  635:3   warning  Missing JSDoc for parameter 'path'                                            valid-jsdoc
+  658:3   warning  Missing JSDoc for parameter 'event'                                           valid-jsdoc
+  658:3   warning  Missing JSDoc for parameter 'path'                                            valid-jsdoc
+  681:1   error    This line has a length of 143. Maximum allowed is 100                         max-len
+  706:3   warning  Missing JSDoc for parameter 'path'                                            valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/header/header.js
+  34:3  error  'initializeHeader' was used before it was defined         no-use-before-define
+  48:5  error  'setupMobileMenu' was used before it was defined          no-use-before-define
+  49:5  error  'setupKeyboardNavigation' was used before it was defined  no-use-before-define
+  80:5  error  Unexpected negated condition                              no-negated-condition
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/language-toggle/language-toggle.js
+   27:1   warning  Missing JSDoc comment                                                       require-jsdoc
+   28:14  warning  Missing JSDoc comment                                                       require-jsdoc
+  112:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  126:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  140:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  150:7   error    Unexpected if as the only statement in an else block                        no-lonely-if
+  157:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  157:3   warning  Missing JSDoc for parameter 'focusableElements'                             valid-jsdoc
+  211:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  220:3   warning  Missing JSDoc for parameter 'event'                                         valid-jsdoc
+  263:3   warning  Missing JSDoc for parameter 'language'                                      valid-jsdoc
+  341:3   warning  Missing JSDoc @returns for function                                         valid-jsdoc
+  341:3   warning  Missing JSDoc for parameter 'translations'                                  valid-jsdoc
+  341:3   warning  Missing JSDoc for parameter 'key'                                           valid-jsdoc
+  344:24  error    'translations' is already declared in the upper scope on line 19 column 10  no-shadow
+  345:40  error    Identifier name 'k' is too short (< 2)                                      id-length
+  348:3   warning  Missing JSDoc for parameter 't'                                             valid-jsdoc
+  351:20  error    Identifier name 't' is too short (< 2)                                      id-length
+  410:3   warning  Missing JSDoc for parameter 'language'                                      valid-jsdoc
+  423:3   warning  Missing JSDoc for parameter 'newLanguage'                                   valid-jsdoc
+  423:3   warning  Missing JSDoc for parameter 'previousLanguage'                              valid-jsdoc
+  439:3   warning  Missing JSDoc @returns for function                                         valid-jsdoc
+  446:3   warning  Missing JSDoc @returns for function                                         valid-jsdoc
+  453:3   warning  Missing JSDoc @returns for function                                         valid-jsdoc
+  453:3   warning  Missing JSDoc for parameter 'language'                                      valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/learning-progress/learning-progress.js
+   70:3   error    Constructor has too many lines (123). Maximum allowed is 50                     max-lines-per-function
+  447:50  warning  'pathId' is defined but never used. Allowed unused args must match /^_/u        no-unused-vars
+  644:61  error    No magic number: 5                                                              no-magic-numbers
+  731:50  warning  'pathId' is defined but never used. Allowed unused args must match /^_/u        no-unused-vars
+  781:1   error    File has too many lines (714). Maximum allowed is 500                           max-lines
+  842:3   error    Method 'showResetConfirmation' has too many lines (112). Maximum allowed is 50  max-lines-per-function
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/learning-toggle/learning-toggle.js
+   31:1   warning  Missing JSDoc comment                                                                                           require-jsdoc
+   32:14  warning  Missing JSDoc comment                                                                                           require-jsdoc
+  101:3   warning  Missing JSDoc for parameter 'event'                                                                             valid-jsdoc
+  114:3   warning  Missing JSDoc for parameter 'event'                                                                             valid-jsdoc
+  258:3   warning  Missing JSDoc @returns for function                                                                             valid-jsdoc
+  261:38  warning  'type' is assigned a value but never used                                                                       no-unused-vars
+  327:3   warning  Missing JSDoc for parameter 'enabled'                                                                           valid-jsdoc
+  342:3   warning  Missing JSDoc @returns for function                                                                             valid-jsdoc
+  378:9   error    Possible race condition: `window.BSBSourceViewer` might be assigned based on an outdated state of `window`      require-atomic-updates
+  385:9   error    Possible race condition: `window.BSBLearningProgress` might be assigned based on an outdated state of `window`  require-atomic-updates
+  409:3   error    Async method 'loadMetaLearningStyles' has no 'await' expression                                                 require-await
+  493:1   error    This line has a length of 115. Maximum allowed is 100                                                           max-len
+  504:3   warning  Missing JSDoc @returns for function                                                                             valid-jsdoc
+  504:3   warning  Missing JSDoc for parameter 'milliseconds'                                                                      valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/seo-analyzer/seo-analyzer.js
+   25:3   warning  'generateMetaTags' is defined but never used                                no-unused-vars
+   90:16  error    Method 'cacheElements' has too many statements (27). Maximum allowed is 25  max-statements
+  163:31  error    Identifier name 't' is too short (< 2)                                      id-length
+  207:3   error    Async method 'analyzePage' has no 'await' expression                        require-await
+  374:31  error    No magic number: 3                                                          no-magic-numbers
+  381:14  error    Identifier name 'a' is too short (< 2)                                      id-length
+  381:17  error    Identifier name 'b' is too short (< 2)                                      id-length
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/source-viewer/source-viewer.js
+  106:3  error  Method 'getViewerTemplate' has too many lines (104). Maximum allowed is 50    max-lines-per-function
+  264:3  error  Method 'addViewSourceButtons' has too many lines (51). Maximum allowed is 50  max-lines-per-function
+  548:1  error  This line has a length of 107. Maximum allowed is 100                         max-len
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/components/theme-toggle/theme-toggle.js
+  139:16  error    Method 'handleKeydown' has a complexity of 13. Maximum allowed is 10  complexity
+  283:3   warning  Missing JSDoc for parameter 'theme'                                   valid-jsdoc
+  283:3   warning  Missing JSDoc for parameter 'body'                                    valid-jsdoc
+  294:3   warning  Missing JSDoc for parameter 'theme'                                   valid-jsdoc
+  294:3   warning  Missing JSDoc for parameter 'body'                                    valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/components/tutorial-hub.js
+   48:1   warning  Missing JSDoc comment                                                           require-jsdoc
+   49:3   error    Constructor has too many lines (63). Maximum allowed is 50                      max-lines-per-function
+   49:14  warning  Missing JSDoc comment                                                           require-jsdoc
+  127:5   warning  Unexpected console statement                                                    no-console
+  169:3   warning  Missing JSDoc for parameter 'event'                                             valid-jsdoc
+  185:3   warning  Missing JSDoc for parameter 'event'                                             valid-jsdoc
+  219:7   error    Identifier 'difficulty_filter' is not in camel case                             camelcase
+  220:7   error    Identifier 'topic_filter' is not in camel case                                  camelcase
+  221:7   error    Identifier 'results_count' is not in camel case                                 camelcase
+  233:38  error    Identifier name 'a' is too short (< 2)                                          id-length
+  233:41  error    Identifier name 'b' is too short (< 2)                                          id-length
+  240:38  error    Identifier name 'a' is too short (< 2)                                          id-length
+  240:41  error    Identifier name 'b' is too short (< 2)                                          id-length
+  244:38  error    Identifier name 'a' is too short (< 2)                                          id-length
+  244:41  error    Identifier name 'b' is too short (< 2)                                          id-length
+  337:20  error    Method 'initializeFilters' has a complexity of 12. Maximum allowed is 10        complexity
+  386:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  423:68  error    Identifier name 'p' is too short (< 2)                                          id-length
+  433:1   error    This line has a length of 110. Maximum allowed is 100                           max-len
+  442:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  442:3   warning  Missing JSDoc for parameter 'completedCount'                                    valid-jsdoc
+  468:68  error    Identifier name 'p' is too short (< 2)                                          id-length
+  494:3   warning  Missing JSDoc for parameter 'card'                                              valid-jsdoc
+  494:3   warning  Missing JSDoc for parameter 'tutorial'                                          valid-jsdoc
+  494:3   warning  Missing JSDoc for parameter 'progress'                                          valid-jsdoc
+  503:1   error    This line has a length of 143. Maximum allowed is 100                           max-len
+  547:3   warning  Missing JSDoc for parameter 'timeMs'                                            valid-jsdoc
+  559:1   error    This line has a length of 126. Maximum allowed is 100                           max-len
+  564:3   warning  Missing JSDoc for parameter 'tutorialId'                                        valid-jsdoc
+  587:3   warning  Missing JSDoc for parameter 'tutorialId'                                        valid-jsdoc
+  662:3   warning  Missing JSDoc for parameter 'selector'                                          valid-jsdoc
+  662:3   warning  Missing JSDoc for parameter 'content'                                           valid-jsdoc
+  672:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  672:3   warning  Missing JSDoc for parameter 'id'                                                valid-jsdoc
+  679:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  679:3   warning  Missing JSDoc for parameter 'card'                                              valid-jsdoc
+  691:3   warning  Missing JSDoc for parameter 'eventName'                                         valid-jsdoc
+  691:3   warning  Missing JSDoc for parameter 'eventData'                                         valid-jsdoc
+  697:7   error    'gtag' is not defined                                                           no-undef
+  698:9   error    Identifier 'event_category' is not in camel case                                camelcase
+  704:5   warning  Unexpected console statement                                                    no-console
+  707:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  731:1   error    This line has a length of 105. Maximum allowed is 100                           max-len
+  734:54  error    No magic number: 2                                                              no-magic-numbers
+  739:1   error    File has too many lines (631). Maximum allowed is 500                           max-lines
+  756:3   error    Method 'showResetConfirmation' has too many lines (116). Maximum allowed is 50  max-lines-per-function
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/accessibility-enhancer.js
+   32:1   warning  Missing JSDoc comment                                                         require-jsdoc
+   33:14  warning  Missing JSDoc comment                                                         require-jsdoc
+   53:3   warning  Missing JSDoc @returns for function                                           valid-jsdoc
+   79:9   warning  'isKeyboardUser' is assigned a value but never used                           no-unused-vars
+  106:3   warning  Missing JSDoc for parameter 'e'                                               valid-jsdoc
+  109:24  error    Method 'handleGlobalShortcuts' has a complexity of 12. Maximum allowed is 10  complexity
+  109:25  error    Identifier name 'e' is too short (< 2)                                        id-length
+  192:12  error    No magic number: 100                                                          no-magic-numbers
+  221:20  error    No magic number: 100                                                          no-magic-numbers
+  336:3   warning  Missing JSDoc for parameter 'message'                                         valid-jsdoc
+  336:3   warning  Missing JSDoc for parameter 'priority'                                        valid-jsdoc
+  349:10  error    No magic number: 1000                                                         no-magic-numbers
+  620:3   warning  Missing JSDoc for parameter 'event'                                           valid-jsdoc
+  659:3   warning  Missing JSDoc @returns for function                                           valid-jsdoc
+  659:3   warning  Missing JSDoc for parameter 'element'                                         valid-jsdoc
+  704:7   error    Unexpected negated condition                                                  no-negated-condition
+  714:3   warning  Missing JSDoc @returns for function                                           valid-jsdoc
+  721:3   warning  Missing JSDoc for parameter 'key'                                             valid-jsdoc
+  721:3   warning  Missing JSDoc for parameter 'value'                                           valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/achievement-system.js
+   24:8   warning  Missing JSDoc comment                                                            require-jsdoc
+   25:14  warning  Missing JSDoc comment                                                            require-jsdoc
+   31:7   warning  Missing JSDoc comment                                                            require-jsdoc
+   37:3   error    Method 'initializeAchievements' has too many lines (129). Maximum allowed is 50  max-lines-per-function
+   37:25  warning  Missing JSDoc comment                                                            require-jsdoc
+  184:15  warning  Missing JSDoc comment                                                            require-jsdoc
+  200:15  warning  Missing JSDoc comment                                                            require-jsdoc
+  204:22  warning  Missing JSDoc comment                                                            require-jsdoc
+  240:20  warning  Missing JSDoc comment                                                            require-jsdoc
+  279:79  error    No magic number: 100                                                             no-magic-numbers
+  297:3   error    Method 'addAchievementStyles' has too many lines (242). Maximum allowed is 50    max-lines-per-function
+  297:23  warning  Missing JSDoc comment                                                            require-jsdoc
+  576:13  warning  Missing JSDoc comment                                                            require-jsdoc
+  593:1   error    File has too many lines (683). Maximum allowed is 500                            max-lines
+  599:26  warning  Missing JSDoc comment                                                            require-jsdoc
+  634:14  warning  Missing JSDoc comment                                                            require-jsdoc
+  644:13  warning  Missing JSDoc comment                                                            require-jsdoc
+  648:21  warning  Missing JSDoc comment                                                            require-jsdoc
+  660:65  error    Identifier name 'a' is too short (< 2)                                           id-length
+  670:20  warning  Missing JSDoc comment                                                            require-jsdoc
+  695:30  warning  Missing JSDoc comment                                                            require-jsdoc
+  716:25  warning  Missing JSDoc comment                                                            require-jsdoc
+  729:26  warning  Missing JSDoc comment                                                            require-jsdoc
+  737:65  error    No magic number: 5                                                               no-magic-numbers
+  755:21  warning  Missing JSDoc comment                                                            require-jsdoc
+  760:56  error    No magic number: 10                                                              no-magic-numbers
+  766:15  warning  Missing JSDoc comment                                                            require-jsdoc
+  775:20  warning  Missing JSDoc comment                                                            require-jsdoc
+  796:29  warning  Missing JSDoc comment                                                            require-jsdoc
+  807:27  warning  Missing JSDoc comment                                                            require-jsdoc
+  815:56  error    No magic number: 5                                                               no-magic-numbers
+  818:54  error    No magic number: 10                                                              no-magic-numbers
+  827:33  warning  Missing JSDoc comment                                                            require-jsdoc
+  833:30  warning  Missing JSDoc comment                                                            require-jsdoc
+  839:30  warning  Missing JSDoc comment                                                            require-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/bsb-helper.js
+  208:50  error    Identifier name 'c' is too short (< 2)                                 id-length
+  363:6   warning  Expected JSDoc for 'event' but found 'e'                               valid-jsdoc
+  380:6   warning  Expected JSDoc for 'event' but found 'e'                               valid-jsdoc
+  437:3   error    Method 'addDevStyles' has too many lines (195). Maximum allowed is 50  max-lines-per-function
+  769:1   error    File has too many lines (503). Maximum allowed is 500                  max-lines
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/debug.js
+  30:7  warning  Unexpected console statement  no-console
+  36:7  warning  Unexpected console statement  no-console
+  55:7  warning  Unexpected console statement  no-console
+  61:7  warning  Unexpected console statement  no-console
+  67:7  warning  Unexpected console statement  no-console
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/language-toggle.js
+   18:1   warning  Missing JSDoc comment                                                           require-jsdoc
+   19:14  warning  Missing JSDoc comment                                                           require-jsdoc
+   38:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+   50:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+   57:3   warning  Missing JSDoc for parameter 'language'                                          valid-jsdoc
+   67:3   error    Async method 'loadTranslations' has too many lines (62). Maximum allowed is 50  max-lines-per-function
+   67:3   error    Async method 'loadTranslations' has no 'await' expression                       require-await
+  205:3   warning  Missing JSDoc for parameter 'newLanguage'                                       valid-jsdoc
+  293:3   warning  Missing JSDoc for parameter 'language'                                          valid-jsdoc
+  293:3   warning  Missing JSDoc for parameter 'isChange'                                          valid-jsdoc
+  322:8   error    No magic number: 1000                                                           no-magic-numbers
+  325:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  325:3   warning  Missing JSDoc for parameter 'key'                                               valid-jsdoc
+  325:3   warning  Missing JSDoc for parameter 'fallback'                                          valid-jsdoc
+  328:3   error    Identifier name 't' is too short (< 2)                                          id-length
+  333:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  340:3   warning  Missing JSDoc @returns for function                                             valid-jsdoc
+  340:3   warning  Missing JSDoc for parameter 'language'                                          valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/main.js
+   56:3   error  'initSmoothScrolling' was used before it was defined                           no-use-before-define
+   59:3   error  'initFormEnhancements' was used before it was defined                          no-use-before-define
+   62:3   error  'initLazyLoading' was used before it was defined                               no-use-before-define
+   65:3   error  'initAccessibility' was used before it was defined                             no-use-before-define
+   68:3   error  'updateDynamicContent' was used before it was defined                          no-use-before-define
+  230:7   error  Capture group '(\d{4})' should be converted to a named or non-capturing group  prefer-named-capture-group
+  330:20  error  Unexpected 'this'                                                              no-invalid-this
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/core/performance-optimizer.js
+   53:1   warning  Missing JSDoc comment                                                                              require-jsdoc
+   54:14  warning  Missing JSDoc comment                                                                              require-jsdoc
+  140:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  162:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  180:1   error    This line has a length of 125. Maximum allowed is 100                                              max-len
+  189:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  213:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  254:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  260:3   warning  Missing JSDoc @returns for function                                                                valid-jsdoc
+  260:3   warning  Missing JSDoc for parameter 'url'                                                                  valid-jsdoc
+  264:19  error    Capture group '(css)' should be converted to a named or non-capturing group                        prefer-named-capture-group
+  267:19  error    Capture group '(js)' should be converted to a named or non-capturing group                         prefer-named-capture-group
+  270:19  error    Capture group '(png|jpg|jpeg|gif|svg|webp)' should be converted to a named or non-capturing group  prefer-named-capture-group
+  273:19  error    Capture group '(woff|woff2|ttf|eot)' should be converted to a named or non-capturing group         prefer-named-capture-group
+  287:1   error    This line has a length of 108. Maximum allowed is 100                                              max-len
+  297:1   error    This line has a length of 110. Maximum allowed is 100                                              max-len
+  326:1   error    This line has a length of 118. Maximum allowed is 100                                              max-len
+  356:1   error    This line has a length of 109. Maximum allowed is 100                                              max-len
+  473:16  error    Identifier name 'e' is too short (< 2)                                                             id-length
+  570:3   error    Method 'createPerformanceDashboard' has too many lines (58). Maximum allowed is 50                 max-lines-per-function
+  642:3   error    Method 'styleDashboard' has too many lines (105). Maximum allowed is 50                            max-lines-per-function
+  707:1   error    File has too many lines (646). Maximum allowed is 500                                              max-lines
+  780:59  error    Identifier name 'r' is too short (< 2)                                                             id-length
+  784:3   warning  Missing JSDoc for parameter 'metricName'                                                           valid-jsdoc
+  784:3   warning  Missing JSDoc for parameter 'value'                                                                valid-jsdoc
+  784:3   warning  Missing JSDoc for parameter 'unit'                                                                 valid-jsdoc
+  784:3   warning  Missing JSDoc for parameter 'thresholds'                                                           valid-jsdoc
+  807:3   warning  Missing JSDoc for parameter 'recommendations'                                                      valid-jsdoc
+  834:3   warning  Missing JSDoc @returns for function                                                                valid-jsdoc
+  834:3   warning  Missing JSDoc for parameter 'bytes'                                                                valid-jsdoc
+  847:3   warning  Missing JSDoc @returns for function                                                                valid-jsdoc
+  866:57  error    No magic number: 2                                                                                 no-magic-numbers
+  875:3   warning  Missing JSDoc @returns for function                                                                valid-jsdoc
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/i18n/translations.js
+  583:1  error  File has too many lines (1030). Maximum allowed is 500  max-lines
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/seo/seo-utils.js
+  160:33  error  Function 'generateMetaTags' has too many lines (139). Maximum allowed is 50          max-lines-per-function
+  160:33  error  Function 'generateMetaTags' has a complexity of 11. Maximum allowed is 10            complexity
+  224:9   error  Identifier 'use_case' is not in camel case                                           camelcase
+  326:42  error  Function 'generateEducationalSchema' has too many lines (58). Maximum allowed is 50  max-lines-per-function
+  457:34  error  Function 'calculateSEOScore' has too many lines (117). Maximum allowed is 50         max-lines-per-function
+  457:34  error  Function 'calculateSEOScore' has too many statements (46). Maximum allowed is 25     max-statements
+  457:34  error  Function 'calculateSEOScore' has a complexity of 24. Maximum allowed is 10           complexity
+  522:1   error  This line has a length of 111. Maximum allowed is 100                                max-len
+  558:1   error  This line has a length of 105. Maximum allowed is 100                                max-len
+  584:1   error  This line has a length of 123. Maximum allowed is 100                                max-len
+
+/Users/aldoruizluna/labspace/branded-static-boilerplate/src/scripts/tutorials/accessibility-tutorial.js
+  580:1  error  File has too many lines (815). Maximum allowed is 500  max-lines
+
+✖ 270 problems (120 errors, 150 warnings)
+

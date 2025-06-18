@@ -678,10 +678,13 @@ dist/           # Build output
 
     // Position tooltip
     const tooltipRect = this.tooltip.getBoundingClientRect();
-    const left = rect.left - containerRect.left + (rect.width / CONSTANTS.POSITION_DIVISOR) - (tooltipRect.width / CONSTANTS.POSITION_DIVISOR);
+    const left = rect.left - containerRect.left +
+      (rect.width / CONSTANTS.POSITION_DIVISOR) -
+      (tooltipRect.width / CONSTANTS.POSITION_DIVISOR);
     const top = rect.top - containerRect.top - tooltipRect.height - CONSTANTS.TOOLTIP_SPACING;
 
-    this.tooltip.style.left = `${Math.max(CONSTANTS.TOOLTIP_SPACING, Math.min(left, containerRect.width - tooltipRect.width - CONSTANTS.TOOLTIP_SPACING))}px`;
+    const maxLeft = containerRect.width - tooltipRect.width - CONSTANTS.TOOLTIP_SPACING;
+    this.tooltip.style.left = `${Math.max(CONSTANTS.TOOLTIP_SPACING, Math.min(left, maxLeft))}px`;
     this.tooltip.style.top = `${Math.max(CONSTANTS.TOOLTIP_SPACING, top)}px`;
 
     // Show tooltip

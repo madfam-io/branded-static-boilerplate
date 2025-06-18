@@ -44,6 +44,7 @@ const CONSTANTS = {
   PERCENTAGE_MAX: 100,
   KEYWORD_BASE: 10,
   MIN_WORD_LENGTH: 2,
+  MIN_KEYWORD_LENGTH: 3,
   // Animation
   ANIMATION_DELAY: 300,
   DECIMAL_PLACES: 1,
@@ -371,14 +372,14 @@ class BSBSEOAnalyzer {
     const wordFrequency = {};
     words.forEach(word => {
       const normalized = word.toLowerCase().replace(/[^a-z0-9]/gu, '');
-      if (normalized.length > 3) {
+      if (normalized.length > CONSTANTS.MIN_KEYWORD_LENGTH) {
         wordFrequency[normalized] = (wordFrequency[normalized] || 0) + 1;
       }
     });
 
     // Get top keywords
     const topKeywords = Object.entries(wordFrequency)
-      .sort((a, b) => b[1] - a[1])
+      .sort((wordA, wordB) => wordB[1] - wordA[1])
       .slice(0, CONSTANTS.KEYWORD_BASE)
       .map(([word, count]) => ({
         word,
