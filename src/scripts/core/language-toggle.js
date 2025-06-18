@@ -170,7 +170,7 @@ class LanguageToggle {
 
     toggle.innerHTML = `
       <button class="bsb-language-toggle__button"
-              aria-label="${this.t('lang.current')}: ${currentLangName}. ${this.t('lang.switch-to')} ${otherLangName}"
+              aria-label="${this.translateShort('lang.current')}: ${currentLangName}. ${this.translateShort('lang.switch-to')} ${otherLangName}"
               data-language="${otherLang}">
         <span class="bsb-language-toggle__current">${this.currentLanguage.toUpperCase()}</span>
         <span class="bsb-language-toggle__arrow">⇄</span>
@@ -237,7 +237,7 @@ class LanguageToggle {
     // Update elements with data-i18n attribute
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const key = element.getAttribute('data-i18n');
-      const translation = this.t(key);
+      const translation = this.translateShort(key);
 
       if (translation !== key) {
         if (element.tagName === 'INPUT' && element.type === 'submit') {
@@ -251,7 +251,7 @@ class LanguageToggle {
     // Update ARIA labels and other attributes
     document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
       const key = element.getAttribute('data-i18n-aria-label');
-      const translation = this.t(key);
+      const translation = this.translateShort(key);
       if (translation !== key) {
         element.setAttribute('aria-label', translation);
       }
@@ -260,7 +260,7 @@ class LanguageToggle {
     // Update placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
       const key = element.getAttribute('data-i18n-placeholder');
-      const translation = this.t(key);
+      const translation = this.translateShort(key);
       if (translation !== key) {
         element.setAttribute('placeholder', translation);
       }
@@ -291,7 +291,7 @@ class LanguageToggle {
 
     toggle.setAttribute('data-language', otherLang);
     toggle.setAttribute('aria-label',
-      `${this.t('lang.current')}: ${currentLangName}. ${this.t('lang.switch-to')} ${otherLangName}`
+      `${this.translateShort('lang.current')}: ${currentLangName}. ${this.translateShort('lang.switch-to')} ${otherLangName}`
     );
   }
 
@@ -337,8 +337,11 @@ class LanguageToggle {
 
   /**
    * Alias for translate method (used internally)
+   * @param {string} key - Translation key
+   * @param {string|null} fallback - Fallback text
+   * @returns {string} Translated text
    */
-  t(key, fallback = null) {
+  translateShort(key, fallback = null) {
     return this.translate(key, fallback);
   }
 

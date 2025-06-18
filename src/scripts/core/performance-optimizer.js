@@ -460,6 +460,46 @@ class PerformanceOptimizer {
         debug.log('BSB Performance: Font-display swap supported');
       }
     }
+
+    // Add font-display: swap to all font-face rules
+    const fontFaceRules = [];
+    for (const sheet of document.styleSheets) {
+      try {
+        for (const rule of sheet.cssRules) {
+          if (rule instanceof CSSFontFaceRule) {
+            fontFaceRules.push(rule);
+          }
+        }
+      } catch (error) {
+        // Cross-origin stylesheets will throw, skip them
+      }
+    }
+
+    // Modify font-face rules to use font-display: swap
+    fontFaceRules.forEach(rule => {
+      if (!rule.style.fontDisplay) {
+        rule.style.fontDisplay = 'swap';
+      }
+    });
+
+    // Preload critical fonts if they exist
+    const criticalFonts = [
+      '/assets/fonts/main-font.woff2',
+      '/assets/fonts/heading-font.woff2'
+    ];
+
+    criticalFonts.forEach(fontUrl => {
+      // Check if font file exists by looking for references
+      if (document.querySelector(`[href*="${fontUrl.split('/').pop()}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.href = fontUrl;
+        link.as = 'font';
+        link.type = 'font/woff2';
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      }
+    });
   }
 
   /**
@@ -521,62 +561,6 @@ class PerformanceOptimizer {
   }
 
   /**
-   * Optimize resource hints
-   */
-  optimizeResourceHints() {
-    // Add preconnect for external domains
-    const externalDomains = new Set();
-
-    document.querySelectorAll('link[href^="http"], script[src^="http"], img[src^="http"]').forEach(element => {
-      try {
-        const url = new URL(element.href || element.src);
-        if (url.hostname !== window.location.hostname) {
-          externalDomains.add(url.origin);
-        }
-      } catch (error) {
-        // Invalid URL, skip
-      }
-    });
-
-    // Add preconnect links for external domains
-    externalDomains.forEach(domain => {
-      if (!document.querySelector(`link[rel="preconnect"][href="${domain}"]`)) {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = domain;
-        document.head.appendChild(link);
-      }
-    });
-  }
-
-  /**
-   * Optimize images
-   */
-  optimizeImages() {
-    // Check for images without proper sizing
-    const unsizedImages = document.querySelectorAll('img:not([width]):not([height])');
-    if (unsizedImages.length > 0) {
-      debug.warn(`${unsizedImages.length} images without explicit dimensions found. This may cause layout shifts.`);
-    }
-
-    // Add modern image format support detection
-    this.detectImageFormatSupport();
-
-    // Optimize image loading
-    document.querySelectorAll('img').forEach(img => {
-      // Add loading attribute if not present
-      if (!img.hasAttribute('loading')) {
-        img.setAttribute('loading', 'lazy');
-      }
-
-      // Add decoding attribute for better performance
-      if (!img.hasAttribute('decoding')) {
-        img.setAttribute('decoding', 'async');
-      }
-    });
-  }
-
-  /**
    * Detect image format support
    */
   detectImageFormatSupport() {
@@ -594,36 +578,6 @@ class PerformanceOptimizer {
       img.onload = handler;
       img.onerror = handler;
       img.src = dataUri;
-    });
-  }
-
-  /**
-   * Optimize fonts
-   */
-  optimizeFonts() {
-    // Add font-display: swap to font faces
-    const style = document.createElement('style');
-    style.textContent = `
-      @font-face {
-        font-display: swap;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Preload critical fonts
-    const criticalFonts = [
-      '/assets/fonts/main-font.woff2',
-      '/assets/fonts/heading-font.woff2'
-    ];
-
-    criticalFonts.forEach(fontUrl => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.href = fontUrl;
-      link.as = 'font';
-      link.type = 'font/woff2';
-      link.crossOrigin = 'anonymous';
-      document.head.appendChild(link);
     });
   }
 
