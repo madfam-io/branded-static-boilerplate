@@ -38,10 +38,18 @@ const updateScoreNumber = score => {
  * @returns {string} Color class name
  */
 const getScoreColorClass = score => {
-  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {return 'excellent';}
-  if (score >= CONSTANTS.GOOD_THRESHOLD) {return 'good';}
-  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {return 'average';}
-  if (score >= CONSTANTS.POOR_THRESHOLD) {return 'poor';}
+  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {
+    return 'excellent';
+  }
+  if (score >= CONSTANTS.GOOD_THRESHOLD) {
+    return 'good';
+  }
+  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {
+    return 'average';
+  }
+  if (score >= CONSTANTS.POOR_THRESHOLD) {
+    return 'poor';
+  }
   return 'critical';
 };
 
@@ -76,7 +84,9 @@ const updateCircleColor = (circleElement, score) => {
  */
 const updateScoreCircle = score => {
   const circleElement = document.querySelector('.seo-analyzer__score-circle');
-  if (!circleElement) {return;}
+  if (!circleElement) {
+    return;
+  }
 
   updateCircleProgress(circleElement, score);
   updateCircleColor(circleElement, score);
@@ -88,10 +98,18 @@ const updateScoreCircle = score => {
  * @returns {string} Letter grade
  */
 const getScoreGrade = score => {
-  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {return 'A+';}
-  if (score >= CONSTANTS.GOOD_THRESHOLD) {return 'A';}
-  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {return 'B';}
-  if (score >= CONSTANTS.POOR_THRESHOLD) {return 'C';}
+  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {
+    return 'A+';
+  }
+  if (score >= CONSTANTS.GOOD_THRESHOLD) {
+    return 'A';
+  }
+  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {
+    return 'B';
+  }
+  if (score >= CONSTANTS.POOR_THRESHOLD) {
+    return 'C';
+  }
   return 'D';
 };
 
@@ -167,7 +185,9 @@ const getInsightIcon = type => {
  */
 export const updateInsights = insights => {
   const insightsContainer = document.querySelector('.seo-analyzer__insights');
-  if (!insightsContainer) {return;}
+  if (!insightsContainer) {
+    return;
+  }
 
   insightsContainer.innerHTML = insights.map(insight => `
     <div class="insight insight--${insight.type}">
@@ -190,7 +210,9 @@ export const updateInsights = insights => {
  */
 export const updateMetaTags = pageData => {
   const metaContainer = document.querySelector('.seo-analyzer__meta-tags');
-  if (!metaContainer) {return;}
+  if (!metaContainer) {
+    return;
+  }
 
   const metaTags = generateMetaTags(pageData);
   const serpPreview = generateSERPPreview(pageData);
@@ -220,7 +242,9 @@ export const updateMetaTags = pageData => {
  */
 export const updateContentStats = contentData => {
   const statsContainer = document.querySelector('.seo-analyzer__content-stats');
-  if (!statsContainer) {return;}
+  if (!statsContainer) {
+    return;
+  }
 
   statsContainer.innerHTML = `
     <div class="content-stats__item">
@@ -249,7 +273,9 @@ export const updateContentStats = contentData => {
  */
 export const updateTechnicalSEO = techData => {
   const techContainer = document.querySelector('.seo-analyzer__technical');
-  if (!techContainer) {return;}
+  if (!techContainer) {
+    return;
+  }
 
   techContainer.innerHTML = `
     <div class="technical-item">

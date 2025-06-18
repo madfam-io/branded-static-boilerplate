@@ -124,7 +124,9 @@ class BSBFileExplorer {
 
     for (const item of items) {
       const data = this.fileData[item.path];
-      if (!data) {continue;}
+      if (!data) {
+        continue;
+      }
 
       const isExpanded = this.expandedFolders.has(item.path);
       let itemHtml = renderFileItem(item, data, isExpanded);

@@ -40,18 +40,34 @@ const LINK_SCORES = {
 
 // Simple validators (copied to avoid circular import)
 const validateTitle = title => {
-  if (!title) {return { status: 'error' };}
-  if (title.length < TITLE_VALIDATION.MIN_LENGTH) {return { status: 'warning' };}
-  if (title.length > TITLE_VALIDATION.MAX_LENGTH) {return { status: 'warning' };}
-  if (title.length >= TITLE_VALIDATION.EXCELLENT_MIN && title.length <= TITLE_VALIDATION.EXCELLENT_MAX) {return { status: 'excellent' };}
+  if (!title) {
+    return { status: 'error' };
+  }
+  if (title.length < TITLE_VALIDATION.MIN_LENGTH) {
+    return { status: 'warning' };
+  }
+  if (title.length > TITLE_VALIDATION.MAX_LENGTH) {
+    return { status: 'warning' };
+  }
+  if (title.length >= TITLE_VALIDATION.EXCELLENT_MIN && title.length <= TITLE_VALIDATION.EXCELLENT_MAX) {
+    return { status: 'excellent' };
+  }
   return { status: 'good' };
 };
 
 const validateDescription = description => {
-  if (!description) {return { status: 'error' };}
-  if (description.length < DESCRIPTION_VALIDATION.MIN_LENGTH) {return { status: 'warning' };}
-  if (description.length > DESCRIPTION_VALIDATION.MAX_LENGTH) {return { status: 'warning' };}
-  if (description.length >= DESCRIPTION_VALIDATION.EXCELLENT_MIN && description.length <= DESCRIPTION_VALIDATION.EXCELLENT_MAX) {return { status: 'excellent' };}
+  if (!description) {
+    return { status: 'error' };
+  }
+  if (description.length < DESCRIPTION_VALIDATION.MIN_LENGTH) {
+    return { status: 'warning' };
+  }
+  if (description.length > DESCRIPTION_VALIDATION.MAX_LENGTH) {
+    return { status: 'warning' };
+  }
+  if (description.length >= DESCRIPTION_VALIDATION.EXCELLENT_MIN && description.length <= DESCRIPTION_VALIDATION.EXCELLENT_MAX) {
+    return { status: 'excellent' };
+  }
   return { status: 'good' };
 };
 
@@ -222,10 +238,18 @@ export const calculateContentScore = page => {
 export const calculateTechnicalScore = page => {
   let score = 0;
 
-  if (page.canonical) {score += 25;}
-  if (page.structuredData) {score += 25;}
-  if (page.mobileFriendly) {score += 25;}
-  if (page.https) {score += 25;}
+  if (page.canonical) {
+    score += 25;
+  }
+  if (page.structuredData) {
+    score += 25;
+  }
+  if (page.mobileFriendly) {
+    score += 25;
+  }
+  if (page.https) {
+    score += 25;
+  }
 
   return score;
 };
