@@ -43,9 +43,9 @@
     Additional Security Headers
     ==========================
     - X-Content-Type-Options: Prevents MIME-type sniffing
-    - X-Frame-Options: Prevents clickjacking
     - Referrer-Policy: Controls referrer information
-  --><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta http-equiv="X-Frame-Options" content="SAMEORIGIN"><meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"><!-- 
+    Note: X-Frame-Options must be set as HTTP header, not in HTML
+  --><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin"><!-- 
     Título de la Página
     ===================
     Aparece en las pestañas del navegador y resultados de búsqueda. Mantén bajo 60 caracteres.
