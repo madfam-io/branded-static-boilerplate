@@ -23,6 +23,11 @@
 
 import { debug } from './debug.js';
 
+// Constants for notifications and timeouts
+const NOTIFICATION_CONSTANTS = {
+  AUTO_REMOVE_TIMEOUT: 3000 // 3 seconds
+};
+
 /**
  * BSB Helper - Development Mode Assistant
  * @class BSBHelper
@@ -726,7 +731,7 @@ window.enableLearningMode = function enableLearningMode() {
   // Auto-remove notification after 3 seconds
   setTimeout(() => {
     notification.remove();
-  }, 3000);
+  }, NOTIFICATION_CONSTANTS.AUTO_REMOVE_TIMEOUT);
 };
 
 /**
@@ -762,5 +767,5 @@ window.disableLearningMode = function disableLearningMode() {
   // Auto-remove notification after 3 seconds
   setTimeout(() => {
     notification.remove();
-  }, 3000);
+  }, NOTIFICATION_CONSTANTS.AUTO_REMOVE_TIMEOUT);
 };

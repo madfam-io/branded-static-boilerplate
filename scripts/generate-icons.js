@@ -13,6 +13,17 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Constants for hex color parsing
+const HEX_COLOR_CONSTANTS = {
+  RED_START: 1,
+  RED_END: 3,
+  GREEN_START: 3,
+  GREEN_END: 5,
+  BLUE_START: 5,
+  BLUE_END: 7,
+  HEX_BASE: 16
+};
+
 // SVG template for icons
 const createSVG = size => `
 <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">
@@ -38,9 +49,9 @@ const createPlaceholderPNG = (width, height, color = '#0066cc') => {
 
   // Create a simple colored rectangle
   const pixelData = Buffer.alloc(width * height * 4);
-  const red = parseInt(color.slice(1, 3), 16);
-  const green = parseInt(color.slice(3, 5), 16);
-  const blue = parseInt(color.slice(5, 7), 16);
+  const red = parseInt(color.slice(HEX_COLOR_CONSTANTS.RED_START, HEX_COLOR_CONSTANTS.RED_END), HEX_COLOR_CONSTANTS.HEX_BASE);
+  const green = parseInt(color.slice(HEX_COLOR_CONSTANTS.GREEN_START, HEX_COLOR_CONSTANTS.GREEN_END), HEX_COLOR_CONSTANTS.HEX_BASE);
+  const blue = parseInt(color.slice(HEX_COLOR_CONSTANTS.BLUE_START, HEX_COLOR_CONSTANTS.BLUE_END), HEX_COLOR_CONSTANTS.HEX_BASE);
 
   for (let i = 0; i < pixelData.length; i += 4) {
     pixelData[i] = red;

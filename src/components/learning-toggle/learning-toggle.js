@@ -374,15 +374,15 @@ class BSBLearningToggle {
 
       // Initialize Source Viewer
       if (!window.BSBSourceViewer) {
-        const module = await import('../source-viewer/source-viewer.js');
-        window.BSBSourceViewer = new module.default();
+        const { default: BSBSourceViewer } = await import('../source-viewer/source-viewer.js');
+        window.BSBSourceViewer = new BSBSourceViewer();
       }
       window.BSBSourceViewer.addViewSourceButtons();
 
       // Initialize Learning Progress Tracker
       if (!window.BSBLearningProgress) {
-        const module = await import('../learning-progress/learning-progress.js');
-        window.BSBLearningProgress = new module.default();
+        const { default: BSBLearningProgress } = await import('../learning-progress/learning-progress.js');
+        window.BSBLearningProgress = new BSBLearningProgress();
       }
 
       // Initialize BSB Helper if available

@@ -53,7 +53,103 @@ const SEO_CONFIG = {
   scoreHeadingBonus: 50,
   scoreImagePenalty: 20,
   scoreWordCountDivisor: 10,
-  minWordCount: 300
+  minWordCount: 300,
+  // Grade thresholds
+  gradeAThreshold: 90,
+  gradeBThreshold: 80,
+  gradeCThreshold: 70,
+  gradeDThreshold: 60,
+  // SERP display limits
+  serpTitleMax: 60,
+  serpTitleTruncateAt: 57,
+  serpDescriptionMax: 160,
+  serpDescriptionTruncateAt: 157
+};
+
+/**
+ * Validate title tag for SEO best practices
+ * @param {string} title - Page title
+ * @returns {Object} Validation results with recommendations
+ */
+export const validateTitle = function validateTitle(title) {
+  const { length } = title;
+  const { min, max, optimal } = SEO_CONFIG.titleLength;
+
+  const result = {
+    length,
+    status: 'good',
+    message: '',
+    recommendations: []
+  };
+
+  if (length < min) {
+    result.status = 'warning';
+    result.message = `Title is too short (${length} chars). Aim for ${min}-${max} characters.`;
+    result.recommendations.push('Add more descriptive keywords');
+    result.recommendations.push('Include your brand name');
+  } else if (length > max) {
+    result.status = 'error';
+    result.message = `Title is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
+    result.recommendations.push('Remove unnecessary words');
+    result.recommendations.push('Focus on primary keywords');
+  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
+    result.status = 'excellent';
+    result.message = `Perfect title length (${length} chars)!`;
+  }
+
+  // Check for common issues
+  if (title.toLowerCase().includes('untitled') || title.toLowerCase().includes('home')) {
+    result.recommendations.push('Avoid generic titles like "Home" or "Untitled"');
+  }
+
+  if (title.split('|').length > SEO_CONFIG.maxTitleSeparators || title.split('-').length > SEO_CONFIG.maxDescriptionSeparators) {
+    result.recommendations.push('Avoid excessive separators - keep title readable');
+  }
+
+  return result;
+};
+
+/**
+ * Validate meta description for SEO best practices
+ * @param {string} description - Meta description
+ * @returns {Object} Validation results with recommendations
+ */
+export const validateDescription = function validateDescription(description) {
+  const { length } = description;
+  const { min, max, optimal } = SEO_CONFIG.descriptionLength;
+
+  const result = {
+    length,
+    status: 'good',
+    message: '',
+    recommendations: []
+  };
+
+  if (length < min) {
+    result.status = 'warning';
+    result.message = `Description is too short (${length} chars). Aim for ${min}-${max} characters.`;
+    result.recommendations.push('Add more detail about the page content');
+    result.recommendations.push('Include a compelling reason to click');
+  } else if (length > max) {
+    result.status = 'warning';
+    result.message = `Description is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
+    result.recommendations.push('Focus on the most important information');
+    result.recommendations.push('Move details to the page content');
+  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
+    result.status = 'excellent';
+    result.message = `Perfect description length (${length} chars)!`;
+  }
+
+  // Check for common issues
+  if (!description.match(/[.!?]$/u)) {
+    result.recommendations.push('End with punctuation for better readability');
+  }
+
+  if (description.toLowerCase().includes('click here') || description.toLowerCase().includes('read more')) {
+    result.recommendations.push('Avoid generic CTAs - be specific about value');
+  }
+
+  return result;
 };
 
 /**
@@ -223,92 +319,6 @@ export const generateMetaTags = function generateMetaTags(options) {
 };
 
 /**
- * Validate title tag for SEO best practices
- * @param {string} title - Page title
- * @returns {Object} Validation results with recommendations
- */
-export const validateTitle = function validateTitle(title) {
-  const { length } = title;
-  const { min, max, optimal } = SEO_CONFIG.titleLength;
-
-  const result = {
-    length,
-    status: 'good',
-    message: '',
-    recommendations: []
-  };
-
-  if (length < min) {
-    result.status = 'warning';
-    result.message = `Title is too short (${length} chars). Aim for ${min}-${max} characters.`;
-    result.recommendations.push('Add more descriptive keywords');
-    result.recommendations.push('Include your brand name');
-  } else if (length > max) {
-    result.status = 'error';
-    result.message = `Title is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
-    result.recommendations.push('Remove unnecessary words');
-    result.recommendations.push('Focus on primary keywords');
-  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
-    result.status = 'excellent';
-    result.message = `Perfect title length (${length} chars)!`;
-  }
-
-  // Check for common issues
-  if (title.toLowerCase().includes('untitled') || title.toLowerCase().includes('home')) {
-    result.recommendations.push('Avoid generic titles like "Home" or "Untitled"');
-  }
-
-  if (title.split('|').length > SEO_CONFIG.maxTitleSeparators || title.split('-').length > SEO_CONFIG.maxDescriptionSeparators) {
-    result.recommendations.push('Avoid excessive separators - keep title readable');
-  }
-
-  return result;
-};
-
-/**
- * Validate meta description for SEO best practices
- * @param {string} description - Meta description
- * @returns {Object} Validation results with recommendations
- */
-export const validateDescription = function validateDescription(description) {
-  const { length } = description;
-  const { min, max, optimal } = SEO_CONFIG.descriptionLength;
-
-  const result = {
-    length,
-    status: 'good',
-    message: '',
-    recommendations: []
-  };
-
-  if (length < min) {
-    result.status = 'warning';
-    result.message = `Description is too short (${length} chars). Aim for ${min}-${max} characters.`;
-    result.recommendations.push('Add more detail about the page content');
-    result.recommendations.push('Include a compelling reason to click');
-  } else if (length > max) {
-    result.status = 'warning';
-    result.message = `Description is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
-    result.recommendations.push('Focus on the most important information');
-    result.recommendations.push('Move details to the page content');
-  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
-    result.status = 'excellent';
-    result.message = `Perfect description length (${length} chars)!`;
-  }
-
-  // Check for common issues
-  if (!description.match(/[.!?]$/u)) {
-    result.recommendations.push('End with punctuation for better readability');
-  }
-
-  if (description.toLowerCase().includes('click here') || description.toLowerCase().includes('read more')) {
-    result.recommendations.push('Avoid generic CTAs - be specific about value');
-  }
-
-  return result;
-};
-
-/**
  * Generate structured data for educational content
  * @param {Object} data - Content data
  * @returns {Object} JSON-LD structured data
@@ -423,16 +433,16 @@ export const generateBreadcrumbSchema = function generateBreadcrumbSchema(breadc
  * @returns {string} Letter grade
  */
 const getGradeFromScore = function getGradeFromScore(score) {
-  if (score >= 90) {
+  if (score >= SEO_CONFIG.gradeAThreshold) {
     return 'A';
   }
-  if (score >= 80) {
+  if (score >= SEO_CONFIG.gradeBThreshold) {
     return 'B';
   }
-  if (score >= 70) {
+  if (score >= SEO_CONFIG.gradeCThreshold) {
     return 'C';
   }
-  if (score >= 60) {
+  if (score >= SEO_CONFIG.gradeDThreshold) {
     return 'D';
   }
   return 'F';
@@ -591,13 +601,13 @@ export const generateSERPPreview = function generateSERPPreview(data) {
   const { title, description, url } = data;
 
   // Truncate title if needed
-  const displayTitle = title.length > 60
-    ? `${title.substring(0, 57)}...`
+  const displayTitle = title.length > SEO_CONFIG.serpTitleMax
+    ? `${title.substring(0, SEO_CONFIG.serpTitleTruncateAt)}...`
     : title;
 
   // Truncate description if needed
-  const displayDescription = description.length > 160
-    ? `${description.substring(0, 157)}...`
+  const displayDescription = description.length > SEO_CONFIG.serpDescriptionMax
+    ? `${description.substring(0, SEO_CONFIG.serpDescriptionTruncateAt)}...`
     : description;
 
   // Format URL for display
@@ -606,9 +616,9 @@ export const generateSERPPreview = function generateSERPPreview(data) {
 
   return {
     title: displayTitle,
-    titleTruncated: title.length > 60,
+    titleTruncated: title.length > SEO_CONFIG.serpTitleMax,
     description: displayDescription,
-    descriptionTruncated: description.length > 160,
+    descriptionTruncated: description.length > SEO_CONFIG.serpDescriptionMax,
     url: breadcrumb,
     preview: {
       desktop: {

@@ -33,6 +33,30 @@ import chalk from 'chalk';
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 
 /**
+ * File processing constants
+ * @type {Object<string, number>}
+ */
+const PROCESSING_CONSTANTS = {
+  BYTES_TO_KB: 1024,
+  DECIMAL_PRECISION: 2,
+  PERCENTAGE_MULTIPLIER: 100,
+  PERCENTAGE_THRESHOLD_WARNING: 75,
+  PERCENTAGE_THRESHOLD_GOOD: 100,
+  BUDGET_WARNING_RATIO: 0.8,
+  BUDGET_CRITICAL_RATIO: 0.9,
+  MAX_FILES_PER_CATEGORY: 3,
+  MAX_LARGEST_FILES: 10,
+  LOG_BASE_SIZE_CALCULATION: 2,
+  TOP_KEYWORDS_SLICE_LENGTH: 8,
+  REPEATER_LENGTH: 50,
+  PADEND_LENGTH_8: 8,
+  PADEND_LENGTH_12: 12,
+  PADEND_LENGTH_40: 40,
+  PADSTART_WIDTH: 2,
+  DECIMAL_PLACES_1: 1
+};
+
+/**
  * Performance budgets for different asset types (in KB)
  * @type {Object<string, number>}
  */
@@ -104,7 +128,7 @@ const analyzeBundleComposition = function analyzeBundleComposition() {
           name: item,
           path: relativePath,
           size,
-          sizeKB: Math.round(size / 1024 * 100) / 100,
+          sizeKB: Math.round(size / PROCESSING_CONSTANTS.BYTES_TO_KB * PROCESSING_CONSTANTS.PERCENTAGE_MULTIPLIER) / PROCESSING_CONSTANTS.PERCENTAGE_MULTIPLIER,
           extension: ext
         };
 
@@ -147,10 +171,10 @@ const formatSize = function formatSize(bytes) {
   if (bytes === 0) {
     return '0 B';
   }
-  const kilobyte = 1024;
+  const kilobyte = PROCESSING_CONSTANTS.BYTES_TO_KB;
   const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(kilobyte));
-  return `${parseFloat((bytes / kilobyte**i).toFixed(2))} ${sizes[i]}`;
+  const sizeIndex = Math.floor(Math.log(bytes) / Math.log(kilobyte));
+  return `${parseFloat((bytes / kilobyte**sizeIndex).toFixed(PROCESSING_CONSTANTS.DECIMAL_PRECISION))} ${sizes[sizeIndex]}`;
 };
 
 /**
@@ -168,16 +192,16 @@ const checkBudget = function checkBudget(sizeKB, category) {
     return { status: 'unknown', message: '' };
   }
 
-  const percentage = (sizeKB / budget) * 100;
+  const percentage = (sizeKB / budget) * PROCESSING_CONSTANTS.PERCENTAGE_MULTIPLIER;
 
-  if (percentage <= 75) {
+  if (percentage <= PROCESSING_CONSTANTS.PERCENTAGE_THRESHOLD_WARNING) {
     return {
       status: 'good',
       percentage,
       message: chalk.green(`✓ Within budget (${percentage.toFixed(1)}%)`)
     };
   }
-  if (percentage <= 100) {
+  if (percentage <= PROCESSING_CONSTANTS.PERCENTAGE_THRESHOLD_GOOD) {
     return {
       status: 'warning',
       percentage,
@@ -216,7 +240,7 @@ const generateRecommendations = function generateRecommendations(analysis) {
   }
 
   // Check for unoptimized images
-  const largeImages = analysis.categories.images.files.filter(file => file.sizeKB > 100);
+  const largeImages = analysis.categories.images.files.filter(file => file.sizeKB > SIZE_THRESHOLDS.warning);
   if (largeImages.length > 0) {
     recommendations.push(
       `Optimize large images: ${largeImages.map(file => file.name).join(', ')}`
@@ -224,8 +248,8 @@ const generateRecommendations = function generateRecommendations(analysis) {
   }
 
   // Check for unused CSS
-  const totalCSSSize = analysis.categories.css.size / 1024;
-  if (totalCSSSize > PERFORMANCE_BUDGETS.css * 0.8) {
+  const totalCSSSize = analysis.categories.css.size / PROCESSING_CONSTANTS.BYTES_TO_KB;
+  if (totalCSSSize > PERFORMANCE_BUDGETS.css * PROCESSING_CONSTANTS.BUDGET_WARNING_RATIO) {
     recommendations.push('Consider purging unused CSS to reduce bundle size');
   }
 
@@ -238,8 +262,8 @@ const generateRecommendations = function generateRecommendations(analysis) {
   }
 
   // Check total bundle size
-  const totalSizeKB = analysis.totalSize / 1024;
-  if (totalSizeKB > PERFORMANCE_BUDGETS.total * 0.9) {
+  const totalSizeKB = analysis.totalSize / PROCESSING_CONSTANTS.BYTES_TO_KB;
+  if (totalSizeKB > PERFORMANCE_BUDGETS.total * PROCESSING_CONSTANTS.BUDGET_CRITICAL_RATIO) {
     recommendations.push('Consider lazy loading non-critical assets to reduce initial bundle size');
   }
 
@@ -255,10 +279,10 @@ const generateRecommendations = function generateRecommendations(analysis) {
  */
 const displayReport = function displayReport(analysis) {
   console.log(chalk.cyan('\n📊 BSB Bundle Analysis Report'));
-  console.log(chalk.cyan('=' .repeat(50)));
+  console.log(chalk.cyan('=' .repeat(PROCESSING_CONSTANTS.REPEATER_LENGTH)));
 
   // Total size
-  const totalSizeKB = analysis.totalSize / 1024;
+  const totalSizeKB = analysis.totalSize / PROCESSING_CONSTANTS.BYTES_TO_KB;
   const totalBudget = checkBudget(totalSizeKB, 'total');
   console.log(`\n📦 Total Bundle Size: ${formatSize(analysis.totalSize)} ${totalBudget.message}`);
 
@@ -269,17 +293,17 @@ const displayReport = function displayReport(analysis) {
       return;
     }
 
-    const sizeKB = data.size / 1024;
+    const sizeKB = data.size / PROCESSING_CONSTANTS.BYTES_TO_KB;
     const budget = checkBudget(sizeKB, category);
-    const percentage = ((data.size / analysis.totalSize) * 100).toFixed(1);
+    const percentage = ((data.size / analysis.totalSize) * PROCESSING_CONSTANTS.PERCENTAGE_MULTIPLIER).toFixed(PROCESSING_CONSTANTS.DECIMAL_PLACES_1);
 
     console.log(
-      `  ${category.toUpperCase().padEnd(8)} ${formatSize(data.size).padEnd(12)} ` +
+      `  ${category.toUpperCase().padEnd(PROCESSING_CONSTANTS.PADEND_LENGTH_8)} ${formatSize(data.size).padEnd(PROCESSING_CONSTANTS.PADEND_LENGTH_12)} ` +
       `(${percentage}%) ${budget.message}`
     );
 
     // Show largest files in category
-    const sortedFiles = data.files.sort((a, b) => b.size - a.size).slice(0, 3);
+    const sortedFiles = data.files.sort((fileA, fileB) => fileB.size - fileA.size).slice(0, PROCESSING_CONSTANTS.MAX_FILES_PER_CATEGORY);
     sortedFiles.forEach(file => {
       const indicator = file.sizeKB > SIZE_THRESHOLDS.error ? '🔴' :
         file.sizeKB > SIZE_THRESHOLDS.warning ? '🟡' : '🟢';
@@ -298,11 +322,11 @@ const displayReport = function displayReport(analysis) {
       return;
     }
 
-    const actualSize = category === 'total' ? totalSizeKB : (categoryData?.size || 0) / 1024;
+    const actualSize = category === 'total' ? totalSizeKB : (categoryData?.size || 0) / PROCESSING_CONSTANTS.BYTES_TO_KB;
     const budgetCheck = checkBudget(actualSize, category);
 
     console.log(
-      `  ${category.toUpperCase().padEnd(8)} ${actualSize.toFixed(1)}KB / ` +
+      `  ${category.toUpperCase().padEnd(PROCESSING_CONSTANTS.PADEND_LENGTH_8)} ${actualSize.toFixed(PROCESSING_CONSTANTS.DECIMAL_PLACES_1)}KB / ` +
       `${budget}KB ${budgetCheck.message}`
     );
   });
@@ -319,18 +343,18 @@ const displayReport = function displayReport(analysis) {
   }
 
   // Largest files overall
-  const largestFiles = analysis.files.sort((a, b) => b.size - a.size).slice(0, 10);
+  const largestFiles = analysis.files.sort((fileA, fileB) => fileB.size - fileA.size).slice(0, PROCESSING_CONSTANTS.MAX_LARGEST_FILES);
   console.log('\n🔍 Largest Files:');
   largestFiles.forEach((file, index) => {
     const indicator = file.sizeKB > SIZE_THRESHOLDS.error ? '🔴' :
       file.sizeKB > SIZE_THRESHOLDS.warning ? '🟡' : '🟢';
     console.log(
-      `  ${(index + 1).toString().padStart(2)}. ${indicator} ` +
-      `${file.path.padEnd(40)} ${formatSize(file.size)}`
+      `  ${(index + 1).toString().padStart(PROCESSING_CONSTANTS.PADSTART_WIDTH)}. ${indicator} ` +
+      `${file.path.padEnd(PROCESSING_CONSTANTS.PADEND_LENGTH_40)} ${formatSize(file.size)}`
     );
   });
 
-  console.log(chalk.cyan('\n=' .repeat(50)));
+  console.log(chalk.cyan('\n=' .repeat(PROCESSING_CONSTANTS.REPEATER_LENGTH)));
   console.log(`Report generated at: ${new Date().toLocaleString()}`);
 };
 
@@ -348,13 +372,13 @@ const main = function main() {
     displayReport(analysis);
 
     // Check if any budgets are exceeded
-    const totalSizeKB = analysis.totalSize / 1024;
+    const totalSizeKB = analysis.totalSize / PROCESSING_CONSTANTS.BYTES_TO_KB;
     const hasExceededBudgets = Object.entries(PERFORMANCE_BUDGETS).some(([category, budget]) => {
       if (category === 'total') {
         return totalSizeKB > budget;
       }
       const categoryData = analysis.categories[category];
-      return categoryData && (categoryData.size / 1024) > budget;
+      return categoryData && (categoryData.size / PROCESSING_CONSTANTS.BYTES_TO_KB) > budget;
     });
 
     if (hasExceededBudgets) {

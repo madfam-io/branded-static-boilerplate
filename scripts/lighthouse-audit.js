@@ -25,6 +25,12 @@ import path from 'path';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 
+// Constants for scoring and metrics
+const SCORING_CONSTANTS = {
+  PERCENTAGE_MULTIPLIER: 100,
+  MAX_OPPORTUNITIES_DISPLAY: 5
+};
+
 /**
  * Performance budgets for BSB
  * These represent our quality standards
@@ -153,11 +159,11 @@ const extractMetrics = function extractMetrics(results) {
 
   return {
     scores: {
-      performance: Math.round(lhr.categories.performance.score * 100),
-      accessibility: Math.round(lhr.categories.accessibility.score * 100),
-      bestPractices: Math.round(lhr.categories['best-practices'].score * 100),
-      seo: Math.round(lhr.categories.seo.score * 100),
-      pwa: Math.round(lhr.categories.pwa.score * 100)
+      performance: Math.round(lhr.categories.performance.score * SCORING_CONSTANTS.PERCENTAGE_MULTIPLIER),
+      accessibility: Math.round(lhr.categories.accessibility.score * SCORING_CONSTANTS.PERCENTAGE_MULTIPLIER),
+      bestPractices: Math.round(lhr.categories['best-practices'].score * SCORING_CONSTANTS.PERCENTAGE_MULTIPLIER),
+      seo: Math.round(lhr.categories.seo.score * SCORING_CONSTANTS.PERCENTAGE_MULTIPLIER),
+      pwa: Math.round(lhr.categories.pwa.score * SCORING_CONSTANTS.PERCENTAGE_MULTIPLIER)
     },
     metrics: {
       firstContentfulPaint: audits['first-contentful-paint']?.numericValue || 0,
@@ -446,7 +452,7 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
   ${metrics.opportunities.length > 0 ? `
   <div class="opportunities">
     <h2>⚡ Performance Opportunities</h2>
-    ${metrics.opportunities.slice(0, 5).map(opp => `
+    ${metrics.opportunities.slice(0, SCORING_CONSTANTS.MAX_OPPORTUNITIES_DISPLAY).map(opp => `
       <div class="opportunity">
         <h4>${opp.title}</h4>
         <p>${opp.description}</p>

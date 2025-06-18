@@ -34,6 +34,13 @@ import chalk from 'chalk';
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url));
 
+// Constants for monitoring intervals
+const MONITORING_CONSTANTS = {
+  CONTINUOUS_INTERVAL_MINUTES: 5,
+  SECONDS_TO_MILLISECONDS: 60,
+  MILLISECONDS_MULTIPLIER: 1000
+};
+
 /**
  * Performance metrics configuration
  * @type {Object}
@@ -528,7 +535,7 @@ const main = async function main(args = []) {
 
     if (isContinuous) {
       console.log(chalk.blue('\n🔄 Continuous monitoring enabled. Running again in 5 minutes...'));
-      setTimeout(() => main(args), 5 * 60 * 1000);
+      setTimeout(() => main(args), MONITORING_CONSTANTS.CONTINUOUS_INTERVAL_MINUTES * MONITORING_CONSTANTS.SECONDS_TO_MILLISECONDS * MONITORING_CONSTANTS.MILLISECONDS_MULTIPLIER);
     }
 
   } catch (error) {
