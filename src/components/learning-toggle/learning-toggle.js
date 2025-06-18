@@ -166,8 +166,8 @@ class BSBLearningToggle {
     // Show enhanced notification with meta-learning features
     this.showNotification({
       title: '🎓 Learning Mode Activated',
-      message: 'Interactive learning features are now enabled. Explore components to " +
-        "view their source code, track your progress, and unlock achievements!',
+      message: 'Interactive learning features are now enabled. Explore components to ' +
+        'view their source code, track your progress, and unlock achievements!',
       type: 'success',
       actions: [
         {
@@ -207,8 +207,8 @@ class BSBLearningToggle {
     // Show notification
     this.showNotification({
       title: '📖 Learning Mode Deactivated',
-      message: 'Learning features have been disabled. Your progress has been " +
-        "saved and will be available when you return.',
+      message: 'Learning features have been disabled. Your progress has been ' +
+        'saved and will be available when you return.',
       type: 'info',
       actions: [
         {

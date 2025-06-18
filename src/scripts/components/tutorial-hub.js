@@ -175,7 +175,7 @@ class TutorialHub {
 
     if (tutorialId && event.target.tagName === 'A') {
       this.trackEvent('tutorial_clicked', {
-        tutorialId: tutorialId,
+        tutorialId,
         tutorialTitle: this.getTutorialById(tutorialId)?.title,
         clickSource: 'tutorial_hub'
       });
@@ -191,7 +191,7 @@ class TutorialHub {
 
     if (pathType && event.target.tagName === 'A') {
       this.trackEvent('learning_path_clicked', {
-        pathType: pathType,
+        pathType,
         clickSource: 'tutorial_hub'
       });
     }
@@ -575,7 +575,7 @@ class TutorialHub {
 
     // Track completion
     this.trackEvent('tutorial_completed', {
-      tutorialId: tutorialId,
+      tutorialId,
       tutorialTitle: this.getTutorialById(tutorialId)?.title,
       timeSpent: this.progressData[tutorialId].timeSpent
     });

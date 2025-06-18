@@ -100,8 +100,8 @@ class BSBFileExplorer {
         fileType: 'config',
         name: 'package.json',
         title: 'Project Configuration & Dependencies',
-        description: 'The blueprint of your project - lists dependencies, scripts, " +
-          "and metadata.',
+        description: 'The blueprint of your project - lists dependencies, scripts, ' +
+          'and metadata.',
         importance: 'high',
         details: `
           <p><strong>package.json</strong> is like your project's ID card and instruction manual combined.</p>
@@ -131,8 +131,8 @@ class BSBFileExplorer {
         type: 'folder',
         name: 'src',
         title: 'Source Code Directory',
-        description: 'Your website\'s source code lives here - HTML, CSS, " +
-          "JavaScript, and assets.',
+        description: 'Your website\'s source code lives here - HTML, CSS, ' +
+          'JavaScript, and assets.',
         importance: 'high',
         category: 'source',
         details: `

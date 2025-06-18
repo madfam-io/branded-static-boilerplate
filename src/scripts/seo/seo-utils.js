@@ -425,11 +425,14 @@ export const generateBreadcrumbSchema = function generateBreadcrumbSchema(breadc
 const getGradeFromScore = function getGradeFromScore(score) {
   if (score >= 90) {
     return 'A';
-  } if (score >= 80) {
+  }
+  if (score >= 80) {
     return 'B';
-  } if (score >= 70) {
+  }
+  if (score >= 70) {
     return 'C';
-  } if (score >= 60) {
+  }
+  if (score >= 60) {
     return 'D';
   }
   return 'F';

@@ -480,7 +480,7 @@ class BSBSEOAnalyzer {
    */
   updateInsights(insights) {
     if (insights.length === 0) {
-      this.insightsArea.innerHTML = 
+      this.insightsArea.innerHTML =
         '<li class="bsb-seo-analyzer__insight">No major issues found! 🎉</li>';
       return;
     }

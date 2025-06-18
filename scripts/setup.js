@@ -4,12 +4,12 @@
  * =============================================================================
  * BSB SETUP SCRIPT - Initialize Development Environment
  * =============================================================================
- * 
+ *
  * This script sets up the development environment including:
  * - Git hooks via Husky
  * - Initial build generation
  * - Environment verification
- * 
+ *
  * Run this after cloning the repository:
  * npm run setup
  * =============================================================================

@@ -2,15 +2,16 @@
 
 /**
  * Generate PWA Icons
- * 
+ *
  * This script generates properly sized PWA icons with actual visual content
  * to satisfy Lighthouse best-practices requirements.
  */
 
-import { createCanvas } from 'canvas';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import { createCanvas } from 'canvas';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,7 +47,7 @@ iconSizes.forEach(({ name, size }) => {
   ctx.fillStyle = 'white';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  
+
   if (size >= 192) {
     // Large icons - full text
     ctx.font = `bold ${size * 0.3}px Arial`;

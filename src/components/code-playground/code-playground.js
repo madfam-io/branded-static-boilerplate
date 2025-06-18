@@ -549,7 +549,7 @@ class BSBCodePlayground {
    */
   showConsoleMessage(message, type = 'info') {
     const messageElement = document.createElement('div');
-    messageElement.className = 
+    messageElement.className =
       `bsb-code-playground__console-message bsb-code-playground__console-message--${type}`;
 
     const icons = {
@@ -960,7 +960,7 @@ class BSBCodePlayground {
         const age = Date.now() - code.timestamp;
 
         // Only load if saved within last 24 hours
-        if (age < CONSTANTS.MAX_CODE_AGE_HOURS * CONSTANTS.MINUTES_PER_HOUR * 
+        if (age < CONSTANTS.MAX_CODE_AGE_HOURS * CONSTANTS.MINUTES_PER_HOUR *
              CONSTANTS.SECONDS_PER_MINUTE * CONSTANTS.MS_PER_SECOND) {
           this.editors.get('html').value = code.html || '';
           this.editors.get('css').value = code.css || '';

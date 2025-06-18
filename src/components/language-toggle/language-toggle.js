@@ -175,17 +175,19 @@ class BSBLanguageToggle {
         break;
       }
 
-      case 'Home':
+      case 'Home': {
         event.preventDefault();
         const [firstElement] = focusableElements;
         firstElement.focus();
         break;
+      }
 
-      case 'End':
+      case 'End': {
         event.preventDefault();
         const lastElement = focusableElements[focusableElements.length - 1];
         lastElement.focus();
         break;
+      }
 
       case 'Enter':
       case ' ':

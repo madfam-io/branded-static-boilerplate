@@ -4,22 +4,22 @@
  * =============================================================================
  * SITEMAP GENERATOR - Automated XML Sitemap Creation
  * =============================================================================
- * 
+ *
  * This script generates an XML sitemap for the BSB project, helping search
  * engines discover and index all pages efficiently.
- * 
+ *
  * 🎯 Features:
  * - Automatic page discovery
  * - Priority calculation based on depth
  * - Last modified dates from git
  * - Multi-language support
  * - Educational comments in output
- * 
+ *
  * 📚 Educational Value:
  * - Learn sitemap best practices
  * - Understand URL prioritization
  * - See multi-language implementation
- * 
+ *
  * Usage: npm run generate:sitemap
  * =============================================================================
  */
@@ -60,10 +60,10 @@ const CONFIG = {
 const getHtmlFiles = async function(dir) {
   const files = [];
   const items = await readdir(dir, { withFileTypes: true });
-  
+
   for (const item of items) {
     const fullPath = join(dir, item.name);
-    
+
     if (item.isDirectory()) {
       // Skip assets directories
       if (!['assets', 'js', 'images', 'fonts'].includes(item.name)) {
@@ -73,9 +73,9 @@ const getHtmlFiles = async function(dir) {
       files.push(fullPath);
     }
   }
-  
+
   return files;
-}
+};
 
 /**
  * Get last modified date from git
@@ -87,13 +87,13 @@ const getLastModified = function getLastModified(filePath) {
     const gitDate = execSync(`git log -1 --format=%cI -- ${filePath}`, {
       encoding: 'utf-8'
     }).trim();
-    
+
     return gitDate || new Date().toISOString();
   } catch (error) {
     // Fallback to file stats if git fails
     return new Date().toISOString();
   }
-}
+};
 
 /**
  * Calculate URL priority
@@ -105,11 +105,11 @@ const calculatePriority = function calculatePriority(relativePath) {
   if (typeof CONFIG.priorities[relativePath] !== 'undefined') {
     return CONFIG.priorities[relativePath];
   }
-  
+
   // Calculate based on depth
   const depth = relativePath.split('/').length - 1;
   return Math.max(0.5, 1.0 - (depth * 0.1));
-}
+};
 
 /**
  * Get change frequency
@@ -118,7 +118,7 @@ const calculatePriority = function calculatePriority(relativePath) {
  */
 const getChangeFrequency = function getChangeFrequency(relativePath) {
   return CONFIG.changefreq[relativePath] || CONFIG.changefreq.default;
-}
+};
 
 /**
  * Generate alternate language links
@@ -128,10 +128,10 @@ const getChangeFrequency = function getChangeFrequency(relativePath) {
 const generateAlternates = function generateAlternates(url) {
   return CONFIG.languages.map(lang => ({
     lang,
-    url: lang === CONFIG.defaultLang ? url : 
+    url: lang === CONFIG.defaultLang ? url :
       url.replace(CONFIG.baseUrl, `${CONFIG.baseUrl}/${lang}`)
   }));
-}
+};
 
 /**
  * Generate sitemap XML
@@ -166,55 +166,55 @@ const generateXml = function generateXml(urls) {
     '  - Google Sitemap Guidelines: ' +
       'https://developers.google.com/search/docs/advanced/sitemaps/overview',
     '  ',
-    '  Generated: ' + new Date().toISOString(),
+    `  Generated: ${new Date().toISOString()}`,
     '  =============================================================================',
     '-->',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:xhtml="http://www.w3.org/1999/xhtml">'
   ];
-  
+
   urls.forEach(url => {
     xml.push('  <url>');
     xml.push(`    <loc>${url.loc}</loc>`);
     xml.push(`    <lastmod>${url.lastmod}</lastmod>`);
     xml.push(`    <changefreq>${url.changefreq}</changefreq>`);
     xml.push(`    <priority>${url.priority}</priority>`);
-    
+
     // Add alternate language links
     if (url.alternates && url.alternates.length > 0) {
       url.alternates.forEach(alt => {
         xml.push(`    <xhtml:link rel="alternate" hreflang="${alt.lang}" href="${alt.url}"/>`);
       });
     }
-    
+
     xml.push('  </url>');
   });
-  
+
   xml.push('</urlset>');
-  
+
   return xml.join('\n');
-}
+};
 
 /**
  * Main function
  */
 const main = async function() {
   console.log('🗺️  Generating sitemap...\n');
-  
+
   try {
     // Get all HTML files
     const htmlFiles = await getHtmlFiles(CONFIG.distDir);
     console.log(`Found ${htmlFiles.length} HTML files`);
-    
+
     // Generate URL entries
     const urls = [];
-    
+
     for (const file of htmlFiles) {
       const relativePath = relative(CONFIG.distDir, file);
       const url = `${CONFIG.baseUrl}/${relativePath}`
         .replace(/\\/gu, '/')
         .replace(/index\.html$/u, '');
-      
+
       const entry = {
         loc: url,
         lastmod: getLastModified(file).split('T')[0], // Date only
@@ -222,22 +222,22 @@ const main = async function() {
         priority: calculatePriority(relativePath).toFixed(1),
         alternates: generateAlternates(url)
       };
-      
+
       urls.push(entry);
       console.log(`  ✓ ${relativePath} (priority: ${entry.priority})`);
     }
-    
+
     // Sort by priority
     urls.sort((a, b) => parseFloat(b.priority) - parseFloat(a.priority));
-    
+
     // Generate XML
     const xml = generateXml(urls);
-    
+
     // Write sitemap
     await writeFile(CONFIG.outputFile, xml, 'utf-8');
     console.log(`\n✅ Sitemap generated: ${CONFIG.outputFile}`);
     console.log(`   Total URLs: ${urls.length}`);
-    
+
     // Also generate a human-readable sitemap
     const humanReadable = [
       '# BSB Sitemap',
@@ -247,7 +247,7 @@ const main = async function() {
       '## Pages by Priority',
       ''
     ];
-    
+
     let currentPriority = null;
     urls.forEach(url => {
       if (url.priority !== currentPriority) {
@@ -257,15 +257,15 @@ const main = async function() {
       }
       humanReadable.push(`- [${url.loc}](${url.loc}) - Updated: ${url.lastmod}`);
     });
-    
+
     await writeFile(CONFIG.outputFile.replace('.xml', '.md'), humanReadable.join('\n'), 'utf-8');
     console.log(`   Human-readable version: ${CONFIG.outputFile.replace('.xml', '.md')}`);
-    
+
   } catch (error) {
     console.error('❌ Error generating sitemap:', error.message);
     process.exit(1);
   }
-}
+};
 
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -3,17 +3,17 @@
 /**
  * Security Audit Script
  * ======================
- * 
+ *
  * Comprehensive security analysis for BSB.
  * Checks for vulnerabilities, security headers, and best practices.
- * 
+ *
  * Features:
  * - Dependency vulnerability scanning
  * - Security header analysis
  * - Content Security Policy validation
  * - SSL/TLS configuration check
  * - Common security misconfiguration detection
- * 
+ *
  * Usage:
  * - npm run security
  * - node scripts/security-audit.js [url]
@@ -63,15 +63,15 @@ const REQUIRED_HEADERS = {
 const runDependencyAudit = async function runDependencyAudit() {
   try {
     console.log('🔍 Scanning dependencies for vulnerabilities...');
-    
-    const auditOutput = execSync('npm audit --json', { 
+
+    const auditOutput = execSync('npm audit --json', {
       encoding: 'utf8',
       cwd: process.cwd()
     });
-    
+
     return JSON.parse(auditOutput);
   } catch (error) {
-    // npm audit returns non-zero exit code when vulnerabilities found
+    // Npm audit returns non-zero exit code when vulnerabilities found
     if (error.stdout) {
       try {
         return JSON.parse(error.stdout);
@@ -81,7 +81,7 @@ const runDependencyAudit = async function runDependencyAudit() {
     }
     return { error: error.message };
   }
-}
+};
 
 /**
  * Check security headers for a given URL
@@ -93,7 +93,7 @@ const checkSecurityHeaders = async function checkSecurityHeaders(url) {
     const urlObj = new URL(url);
     const isHttps = urlObj.protocol === 'https:';
     const client = isHttps ? https : http;
-    
+
     const options = {
       hostname: urlObj.hostname,
       port: urlObj.port || (isHttps ? 443 : 80),
@@ -101,19 +101,19 @@ const checkSecurityHeaders = async function checkSecurityHeaders(url) {
       method: 'HEAD',
       timeout: 10000
     };
-    
-    const req = client.request(options, (res) => {
-      const headers = res.headers;
+
+    const req = client.request(options, res => {
+      const { headers } = res;
       const analysis = {
         present: {},
         missing: {},
         recommendations: []
       };
-      
+
       // Check each required header
       Object.entries(REQUIRED_HEADERS).forEach(([headerName, config]) => {
         const headerValue = headers[headerName] || headers[headerName.toLowerCase()];
-        
+
         if (headerValue) {
           analysis.present[headerName] = {
             value: headerValue,
@@ -126,13 +126,13 @@ const checkSecurityHeaders = async function checkSecurityHeaders(url) {
           };
         }
       });
-      
+
       // Analyze specific headers
       if (headers['content-security-policy']) {
         const csp = headers['content-security-policy'];
         analysis.csp = analyzeCsp(csp);
       }
-      
+
       if (!isHttps) {
         analysis.recommendations.push({
           type: 'protocol',
@@ -140,22 +140,22 @@ const checkSecurityHeaders = async function checkSecurityHeaders(url) {
           severity: 'critical'
         });
       }
-      
+
       resolve(analysis);
     });
-    
-    req.on('error', (error) => {
+
+    req.on('error', error => {
       reject(error);
     });
-    
+
     req.on('timeout', () => {
       req.destroy();
       reject(new Error('Request timeout'));
     });
-    
+
     req.end();
   });
-}
+};
 
 /**
  * Analyze Content Security Policy
@@ -166,7 +166,7 @@ const analyzeCsp = function analyzeCsp(csp) {
   const directives = {};
   const issues = [];
   const recommendations = [];
-  
+
   // Parse CSP directives
   csp.split(';').forEach(directive => {
     const parts = directive.trim().split(/\\s+/u);
@@ -176,7 +176,7 @@ const analyzeCsp = function analyzeCsp(csp) {
       directives[name] = values;
     }
   });
-  
+
   // Check for common issues
   if (directives['script-src']?.includes("'unsafe-inline'")) {
     issues.push({
@@ -185,7 +185,7 @@ const analyzeCsp = function analyzeCsp(csp) {
       severity: 'high'
     });
   }
-  
+
   if (directives['script-src']?.includes("'unsafe-eval'")) {
     issues.push({
       type: 'unsafe-eval',
@@ -193,7 +193,7 @@ const analyzeCsp = function analyzeCsp(csp) {
       severity: 'medium'
     });
   }
-  
+
   if (!directives['default-src']) {
     recommendations.push({
       type: 'default-src',
@@ -201,7 +201,7 @@ const analyzeCsp = function analyzeCsp(csp) {
       severity: 'low'
     });
   }
-  
+
   if (!directives['img-src']) {
     recommendations.push({
       type: 'img-src',
@@ -209,13 +209,13 @@ const analyzeCsp = function analyzeCsp(csp) {
       severity: 'low'
     });
   }
-  
+
   return {
     directives,
     issues,
     recommendations
   };
-}
+};
 
 /**
  * Check for common static site security issues
@@ -224,7 +224,7 @@ const analyzeCsp = function analyzeCsp(csp) {
 const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBestPractices() {
   const issues = [];
   const recommendations = [];
-  
+
   // Check for sensitive files in public directory
   const sensitiveFiles = [
     '.env',
@@ -236,7 +236,7 @@ const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBes
     '.git',
     'node_modules'
   ];
-  
+
   sensitiveFiles.forEach(file => {
     const filePath = path.join(process.cwd(), 'dist', file);
     if (fs.existsSync(filePath)) {
@@ -244,16 +244,16 @@ const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBes
         type: 'sensitive-file',
         message: `Sensitive file exposed: ${file}`,
         severity: 'high',
-        file: file
+        file
       });
     }
   });
-  
+
   // Check .gitignore
   const gitignorePath = path.join(process.cwd(), '.gitignore');
   if (fs.existsSync(gitignorePath)) {
     const gitignoreContent = fs.readFileSync(gitignorePath, 'utf8');
-    
+
     const requiredIgnores = ['.env', 'node_modules/', '*.log'];
     requiredIgnores.forEach(pattern => {
       if (!gitignoreContent.includes(pattern)) {
@@ -265,13 +265,13 @@ const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBes
       }
     });
   }
-  
+
   // Check for proper file permissions (if on Unix-like system)
   if (process.platform !== 'win32') {
     try {
       const stats = fs.statSync(path.join(process.cwd(), 'dist'));
-      const mode = (stats.mode & parseInt('777', 8)).toString(8);
-      
+      const mode = (stats.mode & 0o777).toString(8);
+
       if (mode === '777') {
         issues.push({
           type: 'file-permissions',
@@ -283,9 +283,9 @@ const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBes
       // Ignore permission check errors
     }
   }
-  
+
   return { issues, recommendations };
-}
+};
 
 /**
  * Get status class based on total issues
@@ -295,12 +295,13 @@ const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBes
 const getStatusClass = function getStatusClass(totalIssues) {
   if (totalIssues === 0) {
     return 'status-good';
-  } else if (totalIssues < 5) {
-    return 'status-warning';
-  } else {
-    return 'status-danger';
   }
-}
+  if (totalIssues < 5) {
+    return 'status-warning';
+  }
+  return 'status-danger';
+
+};
 
 /**
  * Get status message based on total issues
@@ -310,12 +311,13 @@ const getStatusClass = function getStatusClass(totalIssues) {
 const getStatusMessage = function getStatusMessage(totalIssues) {
   if (totalIssues === 0) {
     return '✅ No security issues detected!';
-  } else if (totalIssues < 5) {
-    return `⚠️ ${totalIssues} security issues found`;
-  } else {
-    return `❌ ${totalIssues} security issues found`;
   }
-}
+  if (totalIssues < 5) {
+    return `⚠️ ${totalIssues} security issues found`;
+  }
+  return `❌ ${totalIssues} security issues found`;
+
+};
 
 /**
  * Get dependency status class
@@ -324,7 +326,7 @@ const getStatusMessage = function getStatusMessage(totalIssues) {
  */
 const getDependencyStatus = function getDependencyStatus(vulnCount) {
   return vulnCount === 0 ? 'status-good' : 'status-danger';
-}
+};
 
 /**
  * Get header status class
@@ -333,7 +335,7 @@ const getDependencyStatus = function getDependencyStatus(vulnCount) {
  */
 const getHeaderStatus = function getHeaderStatus(missingCount) {
   return missingCount === 0 ? 'status-good' : 'status-danger';
-}
+};
 
 /**
  * Get static site status class
@@ -342,7 +344,7 @@ const getHeaderStatus = function getHeaderStatus(missingCount) {
  */
 const getStaticSiteStatus = function getStaticSiteStatus(issueCount) {
   return issueCount === 0 ? 'status-good' : 'status-warning';
-}
+};
 
 /**
  * Generate security report
@@ -357,13 +359,13 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
     staticSite,
     url
   } = auditData;
-  
-  const totalIssues = 
+
+  const totalIssues =
     (dependencies.vulnerabilities?.length || 0) +
     Object.keys(headers.missing || {}).length +
     (headers.csp?.issues?.length || 0) +
     staticSite.issues.length;
-  
+
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -520,30 +522,30 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
   <div class="section">
     <h2>🔒 Security Headers</h2>
     <h3>Present Headers</h3>
-    ${Object.keys(headers.present || {}).length > 0 ? 
-      Object.entries(headers.present).map(([name, info]) => `
+    ${Object.keys(headers.present || {}).length > 0 ?
+    Object.entries(headers.present).map(([name, info]) => `
         <div class="header-present">✅ <code>${name}</code>: ${info.value}</div>
         <p style="margin-left: 2rem; color: #6c757d;">${info.description}</p>
-      `).join('') : 
-      '<p>No security headers detected</p>'
-    }
+      `).join('') :
+    '<p>No security headers detected</p>'
+}
     
     <h3>Missing Headers</h3>
-    ${Object.keys(headers.missing || {}).length > 0 ? 
-      Object.entries(headers.missing).map(([name, info]) => `
+    ${Object.keys(headers.missing || {}).length > 0 ?
+    Object.entries(headers.missing).map(([name, info]) => `
         <div class="header-missing">❌ <code>${name}</code></div>
         <p style="margin-left: 2rem; color: #6c757d;">${info.description}</p>
-      `).join('') : 
-      '<p class="status-good">✅ All required headers present</p>'
-    }
+      `).join('') :
+    '<p class="status-good">✅ All required headers present</p>'
+}
 
     ${headers.csp ? `
     <h3>Content Security Policy Analysis</h3>
     <h4>Directives</h4>
     <ul>
-      ${Object.entries(headers.csp.directives).map(([name, values]) => 
-        `<li><code>${name}</code>: ${values.join(' ')}</li>`
-      ).join('')}
+      ${Object.entries(headers.csp.directives).map(([name, values]) =>
+    `<li><code>${name}</code>: ${values.join(' ')}</li>`
+  ).join('')}
     </ul>
     
     ${headers.csp.issues.length > 0 ? `
@@ -606,28 +608,28 @@ const generateSecurityReport = function generateSecurityReport(auditData) {
 </body>
 </html>
   `.trim();
-}
+};
 
 /**
  * Main execution function
  */
 const main = async function main() {
   const url = process.argv[2];
-  
+
   console.log('🛡️ Starting security audit...');
   if (url) {
     console.log(`🌐 URL: ${url}`);
   }
-  
+
   const auditData = {
     url,
     timestamp: new Date().toISOString()
   };
-  
+
   try {
     // Run dependency audit
     auditData.dependencies = await runDependencyAudit();
-    
+
     // Check security headers if URL provided
     if (url) {
       console.log('🔒 Checking security headers...');
@@ -635,57 +637,57 @@ const main = async function main() {
     } else {
       auditData.headers = { present: {}, missing: {} };
     }
-    
+
     // Check static site security
     console.log('📁 Checking static site security...');
     auditData.staticSite = checkStaticSiteSecurityBestPractices();
-    
+
     // Generate report
     const reportDir = path.join(process.cwd(), 'coverage', 'security');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }
-    
+
     // Save raw data
     const dataPath = path.join(reportDir, 'security-audit.json');
     fs.writeFileSync(dataPath, JSON.stringify(auditData, null, 2));
-    
+
     // Generate HTML report
     const htmlReport = generateSecurityReport(auditData);
     const htmlReportPath = path.join(reportDir, 'security-report.html');
     fs.writeFileSync(htmlReportPath, htmlReport);
-    
+
     // Console summary
     const dependencyVulns = auditData.dependencies.vulnerabilities?.length || 0;
     const missingHeaders = Object.keys(auditData.headers.missing).length;
     const staticIssues = auditData.staticSite.issues.length;
     const totalIssues = dependencyVulns + missingHeaders + staticIssues;
-    
+
     console.log('\\n🛡️ Security Audit Summary:');
     console.log('='.repeat(50));
     console.log(`📦 Dependency vulnerabilities: ${dependencyVulns}`);
     console.log(`🔒 Missing security headers: ${missingHeaders}`);
     console.log(`📁 Static site issues: ${staticIssues}`);
     console.log(`🎯 Total issues: ${totalIssues}`);
-    
+
     if (totalIssues === 0) {
       console.log('\\n✅ No security issues detected!');
     } else {
       console.log(`\\n⚠️  ${totalIssues} security issues require attention`);
     }
-    
+
     console.log(`\\n📄 Detailed report: ${htmlReportPath}`);
-    
+
     // Exit with error code if critical issues found
     if (dependencyVulns > 0 || missingHeaders > 2) {
       process.exit(1);
     }
-    
+
   } catch (error) {
     console.error('❌ Security audit failed:', error.message);
     process.exit(1);
   }
-}
+};
 
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -3,26 +3,27 @@
 /**
  * Lighthouse Audit Script
  * ========================
- * 
+ *
  * Automated performance auditing with Lighthouse.
  * Generates comprehensive reports with Core Web Vitals analysis.
- * 
+ *
  * Features:
  * - Performance budget enforcement
  * - Accessibility compliance checking
  * - SEO analysis
  * - Best practices validation
  * - Progressive Web App assessment
- * 
+ *
  * Usage:
  * - npm run lighthouse
  * - node scripts/lighthouse-audit.js [url]
  */
 
-import lighthouse from 'lighthouse';
-import * as chromeLauncher from 'chrome-launcher';
 import fs from 'fs';
 import path from 'path';
+
+import lighthouse from 'lighthouse';
+import * as chromeLauncher from 'chrome-launcher';
 
 /**
  * Performance budgets for BSB
@@ -139,7 +140,7 @@ const runLighthouseAudit = async function runLighthouseAudit(url) {
   } finally {
     await chrome.kill();
   }
-}
+};
 
 /**
  * Extract key metrics from Lighthouse results
@@ -148,7 +149,7 @@ const runLighthouseAudit = async function runLighthouseAudit(url) {
  */
 const extractMetrics = function extractMetrics(results) {
   const { lhr } = results;
-  const audits = lhr.audits;
+  const { audits } = lhr;
 
   return {
     scores: {
@@ -165,7 +166,7 @@ const extractMetrics = function extractMetrics(results) {
       firstInputDelay: audits['max-potential-fid']?.numericValue || 0,
       speedIndex: audits['speed-index']?.numericValue || 0,
       totalBlockingTime: audits['total-blocking-time']?.numericValue || 0,
-      interactive: audits['interactive']?.numericValue || 0
+      interactive: audits.interactive?.numericValue || 0
     },
     opportunities: lhr.categories.performance.auditRefs
       .filter(ref => audits[ref.id]?.details?.type === 'opportunity')
@@ -187,7 +188,7 @@ const extractMetrics = function extractMetrics(results) {
         }))
     }
   };
-}
+};
 
 /**
  * Check metrics against performance budgets
@@ -209,7 +210,7 @@ const checkBudgets = function checkBudgets(metrics) {
       results[status].push({
         metric: key,
         actual: score,
-        budget: budget,
+        budget,
         difference: score - budget
       });
     }
@@ -248,7 +249,7 @@ const checkBudgets = function checkBudgets(metrics) {
   });
 
   return results;
-}
+};
 
 /**
  * Get CSS class for score display
@@ -258,12 +259,13 @@ const checkBudgets = function checkBudgets(metrics) {
 const getScoreClass = function getScoreClass(score) {
   if (score >= 90) {
     return 'score-90-100';
-  } else if (score >= 50) {
-    return 'score-50-89';
-  } else {
-    return 'score-0-49';
   }
-}
+  if (score >= 50) {
+    return 'score-50-89';
+  }
+  return 'score-0-49';
+
+};
 
 /**
  * Get status icon for score display
@@ -273,12 +275,13 @@ const getScoreClass = function getScoreClass(score) {
 const getStatusIcon = function getStatusIcon(score) {
   if (score >= 90) {
     return '✅';
-  } else if (score >= 50) {
-    return '⚠️';
-  } else {
-    return '❌';
   }
-}
+  if (score >= 50) {
+    return '⚠️';
+  }
+  return '❌';
+
+};
 
 /**
  * Generate comprehensive audit report
@@ -391,17 +394,17 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
 
   <div class="scores">
     ${Object.entries(metrics.scores).map(([category, score]) => {
-      const scoreClass = getScoreClass(score);
-      return `
+    const scoreClass = getScoreClass(score);
+    return `
         <div class="score-card">
           <div class="score-value ${scoreClass}">${score}</div>
           <div>
-            ${category.charAt(0).toUpperCase() + 
+            ${category.charAt(0).toUpperCase() +
               category.slice(1).replace(/([A-Z])/gu, ' $1')}
           </div>
         </div>
       `;
-    }).join('')}
+  }).join('')}
   </div>
 
   <div class="metrics">
@@ -415,8 +418,8 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
     <div class="metric-row">
       <span>Largest Contentful Paint</span>
       <span class="${
-        metrics.metrics.largestContentfulPaint <= 2500 ? 'metric-pass' : 'metric-fail'
-      }">
+  metrics.metrics.largestContentfulPaint <= 2500 ? 'metric-pass' : 'metric-fail'
+}">
         ${Math.round(metrics.metrics.largestContentfulPaint)}ms
       </span>
     </div>
@@ -485,37 +488,37 @@ const generateReport = function generateReport(url, metrics, budgetResults) {
 </body>
 </html>
   `.trim();
-}
+};
 
 /**
  * Main execution function
  */
 const main = async function main() {
   const url = process.argv[2] || 'https://localhost:3000';
-  
+
   console.log('🚀 Starting Lighthouse audit...');
   console.log(`📍 URL: ${url}`);
-  
+
   try {
     // Run Lighthouse audit
     const results = await runLighthouseAudit(url);
-    
+
     // Extract metrics
     const metrics = extractMetrics(results);
-    
+
     // Check against budgets
     const budgetResults = checkBudgets(metrics);
-    
+
     // Generate reports
     const reportDir = path.join(process.cwd(), 'coverage', 'lighthouse');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }
-    
+
     // Save raw Lighthouse results
     const rawResultsPath = path.join(reportDir, 'lighthouse-results.json');
     fs.writeFileSync(rawResultsPath, JSON.stringify(results.lhr, null, 2));
-    
+
     // Save extracted metrics
     const metricsPath = path.join(reportDir, 'metrics.json');
     fs.writeFileSync(metricsPath, JSON.stringify({
@@ -524,45 +527,45 @@ const main = async function main() {
       metrics,
       budgetResults
     }, null, 2));
-    
+
     // Generate HTML report
     const htmlReport = generateReport(url, metrics, budgetResults);
     const htmlReportPath = path.join(reportDir, 'lighthouse-report.html');
     fs.writeFileSync(htmlReportPath, htmlReport);
-    
+
     // Console summary
     console.log('\\n📊 Audit Results Summary:');
     console.log('='.repeat(50));
-    
+
     Object.entries(metrics.scores).forEach(([category, score]) => {
       const status = getStatusIcon(score);
       console.log(`${status} ${category}: ${score}/100`);
     });
-    
+
     console.log('\\n⚡ Core Web Vitals:');
     console.log(`  FCP: ${Math.round(metrics.metrics.firstContentfulPaint)}ms`);
     console.log(`  LCP: ${Math.round(metrics.metrics.largestContentfulPaint)}ms`);
     console.log(`  CLS: ${metrics.metrics.cumulativeLayoutShift.toFixed(3)}`);
-    
+
     if (budgetResults.failed.length > 0) {
       console.log('\\n❌ Budget Violations:');
       budgetResults.failed.forEach(result => {
         console.log(`  ${result.metric}: ${result.actual} (budget: ${result.budget})`);
       });
     }
-    
+
     console.log(`\\n📄 Detailed report: ${htmlReportPath}`);
-    
+
     // Exit with error code if budgets failed
     if (budgetResults.failed.length > 0) {
       process.exit(1);
     }
-    
+
   } catch (error) {
     console.error('❌ Lighthouse audit failed:', error.message);
     process.exit(1);
   }
-}
+};
 
 // Run if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {

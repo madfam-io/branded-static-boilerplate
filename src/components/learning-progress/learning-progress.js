@@ -588,7 +588,7 @@ class BSBLearningProgress {
    */
   updateProgressBar() {
     const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
-    const progress = (this.progress.componentsExplored.size / totalComponents) * 
+    const progress = (this.progress.componentsExplored.size / totalComponents) *
       CONSTANTS.PERCENTAGE_MAX;
 
     const progressBar = this.element.querySelector('[data-progress-bar]');
@@ -667,9 +667,9 @@ class BSBLearningProgress {
 
       return `
         <div class="bsb-learning-progress__badge ${
-          isUnlocked ? 'bsb-learning-progress__badge--unlocked' : 
-          'bsb-learning-progress__badge--locked'
-        }">
+  isUnlocked ? 'bsb-learning-progress__badge--unlocked' :
+    'bsb-learning-progress__badge--locked'
+}">
           <span class="bsb-learning-progress__badge-icon">
             ${isUnlocked ? achievement.icon : '🔒'}
           </span>
@@ -804,8 +804,8 @@ class BSBLearningProgress {
         stats: {
           totalComponents: document.querySelectorAll('[data-bsb-component]').length,
           completionPercentage: Math.round(
-            (this.progress.componentsExplored.size / 
-             document.querySelectorAll('[data-bsb-component]').length) * 
+            (this.progress.componentsExplored.size /
+             document.querySelectorAll('[data-bsb-component]').length) *
             CONSTANTS.PERCENTAGE_MAX
           )
         }
