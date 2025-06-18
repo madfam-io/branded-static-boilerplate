@@ -216,9 +216,9 @@ test.describe('BSB Performance Tests', () => {
       
       // Get initial memory usage
       const initialMemory = await page.evaluate(() => {
-        return (performance as any).memory ? {
-          usedJSHeapSize: (performance as any).memory.usedJSHeapSize,
-          totalJSHeapSize: (performance as any).memory.totalJSHeapSize
+        return performance.memory ? {
+          usedJSHeapSize: performance.memory.usedJSHeapSize,
+          totalJSHeapSize: performance.memory.totalJSHeapSize
         } : null;
       });
       
@@ -235,16 +235,16 @@ test.describe('BSB Performance Tests', () => {
         
         // Force garbage collection if available
         await page.evaluate(() => {
-          if ((window as any).gc) {
-            (window as any).gc();
+          if (window.gc) {
+            window.gc();
           }
         });
         
         // Get final memory usage
         const finalMemory = await page.evaluate(() => {
-          return (performance as any).memory ? {
-            usedJSHeapSize: (performance as any).memory.usedJSHeapSize,
-            totalJSHeapSize: (performance as any).memory.totalJSHeapSize
+          return performance.memory ? {
+            usedJSHeapSize: performance.memory.usedJSHeapSize,
+            totalJSHeapSize: performance.memory.totalJSHeapSize
           } : null;
         });
         

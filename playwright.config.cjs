@@ -25,7 +25,7 @@
  * ============================================================================
  */
 
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig, devices } = require('@playwright/test');
 
 /**
  * Base URL for testing
@@ -33,7 +33,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
 
-export default defineConfig({
+module.exports = defineConfig({
   // Test directory
   testDir: './tests/e2e',
   
