@@ -1,56 +1,39 @@
 {
-  "name": "Plataforma de Aprendizaje Plantilla Estática de Marca",
-  "short_name": "Aprendizaje BSB",
-  "description": "Plataforma educativa interactiva para aprender desarrollo web moderno a través de experiencia práctica",
-  "start_url": "/branded-static-boilerplate/",
+  "name": "Branded Static Boilerplate",
+  "short_name": "BSB",
+  "description": "High-performance static site boilerplate with best practices",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0066cc",
-  "orientation": "any",
+  "theme_color": "#007bff",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/branded-static-boilerplate/assets/images/icon-192.png",
+      "src": "/assets/images/icon-192.svg",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "/branded-static-boilerplate/assets/images/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/branded-static-boilerplate/assets/images/icon-512.png",
+      "src": "/assets/images/icon-512.svg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/branded-static-boilerplate/assets/images/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["education", "developer", "learning"],
-  "lang": "es-ES",
-  "dir": "ltr",
-  "prefer_related_applications": false,
-  "shortcuts": [
+  "categories": ["developer", "education", "productivity"],
+  "screenshots": [
     {
-      "name": "Laboratorio Interactivo",
-      "short_name": "Laboratorio",
-      "description": "Editor de código con vista previa en vivo",
-      "url": "/branded-static-boilerplate/pages/interactive-playground.html",
-      "icons": [{ "src": "/branded-static-boilerplate/assets/images/playground-icon.png", "sizes": "96x96" }]
+      "src": "/assets/images/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Desktop view of BSB"
     },
     {
-      "name": "Biblioteca de Componentes",
-      "short_name": "Componentes",
-      "description": "Muestra interactiva de componentes",
-      "url": "/branded-static-boilerplate/pages/component-library.html",
-      "icons": [{ "src": "/branded-static-boilerplate/assets/images/components-icon.png", "sizes": "96x96" }]
+      "src": "/assets/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "label": "Mobile view of BSB"
     }
   ]
 }
