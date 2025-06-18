@@ -39,7 +39,21 @@ const SEO_CONFIG = {
     course: 'Course',
     article: 'Article',
     faq: 'FAQPage'
-  }
+  },
+
+  // Validation thresholds
+  excellentThreshold: 5,
+  maxTitleSeparators: 2,
+  maxDescriptionSeparators: 3,
+  // Score weights
+  scoreExcellent: 100,
+  scoreGood: 80,
+  scoreAverage: 60,
+  scorePoor: 40,
+  scoreHeadingBonus: 50,
+  scoreImagePenalty: 20,
+  scoreWordCountDivisor: 10,
+  minWordCount: 300
 };
 
 /**
@@ -47,7 +61,7 @@ const SEO_CONFIG = {
  * @param {Object} options - Meta tag options
  * @returns {Object} Meta tags object with educational insights
  */
-export function generateMetaTags(options) {
+export const generateMetaTags = function generateMetaTags(options) {
   const {
     title,
     description,
@@ -206,14 +220,14 @@ export function generateMetaTags(options) {
   ];
 
   return metaTags;
-}
+};
 
 /**
  * Validate title tag for SEO best practices
  * @param {string} title - Page title
  * @returns {Object} Validation results with recommendations
  */
-export function validateTitle(title) {
+export const validateTitle = function validateTitle(title) {
   const { length } = title;
   const { min, max, optimal } = SEO_CONFIG.titleLength;
 
@@ -234,7 +248,7 @@ export function validateTitle(title) {
     result.message = `Title is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
     result.recommendations.push('Remove unnecessary words');
     result.recommendations.push('Focus on primary keywords');
-  } else if (Math.abs(length - optimal) <= 5) {
+  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
     result.status = 'excellent';
     result.message = `Perfect title length (${length} chars)!`;
   }
@@ -244,19 +258,19 @@ export function validateTitle(title) {
     result.recommendations.push('Avoid generic titles like "Home" or "Untitled"');
   }
 
-  if (title.split('|').length > 2 || title.split('-').length > 3) {
+  if (title.split('|').length > SEO_CONFIG.maxTitleSeparators || title.split('-').length > SEO_CONFIG.maxDescriptionSeparators) {
     result.recommendations.push('Avoid excessive separators - keep title readable');
   }
 
   return result;
-}
+};
 
 /**
  * Validate meta description for SEO best practices
  * @param {string} description - Meta description
  * @returns {Object} Validation results with recommendations
  */
-export function validateDescription(description) {
+export const validateDescription = function validateDescription(description) {
   const { length } = description;
   const { min, max, optimal } = SEO_CONFIG.descriptionLength;
 
@@ -277,13 +291,13 @@ export function validateDescription(description) {
     result.message = `Description is too long (${length} chars) and will be truncated. Keep under ${max} characters.`;
     result.recommendations.push('Focus on the most important information');
     result.recommendations.push('Move details to the page content');
-  } else if (Math.abs(length - optimal) <= 5) {
+  } else if (Math.abs(length - optimal) <= SEO_CONFIG.excellentThreshold) {
     result.status = 'excellent';
     result.message = `Perfect description length (${length} chars)!`;
   }
 
   // Check for common issues
-  if (!description.match(/[.!?]$/)) {
+  if (!description.match(/[.!?]$/u)) {
     result.recommendations.push('End with punctuation for better readability');
   }
 
@@ -292,14 +306,14 @@ export function validateDescription(description) {
   }
 
   return result;
-}
+};
 
 /**
  * Generate structured data for educational content
  * @param {Object} data - Content data
  * @returns {Object} JSON-LD structured data
  */
-export function generateEducationalSchema(data) {
+export const generateEducationalSchema = function generateEducationalSchema(data) {
   const {
     type = 'LearningResource',
     name,
@@ -363,14 +377,14 @@ export function generateEducationalSchema(data) {
   }
 
   return schema;
-}
+};
 
 /**
  * Generate FAQ structured data
  * @param {Array} faqs - Array of FAQ items
  * @returns {Object} FAQ schema
  */
-export function generateFAQSchema(faqs) {
+export const generateFAQSchema = function generateFAQSchema(faqs) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -383,14 +397,14 @@ export function generateFAQSchema(faqs) {
       }
     }))
   };
-}
+};
 
 /**
  * Generate breadcrumb structured data
  * @param {Array} breadcrumbs - Array of breadcrumb items
  * @returns {Object} Breadcrumb schema
  */
-export function generateBreadcrumbSchema(breadcrumbs) {
+export const generateBreadcrumbSchema = function generateBreadcrumbSchema(breadcrumbs) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -401,6 +415,25 @@ export function generateBreadcrumbSchema(breadcrumbs) {
       item: item.url
     }))
   };
+};
+
+/**
+ * Get letter grade from numeric score
+ * @param {number} score - Numeric score (0-100)
+ * @returns {string} Letter grade
+ */
+function getGradeFromScore(score) {
+  if (score >= 90) {
+    return 'A';
+  } else if (score >= 80) {
+    return 'B';
+  } else if (score >= 70) {
+    return 'C';
+  } else if (score >= 60) {
+    return 'D';
+  } else {
+    return 'F';
+  }
 }
 
 /**
@@ -408,7 +441,7 @@ export function generateBreadcrumbSchema(breadcrumbs) {
  * @param {Object} page - Page data to analyze
  * @returns {Object} SEO score with detailed breakdown
  */
-export function calculateSEOScore(page) {
+export const calculateSEOScore = function calculateSEOScore(page) {
   const scores = {
     title: 0,
     description: 0,
@@ -423,19 +456,31 @@ export function calculateSEOScore(page) {
 
   // Title score
   const titleValidation = validateTitle(page.title || '');
-  scores.title = titleValidation.status === 'excellent' ? 100 :
-    titleValidation.status === 'good' ? 80 :
-      titleValidation.status === 'warning' ? 60 : 40;
+  if (titleValidation.status === 'excellent') {
+    scores.title = SEO_CONFIG.scoreExcellent;
+  } else if (titleValidation.status === 'good') {
+    scores.title = SEO_CONFIG.scoreGood;
+  } else if (titleValidation.status === 'warning') {
+    scores.title = SEO_CONFIG.scoreAverage;
+  } else {
+    scores.title = SEO_CONFIG.scorePoor;
+  }
 
   // Description score
   const descValidation = validateDescription(page.description || '');
-  scores.description = descValidation.status === 'excellent' ? 100 :
-    descValidation.status === 'good' ? 80 :
-      descValidation.status === 'warning' ? 60 : 40;
+  if (descValidation.status === 'excellent') {
+    scores.description = SEO_CONFIG.scoreExcellent;
+  } else if (descValidation.status === 'good') {
+    scores.description = SEO_CONFIG.scoreGood;
+  } else if (descValidation.status === 'warning') {
+    scores.description = SEO_CONFIG.scoreAverage;
+  } else {
+    scores.description = SEO_CONFIG.scorePoor;
+  }
 
   // Headings score
   if (page.h1Count === 1) {
-    scores.headings += 50;
+    scores.headings += SEO_CONFIG.scoreHeadingBonus;
   } else {
     insights.push({
       category: 'Headings',
@@ -446,7 +491,7 @@ export function calculateSEOScore(page) {
   }
 
   if (page.headingHierarchy) {
-    scores.headings += 50;
+    scores.headings += SEO_CONFIG.scoreHeadingBonus;
   } else {
     insights.push({
       category: 'Headings',
@@ -459,9 +504,9 @@ export function calculateSEOScore(page) {
   // Images score
   const imagesWithoutAlt = page.images?.filter(img => !img.alt).length || 0;
   if (imagesWithoutAlt === 0) {
-    scores.images = 100;
+    scores.images = SEO_CONFIG.scoreExcellent;
   } else {
-    scores.images = Math.max(0, 100 - (imagesWithoutAlt * 20));
+    scores.images = Math.max(0, SEO_CONFIG.scoreExcellent - (imagesWithoutAlt * SEO_CONFIG.scoreImagePenalty));
     insights.push({
       category: 'Images',
       issue: `${imagesWithoutAlt} images missing alt text`,
@@ -496,8 +541,8 @@ export function calculateSEOScore(page) {
 
   // Content score
   const wordCount = page.content?.wordCount || 0;
-  if (wordCount >= 300) {
-    scores.content = Math.min(100, (wordCount / 10));
+  if (wordCount >= SEO_CONFIG.minWordCount) {
+    scores.content = Math.min(SEO_CONFIG.scoreExcellent, (wordCount / SEO_CONFIG.scoreWordCountDivisor));
   } else {
     insights.push({
       category: 'Content',
@@ -508,10 +553,18 @@ export function calculateSEOScore(page) {
   }
 
   // Technical score
-  if (page.canonical) {scores.technical += 25;}
-  if (page.structuredData) {scores.technical += 25;}
-  if (page.mobileFriendly) {scores.technical += 25;}
-  if (page.https) {scores.technical += 25;}
+  if (page.canonical) {
+    scores.technical += 25;
+  }
+  if (page.structuredData) {
+    scores.technical += 25;
+  }
+  if (page.mobileFriendly) {
+    scores.technical += 25;
+  }
+  if (page.https) {
+    scores.technical += 25;
+  }
 
   // Calculate overall score
   const overallScore = Math.round(
@@ -522,19 +575,16 @@ export function calculateSEOScore(page) {
     overall: overallScore,
     breakdown: scores,
     insights,
-    grade: overallScore >= 90 ? 'A' :
-      overallScore >= 80 ? 'B' :
-        overallScore >= 70 ? 'C' :
-          overallScore >= 60 ? 'D' : 'F'
+    grade: getGradeFromScore(overallScore)
   };
-}
+};
 
 /**
  * Generate SERP (Search Engine Results Page) preview
  * @param {Object} data - Page data
  * @returns {Object} SERP preview data
  */
-export function generateSERPPreview(data) {
+export const generateSERPPreview = function generateSERPPreview(data) {
   const { title, description, url } = data;
 
   // Truncate title if needed
@@ -549,7 +599,7 @@ export function generateSERPPreview(data) {
 
   // Format URL for display
   const urlParts = new URL(url);
-  const breadcrumb = urlParts.hostname + urlParts.pathname.replace(/\/$/, '');
+  const breadcrumb = urlParts.hostname + urlParts.pathname.replace(/\/$/u, '');
 
   return {
     title: displayTitle,
@@ -572,7 +622,7 @@ export function generateSERPPreview(data) {
       }
     }
   };
-}
+};
 
 /**
  * Export all SEO utilities

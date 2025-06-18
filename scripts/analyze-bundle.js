@@ -59,7 +59,7 @@ const SIZE_THRESHOLDS = {
  * @returns {Object} Bundle analysis results
  * @since 1.0.0
  */
-function analyzeBundleComposition() {
+const analyzeBundleComposition = function analyzeBundleComposition() {
   const distPath = join(__dirname, 'dist');
   
   if (!existsSync(distPath)) {
@@ -85,7 +85,7 @@ function analyzeBundleComposition() {
    * @param {string} dir - Directory path
    * @param {string} basePath - Base path for relative calculations
    */
-  function analyzeDirectory(dir, basePath = '') {
+  const analyzeDirectory = function analyzeDirectory(dir, basePath = '') {
     const items = readdirSync(dir);
     
     items.forEach(item => {
@@ -112,11 +112,17 @@ function analyzeBundleComposition() {
         
         // Categorize file
         let category = 'other';
-        if (['js', 'mjs'].includes(ext)) category = 'js';
-        else if (ext === 'css') category = 'css';
-        else if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico'].includes(ext)) category = 'images';
-        else if (['woff', 'woff2', 'ttf', 'eot'].includes(ext)) category = 'fonts';
-        else if (ext === 'html') category = 'html';
+        if (['js', 'mjs'].includes(ext)) {
+          category = 'js';
+        } else if (ext === 'css') {
+          category = 'css';
+        } else if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico'].includes(ext)) {
+          category = 'images';
+        } else if (['woff', 'woff2', 'ttf', 'eot'].includes(ext)) {
+          category = 'fonts';
+        } else if (ext === 'html') {
+          category = 'html';
+        }
         
         analysis.categories[category].files.push(fileInfo);
         analysis.categories[category].size += size;
@@ -136,12 +142,14 @@ function analyzeBundleComposition() {
  * @returns {string} Formatted size string
  * @since 1.0.0
  */
-function formatSize(bytes) {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
+const formatSize = function formatSize(bytes) {
+  if (bytes === 0) {
+    return '0 B';
+  }
+  const kilobyte = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  const i = Math.floor(Math.log(bytes) / Math.log(kilobyte));
+  return parseFloat((bytes / Math.pow(kilobyte, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
 /**
@@ -153,9 +161,11 @@ function formatSize(bytes) {
  * @returns {Object} Budget check result
  * @since 1.0.0
  */
-function checkBudget(sizeKB, category) {
+const checkBudget = function checkBudget(sizeKB, category) {
   const budget = PERFORMANCE_BUDGETS[category];
-  if (!budget) return { status: 'unknown', message: '' };
+  if (!budget) {
+    return { status: 'unknown', message: '' };
+  }
   
   const percentage = (sizeKB / budget) * 100;
   
@@ -176,22 +186,22 @@ function checkBudget(sizeKB, category) {
  * @returns {Array<string>} List of recommendations
  * @since 1.0.0
  */
-function generateRecommendations(analysis) {
+const generateRecommendations = function generateRecommendations(analysis) {
   const recommendations = [];
   
   // Check for large JavaScript files
-  const largeJSFiles = analysis.categories.js.files.filter(f => f.sizeKB > SIZE_THRESHOLDS.warning);
+  const largeJSFiles = analysis.categories.js.files.filter(file => file.sizeKB > SIZE_THRESHOLDS.warning);
   if (largeJSFiles.length > 0) {
     recommendations.push(
-      `Consider code splitting for large JS files: ${largeJSFiles.map(f => f.name).join(', ')}`
+      `Consider code splitting for large JS files: ${largeJSFiles.map(file => file.name).join(', ')}`
     );
   }
   
   // Check for unoptimized images
-  const largeImages = analysis.categories.images.files.filter(f => f.sizeKB > 100);
+  const largeImages = analysis.categories.images.files.filter(file => file.sizeKB > 100);
   if (largeImages.length > 0) {
     recommendations.push(
-      `Optimize large images: ${largeImages.map(f => f.name).join(', ')}`
+      `Optimize large images: ${largeImages.map(file => file.name).join(', ')}`
     );
   }
   
@@ -203,7 +213,7 @@ function generateRecommendations(analysis) {
   
   // Check for font optimization
   if (analysis.categories.fonts.files.length > 0) {
-    const hasWoff2 = analysis.categories.fonts.files.some(f => f.extension === 'woff2');
+    const hasWoff2 = analysis.categories.fonts.files.some(file => file.extension === 'woff2');
     if (!hasWoff2) {
       recommendations.push('Consider using WOFF2 fonts for better compression');
     }
@@ -225,7 +235,7 @@ function generateRecommendations(analysis) {
  * @param {Object} analysis - Bundle analysis results
  * @since 1.0.0
  */
-function displayReport(analysis) {
+const displayReport = function displayReport(analysis) {
   console.log(chalk.cyan('\n📊 BSB Bundle Analysis Report'));
   console.log(chalk.cyan('=' .repeat(50)));
   
@@ -237,7 +247,9 @@ function displayReport(analysis) {
   // Category breakdown
   console.log('\n📁 Asset Categories:');
   Object.entries(analysis.categories).forEach(([category, data]) => {
-    if (data.files.length === 0) return;
+    if (data.files.length === 0) {
+      return;
+    }
     
     const sizeKB = data.size / 1024;
     const budget = checkBudget(sizeKB, category);
@@ -261,7 +273,9 @@ function displayReport(analysis) {
   console.log('\n💰 Performance Budget Status:');
   Object.entries(PERFORMANCE_BUDGETS).forEach(([category, budget]) => {
     const categoryData = analysis.categories[category];
-    if (!categoryData && category !== 'total') return;
+    if (!categoryData && category !== 'total') {
+      return;
+    }
     
     const actualSize = category === 'total' ? totalSizeKB : (categoryData?.size || 0) / 1024;
     const budgetCheck = checkBudget(actualSize, category);
@@ -299,7 +313,7 @@ function displayReport(analysis) {
  * @description Runs the complete bundle analysis
  * @since 1.0.0
  */
-function main() {
+const main = function main() {
   try {
     console.log(chalk.blue('🔍 Analyzing bundle composition...'));
     
@@ -309,7 +323,9 @@ function main() {
     // Check if any budgets are exceeded
     const totalSizeKB = analysis.totalSize / 1024;
     const hasExceededBudgets = Object.entries(PERFORMANCE_BUDGETS).some(([category, budget]) => {
-      if (category === 'total') return totalSizeKB > budget;
+      if (category === 'total') {
+        return totalSizeKB > budget;
+      }
       const categoryData = analysis.categories[category];
       return categoryData && (categoryData.size / 1024) > budget;
     });

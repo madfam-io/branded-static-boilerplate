@@ -29,6 +29,28 @@ import {
   validateDescription
 } from '../../scripts/seo/seo-utils.js';
 
+// Constants
+const CONSTANTS = {
+  // Circle dimensions
+  CIRCLE_RADIUS: 45,
+  PI_MULTIPLIER: 2,
+  // Score thresholds
+  EXCELLENT_THRESHOLD: 90,
+  GOOD_THRESHOLD: 80,
+  AVERAGE_THRESHOLD: 70,
+  POOR_THRESHOLD: 60,
+  // Content thresholds
+  MIN_WORD_COUNT: 300,
+  PERCENTAGE_MAX: 100,
+  KEYWORD_BASE: 10,
+  MIN_WORD_LENGTH: 2,
+  // Animation
+  ANIMATION_DELAY: 300,
+  DECIMAL_PLACES: 1,
+  ATTRIBUTE_SPLIT_PARTS: 2,
+  DEFAULT_PARTS: 3
+};
+
 /**
  * SEO Analyzer Component
  * @class BSBSEOAnalyzer
@@ -323,12 +345,12 @@ class BSBSEOAnalyzer {
       const isExternal = !href.includes(window.location.hostname);
 
       if (isExternal) {
-        external++;
+        external += 1;
         if (link.rel && link.rel.includes('nofollow')) {
-          externalNofollow++;
+          externalNofollow += 1;
         }
       } else {
-        internal++;
+        internal += 1;
       }
     });
 
@@ -342,12 +364,12 @@ class BSBSEOAnalyzer {
    */
   analyzeContent() {
     const textContent = document.body.innerText || document.body.textContent || '';
-    const words = textContent.trim().split(/\s+/).filter(word => word.length > 2);
+    const words = textContent.trim().split(/\s+/u).filter(word => word.length > CONSTANTS.MIN_WORD_LENGTH);
 
     // Calculate keyword density
     const wordFrequency = {};
     words.forEach(word => {
-      const normalized = word.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const normalized = word.toLowerCase().replace(/[^a-z0-9]/gu, '');
       if (normalized.length > 3) {
         wordFrequency[normalized] = (wordFrequency[normalized] || 0) + 1;
       }
@@ -356,11 +378,11 @@ class BSBSEOAnalyzer {
     // Get top keywords
     const topKeywords = Object.entries(wordFrequency)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
+      .slice(0, CONSTANTS.KEYWORD_BASE)
       .map(([word, count]) => ({
         word,
         count,
-        density: ((count / words.length) * 100).toFixed(1)
+        density: ((count / words.length) * CONSTANTS.PERCENTAGE_MAX).toFixed(CONSTANTS.DECIMAL_PLACES)
       }));
 
     return {
@@ -401,8 +423,8 @@ class BSBSEOAnalyzer {
     this.scoreGrade.textContent = score.grade;
 
     // Update score ring
-    const circumference = 2 * Math.PI * 45;
-    const offset = circumference - (score.overall / 100) * circumference;
+    const circumference = CONSTANTS.PI_MULTIPLIER * Math.PI * CONSTANTS.CIRCLE_RADIUS;
+    const offset = circumference - (score.overall / CONSTANTS.PERCENTAGE_MAX) * circumference;
     this.scoreRing.style.strokeDashoffset = offset;
 
     // Update score circle color
@@ -410,13 +432,13 @@ class BSBSEOAnalyzer {
 
     // Update message
     let message;
-    if (score.overall >= 90) {
+    if (score.overall >= CONSTANTS.EXCELLENT_THRESHOLD) {
       message = 'Excellent SEO! Your page is well-optimized.';
-    } else if (score.overall >= 80) {
+    } else if (score.overall >= CONSTANTS.GOOD_THRESHOLD) {
       message = 'Good SEO, but there\'s room for improvement.';
-    } else if (score.overall >= 70) {
+    } else if (score.overall >= CONSTANTS.AVERAGE_THRESHOLD) {
       message = 'Average SEO. Consider implementing suggestions.';
-    } else if (score.overall >= 60) {
+    } else if (score.overall >= CONSTANTS.POOR_THRESHOLD) {
       message = 'Below average SEO. Several improvements needed.';
     } else {
       message = 'Poor SEO. Significant improvements required.';
@@ -461,8 +483,14 @@ class BSBSEOAnalyzer {
     }
 
     const items = insights.map(insight => {
-      const icon = insight.impact === 'high' ? '❗' :
-        insight.impact === 'medium' ? '⚠️' : 'ℹ️';
+      let icon;
+      if (insight.impact === 'high') {
+        icon = '❗';
+      } else if (insight.impact === 'medium') {
+        icon = '⚠️';
+      } else {
+        icon = 'ℹ️';
+      }
 
       return `
         <li class="bsb-seo-analyzer__insight bsb-seo-analyzer__insight--${insight.impact}">
@@ -542,7 +570,7 @@ class BSBSEOAnalyzer {
     const html = `
       <div class="bsb-seo-analyzer__stat">
         <strong>Word Count:</strong> ${stats.wordCount}
-        ${stats.wordCount < 300 ? '<span class="bsb-seo-analyzer__field-status--warning"> (aim for 300+)</span>' : ''}
+        ${stats.wordCount < CONSTANTS.MIN_WORD_COUNT ? `<span class="bsb-seo-analyzer__field-status--warning"> (aim for ${CONSTANTS.MIN_WORD_COUNT}+)</span>` : ''}
       </div>
       <div class="bsb-seo-analyzer__stat">
         <strong>Character Count:</strong> ${stats.characterCount}
@@ -607,20 +635,34 @@ class BSBSEOAnalyzer {
     const titleValue = this.titleInput.value;
     const titleValidation = validateTitle(titleValue);
     this.titleCount.textContent = titleValue.length;
-    this.titleStatus.textContent = titleValidation.status === 'excellent' ? '✓ Perfect!' :
-      titleValidation.status === 'good' ? '✓ Good' :
-        titleValidation.status === 'warning' ? '⚠️ Warning' :
-          '❌ Too long/short';
+    let titleStatusText;
+    if (titleValidation.status === 'excellent') {
+      titleStatusText = '✓ Perfect!';
+    } else if (titleValidation.status === 'good') {
+      titleStatusText = '✓ Good';
+    } else if (titleValidation.status === 'warning') {
+      titleStatusText = '⚠️ Warning';
+    } else {
+      titleStatusText = '❌ Too long/short';
+    }
+    this.titleStatus.textContent = titleStatusText;
     this.titleStatus.className = `bsb-seo-analyzer__field-status bsb-seo-analyzer__field-status--${titleValidation.status}`;
 
     // Description validation
     const descValue = this.descriptionInput.value;
     const descValidation = validateDescription(descValue);
     this.descriptionCount.textContent = descValue.length;
-    this.descriptionStatus.textContent = descValidation.status === 'excellent' ? '✓ Perfect!' :
-      descValidation.status === 'good' ? '✓ Good' :
-        descValidation.status === 'warning' ? '⚠️ Warning' :
-          '❌ Too long/short';
+    let descStatusText;
+    if (descValidation.status === 'excellent') {
+      descStatusText = '✓ Perfect!';
+    } else if (descValidation.status === 'good') {
+      descStatusText = '✓ Good';
+    } else if (descValidation.status === 'warning') {
+      descStatusText = '⚠️ Warning';
+    } else {
+      descStatusText = '❌ Too long/short';
+    }
+    this.descriptionStatus.textContent = descStatusText;
     this.descriptionStatus.className = `bsb-seo-analyzer__field-status bsb-seo-analyzer__field-status--${descValidation.status}`;
 
     // Update SERP preview
@@ -636,16 +678,16 @@ class BSBSEOAnalyzer {
     const tips = [];
 
     // Add contextual tips based on score
-    if (score.overall < 70) {
+    if (score.overall < CONSTANTS.AVERAGE_THRESHOLD) {
       tips.push('Focus on fixing high-impact issues first, especially title and meta description optimization.');
     }
 
-    if (score.breakdown.images < 80) {
+    if (score.breakdown.images < CONSTANTS.GOOD_THRESHOLD) {
       tips.push('Always add descriptive alt text to images for better accessibility and SEO.');
     }
 
-    if (score.breakdown.content < 80) {
-      tips.push('Aim for at least 300 words of quality content that provides value to users.');
+    if (score.breakdown.content < CONSTANTS.GOOD_THRESHOLD) {
+      tips.push(`Aim for at least ${CONSTANTS.MIN_WORD_COUNT} words of quality content that provides value to users.`);
     }
 
     if (!this.pageData.structuredData) {

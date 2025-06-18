@@ -38,7 +38,7 @@ const distDir = join(projectRoot, 'dist');
 /**
  * Parse command line arguments
  */
-function parseArgs() {
+const parseArgs = function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
     url: 'index.html',
@@ -70,7 +70,7 @@ function parseArgs() {
 /**
  * Create a simple static file server
  */
-function createStaticServer(port) {
+const createStaticServer = function createStaticServer(port) {
   return createServer((req, res) => {
     let filePath = join(distDir, req.url === '/' ? 'index.html' : req.url);
     
@@ -100,7 +100,7 @@ function createStaticServer(port) {
 /**
  * Run Lighthouse audit
  */
-async function runAudit(url, options) {
+const runAudit = async function runAudit(url, options) {
   console.log(chalk.blue('\n🚀 Starting Lighthouse audit...\n'));
   
   // Launch Chrome
@@ -142,7 +142,7 @@ async function runAudit(url, options) {
 /**
  * Display results in terminal
  */
-function displayResults(lhr) {
+const displayResults = function displayResults(lhr) {
   console.log(chalk.bold('\n📊 Lighthouse Results\n'));
   
   // Category scores
@@ -244,8 +244,8 @@ function displayResults(lhr) {
 /**
  * Save HTML report
  */
-async function saveReport(report, options) {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+const saveReport = async function saveReport(report, options) {
+  const timestamp = new Date().toISOString().replace(/[:.]/gu, '-');
   const device = options.mobile ? 'mobile' : 'desktop';
   const filename = `lighthouse-${device}-${timestamp}.html`;
   const filepath = join(projectRoot, 'lighthouse-reports', filename);
@@ -270,7 +270,7 @@ async function saveReport(report, options) {
 /**
  * Main function
  */
-async function main() {
+const main = async function main() {
   const options = parseArgs();
   
   console.log(chalk.bold.blue('🔍 BSB Lighthouse Audit Tool\n'));
@@ -296,8 +296,8 @@ async function main() {
     await saveReport(result.report, options);
     
     // Check if passed
-    const scores = Object.values(result.lhr.categories).map(c => c.score);
-    const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+    const scores = Object.values(result.lhr.categories).map(category => category.score);
+    const avgScore = scores.reduce((accumulator, score) => accumulator + score, 0) / scores.length;
     
     if (avgScore >= 0.9) {
       console.log(chalk.green.bold('🎉 Excellent scores! Keep up the great work!'));

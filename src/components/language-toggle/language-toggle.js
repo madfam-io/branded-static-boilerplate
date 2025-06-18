@@ -19,6 +19,11 @@
 import { translations } from '../../scripts/i18n/translations.js';
 import debug from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  LANGUAGE_CODE_LENGTH: 2
+};
+
 class BSBLanguageToggle {
   constructor(container) {
     this.container = container;
@@ -60,7 +65,7 @@ class BSBLanguageToggle {
     const saved = localStorage.getItem('bsb-language');
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
-    const browserLang = navigator.language.substring(0, 2);
+    const browserLang = navigator.language.substring(0, CONSTANTS.LANGUAGE_CODE_LENGTH);
 
     let detectedLang = 'en';
 
@@ -97,8 +102,8 @@ class BSBLanguageToggle {
     window.addEventListener('storage', this.handleStorageChange);
 
     // Escape key to close menu
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && this.isOpen) {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && this.isOpen) {
         this.closeMenu();
       }
     });
@@ -289,20 +294,20 @@ class BSBLanguageToggle {
     });
 
     // Update button aria-label
-    const t = translations[this.currentLanguage];
-    this.button.setAttribute('aria-label', t.language.switch);
+    const currentTranslations = translations[this.currentLanguage];
+    this.button.setAttribute('aria-label', currentTranslations.language.switch);
   }
 
   /**
    * Update page content with new language
    */
   updateContent() {
-    const t = translations[this.currentLanguage];
+    const currentTranslations = translations[this.currentLanguage];
 
     // Update all elements with data-i18n attributes
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const key = element.dataset.i18n;
-      const translation = this.getNestedTranslation(t, key);
+      const translation = this.getNestedTranslation(currentTranslations, key);
 
       if (translation) {
         if (element.tagName === 'INPUT' && element.type !== 'submit') {
@@ -314,7 +319,7 @@ class BSBLanguageToggle {
     });
 
     // Update navigation
-    this.updateNavigation(t);
+    this.updateNavigation(currentTranslations);
 
     // Update meta tags
     this.updateMetaTags();
@@ -368,8 +373,8 @@ class BSBLanguageToggle {
     // Update page title if it has translation data
     const titleElement = document.querySelector('title');
     if (titleElement && titleElement.dataset.i18n) {
-      const t = translations[this.currentLanguage];
-      const translation = this.getNestedTranslation(t, titleElement.dataset.i18n);
+      const currentTranslations = translations[this.currentLanguage];
+      const translation = this.getNestedTranslation(currentTranslations, titleElement.dataset.i18n);
       if (translation) {
         titleElement.textContent = translation;
       }
@@ -378,8 +383,8 @@ class BSBLanguageToggle {
     // Update meta description
     const descriptionMeta = document.querySelector('meta[name="description"]');
     if (descriptionMeta && descriptionMeta.dataset.i18n) {
-      const t = translations[this.currentLanguage];
-      const translation = this.getNestedTranslation(t, descriptionMeta.dataset.i18n);
+      const currentTranslations = translations[this.currentLanguage];
+      const translation = this.getNestedTranslation(currentTranslations, descriptionMeta.dataset.i18n);
       if (translation) {
         descriptionMeta.content = translation;
       }

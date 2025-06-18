@@ -21,6 +21,14 @@
 
 import { debug } from './debug.js';
 
+// Constants
+const CONSTANTS = {
+  MIN_INTERSECTION_RATIO: 0.01,
+  LAZY_SCRIPT_THRESHOLD: 0.5,
+  SCRIPT_LOAD_DELAY: 1000,
+  SLOW_RESOURCE_THRESHOLD: 1000
+};
+
 /**
  * Resource Hints Manager
  * @class ResourceHints
@@ -104,7 +112,9 @@ class ResourceHints {
   addHint(rel, href, crossorigin = null) {
     // Check if hint already exists
     const existing = document.querySelector(`link[rel="${rel}"][href="${href}"]`);
-    if (existing) {return;}
+    if (existing) {
+      return;
+    }
 
     const link = document.createElement('link');
     link.rel = rel;
@@ -161,7 +171,7 @@ class ResourceHints {
         });
       }, {
         rootMargin: '50px 0px',
-        threshold: 0.01
+        threshold: CONSTANTS.MIN_INTERSECTION_RATIO
       });
 
       lazyImages.forEach(img => imageObserver.observe(img));
@@ -197,8 +207,8 @@ class ResourceHints {
    */
   setupNavigationPrefetch() {
     // Prefetch on hover
-    document.addEventListener('mouseover', e => {
-      const link = e.target.closest('a[href]');
+    document.addEventListener('mouseover', event => {
+      const link = event.target.closest('a[href]');
       if (link && this.shouldPrefetch(link)) {
         this.prefetchPage(link.href);
       }
@@ -213,13 +223,13 @@ class ResourceHints {
             // Delay prefetch to avoid overwhelming the browser
             setTimeout(() => {
               this.prefetchPage(link.href);
-            }, 1000);
+            }, CONSTANTS.SCRIPT_LOAD_DELAY);
           }
         }
       });
     }, {
       rootMargin: '0px 0px 50px 0px',
-      threshold: 0.5
+      threshold: CONSTANTS.LAZY_SCRIPT_THRESHOLD
     });
 
     const internalLinks = document.querySelectorAll('a[href^="/"], a[href^="./"]');
@@ -235,19 +245,29 @@ class ResourceHints {
    */
   shouldPrefetch(link) {
     // Don't prefetch if already visited
-    if (this.prefetchQueue.has(link.href)) {return false;}
+    if (this.prefetchQueue.has(link.href)) {
+      return false;
+    }
 
     // Don't prefetch external links
-    if (link.host !== window.location.host) {return false;}
+    if (link.host !== window.location.host) {
+      return false;
+    }
 
     // Don't prefetch downloads
-    if (link.hasAttribute('download')) {return false;}
+    if (link.hasAttribute('download')) {
+      return false;
+    }
 
     // Don't prefetch if user has data saver enabled
-    if (navigator.connection && navigator.connection.saveData) {return false;}
+    if (navigator.connection && navigator.connection.saveData) {
+      return false;
+    }
 
     // Don't prefetch on slow connections
-    if (navigator.connection && navigator.connection.effectiveType === 'slow-2g') {return false;}
+    if (navigator.connection && navigator.connection.effectiveType === 'slow-2g') {
+      return false;
+    }
 
     return true;
   }
@@ -258,7 +278,9 @@ class ResourceHints {
    * @param {string} url - Page URL to prefetch
    */
   prefetchPage(url) {
-    if (this.prefetchQueue.has(url)) {return;}
+    if (this.prefetchQueue.has(url)) {
+      return;
+    }
 
     this.prefetchQueue.set(url, true);
 
@@ -302,7 +324,7 @@ class ResourceHints {
       const resourceObserver = new PerformanceObserver(list => {
         for (const entry of list.getEntries()) {
           // Track slow resources
-          if (entry.duration > 1000) {
+          if (entry.duration > CONSTANTS.SLOW_RESOURCE_THRESHOLD) {
             debug.warn(`Slow resource: ${entry.name} took ${entry.duration}ms`);
 
             // Add to critical resources for next visit
@@ -327,7 +349,7 @@ class ResourceHints {
 
       try {
         longTaskObserver.observe({ entryTypes: ['longtask'] });
-      } catch (e) {
+      } catch (error) {
         // Long task timing might not be supported
       }
     }
@@ -342,7 +364,7 @@ class ResourceHints {
       localStorage.setItem('bsb-critical-resources',
         JSON.stringify([...this.criticalResources])
       );
-    } catch (e) {
+    } catch (error) {
       // Storage might be full
     }
   }
@@ -358,7 +380,7 @@ class ResourceHints {
         const resources = JSON.parse(saved);
         resources.forEach(resource => this.criticalResources.add(resource));
       }
-    } catch (e) {
+    } catch (error) {
       // Invalid data
     }
   }

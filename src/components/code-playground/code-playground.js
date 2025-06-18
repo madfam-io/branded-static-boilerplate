@@ -38,7 +38,10 @@ const CONSTANTS = {
   HOURS_PER_DAY: 24,
   MINUTES_PER_HOUR: 60,
   SECONDS_PER_MINUTE: 60,
-  MS_PER_SECOND: 1000
+  MS_PER_SECOND: 1000,
+  FOCUS_DELAY: 100,
+  MAX_CONSOLE_MESSAGES: 50,
+  MAX_CODE_AGE_HOURS: 24
 };
 
 /**
@@ -166,12 +169,14 @@ class BSBCodePlayground {
               editor.value = editor.value.substring(0, lineStart) +
                            lineText.substring(CONSTANTS.TAB_SIZE) +
                            editor.value.substring(start);
-              editor.selectionStart = editor.selectionEnd = start - CONSTANTS.TAB_SIZE;
+              editor.selectionStart = start - CONSTANTS.TAB_SIZE;
+              editor.selectionEnd = start - CONSTANTS.TAB_SIZE;
             }
           } else {
             // Indent
             editor.value = `${editor.value.substring(0, start)}  ${editor.value.substring(end)}`;
-            editor.selectionStart = editor.selectionEnd = start + CONSTANTS.TAB_SIZE;
+            editor.selectionStart = start + CONSTANTS.TAB_SIZE;
+            editor.selectionEnd = start + CONSTANTS.TAB_SIZE;
           }
         }
       });
@@ -256,7 +261,7 @@ class BSBCodePlayground {
     // Focus the active editor
     const activeEditor = this.editors.get(tabName);
     if (activeEditor) {
-      setTimeout(() => activeEditor.focus(), 100);
+      setTimeout(() => activeEditor.focus(), CONSTANTS.FOCUS_DELAY);
     }
   }
 
@@ -319,7 +324,7 @@ class BSBCodePlayground {
    * @description Handles special keydown events in editors
    * @returns {void}
    */
-  handleEditorKeydown(e, language) {
+  handleEditorKeydown(event, language) {
     // Auto-closing brackets and quotes
     const editor = this.editors.get(language);
     const pairs = {
@@ -330,17 +335,18 @@ class BSBCodePlayground {
       "'": "'"
     };
 
-    if (pairs[e.key]) {
+    if (pairs[event.key]) {
       const start = editor.selectionStart;
       const end = editor.selectionEnd;
 
       if (start === end) {
-        e.preventDefault();
-        const closingChar = pairs[e.key];
+        event.preventDefault();
+        const closingChar = pairs[event.key];
         editor.value = editor.value.substring(0, start) +
-                      e.key + closingChar +
+                      event.key + closingChar +
                       editor.value.substring(end);
-        editor.selectionStart = editor.selectionEnd = start + 1;
+        editor.selectionStart = start + 1;
+        editor.selectionEnd = start + 1;
       }
     }
   }
@@ -450,8 +456,8 @@ class BSBCodePlayground {
     });
     
     // Error handling - capture errors without logging to console
-    window.addEventListener('error', (e) => {
-      const message = \`\${e.filename}:\${e.lineno} - \${e.message}\`;
+    window.addEventListener('error', (event) => {
+      const message = \`\${event.filename}:\${event.lineno} - \${event.message}\`;
       // Store error for debugging without console.error
       window.capturedLogs.push({
         type: 'error',
@@ -469,7 +475,7 @@ class BSBCodePlayground {
       }
       
       // Prevent default error logging
-      e.preventDefault();
+      event.preventDefault();
       return true;
     });
     
@@ -554,7 +560,7 @@ class BSBCodePlayground {
 
     // Limit console messages
     const messages = this.consoleContainer.children;
-    if (messages.length > 50) {
+    if (messages.length > CONSTANTS.MAX_CONSOLE_MESSAGES) {
       this.consoleContainer.removeChild(messages[0]);
     }
   }
@@ -602,11 +608,13 @@ class BSBCodePlayground {
    * @returns {string} Formatted bytes string
    */
   formatBytes(bytes) {
-    if (bytes === 0) {return '0b';}
-    const k = 1024;
+    if (bytes === 0) {
+      return '0b';
+    }
+    const kilobyte = 1024;
     const sizes = ['b', 'kb', 'mb'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / k**i).toFixed(1)) + sizes[i];
+    const sizeIndex = Math.floor(Math.log(bytes) / Math.log(kilobyte));
+    return parseFloat((bytes / kilobyte**sizeIndex).toFixed(1)) + sizes[sizeIndex];
   }
 
   /**
@@ -747,7 +755,9 @@ class BSBCodePlayground {
    * @returns {void}
    */
   saveCode() {
-    if (!this.autoSave) {return;}
+    if (!this.autoSave) {
+      return;
+    }
 
     const code = {
       html: this.editors.get('html').value,
@@ -795,7 +805,7 @@ class BSBCodePlayground {
         const age = Date.now() - code.timestamp;
 
         // Only load if saved within last 24 hours
-        if (age < 24 * 60 * 60 * 1000) {
+        if (age < CONSTANTS.MAX_CODE_AGE_HOURS * CONSTANTS.MINUTES_PER_HOUR * CONSTANTS.SECONDS_PER_MINUTE * CONSTANTS.MS_PER_SECOND) {
           this.editors.get('html').value = code.html || '';
           this.editors.get('css').value = code.css || '';
           this.editors.get('js').value = code.js || '';
@@ -814,7 +824,7 @@ class BSBCodePlayground {
  * @description Finds and initializes all code playground components
  * @returns {void}
  */
-function initializeCodePlaygrounds() {
+const initializeCodePlaygrounds = function initializeCodePlaygrounds() {
   const playgrounds = document.querySelectorAll('[data-bsb-component="code-playground"]');
 
   playgrounds.forEach(playground => {
@@ -822,7 +832,7 @@ function initializeCodePlaygrounds() {
   });
 
   // Initialization complete - playground count: playgrounds.length
-}
+};
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {

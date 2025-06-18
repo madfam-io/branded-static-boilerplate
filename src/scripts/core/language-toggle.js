@@ -184,18 +184,18 @@ class LanguageToggle {
    * Bind event listeners
    */
   bindEvents() {
-    document.addEventListener('click', e => {
-      if (e.target.closest('.bsb-language-toggle__button')) {
-        const button = e.target.closest('.bsb-language-toggle__button');
+    document.addEventListener('click', event => {
+      if (event.target.closest('.bsb-language-toggle__button')) {
+        const button = event.target.closest('.bsb-language-toggle__button');
         const newLanguage = button.getAttribute('data-language');
         this.switchLanguage(newLanguage);
       }
     });
 
     // Keyboard shortcut: Alt + L to toggle language
-    document.addEventListener('keydown', e => {
-      if (e.altKey && e.key === 'l') {
-        e.preventDefault();
+    document.addEventListener('keydown', event => {
+      if (event.altKey && event.key === 'l') {
+        event.preventDefault();
         const newLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
         this.switchLanguage(newLanguage);
       }
@@ -206,7 +206,9 @@ class LanguageToggle {
    * Switch to a new language
    */
   switchLanguage(newLanguage) {
-    if (newLanguage === this.currentLanguage) {return;}
+    if (newLanguage === this.currentLanguage) {
+      return;
+    }
 
     const oldLanguage = this.currentLanguage;
     this.currentLanguage = newLanguage;
@@ -268,7 +270,9 @@ class LanguageToggle {
    */
   updateToggleElement() {
     const toggle = document.querySelector('.bsb-language-toggle__button');
-    if (!toggle) {return;}
+    if (!toggle) {
+      return;
+    }
 
     const currentSpan = toggle.querySelector('.bsb-language-toggle__current');
     const targetSpan = toggle.querySelector('.bsb-language-toggle__target');
@@ -296,9 +300,20 @@ class LanguageToggle {
     announcement.className = 'sr-only';
 
     const langName = language === 'en' ? 'English' : 'Español';
-    const message = isChange
-      ? (language === 'es' ? `Idioma cambiado a ${langName}` : `Language changed to ${langName}`)
-      : (language === 'es' ? `Idioma actual: ${langName}` : `Current language: ${langName}`);
+    let message;
+    if (isChange) {
+      if (language === 'es') {
+        message = `Idioma cambiado a ${langName}`;
+      } else {
+        message = `Language changed to ${langName}`;
+      }
+    } else {
+      if (language === 'es') {
+        message = `Idioma actual: ${langName}`;
+      } else {
+        message = `Current language: ${langName}`;
+      }
+    }
 
     announcement.textContent = message;
     document.body.appendChild(announcement);

@@ -30,7 +30,7 @@ const filesToProcess = [
 ];
 
 // Function to determine relative path based on file location
-function getRelativePrefix(filePath) {
+const getRelativePrefix = function getRelativePrefix(filePath) {
   const relativePath = path.relative(projectRoot, filePath);
   const depth = relativePath.split(path.sep).length - 2; // -2 for src/ and filename
   
@@ -61,31 +61,31 @@ filesToProcess.forEach(filePath => {
   
   // Fix navigation links
   // Root links
-  content = content.replace(/href="\/"/g, `href="${prefix}/index.html"`);
+  content = content.replace(/href="\/"/gu, `href="${prefix}/index.html"`);
   
   // Page links
-  content = content.replace(/href="\/pages\//g, `href="${prefix}/pages/`);
+  content = content.replace(/href="\/pages\//gu, `href="${prefix}/pages/`);
   
   // Asset links (favicon, etc)
-  content = content.replace(/href="\/assets\//g, `href="${prefix}/assets/`);
-  content = content.replace(/src="\/assets\//g, `src="${prefix}/assets/`);
+  content = content.replace(/href="\/assets\//gu, `href="${prefix}/assets/`);
+  content = content.replace(/src="\/assets\//gu, `src="${prefix}/assets/`);
   
   // Style links
-  content = content.replace(/href="\/styles\//g, `href="${prefix}/styles/`);
+  content = content.replace(/href="\/styles\//gu, `href="${prefix}/styles/`);
   
   // Component links
-  content = content.replace(/href="\/components\//g, `href="${prefix}/components/`);
+  content = content.replace(/href="\/components\//gu, `href="${prefix}/components/`);
   
   // Script links
-  content = content.replace(/src="\/scripts\//g, `src="${prefix}/scripts/`);
+  content = content.replace(/src="\/scripts\//gu, `src="${prefix}/scripts/`);
   
   // Documentation links - these will point to GitHub
-  content = content.replace(/href="\/docs\//g, 'href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/');
-  content = content.replace(/href="\/CONTRIBUTING\.html"/g, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md"');
-  content = content.replace(/href="\/LICENSE\.html"/g, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE"');
+  content = content.replace(/href="\/docs\//gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/tree/main/docs/');
+  content = content.replace(/href="\/CONTRIBUTING\.html"/gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/CONTRIBUTING.md"');
+  content = content.replace(/href="\/LICENSE\.html"/gu, 'href="https://github.com/madfam-io/branded-static-boilerplate/blob/main/LICENSE"');
   
   // Fix any remaining absolute paths we might have missed
-  content = content.replace(/href="\/([^"]+)"/g, (match, path) => {
+  content = content.replace(/href="\/([^"]+)"/gu, (match, path) => {
     if (path.startsWith('http') || path.startsWith('#') || path.startsWith('mailto:')) {
       return match; // Don't change external links or anchors
     }

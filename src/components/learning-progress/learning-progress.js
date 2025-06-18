@@ -27,6 +27,37 @@
 
 import { debug } from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  // Achievement thresholds
+  EXPLORER_THRESHOLD: 5,
+  ARCHITECT_THRESHOLD: 10,
+  SESSION_TIME_THRESHOLD: 1800000, // 30 minutes in milliseconds
+  ENGAGEMENT_THRESHOLD: 10,
+
+  // Time values
+  MS_PER_MINUTE: 60000,
+  ACTIVITY_CHECK_INTERVAL: 60000, // 1 minute
+  NOTIFICATION_DELAY: 3000,
+  BADGE_ANIMATION_DELAY: 20,
+
+  // UI values
+  SCROLL_PADDING: 20,
+  PROGRESS_UPDATE_DELAY: 100,
+  PERCENTAGE_MAX: 100,
+
+  // Learning values
+  PATH_MIN_ITEMS: 3,
+  PATH_DIVISOR: 2,
+  SECONDS_PER_MINUTE: 60,
+  MS_PER_SECOND: 1000,
+  HOURS_PER_DAY: 24,
+  MINUTES_PER_HOUR: 60,
+  SECONDS_PER_HOUR: 3600,
+  SECONDS_PER_DAY: 86400,
+  MAX_ACTIVITY_LOG_SIZE: 20
+};
+
 /**
  * Learning Progress Tracker Class
  * @class BSBLearningProgress
@@ -104,31 +135,31 @@ class BSBLearningProgress {
         name: 'Explorer',
         icon: '🗺️',
         description: 'Explore 5 different components',
-        condition: () => this.progress.componentsExplored.size >= 5
+        condition: () => this.progress.componentsExplored.size >= CONSTANTS.EXPLORER_THRESHOLD
       },
       'completionist': {
         name: 'Completionist',
         icon: '🏆',
         description: 'Explore all components',
-        condition: () => this.progress.componentsExplored.size >= 10
+        condition: () => this.progress.componentsExplored.size >= CONSTANTS.ARCHITECT_THRESHOLD
       },
       'time-investor': {
         name: 'Time Investor',
         icon: '⏰',
         description: 'Spend 30 minutes learning',
-        condition: () => this.progress.timeSpent >= 1800000
+        condition: () => this.progress.timeSpent >= CONSTANTS.SESSION_TIME_THRESHOLD
       },
       'code-reader': {
         name: 'Code Reader',
         icon: '📖',
         description: 'View source code 10 times',
-        condition: () => this.getActivityCount('view-source') >= 10
+        condition: () => this.getActivityCount('view-source') >= CONSTANTS.ARCHITECT_THRESHOLD
       },
       'playground-master': {
         name: 'Playground Master',
         icon: '🎮',
         description: 'Use the code playground 5 times',
-        condition: () => this.getActivityCount('playground-use') >= 5
+        condition: () => this.getActivityCount('playground-use') >= CONSTANTS.EXPLORER_THRESHOLD
       }
     };
 
@@ -221,8 +252,8 @@ class BSBLearningProgress {
     this.trackPlayground();
 
     // Action buttons
-    this.element.addEventListener('click', e => {
-      const { action } = e.target.dataset;
+    this.element.addEventListener('click', event => {
+      const { action } = event.target.dataset;
       if (action) {
         this.handleAction(action);
       }
@@ -259,8 +290,8 @@ class BSBLearningProgress {
    * @method trackSourceViewer
    */
   trackSourceViewer() {
-    document.addEventListener('bsb:source-viewer:open', e => {
-      this.logActivity('view-source', `Viewed source for ${e.detail.componentName}`);
+    document.addEventListener('bsb:source-viewer:open', event => {
+      this.logActivity('view-source', `Viewed source for ${event.detail.componentName}`);
       this.checkAchievements();
     });
   }
@@ -286,7 +317,7 @@ class BSBLearningProgress {
     setInterval(() => {
       this.updateTimeSpent();
       this.saveProgress();
-    }, 60000);
+    }, CONSTANTS.ACTIVITY_CHECK_INTERVAL);
 
     // Track page visibility for accurate time
     document.addEventListener('visibilitychange', () => {
@@ -348,7 +379,7 @@ class BSBLearningProgress {
     this.progress.activityLog.unshift(activity);
 
     // Keep only recent activities
-    if (this.progress.activityLog.length > 20) {
+    if (this.progress.activityLog.length > CONSTANTS.MAX_ACTIVITY_LOG_SIZE) {
       this.progress.activityLog.pop();
     }
 
@@ -461,7 +492,7 @@ class BSBLearningProgress {
     // Remove after animation
     setTimeout(() => {
       notification.remove();
-    }, 3000);
+    }, CONSTANTS.NOTIFICATION_DELAY);
   }
 
   /**
@@ -524,7 +555,7 @@ class BSBLearningProgress {
    */
   updateProgressBar() {
     const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
-    const progress = (this.progress.componentsExplored.size / totalComponents) * 100;
+    const progress = (this.progress.componentsExplored.size / totalComponents) * CONSTANTS.PERCENTAGE_MAX;
 
     const progressBar = this.element.querySelector('[data-progress-bar]');
     const progressText = this.element.querySelector('[data-progress-text]');
@@ -548,7 +579,7 @@ class BSBLearningProgress {
         this.progress.checkpoints.has(cp.id)
       ).length;
 
-      const progress = (completedCount / path.checkpoints.length) * 100;
+      const progress = (completedCount / path.checkpoints.length) * CONSTANTS.PERCENTAGE_MAX;
 
       // Update progress display
       const progressElement = this.element.querySelector(`[data-path-progress="${pathId}"]`);
@@ -572,7 +603,9 @@ class BSBLearningProgress {
    */
   updateActivityTimeline() {
     const timeline = this.element.querySelector('[data-activity-timeline]');
-    if (!timeline) {return;}
+    if (!timeline) {
+      return;
+    }
 
     timeline.innerHTML = this.progress.activityLog.slice(0, 5).map(activity => `
       <li class="bsb-learning-progress__timeline-item">
@@ -591,7 +624,9 @@ class BSBLearningProgress {
    */
   updateAchievements() {
     const container = this.element.querySelector('[data-achievements]');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = Object.entries(this.achievements).map(([id, achievement]) => {
       const isUnlocked = this.progress.achievements.has(id);
@@ -612,7 +647,9 @@ class BSBLearningProgress {
    */
   updateRecommendations() {
     const container = this.element.querySelector('[data-recommendations]');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     const recommendations = this.getRecommendations();
 
@@ -665,7 +702,7 @@ class BSBLearningProgress {
     });
 
     // Playground recommendation
-    if (this.getActivityCount('playground-use') < 3) {
+    if (this.getActivityCount('playground-use') < CONSTANTS.PATH_MIN_ITEMS) {
       recommendations.push({
         icon: '⚡',
         title: 'Try the Code Playground',
@@ -674,7 +711,7 @@ class BSBLearningProgress {
       });
     }
 
-    return recommendations.slice(0, 3);
+    return recommendations.slice(0, CONSTANTS.PATH_MIN_ITEMS);
   }
 
   /**
@@ -724,18 +761,18 @@ class BSBLearningProgress {
         checkpoints: Array.from(this.progress.checkpoints.entries()),
         stats: {
           totalComponents: document.querySelectorAll('[data-bsb-component]').length,
-          completionPercentage: Math.round((this.progress.componentsExplored.size / document.querySelectorAll('[data-bsb-component]').length) * 100)
+          completionPercentage: Math.round((this.progress.componentsExplored.size / document.querySelectorAll('[data-bsb-component]').length) * CONSTANTS.PERCENTAGE_MAX)
         }
       }
     };
 
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(exportData, null, CONSTANTS.PATH_DIVISOR)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
+    downloadLink.click();
 
     URL.revokeObjectURL(url);
   }
@@ -762,7 +799,7 @@ class BSBLearningProgress {
       timeSpent: this.progress.timeSpent,
       achievements: Array.from(this.progress.achievements),
       checkpoints: Array.from(this.progress.checkpoints.entries()),
-      activityLog: this.progress.activityLog.slice(0, 20),
+      activityLog: this.progress.activityLog.slice(0, CONSTANTS.MAX_ACTIVITY_LOG_SIZE),
       lastSaved: Date.now()
     };
 
@@ -798,11 +835,11 @@ class BSBLearningProgress {
    * @returns {string} Formatted time
    */
   formatTime(milliseconds) {
-    const minutes = Math.floor(milliseconds / 60000);
-    const hours = Math.floor(minutes / 60);
+    const minutes = Math.floor(milliseconds / CONSTANTS.MS_PER_MINUTE);
+    const hours = Math.floor(minutes / CONSTANTS.MINUTES_PER_HOUR);
 
     if (hours > 0) {
-      return `${hours}h ${minutes % 60}m`;
+      return `${hours}h ${minutes % CONSTANTS.MINUTES_PER_HOUR}m`;
     }
 
     return `${minutes}m`;
@@ -815,11 +852,17 @@ class BSBLearningProgress {
    * @returns {string} Formatted time ago
    */
   formatTimeAgo(timestamp) {
-    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    const seconds = Math.floor((Date.now() - timestamp) / CONSTANTS.MS_PER_SECOND);
 
-    if (seconds < 60) {return 'Just now';}
-    if (seconds < 3600) {return `${Math.floor(seconds / 60)}m ago`;}
-    if (seconds < 86400) {return `${Math.floor(seconds / 3600)}h ago`;}
+    if (seconds < CONSTANTS.SECONDS_PER_MINUTE) {
+      return 'Just now';
+    }
+    if (seconds < CONSTANTS.SECONDS_PER_HOUR) {
+      return `${Math.floor(seconds / CONSTANTS.SECONDS_PER_MINUTE)}m ago`;
+    }
+    if (seconds < CONSTANTS.SECONDS_PER_DAY) {
+      return `${Math.floor(seconds / CONSTANTS.SECONDS_PER_HOUR)}h ago`;
+    }
 
     return new Date(timestamp).toLocaleDateString();
   }

@@ -16,6 +16,18 @@
  * @version 1.0.0
  */
 
+// Constants
+const CONSTANTS = {
+  ANIMATION_DELAY: 1000,
+  TRANSITION_DELAY: 400,
+  NOTIFICATION_DURATION: 5000,
+  FADE_DURATION: 300,
+  DEBOUNCE_DELAY: 500,
+  PROGRESS_MAX: 100,
+  MS_PER_MINUTE: 60000,
+  SECONDS_PER_MINUTE: 60
+};
+
 class BSBLearningToggle {
   constructor(container) {
     this.container = container;
@@ -83,7 +95,7 @@ class BSBLearningToggle {
         this.isLearningMode = currentState;
         this.updateUI();
       }
-    }, 1000);
+    }, CONSTANTS.ANIMATION_DELAY);
   }
 
   /**
@@ -131,7 +143,7 @@ class BSBLearningToggle {
     setTimeout(() => {
       this.isToggling = false;
       this.button.removeAttribute('data-toggling');
-    }, 400);
+    }, CONSTANTS.TRANSITION_DELAY);
   }
 
   /**
@@ -229,7 +241,10 @@ class BSBLearningToggle {
       ? 'Disable interactive learning features'
       : 'Enable interactive learning features';
     this.button.setAttribute('title', title);
-    this.button.setAttribute('aria-label', `Learning mode is ${this.isLearningMode ? 'on' : 'off'}. Click to ${this.isLearningMode ? 'disable' : 'enable'}.`);
+    // Build aria-label with clear conditional logic
+    const modeStatus = this.isLearningMode ? 'on' : 'off';
+    const actionText = this.isLearningMode ? 'disable' : 'enable';
+    this.button.setAttribute('aria-label', `Learning mode is ${modeStatus}. Click to ${actionText}.`);
 
     // Update container state
     this.container.setAttribute('data-learning-active', this.isLearningMode);
@@ -238,7 +253,7 @@ class BSBLearningToggle {
   /**
    * Show notification with learning mode status
    */
-  showNotification({ title, message, type = 'info', duration = 5000, actions = [] }) {
+  showNotification({ title, message, type = 'info', duration = CONSTANTS.NOTIFICATION_DURATION, actions = [] }) {
     // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.bsb-learning-notification');
     existingNotifications.forEach(notification => notification.remove());
@@ -296,7 +311,7 @@ class BSBLearningToggle {
       setTimeout(() => {
         if (notification.parentNode) {
           notification.classList.remove('bsb-learning-notification--show');
-          setTimeout(() => notification.remove(), 300);
+          setTimeout(() => notification.remove(), CONSTANTS.FADE_DURATION);
         }
       }, duration);
     }
@@ -458,7 +473,7 @@ class BSBLearningToggle {
     } else {
       // Initialize if not yet loaded
       this.initializeMetaLearning().then(() => {
-        setTimeout(() => this.showLearningProgress(), 500);
+        setTimeout(() => this.showLearningProgress(), CONSTANTS.DEBOUNCE_DELAY);
       });
     }
   }
@@ -470,7 +485,7 @@ class BSBLearningToggle {
     if (window.BSBLearningProgress) {
       const { progress } = window.BSBLearningProgress;
       const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
-      const completion = Math.round((progress.componentsExplored.size / totalComponents) * 100);
+      const completion = Math.round((progress.componentsExplored.size / totalComponents) * CONSTANTS.PROGRESS_MAX);
 
       this.showNotification({
         title: '📊 Your Learning Progress',
@@ -485,11 +500,11 @@ class BSBLearningToggle {
    * Format time for display
    */
   formatTime(milliseconds) {
-    const minutes = Math.floor(milliseconds / 60000);
-    const hours = Math.floor(minutes / 60);
+    const minutes = Math.floor(milliseconds / CONSTANTS.MS_PER_MINUTE);
+    const hours = Math.floor(minutes / CONSTANTS.SECONDS_PER_MINUTE);
 
     if (hours > 0) {
-      return `${hours}h ${minutes % 60}m`;
+      return `${hours}h ${minutes % CONSTANTS.SECONDS_PER_MINUTE}m`;
     }
 
     return `${minutes}m`;

@@ -44,43 +44,43 @@ filesToProcess.forEach(filePath => {
   const originalContent = content;
   
   // Fix home/logo links
-  content = content.replace(/href="\.\.\/index\.html"/g, `href="${BASE_PATH}/"`);
-  content = content.replace(/href="\.\/index\.html"/g, `href="${BASE_PATH}/"`);
+  content = content.replace(/href="\.\.\/index\.html"/gu, `href="${BASE_PATH}/"`);
+  content = content.replace(/href="\.\/index\.html"/gu, `href="${BASE_PATH}/"`);
   
   // Fix navigation links in root pages
-  content = content.replace(/href="\.\/pages\//g, `href="${BASE_PATH}/pages/`);
+  content = content.replace(/href="\.\/pages\//gu, `href="${BASE_PATH}/pages/`);
   
   // Fix navigation links in subpages
-  content = content.replace(/href="\.\.\/pages\//g, `href="${BASE_PATH}/pages/`);
+  content = content.replace(/href="\.\.\/pages\//gu, `href="${BASE_PATH}/pages/`);
   
   // Fix asset paths
-  content = content.replace(/href="\.\.\/assets\//g, `href="${BASE_PATH}/assets/`);
-  content = content.replace(/href="\.\/assets\//g, `href="${BASE_PATH}/assets/`);
-  content = content.replace(/src="\.\.\/assets\//g, `src="${BASE_PATH}/assets/`);
-  content = content.replace(/src="\.\/assets\//g, `src="${BASE_PATH}/assets/`);
+  content = content.replace(/href="\.\.\/assets\//gu, `href="${BASE_PATH}/assets/`);
+  content = content.replace(/href="\.\/assets\//gu, `href="${BASE_PATH}/assets/`);
+  content = content.replace(/src="\.\.\/assets\//gu, `src="${BASE_PATH}/assets/`);
+  content = content.replace(/src="\.\/assets\//gu, `src="${BASE_PATH}/assets/`);
   
   // Fix style paths
-  content = content.replace(/href="\.\.\/styles\//g, `href="${BASE_PATH}/styles/`);
-  content = content.replace(/href="\.\/styles\//g, `href="${BASE_PATH}/styles/`);
+  content = content.replace(/href="\.\.\/styles\//gu, `href="${BASE_PATH}/styles/`);
+  content = content.replace(/href="\.\/styles\//gu, `href="${BASE_PATH}/styles/`);
   
   // Fix component paths
-  content = content.replace(/href="\.\.\/components\//g, `href="${BASE_PATH}/components/`);
-  content = content.replace(/href="\.\/components\//g, `href="${BASE_PATH}/components/`);
+  content = content.replace(/href="\.\.\/components\//gu, `href="${BASE_PATH}/components/`);
+  content = content.replace(/href="\.\/components\//gu, `href="${BASE_PATH}/components/`);
   
   // Fix script paths
-  content = content.replace(/src="\.\.\/scripts\//g, `src="${BASE_PATH}/scripts/`);
-  content = content.replace(/src="\.\/scripts\//g, `src="${BASE_PATH}/scripts/`);
+  content = content.replace(/src="\.\.\/scripts\//gu, `src="${BASE_PATH}/scripts/`);
+  content = content.replace(/src="\.\/scripts\//gu, `src="${BASE_PATH}/scripts/`);
   
   // Fix JS imports in Vite build
-  content = content.replace(/src="\.\.\/js\//g, `src="${BASE_PATH}/js/`);
-  content = content.replace(/src="\.\/js\//g, `src="${BASE_PATH}/js/`);
+  content = content.replace(/src="\.\.\/js\//gu, `src="${BASE_PATH}/js/`);
+  content = content.replace(/src="\.\/js\//gu, `src="${BASE_PATH}/js/`);
   
   // Fix CSS imports in Vite build
-  content = content.replace(/href="\.\.\/assets\/main/g, `href="${BASE_PATH}/assets/main`);
-  content = content.replace(/href="\.\/assets\/main/g, `href="${BASE_PATH}/assets/main`);
+  content = content.replace(/href="\.\.\/assets\/main/gu, `href="${BASE_PATH}/assets/main`);
+  content = content.replace(/href="\.\/assets\/main/gu, `href="${BASE_PATH}/assets/main`);
   
   // Fix any remaining relative paths that were missed
-  content = content.replace(/href="\.\.?\/(?!http|#|mailto)/g, (match, offset, string) => {
+  content = content.replace(/href="\.\.?\/(?!http|#|mailto)/gu, (match, offset, string) => {
     // Check what comes after
     const afterMatch = string.substring(offset + match.length);
     if (afterMatch.startsWith('pages/') || afterMatch.startsWith('assets/') || 
@@ -92,7 +92,7 @@ filesToProcess.forEach(filePath => {
   });
   
   // Fix component path in footer (special case with ../../)
-  content = content.replace(/href="\.\.\/\.\.\//g, `href="${BASE_PATH}/`);
+  content = content.replace(/href="\.\.\/\.\.\//gu, `href="${BASE_PATH}/`);
   
   // Write back only if changed
   if (content !== originalContent) {

@@ -16,6 +16,18 @@
  * @version 1.0.0
  */
 
+// Constants
+const CONSTANTS = {
+  TOOLTIP_HIDE_DELAY: 150,
+  POSITION_DIVISOR: 2,
+  INDENT_LEVEL_0: 0,
+  INDENT_LEVEL_1: 1,
+  INDENT_LEVEL_2: 2,
+  INDENT_LEVEL_3: 3,
+  MAX_DEPTH: 10,
+  TOOLTIP_SPACING: 10
+};
+
 class BSBFileExplorer {
   constructor(container) {
     this.container = container;
@@ -418,27 +430,27 @@ dist/           # Build output
 
     // Define the file structure hierarchy
     const structure = [
-      { path: '/package.json', indent: 0 },
-      { path: '/vite.config.js', indent: 0 },
-      { path: '/.gitignore', indent: 0 },
-      { path: '/README.md', indent: 0 },
-      { path: '/src', indent: 0, children: [
-        { path: '/src/components', indent: 1, children: [
-          { path: '/src/components/header', indent: 2, children: [
-            { path: '/src/components/header/header.html', indent: 3 },
-            { path: '/src/components/header/header.css', indent: 3 },
-            { path: '/src/components/header/header.js', indent: 3 }
+      { path: '/package.json', indent: CONSTANTS.INDENT_LEVEL_0 },
+      { path: '/vite.config.js', indent: CONSTANTS.INDENT_LEVEL_0 },
+      { path: '/.gitignore', indent: CONSTANTS.INDENT_LEVEL_0 },
+      { path: '/README.md', indent: CONSTANTS.INDENT_LEVEL_0 },
+      { path: '/src', indent: CONSTANTS.INDENT_LEVEL_0, children: [
+        { path: '/src/components', indent: CONSTANTS.INDENT_LEVEL_1, children: [
+          { path: '/src/components/header', indent: CONSTANTS.INDENT_LEVEL_2, children: [
+            { path: '/src/components/header/header.html', indent: CONSTANTS.INDENT_LEVEL_3 },
+            { path: '/src/components/header/header.css', indent: CONSTANTS.INDENT_LEVEL_3 },
+            { path: '/src/components/header/header.js', indent: CONSTANTS.INDENT_LEVEL_3 }
           ] }
         ] },
-        { path: '/src/styles', indent: 1, children: [
-          { path: '/src/styles/base', indent: 2, children: [
-            { path: '/src/styles/base/variables.css', indent: 3 }
+        { path: '/src/styles', indent: CONSTANTS.INDENT_LEVEL_1, children: [
+          { path: '/src/styles/base', indent: CONSTANTS.INDENT_LEVEL_2, children: [
+            { path: '/src/styles/base/variables.css', indent: CONSTANTS.INDENT_LEVEL_3 }
           ] }
         ] },
-        { path: '/src/scripts', indent: 1 }
+        { path: '/src/scripts', indent: CONSTANTS.INDENT_LEVEL_1 }
       ] },
-      { path: '/tests', indent: 0 },
-      { path: '/docs', indent: 0 }
+      { path: '/tests', indent: CONSTANTS.INDENT_LEVEL_0 },
+      { path: '/docs', indent: CONSTANTS.INDENT_LEVEL_0 }
     ];
 
     rootList.innerHTML = this.generateFileTreeHTML(structure);
@@ -450,7 +462,9 @@ dist/           # Build output
   generateFileTreeHTML(items) {
     return items.map(item => {
       const data = this.fileData[item.path];
-      if (!data) {return '';}
+      if (!data) {
+        return '';
+      }
 
       const isFolder = data.type === 'folder';
       const isExpanded = this.expandedFolders.has(item.path);
@@ -538,8 +552,8 @@ dist/           # Build output
     closeButton.addEventListener('click', this.closeLearningPanel);
 
     // Close panel on escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
         this.closeLearningPanel();
         this.hideTooltip();
       }
@@ -551,7 +565,9 @@ dist/           # Build output
    */
   handleItemInteraction(event) {
     const item = event.target.closest('.bsb-file-explorer__item');
-    if (!item) {return;}
+    if (!item) {
+      return;
+    }
 
     const { path } = item.dataset;
     const toggle = event.target.closest('.bsb-file-explorer__toggle');
@@ -572,7 +588,9 @@ dist/           # Build output
    */
   handleKeyboard(event) {
     const item = event.target.closest('.bsb-file-explorer__item');
-    if (!item) {return;}
+    if (!item) {
+      return;
+    }
 
     const { path } = item.dataset;
 
@@ -629,7 +647,9 @@ dist/           # Build output
    */
   showTooltip(event, path) {
     const data = this.fileData[path];
-    if (!data) {return;}
+    if (!data) {
+      return;
+    }
 
     clearTimeout(this.tooltipTimeout);
 
@@ -645,11 +665,11 @@ dist/           # Build output
 
     // Position tooltip
     const tooltipRect = this.tooltip.getBoundingClientRect();
-    const left = rect.left - containerRect.left + (rect.width / 2) - (tooltipRect.width / 2);
-    const top = rect.top - containerRect.top - tooltipRect.height - 10;
+    const left = rect.left - containerRect.left + (rect.width / CONSTANTS.POSITION_DIVISOR) - (tooltipRect.width / CONSTANTS.POSITION_DIVISOR);
+    const top = rect.top - containerRect.top - tooltipRect.height - CONSTANTS.TOOLTIP_SPACING;
 
-    this.tooltip.style.left = `${Math.max(10, Math.min(left, containerRect.width - tooltipRect.width - 10))}px`;
-    this.tooltip.style.top = `${Math.max(10, top)}px`;
+    this.tooltip.style.left = `${Math.max(CONSTANTS.TOOLTIP_SPACING, Math.min(left, containerRect.width - tooltipRect.width - CONSTANTS.TOOLTIP_SPACING))}px`;
+    this.tooltip.style.top = `${Math.max(CONSTANTS.TOOLTIP_SPACING, top)}px`;
 
     // Show tooltip
     this.tooltip.setAttribute('aria-hidden', 'false');
@@ -667,7 +687,7 @@ dist/           # Build output
     this.tooltipTimeout = setTimeout(() => {
       this.tooltip.setAttribute('aria-hidden', 'true');
       this.currentTooltip = null;
-    }, 150);
+    }, CONSTANTS.TOOLTIP_HIDE_DELAY);
   }
 
   /**
@@ -675,7 +695,9 @@ dist/           # Build output
    */
   showDetails(path) {
     const data = this.fileData[path];
-    if (!data || !data.details) {return;}
+    if (!data || !data.details) {
+      return;
+    }
 
     // Update panel content
     this.learningPanel.querySelector('.bsb-file-explorer__panel-title').textContent = data.title;

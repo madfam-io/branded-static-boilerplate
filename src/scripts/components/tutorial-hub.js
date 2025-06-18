@@ -26,6 +26,25 @@
  * =============================================================================
  */
 
+// Constants
+const CONSTANTS = {
+  PERCENTAGE_MAX: 100,
+  MIN_COMPLETION: 10,
+  FIRST_MILESTONE: 30,
+  SECOND_MILESTONE: 60,
+  THIRD_MILESTONE: 90,
+  CIRCLE_DIVISOR: 2,
+  CIRCLE_RADIUS: 45,
+  MIN_DURATION: 60,
+  MID_DURATION: 100,
+  MAX_DURATION: 95,
+  MS_PER_SECOND: 1000,
+  SECONDS_PER_MINUTE: 60,
+  FADE_DURATION: 300,
+  TOAST_DURATION: 4000,
+  NOTIFICATION_DELAY: 200
+};
+
 class TutorialHub {
   constructor() {
     this.tutorials = [
@@ -240,7 +259,9 @@ class TutorialHub {
    */
   updateTutorialGrid() {
     const grid = document.querySelector('.tutorials-grid');
-    if (!grid) {return;}
+    if (!grid) {
+      return;
+    }
 
     const cards = grid.querySelectorAll('.tutorial-card');
 
@@ -318,9 +339,15 @@ class TutorialHub {
     if (savedFilters) {
       try {
         const filters = JSON.parse(savedFilters);
-        if (difficultyFilter) {difficultyFilter.value = filters.difficulty || 'all';}
-        if (topicFilter) {topicFilter.value = filters.topic || 'all';}
-        if (sortSelect) {sortSelect.value = filters.sort || 'recommended';}
+        if (difficultyFilter) {
+          difficultyFilter.value = filters.difficulty || 'all';
+        }
+        if (topicFilter) {
+          topicFilter.value = filters.topic || 'all';
+        }
+        if (sortSelect) {
+          sortSelect.value = filters.sort || 'recommended';
+        }
       } catch (error) {
         console.warn('Failed to restore filter state:', error);
       }
@@ -336,9 +363,15 @@ class TutorialHub {
       localStorage.setItem('tutorial-hub-filters', JSON.stringify(filters));
     };
 
-    if (difficultyFilter) {difficultyFilter.addEventListener('change', saveFilters);}
-    if (topicFilter) {topicFilter.addEventListener('change', saveFilters);}
-    if (sortSelect) {sortSelect.addEventListener('change', saveFilters);}
+    if (difficultyFilter) {
+      difficultyFilter.addEventListener('change', saveFilters);
+    }
+    if (topicFilter) {
+      topicFilter.addEventListener('change', saveFilters);
+    }
+    if (sortSelect) {
+      sortSelect.addEventListener('change', saveFilters);
+    }
 
     // Apply initial filters
     this.applyFilters();
@@ -391,7 +424,7 @@ class TutorialHub {
     }, 0);
 
     const skillLevel = this.calculateSkillLevel(completedCount);
-    const overallPercentage = Math.round((completedCount / this.tutorials.length) * 100);
+    const overallPercentage = Math.round((completedCount / this.tutorials.length) * CONSTANTS.PERCENTAGE_MAX);
 
     // Update stat displays
     this.updateElement('[data-progress="tutorials-completed"]', completedCount);
@@ -405,12 +438,20 @@ class TutorialHub {
    */
   calculateSkillLevel(completedCount) {
     const total = this.tutorials.length;
-    const percentage = (completedCount / total) * 100;
+    const percentage = (completedCount / total) * CONSTANTS.PERCENTAGE_MAX;
 
-    if (percentage === 0) {return 'Beginner';}
-    if (percentage < 30) {return 'Learning';}
-    if (percentage < 60) {return 'Developing';}
-    if (percentage < 90) {return 'Proficient';}
+    if (percentage === 0) {
+      return 'Beginner';
+    }
+    if (percentage < CONSTANTS.FIRST_MILESTONE) {
+      return 'Learning';
+    }
+    if (percentage < CONSTANTS.SECOND_MILESTONE) {
+      return 'Developing';
+    }
+    if (percentage < CONSTANTS.THIRD_MILESTONE) {
+      return 'Proficient';
+    }
     return 'Expert';
   }
 
@@ -419,12 +460,12 @@ class TutorialHub {
    */
   updateProgressCircle() {
     const completedCount = Object.values(this.progressData).filter(p => p.completed).length;
-    const percentage = (completedCount / this.tutorials.length) * 100;
+    const percentage = (completedCount / this.tutorials.length) * CONSTANTS.PERCENTAGE_MAX;
 
     const progressCircle = document.querySelector('[data-progress-circle]');
     if (progressCircle) {
-      const circumference = 2 * Math.PI * 45; // Radius = 45
-      const offset = circumference - (percentage / 100) * circumference;
+      const circumference = CONSTANTS.CIRCLE_DIVISOR * Math.PI * CONSTANTS.CIRCLE_RADIUS; // Radius = 45
+      const offset = circumference - (percentage / CONSTANTS.PERCENTAGE_MAX) * circumference;
 
       progressCircle.style.strokeDashoffset = offset;
     }
@@ -452,8 +493,8 @@ class TutorialHub {
     const progressText = card.querySelector('.progress-text');
 
     if (progressBar && progressText) {
-      const percentage = progress.completed ? 100 :
-        Math.min((progress.timeSpent / (tutorial.duration * 60)) * 100, 95);
+      const percentage = progress.completed ? CONSTANTS.PERCENTAGE_MAX :
+        Math.min((progress.timeSpent / (tutorial.duration * CONSTANTS.SECONDS_PER_MINUTE)) * CONSTANTS.PERCENTAGE_MAX, CONSTANTS.MAX_DURATION);
 
       progressBar.style.width = `${percentage}%`;
 
@@ -509,7 +550,7 @@ class TutorialHub {
         this.progressData[tutorial.id] = { completed: false, timeSpent: 0 };
       }
 
-      this.progressData[tutorial.id].timeSpent += Math.round(timeMs / 1000 / 60); // Convert to minutes
+      this.progressData[tutorial.id].timeSpent += Math.round(timeMs / CONSTANTS.MS_PER_SECOND / CONSTANTS.SECONDS_PER_MINUTE); // Convert to minutes
       this.saveProgress();
     }
   }
@@ -542,7 +583,9 @@ class TutorialHub {
    */
   showCompletionCelebration(tutorialId) {
     const tutorial = this.getTutorialById(tutorialId);
-    if (!tutorial) {return;}
+    if (!tutorial) {
+      return;
+    }
 
     // Create celebration toast
     const toast = document.createElement('div');
@@ -581,22 +624,24 @@ class TutorialHub {
     // Remove after delay
     setTimeout(() => {
       toast.style.transform = 'translateX(100%)';
-      setTimeout(() => toast.remove(), 300);
-    }, 4000);
+      setTimeout(() => toast.remove(), CONSTANTS.FADE_DURATION);
+    }, CONSTANTS.TOAST_DURATION);
   }
 
   /**
    * Set up intersection observer for animations
    */
   setupIntersectionObserver() {
-    if (!window.IntersectionObserver) {return;}
+    if (!window.IntersectionObserver) {
+      return;
+    }
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           if (entry.target.classList.contains('progress-circle')) {
             // Animate progress circle
-            setTimeout(() => this.updateProgressCircle(), 200);
+            setTimeout(() => this.updateProgressCircle(), CONSTANTS.NOTIFICATION_DELAY);
           }
         }
       });

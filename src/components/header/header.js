@@ -23,6 +23,12 @@
 
 import { debug } from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  DESKTOP_BREAKPOINT: 768,
+  RESIZE_DEBOUNCE_DELAY: 250
+};
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
   initializeHeader();
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * @description Sets up mobile menu and keyboard navigation for all header components
  * @returns {void}
  */
-function initializeHeader() {
+const initializeHeader = function initializeHeader() {
   // Find all headers on the page (supports multiple headers)
   const headers = document.querySelectorAll('[data-bsb-component="header"]');
 
@@ -42,7 +48,7 @@ function initializeHeader() {
     setupMobileMenu(header);
     setupKeyboardNavigation(header);
   });
-}
+};
 
 /**
  * Setup mobile menu toggle functionality
@@ -51,7 +57,7 @@ function initializeHeader() {
  * @description Configures mobile menu toggle behavior and accessibility features
  * @returns {void}
  */
-function setupMobileMenu(header) {
+const setupMobileMenu = function setupMobileMenu(header) {
   const toggle = header.querySelector('.bsb-header__toggle');
   const nav = header.querySelector('.bsb-header__nav');
 
@@ -99,13 +105,13 @@ function setupMobileMenu(header) {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= CONSTANTS.DESKTOP_BREAKPOINT) {
         toggle.setAttribute('aria-expanded', 'false');
         nav.classList.remove('bsb-header__nav--active');
       }
-    }, 250);
+    }, CONSTANTS.RESIZE_DEBOUNCE_DELAY);
   });
-}
+};
 
 /**
  * Setup keyboard navigation enhancements
@@ -114,7 +120,7 @@ function setupMobileMenu(header) {
  * @description Adds keyboard navigation support including Escape key and focus trapping
  * @returns {void}
  */
-function setupKeyboardNavigation(header) {
+const setupKeyboardNavigation = function setupKeyboardNavigation(header) {
   const nav = header.querySelector('.bsb-header__nav');
   const toggle = header.querySelector('.bsb-header__toggle');
 
@@ -164,7 +170,7 @@ function setupKeyboardNavigation(header) {
       }
     });
   }
-}
+};
 
 /**
  * Utility: Mark current page in navigation
@@ -172,7 +178,7 @@ function setupKeyboardNavigation(header) {
  * @description Automatically adds aria-current="page" attribute based on current URL
  * @returns {void}
  */
-function markCurrentPage() {
+const markCurrentPage = function markCurrentPage() {
   const currentPath = window.location.pathname;
   const links = document.querySelectorAll('.bsb-header__link');
 
@@ -185,7 +191,7 @@ function markCurrentPage() {
       link.removeAttribute('aria-current');
     }
   });
-}
+};
 
 // Run current page marking on load
 markCurrentPage();

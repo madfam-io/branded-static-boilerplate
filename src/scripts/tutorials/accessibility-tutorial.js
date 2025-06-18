@@ -710,7 +710,9 @@ class AccessibleModal {
   }
   
   trapFocus(e) {
-    if (e.key !== 'Tab') return;
+    if (e.key !== 'Tab') {
+      return;
+    }
     
     const focusableElements = Array.from(
       this.modal.querySelectorAll(this.focusableElements)

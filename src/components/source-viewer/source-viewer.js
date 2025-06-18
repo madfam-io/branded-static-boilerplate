@@ -28,6 +28,16 @@
 
 import { debug } from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  RENDER_TIME_MIN: 10,
+  RENDER_TIME_RANGE: 50,
+  DELEGATED_LISTENER_COUNT: 3,
+  ATTRIBUTE_SPLIT_PARTS: 2,
+  PERFORMANCE_DIVISOR: 10,
+  HUNDRED_PERCENT: 100
+};
+
 /**
  * BSB Source Viewer Class
  * @class BSBSourceViewer
@@ -226,16 +236,16 @@ class BSBSourceViewer {
     });
 
     // Action buttons
-    this.viewer.addEventListener('click', e => {
-      const { action } = e.target.dataset;
+    this.viewer.addEventListener('click', event => {
+      const { action } = event.target.dataset;
       if (action) {
         this.handleAction(action);
       }
     });
 
     // Escape key to close
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && this.isActive) {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && this.isActive) {
         this.close();
       }
     });
@@ -300,8 +310,8 @@ class BSBSourceViewer {
       });
 
       // Click handler
-      button.addEventListener('click', e => {
-        e.stopPropagation();
+      button.addEventListener('click', event => {
+        event.stopPropagation();
         this.showComponentSource(component);
       });
 
@@ -406,7 +416,7 @@ class BSBSourceViewer {
     let formatted = html;
     let indent = 0;
 
-    formatted = formatted.replace(/></g, '>\n<');
+    formatted = formatted.replace(/></gu, '>\n<');
 
     const lines = formatted.split('\n');
     const formattedLines = lines.map(line => {
@@ -419,7 +429,7 @@ class BSBSourceViewer {
       const indented = '  '.repeat(indent) + trimmed;
 
       if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.endsWith('/>') && !trimmed.includes('</')) {
-        indent++;
+        indent += 1;
       }
 
       return indented;
@@ -452,7 +462,7 @@ class BSBSourceViewer {
             cssRules.push(rule.cssText);
           }
         });
-      } catch (e) {
+      } catch (error) {
         // Ignore cross-origin stylesheet errors
       }
     });
@@ -531,7 +541,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     this.viewer.querySelector('[data-metric-events]').textContent = eventCount;
 
     // Render time (mock - would use Performance API in production)
-    const renderTime = Math.round(Math.random() * 50 + 10);
+    const renderTime = Math.round(Math.random() * CONSTANTS.RENDER_TIME_RANGE + CONSTANTS.RENDER_TIME_MIN);
     this.viewer.querySelector('[data-metric-render]').textContent = `${renderTime}ms`;
   }
 
@@ -551,7 +561,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     const attributes = Array.from(element.attributes);
     attributes.forEach(attr => {
       if (attr.name.startsWith('on')) {
-        count++;
+        count += 1;
       }
     });
 
@@ -560,14 +570,14 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
       const childAttrs = Array.from(child.attributes);
       childAttrs.forEach(attr => {
         if (attr.name.startsWith('on')) {
-          count++;
+          count += 1;
         }
       });
     });
 
     // Estimate delegated listeners
     if (element.querySelector('button, a, input, select, textarea')) {
-      count += 3; // Assume some delegated listeners
+      count += CONSTANTS.DELEGATED_LISTENER_COUNT; // Assume some delegated listeners
     }
 
     return count;

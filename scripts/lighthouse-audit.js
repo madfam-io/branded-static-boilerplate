@@ -121,7 +121,7 @@ const LIGHTHOUSE_CONFIG = {
  * @param {string} url - URL to audit
  * @returns {Promise<Object>} Lighthouse results
  */
-async function runLighthouseAudit(url) {
+const runLighthouseAudit = async function runLighthouseAudit(url) {
   const chrome = await chromeLauncher.launch({
     chromeFlags: ['--headless', '--no-sandbox', '--disable-dev-shm-usage']
   });
@@ -146,7 +146,7 @@ async function runLighthouseAudit(url) {
  * @param {Object} results - Lighthouse results
  * @returns {Object} Extracted metrics
  */
-function extractMetrics(results) {
+const extractMetrics = function extractMetrics(results) {
   const { lhr } = results;
   const audits = lhr.audits;
 
@@ -194,7 +194,7 @@ function extractMetrics(results) {
  * @param {Object} metrics - Extracted metrics
  * @returns {Object} Budget analysis
  */
-function checkBudgets(metrics) {
+const checkBudgets = function checkBudgets(metrics) {
   const results = {
     passed: [],
     failed: [],
@@ -251,13 +251,43 @@ function checkBudgets(metrics) {
 }
 
 /**
+ * Get CSS class for score display
+ * @param {number} score - The score to classify
+ * @returns {string} CSS class name
+ */
+const getScoreClass = function getScoreClass(score) {
+  if (score >= 90) {
+    return 'score-90-100';
+  } else if (score >= 50) {
+    return 'score-50-89';
+  } else {
+    return 'score-0-49';
+  }
+}
+
+/**
+ * Get status icon for score display
+ * @param {number} score - The score to classify
+ * @returns {string} Status icon
+ */
+const getStatusIcon = function getStatusIcon(score) {
+  if (score >= 90) {
+    return '✅';
+  } else if (score >= 50) {
+    return '⚠️';
+  } else {
+    return '❌';
+  }
+}
+
+/**
  * Generate comprehensive audit report
  * @param {string} url - Audited URL
  * @param {Object} metrics - Extracted metrics
  * @param {Object} budgetResults - Budget analysis
  * @returns {string} HTML report
  */
-function generateReport(url, metrics, budgetResults) {
+const generateReport = function generateReport(url, metrics, budgetResults) {
   const timestamp = new Date().toISOString();
   const overallPassed = budgetResults.failed.length === 0;
 
@@ -361,11 +391,11 @@ function generateReport(url, metrics, budgetResults) {
 
   <div class="scores">
     ${Object.entries(metrics.scores).map(([category, score]) => {
-      const scoreClass = score >= 90 ? 'score-90-100' : score >= 50 ? 'score-50-89' : 'score-0-49';
+      const scoreClass = getScoreClass(score);
       return `
         <div class="score-card">
           <div class="score-value ${scoreClass}">${score}</div>
-          <div>${category.charAt(0).toUpperCase() + category.slice(1).replace(/([A-Z])/g, ' $1')}</div>
+          <div>${category.charAt(0).toUpperCase() + category.slice(1).replace(/([A-Z])/gu, ' $1')}</div>
         </div>
       `;
     }).join('')}
@@ -455,7 +485,7 @@ function generateReport(url, metrics, budgetResults) {
 /**
  * Main execution function
  */
-async function main() {
+const main = async function main() {
   const url = process.argv[2] || 'https://localhost:3000';
   
   console.log('🚀 Starting Lighthouse audit...');
@@ -500,7 +530,7 @@ async function main() {
     console.log('='.repeat(50));
     
     Object.entries(metrics.scores).forEach(([category, score]) => {
-      const status = score >= 90 ? '✅' : score >= 50 ? '⚠️' : '❌';
+      const status = getStatusIcon(score);
       console.log(`${status} ${category}: ${score}/100`);
     });
     

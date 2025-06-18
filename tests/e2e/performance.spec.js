@@ -197,9 +197,9 @@ test.describe('BSB Performance Tests', () => {
       await page.waitForLoadState('networkidle');
       
       // Analyze requests
-      const jsRequests = requests.filter(r => r.resourceType === 'script');
-      const cssRequests = requests.filter(r => r.resourceType === 'stylesheet');
-      const imageRequests = requests.filter(r => r.resourceType === 'image');
+      const jsRequests = requests.filter(request => request.resourceType === 'script');
+      const cssRequests = requests.filter(request => request.resourceType === 'stylesheet');
+      const imageRequests = requests.filter(request => request.resourceType === 'image');
       
       // Should have reasonable number of requests
       expect(jsRequests.length).toBeLessThan(10);
@@ -352,8 +352,8 @@ test.describe('BSB Performance Tests', () => {
       await page.waitForLoadState('networkidle');
       
       // Check for compression
-      const compressedResponses = responses.filter(r => 
-        r.contentEncoding === 'gzip' || r.contentEncoding === 'br'
+      const compressedResponses = responses.filter(response => 
+        response.contentEncoding === 'gzip' || response.contentEncoding === 'br'
       );
       
       // At least 50% of text assets should be compressed

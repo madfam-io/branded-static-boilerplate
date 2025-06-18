@@ -19,6 +19,37 @@
 
 import debug from './debug.js';
 
+// Constants
+const BYTES_PER_KB = 1024;
+const BYTES_PER_MB = BYTES_PER_KB * BYTES_PER_KB;
+
+const CONSTANTS = {
+  BYTES_PER_KB,
+  BYTES_PER_MB,
+  LARGE_RESOURCE_THRESHOLD: BYTES_PER_MB, // 1MB
+  SLOW_RESOURCE_THRESHOLD: 1000, // 1 second
+  MAX_RESOURCE_COUNT: 50,
+  INTERACTION_LOG_INTERVAL: 10,
+  MS_PER_MINUTE: 60000,
+  MEMORY_UPDATE_INTERVAL: 5000, // 5 seconds
+  MIN_INTERSECTION_RATIO: 0.01,
+  LAZY_LOAD_THRESHOLD: 0.1,
+  MAX_FID_DELAY: 10000,
+  ANIMATION_DURATION: 300,
+  ANIMATION_DELAY_STEP: 2,
+  TOAST_DURATION: 4000,
+  FLOAT_PRECISION: 0.25,
+  PRECISION_MULTIPLIER: 10000,
+
+  // Web Vitals thresholds
+  LCP_GOOD_THRESHOLD: 2500,
+  LCP_POOR_THRESHOLD: 4000,
+  FID_GOOD_THRESHOLD: 100,
+  FID_POOR_THRESHOLD: 300,
+  CLS_GOOD_THRESHOLD: 0.1,
+  CLS_POOR_THRESHOLD: 0.25
+};
+
 class PerformanceOptimizer {
   constructor() {
     this.metrics = {
@@ -146,7 +177,7 @@ class PerformanceOptimizer {
         entries.forEach(entry => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
-            this.metrics.vitals.cls = Math.round(clsValue * 10000) / 10000;
+            this.metrics.vitals.cls = Math.round(clsValue * CONSTANTS.PRECISION_MULTIPLIER) / CONSTANTS.PRECISION_MULTIPLIER;
             this.updateDashboard();
           }
         });
@@ -230,10 +261,18 @@ class PerformanceOptimizer {
    * Get resource type from URL
    */
   getResourceType(url) {
-    if (url.match(/\.(css)$/i)) {return 'stylesheet';}
-    if (url.match(/\.(js)$/i)) {return 'script';}
-    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/i)) {return 'image';}
-    if (url.match(/\.(woff|woff2|ttf|eot)$/i)) {return 'font';}
+    if (url.match(/\.(css)$/iu)) {
+      return 'stylesheet';
+    }
+    if (url.match(/\.(js)$/iu)) {
+      return 'script';
+    }
+    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/iu)) {
+      return 'image';
+    }
+    if (url.match(/\.(woff|woff2|ttf|eot)$/iu)) {
+      return 'font';
+    }
     return 'other';
   }
 
@@ -245,27 +284,27 @@ class PerformanceOptimizer {
     const recommendations = [];
 
     // Check for large resources
-    const largeResources = resources.filter(r => r.size > 1024 * 1024); // > 1MB
+    const largeResources = resources.filter(resource => resource.size > CONSTANTS.LARGE_RESOURCE_THRESHOLD); // > 1MB
     if (largeResources.length > 0) {
       recommendations.push({
         type: 'warning',
         message: `${largeResources.length} large resources detected. Consider optimization.`,
-        details: largeResources.map(r => `${r.name}: ${this.formatBytes(r.size)}`)
+        details: largeResources.map(resource => `${resource.name}: ${this.formatBytes(resource.size)}`)
       });
     }
 
     // Check for slow-loading resources
-    const slowResources = resources.filter(r => r.duration > 1000); // > 1s
+    const slowResources = resources.filter(resource => resource.duration > CONSTANTS.SLOW_RESOURCE_THRESHOLD); // > 1s
     if (slowResources.length > 0) {
       recommendations.push({
         type: 'warning',
         message: `${slowResources.length} slow-loading resources detected.`,
-        details: slowResources.map(r => `${r.name}: ${r.duration}ms`)
+        details: slowResources.map(resource => `${resource.name}: ${resource.duration}ms`)
       });
     }
 
     // Check for too many requests
-    if (resources.length > 50) {
+    if (resources.length > CONSTANTS.MAX_RESOURCE_COUNT) {
       recommendations.push({
         type: 'info',
         message: `${resources.length} total requests. Consider bundling or HTTP/2 push.`
@@ -304,17 +343,17 @@ class PerformanceOptimizer {
 
     ['click', 'touchstart', 'keydown', 'scroll'].forEach(eventType => {
       document.addEventListener(eventType, () => {
-        interactionCount++;
+        interactionCount += 1;
 
         // Sample every 10th interaction to avoid performance impact
-        if (interactionCount % 10 === 0) {
+        if (interactionCount % CONSTANTS.INTERACTION_LOG_INTERVAL === 0) {
           const currentTime = performance.now();
           const sessionDuration = currentTime - startTime;
 
           this.metrics.interactions = {
             count: interactionCount,
             sessionDuration: Math.round(sessionDuration),
-            interactionsPerMinute: Math.round((interactionCount / sessionDuration) * 60000)
+            interactionsPerMinute: Math.round((interactionCount / sessionDuration) * CONSTANTS.MS_PER_MINUTE)
           };
         }
       }, { passive: true });
@@ -328,15 +367,15 @@ class PerformanceOptimizer {
     if ('memory' in performance) {
       const updateMemory = () => {
         this.metrics.memory = {
-          used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
-          total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
-          limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024)
+          used: Math.round(performance.memory.usedJSHeapSize / CONSTANTS.BYTES_PER_MB),
+          total: Math.round(performance.memory.totalJSHeapSize / CONSTANTS.BYTES_PER_MB),
+          limit: Math.round(performance.memory.jsHeapSizeLimit / CONSTANTS.BYTES_PER_MB)
         };
         this.updateDashboard();
       };
 
       updateMemory();
-      setInterval(updateMemory, 5000); // Update every 5 seconds
+      setInterval(updateMemory, CONSTANTS.MEMORY_UPDATE_INTERVAL); // Update every 5 seconds
     }
   }
 
@@ -389,7 +428,7 @@ class PerformanceOptimizer {
         });
       }, {
         rootMargin: '50px 0px', // Start loading 50px before entering viewport
-        threshold: 0.01
+        threshold: CONSTANTS.MIN_INTERSECTION_RATIO
       });
 
       // Observe all lazy images
@@ -409,7 +448,7 @@ class PerformanceOptimizer {
         });
       }, {
         rootMargin: '100px 0px',
-        threshold: 0.1
+        threshold: CONSTANTS.LAZY_LOAD_THRESHOLD
       });
 
       document.querySelectorAll('[data-lazy-content]').forEach(element => {
@@ -486,9 +525,11 @@ class PerformanceOptimizer {
 
     Object.entries(formats).forEach(([format, dataUri]) => {
       const img = new Image();
-      img.onload = img.onerror = () => {
+      const handler = () => {
         document.documentElement.classList.toggle(`supports-${format}`, img.width === 1);
       };
+      img.onload = handler;
+      img.onerror = handler;
       img.src = dataUri;
     });
   }
@@ -531,7 +572,9 @@ class PerformanceOptimizer {
     const showDashboard = localStorage.getItem('bsb-show-performance') === 'true' ||
                          window.location.hostname === 'localhost';
 
-    if (!showDashboard) {return;}
+    if (!showDashboard) {
+      return;
+    }
 
     const dashboard = document.createElement('div');
     dashboard.id = 'bsb-performance-dashboard';
@@ -723,12 +766,14 @@ class PerformanceOptimizer {
    */
   updateDashboard() {
     const dashboard = document.getElementById('bsb-performance-dashboard');
-    if (!dashboard) {return;}
+    if (!dashboard) {
+      return;
+    }
 
     // Update Core Web Vitals
-    this.updateMetric('lcp', this.metrics.vitals.lcp, 'ms', { good: 2500, poor: 4000 });
-    this.updateMetric('fid', this.metrics.vitals.fid, 'ms', { good: 100, poor: 300 });
-    this.updateMetric('cls', this.metrics.vitals.cls, '', { good: 0.1, poor: 0.25 });
+    this.updateMetric('lcp', this.metrics.vitals.lcp, 'ms', { good: CONSTANTS.LCP_GOOD_THRESHOLD, poor: CONSTANTS.LCP_POOR_THRESHOLD });
+    this.updateMetric('fid', this.metrics.vitals.fid, 'ms', { good: CONSTANTS.FID_GOOD_THRESHOLD, poor: CONSTANTS.FID_POOR_THRESHOLD });
+    this.updateMetric('cls', this.metrics.vitals.cls, '', { good: CONSTANTS.CLS_GOOD_THRESHOLD, poor: CONSTANTS.CLS_POOR_THRESHOLD });
 
     // Update resource metrics
     this.updateMetric('resourceCount', this.metrics.resources.length, '');
@@ -741,7 +786,9 @@ class PerformanceOptimizer {
    */
   updateMetric(metricName, value, unit, thresholds = null) {
     const element = document.querySelector(`[data-metric="${metricName}"]`);
-    if (!element || value === undefined) {return;}
+    if (!element || value === undefined) {
+      return;
+    }
 
     element.textContent = value + (unit || '');
 
@@ -762,7 +809,9 @@ class PerformanceOptimizer {
    */
   updateRecommendations(recommendations) {
     const container = document.querySelector('[data-recommendations]');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = '';
 
@@ -786,11 +835,13 @@ class PerformanceOptimizer {
    * Format bytes to human readable
    */
   formatBytes(bytes) {
-    if (bytes === 0) {return '0 B';}
-    const k = 1024;
+    if (bytes === 0) {
+      return '0 B';
+    }
+    const kilobyte = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return `${parseFloat((bytes / k**i).toFixed(1))} ${sizes[i]}`;
+    const sizeIndex = Math.floor(Math.log(bytes) / Math.log(kilobyte));
+    return `${parseFloat((bytes / kilobyte**sizeIndex).toFixed(1))} ${sizes[sizeIndex]}`;
   }
 
   /**
@@ -814,10 +865,10 @@ class PerformanceOptimizer {
 
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `performance-report-${Date.now()}.json`;
-    a.click();
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = `performance-report-${Date.now()}.json`;
+    downloadLink.click();
     URL.revokeObjectURL(url);
   }
 
@@ -828,17 +879,17 @@ class PerformanceOptimizer {
     const recommendations = [];
 
     // LCP recommendations
-    if (this.metrics.vitals.lcp > 4000) {
+    if (this.metrics.vitals.lcp > CONSTANTS.LCP_POOR_THRESHOLD) {
       recommendations.push('Optimize Largest Contentful Paint: Consider reducing server response times, optimizing resource loading, and removing render-blocking resources.');
     }
 
     // FID recommendations
-    if (this.metrics.vitals.fid > 300) {
+    if (this.metrics.vitals.fid > CONSTANTS.FID_POOR_THRESHOLD) {
       recommendations.push('Improve First Input Delay: Reduce JavaScript execution time, split code into smaller chunks, and use web workers for heavy computations.');
     }
 
     // CLS recommendations
-    if (this.metrics.vitals.cls > 0.25) {
+    if (this.metrics.vitals.cls > CONSTANTS.CLS_POOR_THRESHOLD) {
       recommendations.push('Reduce Cumulative Layout Shift: Add dimensions to images and videos, avoid inserting content above existing content, and use CSS transforms instead of changing layout properties.');
     }
 

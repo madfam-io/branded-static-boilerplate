@@ -87,7 +87,7 @@ const PERFORMANCE_DATA_PATH = join(__dirname, 'performance-data');
  * @description Creates performance data directory if it doesn't exist
  * @since 1.0.0
  */
-function ensureDataDirectory() {
+const ensureDataDirectory = function ensureDataDirectory() {
   if (!existsSync(PERFORMANCE_DATA_PATH)) {
     mkdirSync(PERFORMANCE_DATA_PATH, { recursive: true });
   }
@@ -105,7 +105,7 @@ function ensureDataDirectory() {
  * @example
  * const results = await runLighthouseAudit('index.html');
  */
-async function runLighthouseAudit(url, options = {}) {
+const runLighthouseAudit = async function runLighthouseAudit(url, options = {}) {
   return new Promise((resolve, reject) => {
     const distPath = join(__dirname, 'dist');
     const fullUrl = `file://${join(distPath, url)}`;
@@ -161,7 +161,7 @@ async function runLighthouseAudit(url, options = {}) {
  * @returns {Object} Extracted metrics
  * @since 1.0.0
  */
-function extractMetrics(lighthouseResult) {
+const extractMetrics = function extractMetrics(lighthouseResult) {
   const audits = lighthouseResult.audits;
   const categories = lighthouseResult.categories;
   
@@ -214,10 +214,16 @@ function extractMetrics(lighthouseResult) {
  * @returns {string} Evaluation result
  * @since 1.0.0
  */
-function evaluateMetric(value, thresholds) {
-  if (value === null || value === undefined) return 'unknown';
-  if (value <= thresholds.good) return 'good';
-  if (value <= thresholds.poor) return 'needs-improvement';
+const evaluateMetric = function evaluateMetric(value, thresholds) {
+  if (value === null || value === undefined) {
+    return 'unknown';
+  }
+  if (value <= thresholds.good) {
+    return 'good';
+  }
+  if (value <= thresholds.poor) {
+    return 'needs-improvement';
+  }
   return 'poor';
 }
 
@@ -229,7 +235,7 @@ function evaluateMetric(value, thresholds) {
  * @param {string} filename - Output filename
  * @since 1.0.0
  */
-function storePerformanceData(metrics, filename) {
+const storePerformanceData = function storePerformanceData(metrics, filename) {
   ensureDataDirectory();
   
   const filePath = join(PERFORMANCE_DATA_PATH, filename);
@@ -266,15 +272,19 @@ function storePerformanceData(metrics, filename) {
  * @returns {Array} List of detected regressions
  * @since 1.0.0
  */
-function detectRegressions(currentMetrics, filename) {
+const detectRegressions = function detectRegressions(currentMetrics, filename) {
   const filePath = join(PERFORMANCE_DATA_PATH, filename);
   const regressions = [];
   
-  if (!existsSync(filePath)) return regressions;
+  if (!existsSync(filePath)) {
+    return regressions;
+  }
   
   try {
     const historicalData = JSON.parse(readFileSync(filePath, 'utf8'));
-    if (historicalData.length < 2) return regressions;
+    if (historicalData.length < 2) {
+      return regressions;
+    }
     
     // Get last 5 data points for baseline
     const baseline = historicalData.slice(-5);
@@ -282,13 +292,17 @@ function detectRegressions(currentMetrics, filename) {
     
     metrics.forEach(metric => {
       const currentValue = currentMetrics[metric];
-      if (currentValue === null || currentValue === undefined) return;
+      if (currentValue === null || currentValue === undefined) {
+        return;
+      }
       
       const baselineValues = baseline
         .map(data => data[metric])
         .filter(val => val !== null && val !== undefined);
       
-      if (baselineValues.length === 0) return;
+      if (baselineValues.length === 0) {
+        return;
+      }
       
       const baselineAvg = baselineValues.reduce((sum, val) => sum + val, 0) / baselineValues.length;
       const regressionThreshold = metric === 'performance' ? 0.9 : 1.2; // 10% worse for scores, 20% worse for times
@@ -327,7 +341,7 @@ function detectRegressions(currentMetrics, filename) {
  * @param {Array} regressions - Detected regressions
  * @since 1.0.0
  */
-function displayPerformanceReport(metrics, regressions = []) {
+const displayPerformanceReport = function displayPerformanceReport(metrics, regressions = []) {
   console.log(chalk.cyan('\n⚡ BSB Performance Monitoring Report'));
   console.log(chalk.cyan('=' .repeat(50)));
   
@@ -347,7 +361,9 @@ function displayPerformanceReport(metrics, regressions = []) {
   ];
   
   vitals.forEach(vital => {
-    if (vital.value === null) return;
+    if (vital.value === null) {
+      return;
+    }
     
     const evaluation = evaluateMetric(vital.value, vital.thresholds);
     const color = evaluation === 'good' ? chalk.green : 
@@ -371,7 +387,9 @@ function displayPerformanceReport(metrics, regressions = []) {
   ];
   
   scores.forEach(score => {
-    if (score.value === null) return;
+    if (score.value === null) {
+      return;
+    }
     
     const evaluation = score.value >= score.thresholds.good ? 'good' :
                       score.value >= score.thresholds.poor ? 'needs-improvement' : 'poor';
@@ -420,7 +438,7 @@ function displayPerformanceReport(metrics, regressions = []) {
  * @returns {Promise<Object>} Performance metrics
  * @since 1.0.0
  */
-async function monitorURL(url, options = {}) {
+const monitorURL = async function monitorURL(url, options = {}) {
   console.log(chalk.blue(`\n🔍 Monitoring performance for: ${url}`));
   
   try {
@@ -428,7 +446,7 @@ async function monitorURL(url, options = {}) {
     const metrics = extractMetrics(lighthouseResult);
     
     // Store performance data
-    const filename = `${url.replace(/[^a-zA-Z0-9]/g, '_')}_performance.json`;
+    const filename = `${url.replace(/[^a-zA-Z0-9]/gu, '_')}_performance.json`;
     storePerformanceData(metrics, filename);
     
     // Detect regressions
@@ -452,7 +470,7 @@ async function monitorURL(url, options = {}) {
  * @param {Array<string>} args - Command line arguments
  * @since 1.0.0
  */
-async function main(args = []) {
+const main = async function main(args = []) {
   const isContinuous = args.includes('--continuous');
   const urls = PERFORMANCE_CONFIG.urls;
   

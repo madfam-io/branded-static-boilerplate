@@ -25,6 +25,12 @@
 
 import debug from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  FOCUS_DELAY: 100,
+  TRANSITION_DELAY: 50
+};
+
 /**
  * BSB Theme Toggle Component
  * @class BSBThemeToggle
@@ -95,13 +101,13 @@ class BSBThemeToggle {
     });
 
     // Keyboard navigation
-    this.element.addEventListener('keydown', e => {
-      this.handleKeydown(e);
+    this.element.addEventListener('keydown', event => {
+      this.handleKeydown(event);
     });
 
     // Click outside to close menu
-    document.addEventListener('click', e => {
-      if (!this.element.contains(e.target)) {
+    document.addEventListener('click', event => {
+      if (!this.element.contains(event.target)) {
         this.closeMenu();
       }
     });
@@ -216,7 +222,7 @@ class BSBThemeToggle {
       if (firstOption) {
         firstOption.focus();
       }
-    }, 100);
+    }, CONSTANTS.FOCUS_DELAY);
   }
 
   /**
@@ -281,7 +287,7 @@ class BSBThemeToggle {
     if (!animate) {
       setTimeout(() => {
         body.classList.remove('no-transition');
-      }, 50);
+      }, CONSTANTS.TRANSITION_DELAY);
     }
   }
 
@@ -415,7 +421,7 @@ class BSBThemeToggle {
  * @description Finds and initializes all theme toggle components on the page
  * @returns {void}
  */
-function initializeThemeToggles() {
+const initializeThemeToggles = function initializeThemeToggles() {
   const toggles = document.querySelectorAll('[data-bsb-component="theme-toggle"]');
 
   toggles.forEach(toggle => {
@@ -424,7 +430,7 @@ function initializeThemeToggles() {
 
   // Log initialization in development only
   debug.log(`BSB Theme Toggle: Initialized ${toggles.length} toggle(s) 🎨`);
-}
+};
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {

@@ -30,6 +30,11 @@ import './language-toggle.js';
 import './accessibility-enhancer.js';
 import './performance-optimizer.js';
 
+// Constants
+const CONSTANTS = {
+  SCROLL_OFFSET: 20
+};
+
 /**
  * Initialize all BSB features
  * @function initializeBSB
@@ -46,7 +51,7 @@ import './performance-optimizer.js';
  *   initializeBSB();
  * }
  */
-function initializeBSB() {
+const initializeBSB = function initializeBSB() {
   // Initialize smooth scrolling
   initSmoothScrolling();
 
@@ -64,7 +69,7 @@ function initializeBSB() {
 
   // Log initialization in development only
   debug.log('BSB: All systems initialized 🚀');
-}
+};
 
 /**
  * Smooth scrolling for anchor links
@@ -79,7 +84,7 @@ function initializeBSB() {
  * // Automatically called during BSB initialization
  * // Handles links like <a href="#section1">Go to Section 1</a>
  */
-function initSmoothScrolling() {
+const initSmoothScrolling = function initSmoothScrolling() {
   // Find all links that point to anchors
   const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
 
@@ -94,7 +99,7 @@ function initSmoothScrolling() {
         // Calculate offset for fixed header
         const header = document.querySelector('.bsb-header');
         const headerHeight = header ? header.offsetHeight : 0;
-        const targetPosition = targetElement.offsetTop - headerHeight - 20;
+        const targetPosition = targetElement.offsetTop - headerHeight - CONSTANTS.SCROLL_OFFSET;
 
         // Smooth scroll to target
         window.scrollTo({
@@ -111,7 +116,7 @@ function initSmoothScrolling() {
       }
     });
   });
-}
+};
 
 /**
  * Form enhancements
@@ -119,7 +124,7 @@ function initSmoothScrolling() {
  * @description Adds progressive enhancements to forms including floating labels and validation
  * @returns {void}
  */
-function initFormEnhancements() {
+const initFormEnhancements = function initFormEnhancements() {
   // Add floating labels
   const formInputs = document.querySelectorAll('.form-input, .form-textarea');
 
@@ -143,10 +148,10 @@ function initFormEnhancements() {
   const forms = document.querySelectorAll('form[data-bsb-validate]');
 
   forms.forEach(form => {
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', event => {
       if (!form.checkValidity()) {
-        e.preventDefault();
-        e.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation();
 
         // Add validation classes
         form.classList.add('was-validated');
@@ -159,7 +164,7 @@ function initFormEnhancements() {
       }
     });
   });
-}
+};
 
 /**
  * Lazy loading for images
@@ -167,7 +172,7 @@ function initFormEnhancements() {
  * @description Implements intersection observer-based lazy loading for images
  * @returns {void}
  */
-function initLazyLoading() {
+const initLazyLoading = function initLazyLoading() {
   // Check if browser supports IntersectionObserver
   if ('IntersectionObserver' in window) {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
@@ -193,7 +198,7 @@ function initLazyLoading() {
 
     lazyImages.forEach(img => imageObserver.observe(img));
   }
-}
+};
 
 /**
  * Update dynamic content
@@ -201,7 +206,7 @@ function initLazyLoading() {
  * @description Updates copyright years and other dynamic content elements
  * @returns {void}
  */
-function updateDynamicContent() {
+const updateDynamicContent = function updateDynamicContent() {
   // Update copyright year
   const currentYear = new Date().getFullYear();
   const yearElements = document.querySelectorAll('time[datetime]');
@@ -222,14 +227,14 @@ function updateDynamicContent() {
     const text = element.innerHTML;
     // Replace year pattern (© YYYY) with current year
     const updatedText = text.replace(
-      /©\s*<time[^>]*>(\d{4})<\/time>/,
+      /©\s*<time[^>]*>(\d{4})<\/time>/u,
       `© <time datetime="${currentYear}">${currentYear}</time>`
     );
     if (updatedText !== text) {
       element.innerHTML = updatedText;
     }
   });
-}
+};
 
 /**
  * Accessibility enhancements
@@ -237,10 +242,10 @@ function updateDynamicContent() {
  * @description Enhances keyboard navigation and screen reader support
  * @returns {void}
  */
-function initAccessibility() {
+const initAccessibility = function initAccessibility() {
   // Add keyboard navigation indicators
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Tab') {
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Tab') {
       document.body.classList.add('keyboard-nav');
     }
   });
@@ -253,8 +258,8 @@ function initAccessibility() {
   const skipLinks = document.querySelectorAll('.skip-link');
 
   skipLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
+    link.addEventListener('click', event => {
+      event.preventDefault();
       const target = document.querySelector(link.getAttribute('href'));
 
       if (target) {
@@ -264,7 +269,7 @@ function initAccessibility() {
       }
     });
   });
-}
+};
 
 /**
  * Performance monitoring
@@ -272,7 +277,7 @@ function initAccessibility() {
  * @description Monitors and logs performance metrics in development environment
  * @returns {void}
  */
-function monitorPerformance() {
+const monitorPerformance = function monitorPerformance() {
   // Only in development
   if (window.location.hostname === 'localhost') {
     window.addEventListener('load', () => {
@@ -284,7 +289,7 @@ function monitorPerformance() {
       debug.log(`- Total Resources: ${performance.getEntriesByType('resource').length}`);
     });
   }
-}
+};
 
 /**
  * Utility: Debounce function
@@ -320,11 +325,13 @@ window.BSBUtils = {
    */
   throttle(func, limit) {
     let inThrottle;
-    return function(...args) {
+    return function throttledFunction(...args) {
       if (!inThrottle) {
         func.apply(this, args);
         inThrottle = true;
-        setTimeout(() => { inThrottle = false; }, limit);
+        setTimeout(() => {
+          inThrottle = false;
+        }, limit);
       }
     };
   }

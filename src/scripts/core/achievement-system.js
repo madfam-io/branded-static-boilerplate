@@ -6,6 +6,18 @@
  * for completing tutorials, challenges, and exploring components.
  */
 
+// Constants
+const CONSTANTS = {
+  EXPLORER_THRESHOLD: 5,
+  MASTER_THRESHOLD: 10,
+  LEGEND_THRESHOLD: 25,
+  NOTIFICATION_DURATION: 4000,
+  CODE_TIME_HOURS: 9,
+  CODE_TIME_DAY: 22,
+  TIMER_INTERVAL: 600000, // 10 minutes
+  MIN_DURATION_TIME: 10
+};
+
 export class AchievementSystem {
   constructor() {
     this.achievements = this.initializeAchievements();
@@ -43,7 +55,7 @@ export class AchievementSystem {
         type: 'tutorial',
         unlocked: false,
         condition: 'complete_tutorial',
-        count: 5
+        count: CONSTANTS.EXPLORER_THRESHOLD
       },
 
       'css-ninja': {
@@ -73,13 +85,13 @@ export class AchievementSystem {
       'playground-enthusiast': {
         id: 'playground-enthusiast',
         title: 'Playground Enthusiast',
-        description: 'Run code in the playground 25 times',
+        description: `Run code in the playground ${CONSTANTS.LEGEND_THRESHOLD} times`,
         icon: '⚡',
         points: 30,
         type: 'interaction',
         unlocked: false,
         condition: 'run_code',
-        count: 25
+        count: CONSTANTS.LEGEND_THRESHOLD
       },
 
       // Learning Mode Achievements
@@ -92,7 +104,7 @@ export class AchievementSystem {
         type: 'engagement',
         unlocked: false,
         condition: 'learning_time',
-        count: 600000 // 10 minutes in milliseconds
+        count: CONSTANTS.TIMER_INTERVAL // 10 minutes in milliseconds
       },
 
       // Accessibility Achievements
@@ -145,7 +157,7 @@ export class AchievementSystem {
       'early-bird': {
         id: 'early-bird',
         title: 'Early Bird',
-        description: 'Visit BSB before 9 AM',
+        description: `Visit BSB before ${CONSTANTS.CODE_TIME_HOURS} AM`,
         icon: '🌅',
         points: 15,
         type: 'special',
@@ -560,19 +572,19 @@ export class AchievementSystem {
 
   bindEvents() {
     // Toggle achievement panel
-    document.addEventListener('click', e => {
-      if (e.target.closest('#achievement-toggle')) {
+    document.addEventListener('click', event => {
+      if (event.target.closest('#achievement-toggle')) {
         this.togglePanel();
-      } else if (e.target.id === 'close-achievements') {
+      } else if (event.target.id === 'close-achievements') {
         this.closePanel();
-      } else if (e.target.closest('.category-filter')) {
-        this.filterAchievements(e.target.dataset.type);
+      } else if (event.target.closest('.category-filter')) {
+        this.filterAchievements(event.target.dataset.type);
       }
     });
 
     // Close panel on escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
         this.closePanel();
       }
     });
@@ -583,13 +595,13 @@ export class AchievementSystem {
 
   bindAchievementTracking() {
     // Track tutorial completions
-    document.addEventListener('tutorial-completed', e => {
-      this.trackTutorialCompletion(e.detail.tutorialId);
+    document.addEventListener('tutorial-completed', event => {
+      this.trackTutorialCompletion(event.detail.tutorialId);
     });
 
     // Track component views
-    document.addEventListener('component-viewed', e => {
-      this.trackComponentView(e.detail.componentId);
+    document.addEventListener('component-viewed', event => {
+      this.trackComponentView(event.detail.componentId);
     });
 
     // Track code runs
@@ -598,8 +610,8 @@ export class AchievementSystem {
     });
 
     // Track theme changes
-    document.addEventListener('theme-changed', e => {
-      if (e.detail.theme === 'dark') {
+    document.addEventListener('theme-changed', event => {
+      if (event.detail.theme === 'dark') {
         this.unlockAchievement('dark-mode-fan');
       }
     });
@@ -641,8 +653,8 @@ export class AchievementSystem {
 
     // Filter achievements
     achievements.forEach(item => {
-      const achievementId = item.querySelector('.achievement-title').textContent.toLowerCase().replace(/\s+/g, '-');
-      const achievement = Object.values(this.achievements).find(a => a.title.toLowerCase().replace(/\s+/g, '-') === achievementId);
+      const achievementId = item.querySelector('.achievement-title').textContent.toLowerCase().replace(/\s+/gu, '-');
+      const achievement = Object.values(this.achievements).find(a => a.title.toLowerCase().replace(/\s+/gu, '-') === achievementId);
 
       if (type === 'all' || (achievement && achievement.type === type)) {
         item.style.display = 'flex';
@@ -695,7 +707,7 @@ export class AchievementSystem {
     // Auto-hide after 4 seconds
     setTimeout(() => {
       notification.classList.add('hidden');
-    }, 4000);
+    }, CONSTANTS.NOTIFICATION_DURATION);
   }
 
   updateAchievementCount() {
@@ -749,10 +761,10 @@ export class AchievementSystem {
   }
 
   trackCodeRun() {
-    this.userProgress.codeRuns++;
+    this.userProgress.codeRuns += 1;
     this.saveProgress();
 
-    if (this.userProgress.codeRuns >= 25) {
+    if (this.userProgress.codeRuns >= CONSTANTS.LEGEND_THRESHOLD) {
       this.unlockAchievement('playground-enthusiast');
     }
   }
@@ -761,15 +773,15 @@ export class AchievementSystem {
     let learningModeStartTime = null;
 
     // Listen for learning mode toggle
-    document.addEventListener('learning-mode-changed', e => {
-      if (e.detail.enabled) {
+    document.addEventListener('learning-mode-changed', event => {
+      if (event.detail.enabled) {
         learningModeStartTime = Date.now();
       } else if (learningModeStartTime) {
         const sessionTime = Date.now() - learningModeStartTime;
         this.userProgress.learningModeTime += sessionTime;
         this.saveProgress();
 
-        if (this.userProgress.learningModeTime >= 600000) { // 10 minutes
+        if (this.userProgress.learningModeTime >= CONSTANTS.TIMER_INTERVAL) { // 10 minutes
           this.unlockAchievement('learning-advocate');
         }
 
@@ -782,9 +794,9 @@ export class AchievementSystem {
     const now = new Date();
     const hour = now.getHours();
 
-    if (hour < 9) {
+    if (hour < CONSTANTS.CODE_TIME_HOURS) {
       this.unlockAchievement('early-bird');
-    } else if (hour >= 22) {
+    } else if (hour >= CONSTANTS.CODE_TIME_DAY) {
       this.unlockAchievement('night-owl');
     }
   }
@@ -803,7 +815,7 @@ export class AchievementSystem {
     if (this.userProgress.componentsViewed.length >= 10) {
       this.unlockAchievement('component-explorer');
     }
-    if (this.userProgress.codeRuns >= 25) {
+    if (this.userProgress.codeRuns >= CONSTANTS.LEGEND_THRESHOLD) {
       this.unlockAchievement('playground-enthusiast');
     }
   }

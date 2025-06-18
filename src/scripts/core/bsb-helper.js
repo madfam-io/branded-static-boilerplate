@@ -162,8 +162,8 @@ class BSBHelper {
         helper.className = 'bsb-dev-helper';
         helper.setAttribute('aria-label', `View ${name} component docs`);
         helper.innerHTML = '?';
-        helper.addEventListener('click', e => {
-          e.stopPropagation();
+        helper.addEventListener('click', event => {
+          event.stopPropagation();
           this.showComponentDocs(name, element);
         });
 
@@ -230,29 +230,29 @@ class BSBHelper {
    * @returns {void}
    */
   setupKeyboardShortcuts() {
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', event => {
       // Only in dev mode
       if (!this.devMode) {
         return;
       }
 
       // Ctrl/Cmd + key combinations
-      if (e.ctrlKey || e.metaKey) {
-        switch (e.key.toLowerCase()) {
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key.toLowerCase()) {
           case 'g':
-            e.preventDefault();
+            event.preventDefault();
             this.toggleGrid();
             break;
           case 'h':
-            e.preventDefault();
+            event.preventDefault();
             this.toggleHelpers();
             break;
           case 'i':
-            e.preventDefault();
+            event.preventDefault();
             this.toggleInspectMode();
             break;
           case 'd':
-            e.preventDefault();
+            event.preventDefault();
             this.toggleDevPanel();
             break;
         }
@@ -356,11 +356,11 @@ class BSBHelper {
    * @description Handles clicks during inspection mode to show component docs
    * @returns {void}
    */
-  inspectHandler = e => {
-    const component = e.target.closest('[data-bsb-component]');
+  inspectHandler = event => {
+    const component = event.target.closest('[data-bsb-component]');
     if (component) {
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       const name = component.dataset.bsbComponent;
       this.showComponentDocs(name, component);
     }
@@ -373,13 +373,13 @@ class BSBHelper {
    * @description Highlights components on hover during inspection mode
    * @returns {void}
    */
-  highlightHandler = e => {
+  highlightHandler = event => {
     // Remove previous highlights
     document.querySelectorAll('.bsb-highlight').forEach(el => {
       el.classList.remove('bsb-highlight');
     });
 
-    const component = e.target.closest('[data-bsb-component]');
+    const component = event.target.closest('[data-bsb-component]');
     if (component) {
       component.classList.add('bsb-highlight');
     }
@@ -696,7 +696,7 @@ window.BSBHelper = bsbHelper;
  * @description Enables BSB development mode and shows notification
  * @returns {void}
  */
-window.enableLearningMode = function() {
+window.enableLearningMode = function enableLearningMode() {
   localStorage.setItem('bsb-dev-mode', 'true');
 
   // Show a notification
@@ -727,7 +727,7 @@ window.enableLearningMode = function() {
  * Disable learning mode and clean up features
  * @global
  */
-window.disableLearningMode = function() {
+window.disableLearningMode = function disableLearningMode() {
   localStorage.setItem('bsb-dev-mode', 'false');
 
   // Hide development features if BSBHelper is active

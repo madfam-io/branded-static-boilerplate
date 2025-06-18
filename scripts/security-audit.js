@@ -60,7 +60,7 @@ const REQUIRED_HEADERS = {
  * Run npm audit for dependency vulnerabilities
  * @returns {Promise<Object>} Audit results
  */
-async function runDependencyAudit() {
+const runDependencyAudit = async function runDependencyAudit() {
   try {
     console.log('🔍 Scanning dependencies for vulnerabilities...');
     
@@ -88,7 +88,7 @@ async function runDependencyAudit() {
  * @param {string} url - URL to check
  * @returns {Promise<Object>} Header analysis
  */
-async function checkSecurityHeaders(url) {
+const checkSecurityHeaders = async function checkSecurityHeaders(url) {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
     const isHttps = urlObj.protocol === 'https:';
@@ -162,14 +162,14 @@ async function checkSecurityHeaders(url) {
  * @param {string} csp - CSP header value
  * @returns {Object} CSP analysis
  */
-function analyzeCsp(csp) {
+const analyzeCsp = function analyzeCsp(csp) {
   const directives = {};
   const issues = [];
   const recommendations = [];
   
   // Parse CSP directives
   csp.split(';').forEach(directive => {
-    const parts = directive.trim().split(/\\s+/);
+    const parts = directive.trim().split(/\\s+/u);
     if (parts.length > 0) {
       const name = parts[0];
       const values = parts.slice(1);
@@ -221,7 +221,7 @@ function analyzeCsp(csp) {
  * Check for common static site security issues
  * @returns {Array} Security recommendations
  */
-function checkStaticSiteSecurityBestPractices() {
+const checkStaticSiteSecurityBestPractices = function checkStaticSiteSecurityBestPractices() {
   const issues = [];
   const recommendations = [];
   
@@ -288,11 +288,68 @@ function checkStaticSiteSecurityBestPractices() {
 }
 
 /**
+ * Get status class based on total issues
+ * @param {number} totalIssues - Number of total issues
+ * @returns {string} CSS class name
+ */
+const getStatusClass = function getStatusClass(totalIssues) {
+  if (totalIssues === 0) {
+    return 'status-good';
+  } else if (totalIssues < 5) {
+    return 'status-warning';
+  } else {
+    return 'status-danger';
+  }
+}
+
+/**
+ * Get status message based on total issues
+ * @param {number} totalIssues - Number of total issues
+ * @returns {string} Status message
+ */
+const getStatusMessage = function getStatusMessage(totalIssues) {
+  if (totalIssues === 0) {
+    return '✅ No security issues detected!';
+  } else if (totalIssues < 5) {
+    return `⚠️ ${totalIssues} security issues found`;
+  } else {
+    return `❌ ${totalIssues} security issues found`;
+  }
+}
+
+/**
+ * Get dependency status class
+ * @param {number} vulnCount - Number of vulnerabilities
+ * @returns {string} CSS class name
+ */
+const getDependencyStatus = function getDependencyStatus(vulnCount) {
+  return vulnCount === 0 ? 'status-good' : 'status-danger';
+}
+
+/**
+ * Get header status class
+ * @param {number} missingCount - Number of missing headers
+ * @returns {string} CSS class name
+ */
+const getHeaderStatus = function getHeaderStatus(missingCount) {
+  return missingCount === 0 ? 'status-good' : 'status-danger';
+}
+
+/**
+ * Get static site status class
+ * @param {number} issueCount - Number of static site issues
+ * @returns {string} CSS class name
+ */
+const getStaticSiteStatus = function getStaticSiteStatus(issueCount) {
+  return issueCount === 0 ? 'status-good' : 'status-warning';
+}
+
+/**
  * Generate security report
  * @param {Object} auditData - All collected security data
  * @returns {string} HTML report
  */
-function generateSecurityReport(auditData) {
+const generateSecurityReport = function generateSecurityReport(auditData) {
   const timestamp = new Date().toISOString();
   const {
     dependencies,
@@ -409,29 +466,27 @@ function generateSecurityReport(auditData) {
   <div class="header">
     <h1>🛡️ BSB Security Audit Report</h1>
     ${url ? `<p><strong>URL:</strong> <code>${url}</code></p>` : ''}
-    <p class="${totalIssues === 0 ? 'status-good' : totalIssues < 5 ? 'status-warning' : 'status-danger'}">
-      ${totalIssues === 0 ? '✅ No security issues detected!' : 
-        totalIssues < 5 ? `⚠️ ${totalIssues} security issues found` : 
-        `❌ ${totalIssues} security issues found`}
+    <p class="${getStatusClass(totalIssues)}">
+      ${getStatusMessage(totalIssues)}
     </p>
     <p class="timestamp">Generated: ${timestamp}</p>
   </div>
 
   <div class="summary-grid">
     <div class="summary-card">
-      <div class="summary-value ${(dependencies.vulnerabilities?.length || 0) === 0 ? 'status-good' : 'status-danger'}">
+      <div class="summary-value ${getDependencyStatus(dependencies.vulnerabilities?.length || 0)}">
         ${dependencies.vulnerabilities?.length || 0}
       </div>
       <div>Dependency Vulnerabilities</div>
     </div>
     <div class="summary-card">
-      <div class="summary-value ${Object.keys(headers.missing || {}).length === 0 ? 'status-good' : 'status-danger'}">
+      <div class="summary-value ${getHeaderStatus(Object.keys(headers.missing || {}).length)}">
         ${Object.keys(headers.missing || {}).length}
       </div>
       <div>Missing Security Headers</div>
     </div>
     <div class="summary-card">
-      <div class="summary-value ${staticSite.issues.length === 0 ? 'status-good' : 'status-warning'}">
+      <div class="summary-value ${getStaticSiteStatus(staticSite.issues.length)}">
         ${staticSite.issues.length}
       </div>
       <div>Static Site Issues</div>
@@ -554,7 +609,7 @@ function generateSecurityReport(auditData) {
 /**
  * Main execution function
  */
-async function main() {
+const main = async function main() {
   const url = process.argv[2];
   
   console.log('🛡️ Starting security audit...');

@@ -37,14 +37,14 @@ const createPlaceholderPNG = (width, height, color = '#0066cc') => {
   
   // Create a simple colored rectangle
   const pixelData = Buffer.alloc(width * height * 4);
-  const r = parseInt(color.slice(1, 3), 16);
-  const g = parseInt(color.slice(3, 5), 16);
-  const b = parseInt(color.slice(5, 7), 16);
+  const red = parseInt(color.slice(1, 3), 16);
+  const green = parseInt(color.slice(3, 5), 16);
+  const blue = parseInt(color.slice(5, 7), 16);
   
   for (let i = 0; i < pixelData.length; i += 4) {
-    pixelData[i] = r;
-    pixelData[i + 1] = g;
-    pixelData[i + 2] = b;
+    pixelData[i] = red;
+    pixelData[i + 1] = green;
+    pixelData[i + 2] = blue;
     pixelData[i + 3] = 255; // Alpha
   }
   

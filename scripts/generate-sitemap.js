@@ -57,7 +57,7 @@ const CONFIG = {
  * @param {string} dir - Directory to scan
  * @returns {Promise<Array>} List of HTML files
  */
-async function getHtmlFiles(dir) {
+const getHtmlFiles = async function(dir) {
   const files = [];
   const items = await readdir(dir, { withFileTypes: true });
   
@@ -82,7 +82,7 @@ async function getHtmlFiles(dir) {
  * @param {string} filePath - File path
  * @returns {string} ISO date string
  */
-function getLastModified(filePath) {
+const getLastModified = function getLastModified(filePath) {
   try {
     const gitDate = execSync(`git log -1 --format=%cI -- ${filePath}`, {
       encoding: 'utf-8'
@@ -100,7 +100,7 @@ function getLastModified(filePath) {
  * @param {string} relativePath - Relative file path
  * @returns {number} Priority value (0.0-1.0)
  */
-function calculatePriority(relativePath) {
+const calculatePriority = function calculatePriority(relativePath) {
   // Check predefined priorities
   if (CONFIG.priorities[relativePath] !== undefined) {
     return CONFIG.priorities[relativePath];
@@ -116,7 +116,7 @@ function calculatePriority(relativePath) {
  * @param {string} relativePath - Relative file path
  * @returns {string} Change frequency
  */
-function getChangeFrequency(relativePath) {
+const getChangeFrequency = function getChangeFrequency(relativePath) {
   return CONFIG.changefreq[relativePath] || CONFIG.changefreq.default;
 }
 
@@ -125,7 +125,7 @@ function getChangeFrequency(relativePath) {
  * @param {string} url - Base URL
  * @returns {Array} Alternate links
  */
-function generateAlternates(url) {
+const generateAlternates = function generateAlternates(url) {
   return CONFIG.languages.map(lang => ({
     lang,
     url: lang === CONFIG.defaultLang ? url : url.replace(CONFIG.baseUrl, `${CONFIG.baseUrl}/${lang}`)
@@ -137,7 +137,7 @@ function generateAlternates(url) {
  * @param {Array} urls - URL entries
  * @returns {string} XML content
  */
-function generateXml(urls) {
+const generateXml = function generateXml(urls) {
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<!--',
@@ -196,7 +196,7 @@ function generateXml(urls) {
 /**
  * Main function
  */
-async function main() {
+const main = async function() {
   console.log('🗺️  Generating sitemap...\n');
   
   try {
@@ -209,7 +209,7 @@ async function main() {
     
     for (const file of htmlFiles) {
       const relativePath = relative(CONFIG.distDir, file);
-      const url = `${CONFIG.baseUrl}/${relativePath}`.replace(/\\/g, '/').replace(/index\.html$/, '');
+      const url = `${CONFIG.baseUrl}/${relativePath}`.replace(/\\/gu, '/').replace(/index\.html$/u, '');
       
       const entry = {
         loc: url,

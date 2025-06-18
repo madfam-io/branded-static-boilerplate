@@ -19,6 +19,15 @@
 
 import debug from './debug.js';
 
+// Constants
+const CONSTANTS = {
+  PERCENTAGE_MAX: 100,
+  NOTIFICATION_DURATION: 1000,
+  SKIP_NAV_COUNT: 5,
+  TOAST_DURATION: 3000,
+  TOOLTIP_SPACING: 5
+};
+
 class AccessibilityEnhancer {
   constructor() {
     this.preferences = this.loadPreferences();
@@ -68,14 +77,14 @@ class AccessibilityEnhancer {
     // Track keyboard usage for enhanced focus indicators
     let isKeyboardUser = false;
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Tab') {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Tab') {
         isKeyboardUser = true;
         document.body.classList.add('keyboard-navigation');
       }
 
       // Global keyboard shortcuts
-      this.handleGlobalShortcuts(e);
+      this.handleGlobalShortcuts(event);
     });
 
     document.addEventListener('mousedown', () => {
@@ -141,8 +150,8 @@ class AccessibilityEnhancer {
     const skipLinks = document.querySelectorAll('.skip-link, [href^="#"]:first-child');
 
     skipLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
+      link.addEventListener('click', event => {
+        event.preventDefault();
         const targetId = link.getAttribute('href').substring(1);
         const target = document.getElementById(targetId);
 
@@ -170,8 +179,8 @@ class AccessibilityEnhancer {
     // Remember focus position when navigating
     let lastFocusedElement = null;
 
-    document.addEventListener('focusin', e => {
-      lastFocusedElement = e.target;
+    document.addEventListener('focusin', event => {
+      lastFocusedElement = event.target;
     });
 
     // Restore focus when appropriate
@@ -345,7 +354,9 @@ class AccessibilityEnhancer {
    */
   setupAccessibilityMenu() {
     // Create accessibility menu if not exists
-    if (document.querySelector('.bsb-a11y-menu')) {return;}
+    if (document.querySelector('.bsb-a11y-menu')) {
+      return;
+    }
 
     const menu = document.createElement('div');
     menu.className = 'bsb-a11y-menu';
@@ -437,9 +448,15 @@ class AccessibilityEnhancer {
    * Apply user preferences
    */
   applyUserPreferences() {
-    if (this.preferences.highContrast) {this.applyHighContrast();}
-    if (this.preferences.largeText) {this.applyLargeText();}
-    if (this.preferences.reducedMotion) {this.applyReducedMotion();}
+    if (this.preferences.highContrast) {
+      this.applyHighContrast();
+    }
+    if (this.preferences.largeText) {
+      this.applyLargeText();
+    }
+    if (this.preferences.reducedMotion) {
+      this.applyReducedMotion();
+    }
   }
 
   /**
@@ -517,8 +534,8 @@ class AccessibilityEnhancer {
 
     helpDialog.querySelector('.bsb-keyboard-help__close').addEventListener('click', closeHelp);
 
-    helpDialog.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
+    helpDialog.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
         closeHelp();
       }
     });
@@ -602,14 +619,14 @@ class AccessibilityEnhancer {
   /**
    * Highlight accessibility information on hover
    */
-  highlightAccessibilityInfo = e => {
+  highlightAccessibilityInfo = event => {
     // Remove existing tooltip
     const existingTooltip = document.querySelector('.bsb-a11y-tooltip');
     if (existingTooltip) {
       existingTooltip.remove();
     }
 
-    const element = e.target;
+    const element = event.target;
     const info = this.getAccessibilityInfo(element);
 
     if (info.length > 0) {
@@ -634,7 +651,7 @@ class AccessibilityEnhancer {
       // Position tooltip
       const rect = element.getBoundingClientRect();
       tooltip.style.left = `${rect.left}px`;
-      tooltip.style.top = `${rect.bottom + 5}px`;
+      tooltip.style.top = `${rect.bottom + CONSTANTS.TOOLTIP_SPACING}px`;
     }
   };
 
