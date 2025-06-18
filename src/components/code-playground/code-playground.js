@@ -28,6 +28,19 @@
 
 import debug from '../../scripts/core/debug.js';
 
+// Constants
+const CONSTANTS = {
+  TAB_SIZE: 2,
+  DEBOUNCE_DELAY: 500,
+  CONSOLE_SCROLL_THRESHOLD: 50,
+  AUTO_SAVE_INTERVAL: 60000, // 1 minute
+  PERFORMANCE_SAMPLE_SIZE: 100,
+  HOURS_PER_DAY: 24,
+  MINUTES_PER_HOUR: 60,
+  SECONDS_PER_MINUTE: 60,
+  MS_PER_SECOND: 1000
+};
+
 /**
  * BSB Code Playground Class
  * @class BSBCodePlayground
@@ -98,12 +111,12 @@ class BSBCodePlayground {
   setupEventListeners() {
     // Tab switching
     this.tabs.forEach(tab => {
-      tab.addEventListener('click', e => this.switchTab(e.target.dataset.tab));
+      tab.addEventListener('click', event => this.switchTab(event.target.dataset.tab));
     });
 
     // Control buttons
-    this.element.addEventListener('click', e => {
-      const { action } = e.target.dataset;
+    this.element.addEventListener('click', event => {
+      const { action } = event.target.dataset;
       if (action) {
         this.handleAction(action);
       }
@@ -115,8 +128,8 @@ class BSBCodePlayground {
         this.onCodeChange(language);
       });
 
-      editor.addEventListener('keydown', e => {
-        this.handleEditorKeydown(e, language);
+      editor.addEventListener('keydown', event => {
+        this.handleEditorKeydown(event, language);
       });
     });
 
@@ -138,27 +151,27 @@ class BSBCodePlayground {
       editor.classList.add(`language-${language}`);
 
       // Configure editor settings
-      editor.addEventListener('keydown', e => {
+      editor.addEventListener('keydown', event => {
         // Tab key handling for indentation
-        if (e.key === 'Tab') {
-          e.preventDefault();
+        if (event.key === 'Tab') {
+          event.preventDefault();
           const start = editor.selectionStart;
           const end = editor.selectionEnd;
 
-          if (e.shiftKey) {
+          if (event.shiftKey) {
             // Unindent
             const lineStart = editor.value.lastIndexOf('\n', start - 1) + 1;
             const lineText = editor.value.substring(lineStart, start);
             if (lineText.startsWith('  ')) {
               editor.value = editor.value.substring(0, lineStart) +
-                           lineText.substring(2) +
+                           lineText.substring(CONSTANTS.TAB_SIZE) +
                            editor.value.substring(start);
-              editor.selectionStart = editor.selectionEnd = start - 2;
+              editor.selectionStart = editor.selectionEnd = start - CONSTANTS.TAB_SIZE;
             }
           } else {
             // Indent
             editor.value = `${editor.value.substring(0, start)}  ${editor.value.substring(end)}`;
-            editor.selectionStart = editor.selectionEnd = start + 2;
+            editor.selectionStart = editor.selectionEnd = start + CONSTANTS.TAB_SIZE;
           }
         }
       });
@@ -172,39 +185,42 @@ class BSBCodePlayground {
    * @returns {void}
    */
   setupKeyboardShortcuts() {
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', event => {
       // Only handle shortcuts when playground is focused
       if (!this.element.contains(document.activeElement)) {
         return;
       }
 
-      if (e.ctrlKey || e.metaKey) {
-        switch (e.key) {
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key) {
           case 'Enter':
-            e.preventDefault();
+            event.preventDefault();
             this.updatePreview();
             break;
           case 's':
-            e.preventDefault();
+            event.preventDefault();
             this.saveCode();
             this.showConsoleMessage('💾 Code saved!', 'info');
             break;
           case '1':
           case '2':
           case '3': {
-            e.preventDefault();
-            const tabIndex = parseInt(e.key, 10);
+            event.preventDefault();
+            const tabIndex = parseInt(event.key, 10);
             const tabs = ['html', 'css', 'js'];
             if (tabs[tabIndex - 1]) {
               this.switchTab(tabs[tabIndex - 1]);
             }
             break;
           }
+          default:
+            // Other key combinations are ignored
+            break;
         }
       }
 
       // Escape key handling
-      if (e.key === 'Escape' && this.isFullscreen) {
+      if (event.key === 'Escape' && this.isFullscreen) {
         this.toggleFullscreen();
       }
     });
@@ -292,7 +308,7 @@ class BSBCodePlayground {
       if (this.autoSave) {
         this.saveCode();
       }
-    }, 500);
+    }, CONSTANTS.DEBOUNCE_DELAY);
   }
 
   /**
@@ -590,7 +606,7 @@ class BSBCodePlayground {
     const k = 1024;
     const sizes = ['b', 'kb', 'mb'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + sizes[i];
+    return parseFloat((bytes / k**i).toFixed(1)) + sizes[i];
   }
 
   /**
@@ -711,7 +727,7 @@ class BSBCodePlayground {
     if (newWindow) {
       // Use modern DOM methods instead of document.write
       newWindow.document.documentElement.innerHTML = previewDoc;
-      
+
       // Re-execute scripts since innerHTML doesn't execute them
       const scripts = newWindow.document.querySelectorAll('script');
       scripts.forEach(oldScript => {

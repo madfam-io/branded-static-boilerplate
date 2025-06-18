@@ -1,7 +1,7 @@
 /**
  * CSS Grid Interactive Tutorial
  * =============================
- * 
+ *
  * Comprehensive tutorial for learning CSS Grid layout with interactive examples.
  */
 
@@ -11,7 +11,7 @@ export const cssGridTutorial = {
   description: 'Learn CSS Grid with hands-on examples and visual feedback',
   difficulty: 'intermediate',
   estimatedTime: '20 minutes',
-  
+
   lessons: [
     {
       id: 'grid-basics',
@@ -64,7 +64,7 @@ console.log('Grid container created!');`,
         'Try different column sizes'
       ]
     },
-    
+
     {
       id: 'grid-areas',
       title: 'Grid Template Areas',
@@ -151,7 +151,7 @@ areas.forEach(area => {
         'Add a new area for an advertisement'
       ]
     },
-    
+
     {
       id: 'responsive-grid',
       title: 'Responsive Grid Layouts',
@@ -269,7 +269,7 @@ window.dispatchEvent(new Event('resize'));`,
       ]
     }
   ],
-  
+
   challenges: [
     {
       id: 'photo-gallery',
@@ -299,7 +299,7 @@ window.dispatchEvent(new Event('resize'));`,
 .gallery img:hover {
   transform: scale(1.05);
 }`,
-        js: `// Optional: Add lightbox functionality`
+        js: '// Optional: Add lightbox functionality'
       },
       solution: `/* Solution */
 .gallery {

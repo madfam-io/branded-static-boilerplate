@@ -2,26 +2,26 @@
  * =============================================================================
  * SOURCE VIEWER COMPONENT - JavaScript Implementation
  * =============================================================================
- * 
+ *
  * This component creates a self-referential learning experience by revealing
  * the actual source code of any component on the page. It demonstrates
  * meta-learning by showing users exactly how the interface they're using
  * is built.
- * 
+ *
  * Educational Features:
  * - Real-time source code extraction
  * - Syntax highlighting for readability
  * - Performance metrics collection
  * - Best practices detection
  * - Integration with code playground
- * 
+ *
  * Technical Implementation:
  * - DOM inspection and serialization
  * - CSS rule extraction
  * - Event listener detection
  * - Performance monitoring
  * - Code formatting and beautification
- * 
+ *
  * @class BSBSourceViewer
  * @version 1.0.0
  */
@@ -44,10 +44,10 @@ class BSBSourceViewer {
     this.currentComponent = null;
     this.isActive = false;
     this.cache = new Map();
-    
+
     this.init();
   }
-  
+
   /**
    * Initialize the source viewer
    * @method init
@@ -58,10 +58,10 @@ class BSBSourceViewer {
     this.createViewer();
     this.setupEventListeners();
     this.addViewSourceButtons();
-    
+
     debug.log('📚 BSB Source Viewer initialized');
   }
-  
+
   /**
    * Create the viewer HTML structure
    * @method createViewer
@@ -72,20 +72,20 @@ class BSBSourceViewer {
     // In a real implementation, we would load the HTML template
     // For now, we'll create it programmatically
     const viewerHTML = this.getViewerTemplate();
-    
+
     // Create a container and insert the HTML
     const container = document.createElement('div');
     container.innerHTML = viewerHTML;
-    
+
     // Extract the viewer and overlay elements
     this.viewer = container.querySelector('.bsb-source-viewer');
     this.overlay = container.querySelector('.bsb-source-viewer__overlay');
-    
+
     // Add to the page
     document.body.appendChild(this.viewer);
     document.body.appendChild(this.overlay);
   }
-  
+
   /**
    * Get the viewer HTML template
    * @method getViewerTemplate
@@ -204,7 +204,7 @@ class BSBSourceViewer {
       <div class="bsb-source-viewer__overlay" data-bsb-source-overlay></div>
     `;
   }
-  
+
   /**
    * Setup event listeners
    * @method setupEventListeners
@@ -215,24 +215,24 @@ class BSBSourceViewer {
     // Close button
     const closeBtn = this.viewer.querySelector('.bsb-source-viewer__close');
     closeBtn.addEventListener('click', () => this.close());
-    
+
     // Overlay click
     this.overlay.addEventListener('click', () => this.close());
-    
+
     // Tab switching
     const tabs = this.viewer.querySelectorAll('.bsb-source-viewer__tab');
     tabs.forEach(tab => {
       tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
     });
-    
+
     // Action buttons
     this.viewer.addEventListener('click', e => {
-      const action = e.target.dataset.action;
+      const { action } = e.target.dataset;
       if (action) {
         this.handleAction(action);
       }
     });
-    
+
     // Escape key to close
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && this.isActive) {
@@ -240,7 +240,7 @@ class BSBSourceViewer {
       }
     });
   }
-  
+
   /**
    * Add "View Source" buttons to components
    * @method addViewSourceButtons
@@ -252,22 +252,22 @@ class BSBSourceViewer {
     if (localStorage.getItem('bsb-learning-mode') !== 'true') {
       return;
     }
-    
+
     const components = document.querySelectorAll('[data-bsb-component]');
-    
+
     components.forEach(component => {
       // Skip if button already exists
       if (component.querySelector('.bsb-view-source-btn')) {
         return;
       }
-      
+
       // Create button
       const button = document.createElement('button');
       button.className = 'bsb-view-source-btn';
       button.innerHTML = '&lt;/&gt;';
       button.title = 'View component source code';
       button.setAttribute('aria-label', 'View source code for this component');
-      
+
       // Add styles
       button.style.cssText = `
         position: absolute;
@@ -289,32 +289,32 @@ class BSBSourceViewer {
         align-items: center;
         justify-content: center;
       `;
-      
+
       // Show on hover
       component.addEventListener('mouseenter', () => {
         button.style.opacity = '1';
       });
-      
+
       component.addEventListener('mouseleave', () => {
         button.style.opacity = '0';
       });
-      
+
       // Click handler
       button.addEventListener('click', e => {
         e.stopPropagation();
         this.showComponentSource(component);
       });
-      
+
       // Ensure component has relative positioning
-      const position = window.getComputedStyle(component).position;
+      const { position } = window.getComputedStyle(component);
       if (position === 'static') {
         component.style.position = 'relative';
       }
-      
+
       component.appendChild(button);
     });
   }
-  
+
   /**
    * Show source code for a component
    * @method showComponentSource
@@ -325,48 +325,48 @@ class BSBSourceViewer {
   showComponentSource(component) {
     this.currentComponent = component;
     const componentName = component.dataset.bsbComponent;
-    
+
     // Update component name in viewer
     const nameElement = this.viewer.querySelector('[data-component-name]');
     nameElement.textContent = componentName;
-    
+
     // Extract source code
     const sourceData = this.extractComponentSource(component);
-    
+
     // Display HTML
     const htmlContent = this.viewer.querySelector('[data-html-content]');
     htmlContent.textContent = sourceData.html;
-    
+
     const htmlPath = this.viewer.querySelector('[data-html-path]');
     htmlPath.textContent = `/src/components/${componentName}/${componentName}.html`;
-    
+
     // Display CSS
     const cssContent = this.viewer.querySelector('[data-css-content]');
     cssContent.textContent = sourceData.css;
-    
+
     const cssPath = this.viewer.querySelector('[data-css-path]');
     cssPath.textContent = `/src/components/${componentName}/${componentName}.css`;
-    
+
     // Display JavaScript
     const jsContent = this.viewer.querySelector('[data-js-content]');
     jsContent.textContent = sourceData.js || '// No JavaScript found for this component';
-    
+
     const jsPath = this.viewer.querySelector('[data-js-path]');
     jsPath.textContent = `/src/components/${componentName}/${componentName}.js`;
-    
+
     // Update metrics
     this.updateMetrics(component, sourceData);
-    
+
     // Update best practices
     this.updateBestPractices(component);
-    
+
     // Update learning resources
     this.updateResources(componentName);
-    
+
     // Show the viewer
     this.open();
   }
-  
+
   /**
    * Extract component source code
    * @method extractComponentSource
@@ -380,20 +380,20 @@ class BSBSourceViewer {
       css: '',
       js: ''
     };
-    
+
     // Extract HTML
     sourceData.html = this.formatHTML(component.outerHTML);
-    
+
     // Extract CSS
     sourceData.css = this.extractComponentCSS(component);
-    
+
     // Extract JavaScript (simplified - would need more complex analysis in production)
     const componentName = component.dataset.bsbComponent;
     sourceData.js = this.extractComponentJS(componentName);
-    
+
     return sourceData;
   }
-  
+
   /**
    * Format HTML for display
    * @method formatHTML
@@ -405,29 +405,29 @@ class BSBSourceViewer {
     // Basic HTML formatting (in production, use a proper formatter)
     let formatted = html;
     let indent = 0;
-    
+
     formatted = formatted.replace(/></g, '>\n<');
-    
+
     const lines = formatted.split('\n');
     const formattedLines = lines.map(line => {
       const trimmed = line.trim();
-      
+
       if (trimmed.startsWith('</')) {
         indent = Math.max(0, indent - 1);
       }
-      
+
       const indented = '  '.repeat(indent) + trimmed;
-      
+
       if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.endsWith('/>') && !trimmed.includes('</')) {
         indent++;
       }
-      
+
       return indented;
     });
-    
+
     return formattedLines.join('\n');
   }
-  
+
   /**
    * Extract CSS rules for a component
    * @method extractComponentCSS
@@ -438,14 +438,14 @@ class BSBSourceViewer {
   extractComponentCSS(component) {
     const componentName = component.dataset.bsbComponent;
     const cssRules = [];
-    
+
     // Get all stylesheets
     const styleSheets = Array.from(document.styleSheets);
-    
+
     styleSheets.forEach(sheet => {
       try {
         const rules = Array.from(sheet.cssRules || sheet.rules || []);
-        
+
         rules.forEach(rule => {
           // Check if rule contains component-specific class
           if (rule.selectorText && rule.selectorText.includes(`bsb-${componentName}`)) {
@@ -456,10 +456,10 @@ class BSBSourceViewer {
         // Ignore cross-origin stylesheet errors
       }
     });
-    
+
     return cssRules.join('\n\n');
   }
-  
+
   /**
    * Extract JavaScript for a component
    * @method extractComponentJS
@@ -472,7 +472,7 @@ class BSBSourceViewer {
     // 1. Check loaded scripts for component-specific code
     // 2. Use source maps to find original source
     // 3. Extract relevant functions and classes
-    
+
     // For now, return a placeholder with educational content
     return `/**
  * ${componentName.toUpperCase()} COMPONENT
@@ -508,7 +508,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
   new BSB${componentName.charAt(0).toUpperCase() + componentName.slice(1)}(el);
 });`;
   }
-  
+
   /**
    * Update performance metrics
    * @method updateMetrics
@@ -521,20 +521,20 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     // DOM nodes count
     const nodeCount = component.querySelectorAll('*').length + 1;
     this.viewer.querySelector('[data-metric-nodes]').textContent = nodeCount;
-    
+
     // CSS rules count
     const cssRules = sourceData.css.split('\n').filter(line => line.includes('{')).length;
     this.viewer.querySelector('[data-metric-css]').textContent = cssRules;
-    
+
     // Event listeners (simplified detection)
     const eventCount = this.countEventListeners(component);
     this.viewer.querySelector('[data-metric-events]').textContent = eventCount;
-    
+
     // Render time (mock - would use Performance API in production)
     const renderTime = Math.round(Math.random() * 50 + 10);
     this.viewer.querySelector('[data-metric-render]').textContent = `${renderTime}ms`;
   }
-  
+
   /**
    * Count event listeners on an element
    * @method countEventListeners
@@ -546,7 +546,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     // This is a simplified approach
     // In production, would use Chrome DevTools Protocol or similar
     let count = 0;
-    
+
     // Check for inline handlers
     const attributes = Array.from(element.attributes);
     attributes.forEach(attr => {
@@ -554,7 +554,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
         count++;
       }
     });
-    
+
     // Check children
     element.querySelectorAll('*').forEach(child => {
       const childAttrs = Array.from(child.attributes);
@@ -564,15 +564,15 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
         }
       });
     });
-    
+
     // Estimate delegated listeners
     if (element.querySelector('button, a, input, select, textarea')) {
       count += 3; // Assume some delegated listeners
     }
-    
+
     return count;
   }
-  
+
   /**
    * Update best practices list
    * @method updateBestPractices
@@ -582,45 +582,45 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
    */
   updateBestPractices(component) {
     const practices = [];
-    
+
     // Check for semantic HTML
     if (component.querySelector('header, nav, main, article, section, footer')) {
       practices.push('Uses semantic HTML elements');
     }
-    
+
     // Check for ARIA attributes
     if (component.querySelector('[aria-label], [aria-labelledby], [aria-describedby], [role]')) {
       practices.push('Includes ARIA attributes for accessibility');
     }
-    
+
     // Check for responsive images
     if (component.querySelector('img[srcset], picture')) {
       practices.push('Implements responsive images');
     }
-    
+
     // Check for BEM naming
     const classes = Array.from(component.classList);
     if (classes.some(cls => cls.includes('__') || cls.includes('--'))) {
       practices.push('Follows BEM naming convention');
     }
-    
+
     // Check for data attributes
     if (component.hasAttribute('data-bsb-component')) {
       practices.push('Uses data attributes for JavaScript hooks');
     }
-    
+
     // Check for keyboard navigation
     if (component.querySelector('[tabindex], button, a, input, select, textarea')) {
       practices.push('Supports keyboard navigation');
     }
-    
+
     // Display practices
     const practicesList = this.viewer.querySelector('[data-practices]');
-    practicesList.innerHTML = practices.map(practice => 
+    practicesList.innerHTML = practices.map(practice =>
       `<li>${practice}</li>`
     ).join('');
   }
-  
+
   /**
    * Update learning resources
    * @method updateResources
@@ -632,11 +632,11 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     // Update documentation link
     const docsLink = this.viewer.querySelector('[data-docs-link]');
     docsLink.href = `/src/components/${componentName}/README.md`;
-    
+
     // Update tutorial link
     const tutorialLink = this.viewer.querySelector('[data-tutorial-link]');
     tutorialLink.href = `/docs/tutorials/${componentName}-tutorial.md`;
-    
+
     // Update MDN link based on component type
     const mdnLink = this.viewer.querySelector('[data-mdn-link]');
     const mdnUrls = {
@@ -647,7 +647,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     };
     mdnLink.href = mdnUrls[componentName] || mdnUrls.default;
   }
-  
+
   /**
    * Switch between tabs
    * @method switchTab
@@ -661,14 +661,14 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     tabs.forEach(tab => {
       tab.classList.toggle('bsb-source-viewer__tab--active', tab.dataset.tab === tabName);
     });
-    
+
     // Update panels
     const panels = this.viewer.querySelectorAll('.bsb-source-viewer__panel');
     panels.forEach(panel => {
       panel.classList.toggle('bsb-source-viewer__panel--active', panel.dataset.panel === tabName);
     });
   }
-  
+
   /**
    * Handle action button clicks
    * @method handleAction
@@ -695,7 +695,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
         break;
     }
   }
-  
+
   /**
    * Copy code to clipboard
    * @method copyCode
@@ -706,7 +706,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
   copyCode(language) {
     const codeElement = this.viewer.querySelector(`[data-${language}-content]`);
     const code = codeElement.textContent;
-    
+
     navigator.clipboard.writeText(code).then(() => {
       this.showNotification('Code copied to clipboard!');
     }).catch(err => {
@@ -714,7 +714,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
       this.showNotification('Failed to copy code', 'error');
     });
   }
-  
+
   /**
    * Open code in playground
    * @method openInPlayground
@@ -725,15 +725,15 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     const html = this.viewer.querySelector('[data-html-content]').textContent;
     const css = this.viewer.querySelector('[data-css-content]').textContent;
     const js = this.viewer.querySelector('[data-js-content]').textContent;
-    
+
     // Encode the code
     const code = { html, css, js };
     const encoded = btoa(JSON.stringify(code));
-    
+
     // Open playground with code
     window.location.href = `/pages/interactive-playground.html?code=${encoded}`;
   }
-  
+
   /**
    * Show notification
    * @method showNotification
@@ -747,7 +747,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     const notification = document.createElement('div');
     notification.className = `bsb-notification bsb-notification--${type}`;
     notification.textContent = message;
-    
+
     // Style the notification
     notification.style.cssText = `
       position: fixed;
@@ -762,15 +762,15 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
       z-index: 10001;
       animation: slideUp 0.3s ease;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Remove after 3 seconds
     setTimeout(() => {
       notification.remove();
     }, 3000);
   }
-  
+
   /**
    * Open the viewer
    * @method open
@@ -782,11 +782,11 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     this.viewer.classList.add('bsb-source-viewer--active');
     this.overlay.classList.add('bsb-source-viewer__overlay--active');
     this.viewer.setAttribute('aria-hidden', 'false');
-    
+
     // Trap focus
     this.viewer.querySelector('.bsb-source-viewer__close').focus();
   }
-  
+
   /**
    * Close the viewer
    * @method close
@@ -798,7 +798,7 @@ document.querySelectorAll('[data-bsb-component="${componentName}"]').forEach(el 
     this.viewer.classList.remove('bsb-source-viewer--active');
     this.overlay.classList.remove('bsb-source-viewer__overlay--active');
     this.viewer.setAttribute('aria-hidden', 'true');
-    
+
     // Return focus to component
     if (this.currentComponent) {
       const viewSourceBtn = this.currentComponent.querySelector('.bsb-view-source-btn');

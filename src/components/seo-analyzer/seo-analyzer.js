@@ -2,17 +2,17 @@
  * =============================================================================
  * SEO ANALYZER COMPONENT - Interactive SEO Analysis
  * =============================================================================
- * 
+ *
  * This component provides real-time SEO analysis and education, helping
  * developers understand and improve their pages' search engine optimization.
- * 
+ *
  * 🎯 Features:
  * - Real-time page analysis
  * - Meta tag validation
  * - Content analysis
  * - SERP preview
  * - Educational insights
- * 
+ *
  * 📚 Educational Value:
  * - Learn by doing with instant feedback
  * - Understand SEO scoring factors
@@ -21,12 +21,12 @@
  * =============================================================================
  */
 
-import { 
-  generateMetaTags, 
-  calculateSEOScore, 
+import {
+  generateMetaTags,
+  calculateSEOScore,
   generateSERPPreview,
   validateTitle,
-  validateDescription 
+  validateDescription
 } from '../../scripts/seo/seo-utils.js';
 
 /**
@@ -44,10 +44,10 @@ class BSBSEOAnalyzer {
     this.isCollapsed = false;
     this.currentTab = 'overview';
     this.pageData = {};
-    
+
     this.init();
   }
-  
+
   /**
    * Initialize component
    * @method init
@@ -56,11 +56,11 @@ class BSBSEOAnalyzer {
     this.cacheElements();
     this.bindEvents();
     this.analyzePage();
-    
+
     // Re-analyze on relevant page changes
     this.observePageChanges();
   }
-  
+
   /**
    * Cache DOM elements
    * @method cacheElements
@@ -70,18 +70,18 @@ class BSBSEOAnalyzer {
     this.toggleBtn = this.element.querySelector('[data-seo-toggle]');
     this.content = this.element.querySelector('[data-seo-content]');
     this.minimized = this.element.querySelector('[data-seo-minimized]');
-    
+
     // Score elements
     this.scoreRing = this.element.querySelector('[data-seo-score-ring]');
     this.scoreNumber = this.element.querySelector('[data-seo-score-number]');
     this.scoreGrade = this.element.querySelector('[data-seo-score-grade]');
     this.scoreMessage = this.element.querySelector('[data-seo-score-message]');
     this.scoreCircle = this.element.querySelector('[data-seo-score]');
-    
+
     // Tab elements
     this.tabs = this.element.querySelectorAll('[data-tab]');
     this.panels = this.element.querySelectorAll('[data-panel]');
-    
+
     // Content areas
     this.breakdownArea = this.element.querySelector('[data-seo-breakdown]');
     this.insightsArea = this.element.querySelector('[data-seo-insights-list]');
@@ -89,12 +89,12 @@ class BSBSEOAnalyzer {
     this.contentStatsArea = this.element.querySelector('[data-seo-content-stats]');
     this.keywordsArea = this.element.querySelector('[data-seo-keywords]');
     this.tipsArea = this.element.querySelector('[data-seo-tips]');
-    
+
     // SERP preview
     this.serpUrl = this.element.querySelector('[data-serp-url]');
     this.serpTitle = this.element.querySelector('[data-serp-title]');
     this.serpDescription = this.element.querySelector('[data-serp-description]');
-    
+
     // Meta editor
     this.titleInput = this.element.querySelector('[data-seo-title-input]');
     this.titleCount = this.element.querySelector('[data-seo-title-count]');
@@ -102,12 +102,12 @@ class BSBSEOAnalyzer {
     this.descriptionInput = this.element.querySelector('[data-seo-description-input]');
     this.descriptionCount = this.element.querySelector('[data-seo-description-count]');
     this.descriptionStatus = this.element.querySelector('[data-seo-description-status]');
-    
+
     // Other elements
     this.refreshBtn = this.element.querySelector('[data-seo-refresh]');
     this.miniScore = this.element.querySelector('[data-seo-mini-score]');
   }
-  
+
   /**
    * Bind event listeners
    * @method bindEvents
@@ -116,24 +116,24 @@ class BSBSEOAnalyzer {
     // Toggle collapse
     this.toggleBtn.addEventListener('click', () => this.toggleCollapse());
     this.minimized.addEventListener('click', () => this.toggleCollapse());
-    
+
     // Tab switching
     this.tabs.forEach(tab => {
       tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
     });
-    
+
     // Refresh analysis
     this.refreshBtn.addEventListener('click', () => this.analyzePage());
-    
+
     // Meta editor
     if (this.titleInput) {
       this.titleInput.addEventListener('input', () => this.updateMetaPreview());
     }
-    
+
     if (this.descriptionInput) {
       this.descriptionInput.addEventListener('input', () => this.updateMetaPreview());
     }
-    
+
     // Device toggle for SERP preview
     const deviceToggles = this.element.querySelectorAll('[data-device-toggle]');
     deviceToggles.forEach(toggle => {
@@ -144,7 +144,7 @@ class BSBSEOAnalyzer {
       });
     });
   }
-  
+
   /**
    * Toggle collapsed state
    * @method toggleCollapse
@@ -155,7 +155,7 @@ class BSBSEOAnalyzer {
     this.toggleBtn.setAttribute('aria-expanded', !this.isCollapsed);
     this.content.setAttribute('aria-hidden', this.isCollapsed);
   }
-  
+
   /**
    * Switch active tab
    * @method switchTab
@@ -163,21 +163,21 @@ class BSBSEOAnalyzer {
    */
   switchTab(tabName) {
     this.currentTab = tabName;
-    
+
     // Update tabs
     this.tabs.forEach(tab => {
       const isActive = tab.dataset.tab === tabName;
       tab.classList.toggle('bsb-seo-analyzer__tab--active', isActive);
       tab.setAttribute('aria-selected', isActive);
     });
-    
+
     // Update panels
     this.panels.forEach(panel => {
       const isActive = panel.dataset.panel === tabName;
       panel.classList.toggle('bsb-seo-analyzer__panel--active', isActive);
     });
   }
-  
+
   /**
    * Analyze current page
    * @method analyzePage
@@ -185,13 +185,13 @@ class BSBSEOAnalyzer {
   async analyzePage() {
     // Show loading state
     this.scoreMessage.textContent = 'Analyzing page...';
-    
+
     // Gather page data
     this.pageData = this.gatherPageData();
-    
+
     // Calculate SEO score
     const seoScore = calculateSEOScore(this.pageData);
-    
+
     // Update UI
     this.updateScore(seoScore);
     this.updateBreakdown(seoScore.breakdown);
@@ -200,11 +200,11 @@ class BSBSEOAnalyzer {
     this.updateContentStats();
     this.updateSERPPreview();
     this.updateTips(seoScore);
-    
+
     // Update minimized score
     this.miniScore.textContent = seoScore.overall;
   }
-  
+
   /**
    * Gather page data for analysis
    * @method gatherPageData
@@ -217,33 +217,33 @@ class BSBSEOAnalyzer {
       description: document.querySelector('meta[name="description"]')?.content || '',
       keywords: document.querySelector('meta[name="keywords"]')?.content || '',
       canonical: document.querySelector('link[rel="canonical"]')?.href,
-      
+
       // URL
       url: window.location.href,
-      
+
       // Headings
       h1Count: document.querySelectorAll('h1').length,
       headings: this.analyzeHeadings(),
       headingHierarchy: this.checkHeadingHierarchy(),
-      
+
       // Images
       images: this.analyzeImages(),
-      
+
       // Links
       links: this.analyzeLinks(),
-      
+
       // Content
       content: this.analyzeContent(),
-      
+
       // Technical
       structuredData: this.hasStructuredData(),
       mobileFriendly: this.isMobileFriendly(),
       https: window.location.protocol === 'https:'
     };
-    
+
     return data;
   }
-  
+
   /**
    * Analyze heading structure
    * @method analyzeHeadings
@@ -252,7 +252,7 @@ class BSBSEOAnalyzer {
   analyzeHeadings() {
     const headings = [];
     const allHeadings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    
+
     allHeadings.forEach(heading => {
       headings.push({
         level: parseInt(heading.tagName.charAt(1)),
@@ -260,10 +260,10 @@ class BSBSEOAnalyzer {
         length: heading.textContent.trim().length
       });
     });
-    
+
     return headings;
   }
-  
+
   /**
    * Check heading hierarchy
    * @method checkHeadingHierarchy
@@ -273,7 +273,7 @@ class BSBSEOAnalyzer {
     const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
     let lastLevel = 0;
     let isValid = true;
-    
+
     headings.forEach(heading => {
       const level = parseInt(heading.tagName.charAt(1));
       if (level > lastLevel + 1) {
@@ -281,10 +281,10 @@ class BSBSEOAnalyzer {
       }
       lastLevel = level;
     });
-    
+
     return isValid;
   }
-  
+
   /**
    * Analyze images
    * @method analyzeImages
@@ -293,7 +293,7 @@ class BSBSEOAnalyzer {
   analyzeImages() {
     const images = [];
     const allImages = document.querySelectorAll('img');
-    
+
     allImages.forEach(img => {
       images.push({
         src: img.src,
@@ -303,10 +303,10 @@ class BSBSEOAnalyzer {
         loading: img.loading
       });
     });
-    
+
     return images;
   }
-  
+
   /**
    * Analyze links
    * @method analyzeLinks
@@ -317,11 +317,11 @@ class BSBSEOAnalyzer {
     let internal = 0;
     let external = 0;
     let externalNofollow = 0;
-    
+
     links.forEach(link => {
-      const href = link.href;
+      const { href } = link;
       const isExternal = !href.includes(window.location.hostname);
-      
+
       if (isExternal) {
         external++;
         if (link.rel && link.rel.includes('nofollow')) {
@@ -331,10 +331,10 @@ class BSBSEOAnalyzer {
         internal++;
       }
     });
-    
+
     return { internal, external, externalNofollow, total: links.length };
   }
-  
+
   /**
    * Analyze content
    * @method analyzeContent
@@ -343,7 +343,7 @@ class BSBSEOAnalyzer {
   analyzeContent() {
     const textContent = document.body.innerText || document.body.textContent || '';
     const words = textContent.trim().split(/\s+/).filter(word => word.length > 2);
-    
+
     // Calculate keyword density
     const wordFrequency = {};
     words.forEach(word => {
@@ -352,7 +352,7 @@ class BSBSEOAnalyzer {
         wordFrequency[normalized] = (wordFrequency[normalized] || 0) + 1;
       }
     });
-    
+
     // Get top keywords
     const topKeywords = Object.entries(wordFrequency)
       .sort((a, b) => b[1] - a[1])
@@ -362,14 +362,14 @@ class BSBSEOAnalyzer {
         count,
         density: ((count / words.length) * 100).toFixed(1)
       }));
-    
+
     return {
       wordCount: words.length,
       characterCount: textContent.length,
       topKeywords
     };
   }
-  
+
   /**
    * Check for structured data
    * @method hasStructuredData
@@ -379,7 +379,7 @@ class BSBSEOAnalyzer {
     const scripts = document.querySelectorAll('script[type="application/ld+json"]');
     return scripts.length > 0;
   }
-  
+
   /**
    * Check if mobile friendly
    * @method isMobileFriendly
@@ -389,7 +389,7 @@ class BSBSEOAnalyzer {
     const viewport = document.querySelector('meta[name="viewport"]');
     return viewport && viewport.content.includes('width=device-width');
   }
-  
+
   /**
    * Update SEO score display
    * @method updateScore
@@ -399,15 +399,15 @@ class BSBSEOAnalyzer {
     // Update score number
     this.scoreNumber.textContent = score.overall;
     this.scoreGrade.textContent = score.grade;
-    
+
     // Update score ring
     const circumference = 2 * Math.PI * 45;
     const offset = circumference - (score.overall / 100) * circumference;
     this.scoreRing.style.strokeDashoffset = offset;
-    
+
     // Update score circle color
     this.scoreCircle.setAttribute('data-grade', score.grade);
-    
+
     // Update message
     let message;
     if (score.overall >= 90) {
@@ -421,10 +421,10 @@ class BSBSEOAnalyzer {
     } else {
       message = 'Poor SEO. Significant improvements required.';
     }
-    
+
     this.scoreMessage.textContent = message;
   }
-  
+
   /**
    * Update score breakdown
    * @method updateBreakdown
@@ -445,10 +445,10 @@ class BSBSEOAnalyzer {
         </div>
       `;
     }).join('');
-    
+
     this.breakdownArea.innerHTML = items;
   }
-  
+
   /**
    * Update insights list
    * @method updateInsights
@@ -459,11 +459,11 @@ class BSBSEOAnalyzer {
       this.insightsArea.innerHTML = '<li class="bsb-seo-analyzer__insight">No major issues found! 🎉</li>';
       return;
     }
-    
+
     const items = insights.map(insight => {
-      const icon = insight.impact === 'high' ? '❗' : 
-                   insight.impact === 'medium' ? '⚠️' : 'ℹ️';
-      
+      const icon = insight.impact === 'high' ? '❗' :
+        insight.impact === 'medium' ? '⚠️' : 'ℹ️';
+
       return `
         <li class="bsb-seo-analyzer__insight bsb-seo-analyzer__insight--${insight.impact}">
           <span class="bsb-seo-analyzer__insight-icon">${icon}</span>
@@ -474,42 +474,42 @@ class BSBSEOAnalyzer {
         </li>
       `;
     }).join('');
-    
+
     this.insightsArea.innerHTML = items;
   }
-  
+
   /**
    * Update meta tags display
    * @method updateMetaTags
    */
   updateMetaTags() {
     const metaTags = [];
-    
+
     // Title
     metaTags.push({
       name: 'Title',
       content: this.pageData.title,
       status: validateTitle(this.pageData.title)
     });
-    
+
     // Description
     metaTags.push({
       name: 'Description',
       content: this.pageData.description,
       status: validateDescription(this.pageData.description)
     });
-    
+
     // Other meta tags
     const metas = document.querySelectorAll('meta[name], meta[property]');
     metas.forEach(meta => {
       const name = meta.name || meta.getAttribute('property');
-      const content = meta.content;
-      
+      const { content } = meta;
+
       if (name && !['description', 'keywords'].includes(name.toLowerCase())) {
         metaTags.push({ name, content, status: { status: 'info' } });
       }
     });
-    
+
     // Display meta tags
     const html = metaTags.map(tag => `
       <div class="bsb-seo-analyzer__meta-item">
@@ -517,28 +517,28 @@ class BSBSEOAnalyzer {
         ${tag.status ? `<br><small class="bsb-seo-analyzer__field-status--${tag.status.status}">${tag.status.message || ''}</small>` : ''}
       </div>
     `).join('');
-    
+
     this.metaListArea.innerHTML = html;
-    
+
     // Update editor inputs
     if (this.titleInput) {
       this.titleInput.value = this.pageData.title;
       this.updateMetaPreview();
     }
-    
+
     if (this.descriptionInput) {
       this.descriptionInput.value = this.pageData.description;
       this.updateMetaPreview();
     }
   }
-  
+
   /**
    * Update content statistics
    * @method updateContentStats
    */
   updateContentStats() {
     const stats = this.pageData.content;
-    
+
     const html = `
       <div class="bsb-seo-analyzer__stat">
         <strong>Word Count:</strong> ${stats.wordCount}
@@ -549,8 +549,8 @@ class BSBSEOAnalyzer {
       </div>
       <div class="bsb-seo-analyzer__stat">
         <strong>Images:</strong> ${this.pageData.images.length}
-        ${this.pageData.images.filter(img => !img.alt).length > 0 ? 
-          `<span class="bsb-seo-analyzer__field-status--error"> (${this.pageData.images.filter(img => !img.alt).length} missing alt text)</span>` : ''}
+        ${this.pageData.images.filter(img => !img.alt).length > 0 ?
+    `<span class="bsb-seo-analyzer__field-status--error"> (${this.pageData.images.filter(img => !img.alt).length} missing alt text)</span>` : ''}
       </div>
       <div class="bsb-seo-analyzer__stat">
         <strong>Internal Links:</strong> ${this.pageData.links.internal}
@@ -559,9 +559,9 @@ class BSBSEOAnalyzer {
         <strong>External Links:</strong> ${this.pageData.links.external}
       </div>
     `;
-    
+
     this.contentStatsArea.innerHTML = html;
-    
+
     // Update keywords
     const keywordsHtml = stats.topKeywords.map(keyword => `
       <span class="bsb-seo-analyzer__keyword">
@@ -569,10 +569,10 @@ class BSBSEOAnalyzer {
         <span class="bsb-seo-analyzer__keyword-count">${keyword.density}%</span>
       </span>
     `).join('');
-    
+
     this.keywordsArea.innerHTML = keywordsHtml;
   }
-  
+
   /**
    * Update SERP preview
    * @method updateSERPPreview
@@ -583,21 +583,21 @@ class BSBSEOAnalyzer {
       description: this.descriptionInput?.value || this.pageData.description,
       url: this.pageData.url
     });
-    
+
     this.serpTitle.textContent = preview.title;
     this.serpDescription.textContent = preview.description;
     this.serpUrl.textContent = preview.url;
-    
+
     // Add truncation indicators
     if (preview.titleTruncated) {
       this.serpTitle.classList.add('truncated');
     }
-    
+
     if (preview.descriptionTruncated) {
       this.serpDescription.classList.add('truncated');
     }
   }
-  
+
   /**
    * Update meta preview from inputs
    * @method updateMetaPreview
@@ -608,25 +608,25 @@ class BSBSEOAnalyzer {
     const titleValidation = validateTitle(titleValue);
     this.titleCount.textContent = titleValue.length;
     this.titleStatus.textContent = titleValidation.status === 'excellent' ? '✓ Perfect!' :
-                                   titleValidation.status === 'good' ? '✓ Good' :
-                                   titleValidation.status === 'warning' ? '⚠️ Warning' :
-                                   '❌ Too long/short';
+      titleValidation.status === 'good' ? '✓ Good' :
+        titleValidation.status === 'warning' ? '⚠️ Warning' :
+          '❌ Too long/short';
     this.titleStatus.className = `bsb-seo-analyzer__field-status bsb-seo-analyzer__field-status--${titleValidation.status}`;
-    
+
     // Description validation
     const descValue = this.descriptionInput.value;
     const descValidation = validateDescription(descValue);
     this.descriptionCount.textContent = descValue.length;
     this.descriptionStatus.textContent = descValidation.status === 'excellent' ? '✓ Perfect!' :
-                                        descValidation.status === 'good' ? '✓ Good' :
-                                        descValidation.status === 'warning' ? '⚠️ Warning' :
-                                        '❌ Too long/short';
+      descValidation.status === 'good' ? '✓ Good' :
+        descValidation.status === 'warning' ? '⚠️ Warning' :
+          '❌ Too long/short';
     this.descriptionStatus.className = `bsb-seo-analyzer__field-status bsb-seo-analyzer__field-status--${descValidation.status}`;
-    
+
     // Update SERP preview
     this.updateSERPPreview();
   }
-  
+
   /**
    * Update educational tips
    * @method updateTips
@@ -634,24 +634,24 @@ class BSBSEOAnalyzer {
    */
   updateTips(score) {
     const tips = [];
-    
+
     // Add contextual tips based on score
     if (score.overall < 70) {
       tips.push('Focus on fixing high-impact issues first, especially title and meta description optimization.');
     }
-    
+
     if (score.breakdown.images < 80) {
       tips.push('Always add descriptive alt text to images for better accessibility and SEO.');
     }
-    
+
     if (score.breakdown.content < 80) {
       tips.push('Aim for at least 300 words of quality content that provides value to users.');
     }
-    
+
     if (!this.pageData.structuredData) {
       tips.push('Consider adding structured data (JSON-LD) to help search engines understand your content better.');
     }
-    
+
     // Add a random general tip
     const generalTips = [
       'Use your primary keyword in the title, preferably near the beginning.',
@@ -663,13 +663,13 @@ class BSBSEOAnalyzer {
       'Fresh content signals relevance - update pages regularly.',
       'Use semantic HTML5 elements for better content structure.'
     ];
-    
+
     tips.push(generalTips[Math.floor(Math.random() * generalTips.length)]);
-    
+
     // Display tips
     this.tipsArea.innerHTML = tips.map(tip => `<p>💡 ${tip}</p>`).join('');
   }
-  
+
   /**
    * Observe page changes
    * @method observePageChanges
@@ -681,27 +681,25 @@ class BSBSEOAnalyzer {
       const observer = new MutationObserver(() => {
         this.analyzePage();
       });
-      
+
       observer.observe(titleElement, { childList: true, characterData: true, subtree: true });
     }
-    
+
     // Re-analyze when meta tags change
-    const metaObserver = new MutationObserver((mutations) => {
-      const relevantChange = mutations.some(mutation => {
-        return mutation.type === 'attributes' && 
-               (mutation.attributeName === 'content' || mutation.attributeName === 'name');
-      });
-      
+    const metaObserver = new MutationObserver(mutations => {
+      const relevantChange = mutations.some(mutation => mutation.type === 'attributes' &&
+               (mutation.attributeName === 'content' || mutation.attributeName === 'name'));
+
       if (relevantChange) {
         this.analyzePage();
       }
     });
-    
+
     document.querySelectorAll('meta').forEach(meta => {
       metaObserver.observe(meta, { attributes: true });
     });
   }
-  
+
   /**
    * Format category name
    * @method formatCategory
@@ -718,7 +716,7 @@ class BSBSEOAnalyzer {
       content: 'Content Quality',
       technical: 'Technical SEO'
     };
-    
+
     return names[category] || category.charAt(0).toUpperCase() + category.slice(1);
   }
 }
@@ -726,7 +724,7 @@ class BSBSEOAnalyzer {
 // Initialize all SEO analyzer components
 document.addEventListener('DOMContentLoaded', () => {
   const analyzers = document.querySelectorAll('[data-bsb-component="seo-analyzer"]');
-  
+
   analyzers.forEach(analyzer => {
     new BSBSEOAnalyzer(analyzer);
   });

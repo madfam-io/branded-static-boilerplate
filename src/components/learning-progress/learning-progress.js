@@ -2,25 +2,25 @@
  * =============================================================================
  * LEARNING PROGRESS TRACKER - JavaScript Implementation
  * =============================================================================
- * 
+ *
  * This component tracks and visualizes a user's learning journey through the
  * BSB codebase. It gamifies the learning experience with achievements,
  * progress tracking, and personalized recommendations.
- * 
+ *
  * Educational Features:
  * - Tracks component exploration and time spent
  * - Awards achievements for learning milestones
  * - Provides personalized learning recommendations
  * - Visualizes progress through learning paths
  * - Stores progress locally for persistence
- * 
+ *
  * Meta-Learning Implementation:
  * - Monitors which components are viewed
  * - Tracks source code viewing
  * - Measures engagement with tutorials
  * - Analyzes learning patterns
  * - Suggests optimal learning paths
- * 
+ *
  * @class BSBLearningProgress
  * @version 1.0.0
  */
@@ -40,7 +40,7 @@ class BSBLearningProgress {
     this.element = null;
     this.isMinimized = false;
     this.startTime = Date.now();
-    
+
     // Learning data structure
     this.progress = {
       componentsExplored: new Set(),
@@ -51,7 +51,7 @@ class BSBLearningProgress {
       checkpoints: new Map(),
       activityLog: []
     };
-    
+
     // Learning paths configuration
     this.learningPaths = {
       'html-structure': {
@@ -91,7 +91,7 @@ class BSBLearningProgress {
         ]
       }
     };
-    
+
     // Achievement definitions
     this.achievements = {
       'first-steps': {
@@ -131,10 +131,10 @@ class BSBLearningProgress {
         condition: () => this.getActivityCount('playground-use') >= 5
       }
     };
-    
+
     this.init();
   }
-  
+
   /**
    * Initialize the component
    * @method init
@@ -145,15 +145,15 @@ class BSBLearningProgress {
     this.setupEventListeners();
     this.startProgressTracking();
     this.updateDisplay();
-    
+
     // Show welcome message on first visit
     if (this.progress.componentsExplored.size === 0) {
       this.logActivity('started', 'Started BSB learning journey!');
     }
-    
+
     debug.log('🎓 Learning Progress Tracker initialized');
   }
-  
+
   /**
    * Create DOM elements
    * @method createElements
@@ -164,16 +164,16 @@ class BSBLearningProgress {
     if (this.element) {
       return;
     }
-    
+
     // Create from template (simplified for demo)
     const template = this.getTemplate();
     const container = document.createElement('div');
     container.innerHTML = template;
     this.element = container.firstElementChild;
-    
+
     document.body.appendChild(this.element);
   }
-  
+
   /**
    * Get component template
    * @method getTemplate
@@ -201,7 +201,7 @@ class BSBLearningProgress {
       </div>
     `;
   }
-  
+
   /**
    * Setup event listeners
    * @method setupEventListeners
@@ -210,25 +210,25 @@ class BSBLearningProgress {
     // Toggle minimize/maximize
     const header = this.element.querySelector('.bsb-learning-progress__header');
     header.addEventListener('click', () => this.toggleMinimize());
-    
+
     // Track component views
     this.trackComponentViews();
-    
+
     // Track source viewer usage
     this.trackSourceViewer();
-    
+
     // Track playground usage
     this.trackPlayground();
-    
+
     // Action buttons
     this.element.addEventListener('click', e => {
-      const action = e.target.dataset.action;
+      const { action } = e.target.dataset;
       if (action) {
         this.handleAction(action);
       }
     });
   }
-  
+
   /**
    * Track component views
    * @method trackComponentViews
@@ -240,20 +240,20 @@ class BSBLearningProgress {
         if (entry.isIntersecting) {
           const component = entry.target;
           const componentName = component.dataset.bsbComponent;
-          
+
           if (componentName && !this.progress.componentsExplored.has(componentName)) {
             this.addComponentExplored(componentName);
           }
         }
       });
     }, { threshold: 0.5 });
-    
+
     // Observe all BSB components
     document.querySelectorAll('[data-bsb-component]').forEach(component => {
       observer.observe(component);
     });
   }
-  
+
   /**
    * Track source viewer usage
    * @method trackSourceViewer
@@ -264,7 +264,7 @@ class BSBLearningProgress {
       this.checkAchievements();
     });
   }
-  
+
   /**
    * Track playground usage
    * @method trackPlayground
@@ -276,7 +276,7 @@ class BSBLearningProgress {
       this.checkAchievements();
     });
   }
-  
+
   /**
    * Start progress tracking
    * @method startProgressTracking
@@ -287,7 +287,7 @@ class BSBLearningProgress {
       this.updateTimeSpent();
       this.saveProgress();
     }, 60000);
-    
+
     // Track page visibility for accurate time
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
@@ -297,7 +297,7 @@ class BSBLearningProgress {
       }
     });
   }
-  
+
   /**
    * Add explored component
    * @method addComponentExplored
@@ -306,20 +306,20 @@ class BSBLearningProgress {
   addComponentExplored(componentName) {
     this.progress.componentsExplored.add(componentName);
     this.logActivity('explore', `Explored ${componentName} component`);
-    
+
     // Check related checkpoints
     this.checkCheckpoints(`view-${componentName}`);
-    
+
     // Check achievements
     this.checkAchievements();
-    
+
     // Update display
     this.updateDisplay();
-    
+
     // Save progress
     this.saveProgress();
   }
-  
+
   /**
    * Add learned concept
    * @method addConceptLearned
@@ -330,7 +330,7 @@ class BSBLearningProgress {
     this.updateDisplay();
     this.saveProgress();
   }
-  
+
   /**
    * Log activity
    * @method logActivity
@@ -344,17 +344,17 @@ class BSBLearningProgress {
       timestamp: Date.now(),
       icon: this.getActivityIcon(type)
     };
-    
+
     this.progress.activityLog.unshift(activity);
-    
+
     // Keep only recent activities
     if (this.progress.activityLog.length > 20) {
       this.progress.activityLog.pop();
     }
-    
+
     this.updateActivityTimeline();
   }
-  
+
   /**
    * Get activity icon
    * @method getActivityIcon
@@ -370,10 +370,10 @@ class BSBLearningProgress {
       'achievement': '🏆',
       'checkpoint': '✅'
     };
-    
+
     return icons[type] || '📌';
   }
-  
+
   /**
    * Check checkpoints
    * @method checkCheckpoints
@@ -390,7 +390,7 @@ class BSBLearningProgress {
       });
     });
   }
-  
+
   /**
    * Check achievements
    * @method checkAchievements
@@ -402,7 +402,7 @@ class BSBLearningProgress {
       }
     });
   }
-  
+
   /**
    * Unlock achievement
    * @method unlockAchievement
@@ -412,17 +412,17 @@ class BSBLearningProgress {
   unlockAchievement(id, achievement) {
     this.progress.achievements.add(id);
     this.logActivity('achievement', `Unlocked: ${achievement.name}`);
-    
+
     // Show notification
     this.showAchievementNotification(achievement);
-    
+
     // Update display
     this.updateAchievements();
-    
+
     // Save progress
     this.saveProgress();
   }
-  
+
   /**
    * Show achievement notification
    * @method showAchievementNotification
@@ -440,7 +440,7 @@ class BSBLearningProgress {
         </div>
       </div>
     `;
-    
+
     // Style the notification
     notification.style.cssText = `
       position: fixed;
@@ -455,15 +455,15 @@ class BSBLearningProgress {
       z-index: 10000;
       animation: achievement-pop 0.5s ease;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Remove after animation
     setTimeout(() => {
       notification.remove();
     }, 3000);
   }
-  
+
   /**
    * Update time spent
    * @method updateTimeSpent
@@ -475,7 +475,7 @@ class BSBLearningProgress {
       this.lastActivity = Date.now();
     }
   }
-  
+
   /**
    * Get activity count
    * @method getActivityCount
@@ -485,7 +485,7 @@ class BSBLearningProgress {
   getActivityCount(type) {
     return this.progress.activityLog.filter(activity => activity.type === type).length;
   }
-  
+
   /**
    * Update display
    * @method updateDisplay
@@ -498,7 +498,7 @@ class BSBLearningProgress {
     this.updateAchievements();
     this.updateRecommendations();
   }
-  
+
   /**
    * Update stats
    * @method updateStats
@@ -509,7 +509,7 @@ class BSBLearningProgress {
       'concepts-learned': this.progress.conceptsLearned.size,
       'time-spent': this.formatTime(this.progress.timeSpent)
     };
-    
+
     Object.entries(stats).forEach(([key, value]) => {
       const element = this.element.querySelector(`[data-stat="${key}"]`);
       if (element) {
@@ -517,7 +517,7 @@ class BSBLearningProgress {
       }
     });
   }
-  
+
   /**
    * Update progress bar
    * @method updateProgressBar
@@ -525,37 +525,37 @@ class BSBLearningProgress {
   updateProgressBar() {
     const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
     const progress = (this.progress.componentsExplored.size / totalComponents) * 100;
-    
+
     const progressBar = this.element.querySelector('[data-progress-bar]');
     const progressText = this.element.querySelector('[data-progress-text]');
-    
+
     if (progressBar) {
       progressBar.style.width = `${progress}%`;
     }
-    
+
     if (progressText) {
       progressText.textContent = `${Math.round(progress)}% Complete`;
     }
   }
-  
+
   /**
    * Update learning paths
    * @method updateLearningPaths
    */
   updateLearningPaths() {
     Object.entries(this.learningPaths).forEach(([pathId, path]) => {
-      const completedCount = path.checkpoints.filter(cp => 
+      const completedCount = path.checkpoints.filter(cp =>
         this.progress.checkpoints.has(cp.id)
       ).length;
-      
+
       const progress = (completedCount / path.checkpoints.length) * 100;
-      
+
       // Update progress display
       const progressElement = this.element.querySelector(`[data-path-progress="${pathId}"]`);
       if (progressElement) {
         progressElement.textContent = `${Math.round(progress)}%`;
       }
-      
+
       // Update checkboxes
       path.checkpoints.forEach(checkpoint => {
         const checkbox = this.element.querySelector(`#checkpoint-${checkpoint.id}`);
@@ -565,15 +565,15 @@ class BSBLearningProgress {
       });
     });
   }
-  
+
   /**
    * Update activity timeline
    * @method updateActivityTimeline
    */
   updateActivityTimeline() {
     const timeline = this.element.querySelector('[data-activity-timeline]');
-    if (!timeline) return;
-    
+    if (!timeline) {return;}
+
     timeline.innerHTML = this.progress.activityLog.slice(0, 5).map(activity => `
       <li class="bsb-learning-progress__timeline-item">
         <span class="bsb-learning-progress__timeline-icon">${activity.icon}</span>
@@ -584,18 +584,18 @@ class BSBLearningProgress {
       </li>
     `).join('');
   }
-  
+
   /**
    * Update achievements
    * @method updateAchievements
    */
   updateAchievements() {
     const container = this.element.querySelector('[data-achievements]');
-    if (!container) return;
-    
+    if (!container) {return;}
+
     container.innerHTML = Object.entries(this.achievements).map(([id, achievement]) => {
       const isUnlocked = this.progress.achievements.has(id);
-      
+
       return `
         <div class="bsb-learning-progress__badge ${isUnlocked ? 'bsb-learning-progress__badge--unlocked' : 'bsb-learning-progress__badge--locked'}">
           <span class="bsb-learning-progress__badge-icon">${isUnlocked ? achievement.icon : '🔒'}</span>
@@ -605,17 +605,17 @@ class BSBLearningProgress {
       `;
     }).join('');
   }
-  
+
   /**
    * Update recommendations
    * @method updateRecommendations
    */
   updateRecommendations() {
     const container = this.element.querySelector('[data-recommendations]');
-    if (!container) return;
-    
+    if (!container) {return;}
+
     const recommendations = this.getRecommendations();
-    
+
     container.innerHTML = recommendations.map(rec => `
       <div class="bsb-learning-progress__recommendation">
         <span class="bsb-learning-progress__rec-icon">${rec.icon}</span>
@@ -627,7 +627,7 @@ class BSBLearningProgress {
       </div>
     `).join('');
   }
-  
+
   /**
    * Get personalized recommendations
    * @method getRecommendations
@@ -635,12 +635,12 @@ class BSBLearningProgress {
    */
   getRecommendations() {
     const recommendations = [];
-    
+
     // Recommend unexplored components
     const allComponents = Array.from(document.querySelectorAll('[data-bsb-component]'))
       .map(el => el.dataset.bsbComponent)
       .filter(name => !this.progress.componentsExplored.has(name));
-    
+
     if (allComponents.length > 0) {
       const next = allComponents[0];
       recommendations.push({
@@ -650,7 +650,7 @@ class BSBLearningProgress {
         link: `#${next}`
       });
     }
-    
+
     // Recommend based on incomplete paths
     Object.entries(this.learningPaths).forEach(([pathId, path]) => {
       const incomplete = path.checkpoints.find(cp => !this.progress.checkpoints.has(cp.id));
@@ -663,7 +663,7 @@ class BSBLearningProgress {
         });
       }
     });
-    
+
     // Playground recommendation
     if (this.getActivityCount('playground-use') < 3) {
       recommendations.push({
@@ -673,10 +673,10 @@ class BSBLearningProgress {
         link: '/pages/interactive-playground.html'
       });
     }
-    
+
     return recommendations.slice(0, 3);
   }
-  
+
   /**
    * Toggle minimize state
    * @method toggleMinimize
@@ -684,14 +684,14 @@ class BSBLearningProgress {
   toggleMinimize() {
     this.isMinimized = !this.isMinimized;
     this.element.classList.toggle('bsb-learning-progress--minimized', this.isMinimized);
-    
+
     const content = this.element.querySelector('.bsb-learning-progress__content');
     const toggle = this.element.querySelector('.bsb-learning-progress__toggle');
-    
+
     content.setAttribute('aria-hidden', this.isMinimized);
     toggle.setAttribute('aria-expanded', !this.isMinimized);
   }
-  
+
   /**
    * Handle action buttons
    * @method handleAction
@@ -707,7 +707,7 @@ class BSBLearningProgress {
         break;
     }
   }
-  
+
   /**
    * Export progress data
    * @method exportProgress
@@ -728,18 +728,18 @@ class BSBLearningProgress {
         }
       }
     };
-    
+
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    
+
     const a = document.createElement('a');
     a.href = url;
     a.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
-    
+
     URL.revokeObjectURL(url);
   }
-  
+
   /**
    * Reset progress
    * @method resetProgress
@@ -750,7 +750,7 @@ class BSBLearningProgress {
       location.reload();
     }
   }
-  
+
   /**
    * Save progress to localStorage
    * @method saveProgress
@@ -765,10 +765,10 @@ class BSBLearningProgress {
       activityLog: this.progress.activityLog.slice(0, 20),
       lastSaved: Date.now()
     };
-    
+
     localStorage.setItem('bsb-learning-progress', JSON.stringify(data));
   }
-  
+
   /**
    * Load progress from localStorage
    * @method loadProgress
@@ -778,7 +778,7 @@ class BSBLearningProgress {
       const saved = localStorage.getItem('bsb-learning-progress');
       if (saved) {
         const data = JSON.parse(saved);
-        
+
         this.progress.componentsExplored = new Set(data.componentsExplored || []);
         this.progress.conceptsLearned = new Set(data.conceptsLearned || []);
         this.progress.timeSpent = data.timeSpent || 0;
@@ -790,7 +790,7 @@ class BSBLearningProgress {
       debug.warn('Failed to load learning progress:', error);
     }
   }
-  
+
   /**
    * Format time duration
    * @method formatTime
@@ -800,14 +800,14 @@ class BSBLearningProgress {
   formatTime(milliseconds) {
     const minutes = Math.floor(milliseconds / 60000);
     const hours = Math.floor(minutes / 60);
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes % 60}m`;
     }
-    
+
     return `${minutes}m`;
   }
-  
+
   /**
    * Format time ago
    * @method formatTimeAgo
@@ -816,11 +816,11 @@ class BSBLearningProgress {
    */
   formatTimeAgo(timestamp) {
     const seconds = Math.floor((Date.now() - timestamp) / 1000);
-    
-    if (seconds < 60) return 'Just now';
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    
+
+    if (seconds < 60) {return 'Just now';}
+    if (seconds < 3600) {return `${Math.floor(seconds / 60)}m ago`;}
+    if (seconds < 86400) {return `${Math.floor(seconds / 3600)}h ago`;}
+
     return new Date(timestamp).toLocaleDateString();
   }
 }
@@ -833,10 +833,8 @@ if (document.readyState === 'loading') {
       window.BSBLearningProgress = new BSBLearningProgress();
     }
   });
-} else {
-  if (localStorage.getItem('bsb-learning-mode') === 'true') {
-    window.BSBLearningProgress = new BSBLearningProgress();
-  }
+} else if (localStorage.getItem('bsb-learning-mode') === 'true') {
+  window.BSBLearningProgress = new BSBLearningProgress();
 }
 
 // Export for use in other modules

@@ -34,10 +34,10 @@ class ResourceHints {
     this.criticalResources = new Set();
     this.prefetchQueue = new Map();
     this.observers = new Map();
-    
+
     this.init();
   }
-  
+
   /**
    * Initialize resource hints system
    * @method init
@@ -45,17 +45,17 @@ class ResourceHints {
   init() {
     // Add critical resource hints immediately
     this.addCriticalHints();
-    
+
     // Setup intersection observer for lazy resources
     this.setupLazyLoading();
-    
+
     // Monitor navigation for prefetching
     this.setupNavigationPrefetch();
-    
+
     // Add performance monitoring
     this.monitorPerformance();
   }
-  
+
   /**
    * Add critical resource hints
    * @method addCriticalHints
@@ -68,32 +68,32 @@ class ResourceHints {
       'https://www.googletagmanager.com',
       'https://www.google-analytics.com'
     ];
-    
+
     dnsPrefetchDomains.forEach(domain => {
       this.addHint('dns-prefetch', domain);
     });
-    
+
     // Preconnect to critical origins
     const preconnectOrigins = [
       { href: 'https://fonts.googleapis.com', crossorigin: 'anonymous' },
       { href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' }
     ];
-    
+
     preconnectOrigins.forEach(origin => {
       this.addHint('preconnect', origin.href, origin.crossorigin);
     });
-    
+
     // Preload critical fonts
     const criticalFonts = [
       '/fonts/inter-var.woff2',
       '/fonts/jetbrains-mono.woff2'
     ];
-    
+
     criticalFonts.forEach(font => {
       this.preloadResource(font, 'font', 'crossorigin');
     });
   }
-  
+
   /**
    * Add resource hint to document head
    * @method addHint
@@ -104,19 +104,19 @@ class ResourceHints {
   addHint(rel, href, crossorigin = null) {
     // Check if hint already exists
     const existing = document.querySelector(`link[rel="${rel}"][href="${href}"]`);
-    if (existing) return;
-    
+    if (existing) {return;}
+
     const link = document.createElement('link');
     link.rel = rel;
     link.href = href;
-    
+
     if (crossorigin) {
       link.crossOrigin = crossorigin;
     }
-    
+
     document.head.appendChild(link);
   }
-  
+
   /**
    * Preload a specific resource
    * @method preloadResource
@@ -129,19 +129,19 @@ class ResourceHints {
     link.rel = 'preload';
     link.href = href;
     link.as = as;
-    
+
     if (crossorigin) {
       link.crossOrigin = crossorigin;
     }
-    
+
     // Add importance hint for critical resources
     if (this.criticalResources.has(href)) {
       link.importance = 'high';
     }
-    
+
     document.head.appendChild(link);
   }
-  
+
   /**
    * Setup lazy loading with Intersection Observer
    * @method setupLazyLoading
@@ -150,7 +150,7 @@ class ResourceHints {
     // Lazy load images
     const lazyImages = document.querySelectorAll('img[data-src]');
     if (lazyImages.length > 0) {
-      const imageObserver = new IntersectionObserver((entries) => {
+      const imageObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const img = entry.target;
@@ -163,15 +163,15 @@ class ResourceHints {
         rootMargin: '50px 0px',
         threshold: 0.01
       });
-      
+
       lazyImages.forEach(img => imageObserver.observe(img));
       this.observers.set('images', imageObserver);
     }
-    
+
     // Lazy load scripts
     const lazyScripts = document.querySelectorAll('script[data-lazy]');
     if (lazyScripts.length > 0) {
-      const scriptObserver = new IntersectionObserver((entries) => {
+      const scriptObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const script = entry.target;
@@ -185,27 +185,27 @@ class ResourceHints {
       }, {
         rootMargin: '100px 0px'
       });
-      
+
       lazyScripts.forEach(script => scriptObserver.observe(script));
       this.observers.set('scripts', scriptObserver);
     }
   }
-  
+
   /**
    * Setup navigation prefetching
    * @method setupNavigationPrefetch
    */
   setupNavigationPrefetch() {
     // Prefetch on hover
-    document.addEventListener('mouseover', (e) => {
+    document.addEventListener('mouseover', e => {
       const link = e.target.closest('a[href]');
       if (link && this.shouldPrefetch(link)) {
         this.prefetchPage(link.href);
       }
     });
-    
+
     // Prefetch visible links
-    const linkObserver = new IntersectionObserver((entries) => {
+    const linkObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const link = entry.target;
@@ -221,12 +221,12 @@ class ResourceHints {
       rootMargin: '0px 0px 50px 0px',
       threshold: 0.5
     });
-    
+
     const internalLinks = document.querySelectorAll('a[href^="/"], a[href^="./"]');
     internalLinks.forEach(link => linkObserver.observe(link));
     this.observers.set('links', linkObserver);
   }
-  
+
   /**
    * Check if URL should be prefetched
    * @method shouldPrefetch
@@ -235,39 +235,39 @@ class ResourceHints {
    */
   shouldPrefetch(link) {
     // Don't prefetch if already visited
-    if (this.prefetchQueue.has(link.href)) return false;
-    
+    if (this.prefetchQueue.has(link.href)) {return false;}
+
     // Don't prefetch external links
-    if (link.host !== window.location.host) return false;
-    
+    if (link.host !== window.location.host) {return false;}
+
     // Don't prefetch downloads
-    if (link.hasAttribute('download')) return false;
-    
+    if (link.hasAttribute('download')) {return false;}
+
     // Don't prefetch if user has data saver enabled
-    if (navigator.connection && navigator.connection.saveData) return false;
-    
+    if (navigator.connection && navigator.connection.saveData) {return false;}
+
     // Don't prefetch on slow connections
-    if (navigator.connection && navigator.connection.effectiveType === 'slow-2g') return false;
-    
+    if (navigator.connection && navigator.connection.effectiveType === 'slow-2g') {return false;}
+
     return true;
   }
-  
+
   /**
    * Prefetch a page and its resources
    * @method prefetchPage
    * @param {string} url - Page URL to prefetch
    */
   prefetchPage(url) {
-    if (this.prefetchQueue.has(url)) return;
-    
+    if (this.prefetchQueue.has(url)) {return;}
+
     this.prefetchQueue.set(url, true);
-    
+
     // Prefetch the HTML
     this.addHint('prefetch', url);
-    
+
     // Prefetch associated resources based on page type
     const pageName = url.split('/').pop().replace('.html', '');
-    
+
     // Map pages to their likely resources
     const pageResources = {
       'interactive-playground': [
@@ -283,7 +283,7 @@ class ResourceHints {
         '/assets/design-system-*.css'
       ]
     };
-    
+
     if (pageResources[pageName]) {
       pageResources[pageName].forEach(resource => {
         // Note: In production, these would be actual hashed filenames
@@ -291,7 +291,7 @@ class ResourceHints {
       });
     }
   }
-  
+
   /**
    * Monitor performance and adjust strategies
    * @method monitorPerformance
@@ -299,12 +299,12 @@ class ResourceHints {
   monitorPerformance() {
     // Monitor resource timing
     if ('PerformanceObserver' in window) {
-      const resourceObserver = new PerformanceObserver((list) => {
+      const resourceObserver = new PerformanceObserver(list => {
         for (const entry of list.getEntries()) {
           // Track slow resources
           if (entry.duration > 1000) {
             debug.warn(`Slow resource: ${entry.name} took ${entry.duration}ms`);
-            
+
             // Add to critical resources for next visit
             if (entry.initiatorType === 'css' || entry.initiatorType === 'script') {
               this.criticalResources.add(entry.name);
@@ -313,18 +313,18 @@ class ResourceHints {
           }
         }
       });
-      
+
       resourceObserver.observe({ entryTypes: ['resource'] });
     }
-    
+
     // Monitor long tasks
     if ('PerformanceObserver' in window && 'PerformanceLongTaskTiming' in window) {
-      const longTaskObserver = new PerformanceObserver((list) => {
+      const longTaskObserver = new PerformanceObserver(list => {
         for (const entry of list.getEntries()) {
           debug.warn(`Long task detected: ${entry.duration}ms`);
         }
       });
-      
+
       try {
         longTaskObserver.observe({ entryTypes: ['longtask'] });
       } catch (e) {
@@ -332,21 +332,21 @@ class ResourceHints {
       }
     }
   }
-  
+
   /**
    * Save critical resources to localStorage
    * @method saveCriticalResources
    */
   saveCriticalResources() {
     try {
-      localStorage.setItem('bsb-critical-resources', 
+      localStorage.setItem('bsb-critical-resources',
         JSON.stringify([...this.criticalResources])
       );
     } catch (e) {
       // Storage might be full
     }
   }
-  
+
   /**
    * Load saved critical resources
    * @method loadCriticalResources
@@ -362,7 +362,7 @@ class ResourceHints {
       // Invalid data
     }
   }
-  
+
   /**
    * Clean up observers
    * @method cleanup

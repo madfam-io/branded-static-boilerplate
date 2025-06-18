@@ -2,17 +2,17 @@
  * =============================================================================
  * SEO UTILITIES - Search Engine Optimization Tools
  * =============================================================================
- * 
+ *
  * This module provides comprehensive SEO utilities for optimizing pages
  * and teaching SEO best practices through interactive examples.
- * 
+ *
  * 🎯 Features:
  * - Meta tag generation and validation
  * - Structured data helpers
  * - SEO score calculation
  * - SERP preview generation
  * - Educational SEO insights
- * 
+ *
  * 📚 Learn More:
  * - SEO Fundamentals: /docs/tutorials/seo-basics.md
  * - Schema.org: https://schema.org
@@ -27,11 +27,11 @@ const SEO_CONFIG = {
   // Optimal lengths for meta content
   titleLength: { min: 30, max: 60, optimal: 55 },
   descriptionLength: { min: 120, max: 160, optimal: 155 },
-  
+
   // Social media optimal sizes
   ogImage: { width: 1200, height: 630 },
   twitterImage: { width: 1200, height: 600 },
-  
+
   // Structured data types for educational content
   schemaTypes: {
     educational: 'LearningResource',
@@ -61,27 +61,27 @@ export function generateMetaTags(options) {
     noindex = false,
     canonical
   } = options;
-  
+
   const metaTags = {
     basic: [],
     openGraph: [],
     twitter: [],
     educational: []
   };
-  
+
   // Basic meta tags
   metaTags.basic.push({
     tag: 'title',
     content: title,
     insight: validateTitle(title)
   });
-  
+
   metaTags.basic.push({
     name: 'description',
     content: description,
     insight: validateDescription(description)
   });
-  
+
   if (keywords && keywords.length > 0) {
     metaTags.basic.push({
       name: 'keywords',
@@ -92,7 +92,7 @@ export function generateMetaTags(options) {
       }
     });
   }
-  
+
   if (author) {
     metaTags.basic.push({
       name: 'author',
@@ -103,7 +103,7 @@ export function generateMetaTags(options) {
       }
     });
   }
-  
+
   // Robots meta tag
   if (noindex) {
     metaTags.basic.push({
@@ -115,7 +115,7 @@ export function generateMetaTags(options) {
       }
     });
   }
-  
+
   // Canonical URL
   if (canonical || url) {
     metaTags.basic.push({
@@ -128,7 +128,7 @@ export function generateMetaTags(options) {
       }
     });
   }
-  
+
   // Language alternates
   alternates.forEach(alt => {
     metaTags.basic.push({
@@ -137,12 +137,12 @@ export function generateMetaTags(options) {
       hreflang: alt.lang,
       href: alt.url,
       insight: {
-        note: `Helps search engines serve the correct language version`,
+        note: 'Helps search engines serve the correct language version',
         example: 'Essential for multilingual sites'
       }
     });
   });
-  
+
   // Open Graph tags
   metaTags.openGraph = [
     { property: 'og:title', content: title },
@@ -151,7 +151,7 @@ export function generateMetaTags(options) {
     { property: 'og:url', content: url },
     { property: 'og:locale', content: locale }
   ];
-  
+
   if (image) {
     metaTags.openGraph.push(
       { property: 'og:image', content: image },
@@ -167,18 +167,18 @@ export function generateMetaTags(options) {
       }
     );
   }
-  
+
   // Twitter Card tags
   metaTags.twitter = [
     { name: 'twitter:card', content: image ? 'summary_large_image' : 'summary' },
     { name: 'twitter:title', content: title },
     { name: 'twitter:description', content: description }
   ];
-  
+
   if (image) {
     metaTags.twitter.push({ name: 'twitter:image', content: image });
   }
-  
+
   // Educational insights
   metaTags.educational = [
     {
@@ -204,7 +204,7 @@ export function generateMetaTags(options) {
       ]
     }
   ];
-  
+
   return metaTags;
 }
 
@@ -214,16 +214,16 @@ export function generateMetaTags(options) {
  * @returns {Object} Validation results with recommendations
  */
 export function validateTitle(title) {
-  const length = title.length;
+  const { length } = title;
   const { min, max, optimal } = SEO_CONFIG.titleLength;
-  
+
   const result = {
     length,
     status: 'good',
     message: '',
     recommendations: []
   };
-  
+
   if (length < min) {
     result.status = 'warning';
     result.message = `Title is too short (${length} chars). Aim for ${min}-${max} characters.`;
@@ -238,16 +238,16 @@ export function validateTitle(title) {
     result.status = 'excellent';
     result.message = `Perfect title length (${length} chars)!`;
   }
-  
+
   // Check for common issues
   if (title.toLowerCase().includes('untitled') || title.toLowerCase().includes('home')) {
     result.recommendations.push('Avoid generic titles like "Home" or "Untitled"');
   }
-  
+
   if (title.split('|').length > 2 || title.split('-').length > 3) {
     result.recommendations.push('Avoid excessive separators - keep title readable');
   }
-  
+
   return result;
 }
 
@@ -257,16 +257,16 @@ export function validateTitle(title) {
  * @returns {Object} Validation results with recommendations
  */
 export function validateDescription(description) {
-  const length = description.length;
+  const { length } = description;
   const { min, max, optimal } = SEO_CONFIG.descriptionLength;
-  
+
   const result = {
     length,
     status: 'good',
     message: '',
     recommendations: []
   };
-  
+
   if (length < min) {
     result.status = 'warning';
     result.message = `Description is too short (${length} chars). Aim for ${min}-${max} characters.`;
@@ -281,16 +281,16 @@ export function validateDescription(description) {
     result.status = 'excellent';
     result.message = `Perfect description length (${length} chars)!`;
   }
-  
+
   // Check for common issues
   if (!description.match(/[.!?]$/)) {
     result.recommendations.push('End with punctuation for better readability');
   }
-  
+
   if (description.toLowerCase().includes('click here') || description.toLowerCase().includes('read more')) {
     result.recommendations.push('Avoid generic CTAs - be specific about value');
   }
-  
+
   return result;
 }
 
@@ -314,7 +314,7 @@ export function generateEducationalSchema(data) {
     requires = [],
     image
   } = data;
-  
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': type,
@@ -338,30 +338,30 @@ export function generateEducationalSchema(data) {
     isAccessibleForFree: true,
     license: 'https://opensource.org/licenses/MIT'
   };
-  
+
   // Add optional fields
   if (timeRequired) {
     schema.timeRequired = timeRequired;
   }
-  
+
   if (teaches.length > 0) {
     schema.teaches = teaches.map(skill => ({
       '@type': 'DefinedTerm',
       name: skill
     }));
   }
-  
+
   if (requires.length > 0) {
     schema.competencyRequired = requires.map(skill => ({
       '@type': 'DefinedTerm',
       name: skill
     }));
   }
-  
+
   if (image) {
     schema.image = image;
   }
-  
+
   return schema;
 }
 
@@ -418,21 +418,21 @@ export function calculateSEOScore(page) {
     content: 0,
     technical: 0
   };
-  
+
   const insights = [];
-  
+
   // Title score
   const titleValidation = validateTitle(page.title || '');
   scores.title = titleValidation.status === 'excellent' ? 100 :
-                 titleValidation.status === 'good' ? 80 :
-                 titleValidation.status === 'warning' ? 60 : 40;
-  
+    titleValidation.status === 'good' ? 80 :
+      titleValidation.status === 'warning' ? 60 : 40;
+
   // Description score
   const descValidation = validateDescription(page.description || '');
   scores.description = descValidation.status === 'excellent' ? 100 :
-                      descValidation.status === 'good' ? 80 :
-                      descValidation.status === 'warning' ? 60 : 40;
-  
+    descValidation.status === 'good' ? 80 :
+      descValidation.status === 'warning' ? 60 : 40;
+
   // Headings score
   if (page.h1Count === 1) {
     scores.headings += 50;
@@ -444,7 +444,7 @@ export function calculateSEOScore(page) {
       solution: 'Use exactly one H1 tag per page'
     });
   }
-  
+
   if (page.headingHierarchy) {
     scores.headings += 50;
   } else {
@@ -455,7 +455,7 @@ export function calculateSEOScore(page) {
       solution: 'Use headings in sequential order (H1 → H2 → H3)'
     });
   }
-  
+
   // Images score
   const imagesWithoutAlt = page.images?.filter(img => !img.alt).length || 0;
   if (imagesWithoutAlt === 0) {
@@ -469,7 +469,7 @@ export function calculateSEOScore(page) {
       solution: 'Add descriptive alt text to all images'
     });
   }
-  
+
   // Links score
   if (page.links?.internal > 0) {
     scores.links += 50;
@@ -481,7 +481,7 @@ export function calculateSEOScore(page) {
       solution: 'Add relevant internal links to improve navigation'
     });
   }
-  
+
   if (page.links?.external > 0 && page.links?.externalNofollow > 0) {
     scores.links += 50;
   } else if (page.links?.external > 0) {
@@ -493,7 +493,7 @@ export function calculateSEOScore(page) {
       solution: 'Consider adding rel="nofollow" to untrusted external links'
     });
   }
-  
+
   // Content score
   const wordCount = page.content?.wordCount || 0;
   if (wordCount >= 300) {
@@ -506,26 +506,26 @@ export function calculateSEOScore(page) {
       solution: 'Add more substantial content (aim for 300+ words)'
     });
   }
-  
+
   // Technical score
-  if (page.canonical) scores.technical += 25;
-  if (page.structuredData) scores.technical += 25;
-  if (page.mobileFriendly) scores.technical += 25;
-  if (page.https) scores.technical += 25;
-  
+  if (page.canonical) {scores.technical += 25;}
+  if (page.structuredData) {scores.technical += 25;}
+  if (page.mobileFriendly) {scores.technical += 25;}
+  if (page.https) {scores.technical += 25;}
+
   // Calculate overall score
   const overallScore = Math.round(
     Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length
   );
-  
+
   return {
     overall: overallScore,
     breakdown: scores,
     insights,
     grade: overallScore >= 90 ? 'A' :
-           overallScore >= 80 ? 'B' :
-           overallScore >= 70 ? 'C' :
-           overallScore >= 60 ? 'D' : 'F'
+      overallScore >= 80 ? 'B' :
+        overallScore >= 70 ? 'C' :
+          overallScore >= 60 ? 'D' : 'F'
   };
 }
 
@@ -536,21 +536,21 @@ export function calculateSEOScore(page) {
  */
 export function generateSERPPreview(data) {
   const { title, description, url } = data;
-  
+
   // Truncate title if needed
-  const displayTitle = title.length > 60 
-    ? title.substring(0, 57) + '...' 
+  const displayTitle = title.length > 60
+    ? `${title.substring(0, 57)}...`
     : title;
-  
+
   // Truncate description if needed
-  const displayDescription = description.length > 160 
-    ? description.substring(0, 157) + '...' 
+  const displayDescription = description.length > 160
+    ? `${description.substring(0, 157)}...`
     : description;
-  
+
   // Format URL for display
   const urlParts = new URL(url);
   const breadcrumb = urlParts.hostname + urlParts.pathname.replace(/\/$/, '');
-  
+
   return {
     title: displayTitle,
     titleTruncated: title.length > 60,

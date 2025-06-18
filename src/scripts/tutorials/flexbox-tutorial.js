@@ -1,7 +1,7 @@
 /**
  * Flexbox Interactive Tutorial
  * ============================
- * 
+ *
  * Complete guide to CSS Flexbox with visual demonstrations and hands-on practice.
  */
 
@@ -11,7 +11,7 @@ export const flexboxTutorial = {
   description: 'Learn Flexbox layout with interactive examples and visual feedback',
   difficulty: 'beginner',
   estimatedTime: '15 minutes',
-  
+
   lessons: [
     {
       id: 'flex-basics',
@@ -83,7 +83,7 @@ console.log('Click any item to toggle its flex-grow property!');`,
         'Experiment with align-items properties'
       ]
     },
-    
+
     {
       id: 'flex-alignment',
       title: 'Alignment and Spacing',
@@ -213,7 +213,7 @@ console.log('Click containers to cycle through alignment options!');`,
         'Experiment with flex-direction: column'
       ]
     },
-    
+
     {
       id: 'flex-responsive',
       title: 'Responsive Flex Layouts',
@@ -361,7 +361,7 @@ console.log('Resize window or click layout to see responsive behavior!');`,
       ]
     }
   ],
-  
+
   challenges: [
     {
       id: 'navbar-challenge',
@@ -416,7 +416,7 @@ console.log('Resize window or click layout to see responsive behavior!');`,
   border-radius: 4px;
   cursor: pointer;
 }`,
-        js: `// Optional: Add mobile menu toggle functionality`
+        js: '// Optional: Add mobile menu toggle functionality'
       },
       solution: `/* Solution */
 .navbar {

@@ -1,7 +1,7 @@
 /**
  * Web Accessibility Interactive Tutorial
  * =====================================
- * 
+ *
  * Learn web accessibility principles with hands-on examples and live testing.
  */
 
@@ -11,7 +11,7 @@ export const accessibilityTutorial = {
   description: 'Build inclusive web experiences that work for everyone',
   difficulty: 'intermediate',
   estimatedTime: '25 minutes',
-  
+
   lessons: [
     {
       id: 'semantic-html',
@@ -214,7 +214,7 @@ console.log('Try tabbing through the elements to see the difference!');`,
         'Check the console for screen reader announcements'
       ]
     },
-    
+
     {
       id: 'aria-labels',
       title: 'ARIA Labels and Descriptions',
@@ -461,7 +461,7 @@ console.log('Try using Tab and Enter keys to navigate the forms!');`,
         'Try submitting the forms to see the difference'
       ]
     },
-    
+
     {
       id: 'keyboard-navigation',
       title: 'Keyboard Navigation',
@@ -883,7 +883,7 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
       ]
     }
   ],
-  
+
   challenges: [
     {
       id: 'accessible-form',
@@ -907,7 +907,7 @@ console.log('Try navigating with Tab, Enter, Escape, and Arrow keys!');`,
 }
 
 /* Add your accessible styles here */`,
-        js: `// Add form validation with accessible error messages`
+        js: '// Add form validation with accessible error messages'
       },
       solution: `<!-- Solution -->
 <form class="contact-form" novalidate>

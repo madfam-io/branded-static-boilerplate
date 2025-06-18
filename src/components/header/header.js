@@ -208,5 +208,5 @@ window.BSBHeader = {
    * @function markCurrentPage
    * @returns {void}
    */
-  markCurrentPage: markCurrentPage
+  markCurrentPage
 };

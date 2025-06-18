@@ -1,13 +1,13 @@
 /**
  * Language Toggle System
  * ======================
- * 
+ *
  * Provides bilingual support for educational content with:
  * - Dynamic language switching
  * - Persistent language preference
  * - Accessibility-compliant implementation
  * - Educational tooltips in multiple languages
- * 
+ *
  * Educational Features:
  * - Real-time content translation
  * - Language-specific code examples
@@ -30,7 +30,7 @@ class LanguageToggle {
     this.createToggleElement();
     this.updateContent();
     this.bindEvents();
-    
+
     // Announce current language to screen readers
     this.announceLanguageChange(this.currentLanguage, false);
   }
@@ -41,7 +41,7 @@ class LanguageToggle {
   detectBrowserLanguage() {
     const browserLang = navigator.language || navigator.userLanguage;
     const supportedLanguages = ['en', 'es'];
-    
+
     // Check if browser language is supported
     const langCode = browserLang.split('-')[0];
     return supportedLanguages.includes(langCode) ? langCode : 'es';
@@ -76,7 +76,7 @@ class LanguageToggle {
         'nav.contact': 'Contact',
         'nav.project-structure': 'Project Structure',
         'nav.component-library': 'Components',
-        
+
         // Common UI
         'ui.skip-to-content': 'Skip to main content',
         'ui.toggle-navigation': 'Toggle navigation',
@@ -84,20 +84,20 @@ class LanguageToggle {
         'ui.learn-more': 'Learn More',
         'ui.get-started': 'Get Started',
         'ui.view-source': 'View Source',
-        
+
         // Language toggle
         'lang.current': 'Current language',
         'lang.switch-to': 'Switch to',
         'lang.english': 'English',
         'lang.spanish': 'Spanish',
-        
+
         // Educational content
         'education.tip': 'Tip',
         'education.example': 'Example',
         'education.try-it': 'Try it yourself',
         'education.best-practice': 'Best Practice',
         'education.common-mistake': 'Common Mistake',
-        
+
         // Achievements
         'achievement.unlocked': 'Achievement Unlocked!',
         'achievement.first-visit': 'Welcome Explorer',
@@ -114,7 +114,7 @@ class LanguageToggle {
         'nav.contact': 'Contacto',
         'nav.project-structure': 'Estructura del Proyecto',
         'nav.component-library': 'Componentes',
-        
+
         // Common UI
         'ui.skip-to-content': 'Saltar al contenido principal',
         'ui.toggle-navigation': 'Alternar navegación',
@@ -122,20 +122,20 @@ class LanguageToggle {
         'ui.learn-more': 'Aprender Más',
         'ui.get-started': 'Comenzar',
         'ui.view-source': 'Ver Código',
-        
+
         // Language toggle
         'lang.current': 'Idioma actual',
         'lang.switch-to': 'Cambiar a',
         'lang.english': 'Inglés',
         'lang.spanish': 'Español',
-        
+
         // Educational content
         'education.tip': 'Consejo',
         'education.example': 'Ejemplo',
         'education.try-it': 'Pruébalo tú mismo',
         'education.best-practice': 'Mejor Práctica',
         'education.common-mistake': 'Error Común',
-        
+
         // Achievements
         'achievement.unlocked': '¡Logro Desbloqueado!',
         'achievement.first-visit': 'Explorador de Bienvenida',
@@ -158,11 +158,11 @@ class LanguageToggle {
     const toggle = document.createElement('div');
     toggle.className = 'bsb-language-toggle';
     toggle.setAttribute('data-bsb-component', 'language-toggle');
-    
+
     const currentLangName = this.currentLanguage === 'en' ? 'English' : 'Español';
     const otherLang = this.currentLanguage === 'en' ? 'es' : 'en';
     const otherLangName = otherLang === 'en' ? 'English' : 'Español';
-    
+
     toggle.innerHTML = `
       <button class="bsb-language-toggle__button" 
               aria-label="${this.t('lang.current')}: ${currentLangName}. ${this.t('lang.switch-to')} ${otherLangName}"
@@ -184,7 +184,7 @@ class LanguageToggle {
    * Bind event listeners
    */
   bindEvents() {
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
       if (e.target.closest('.bsb-language-toggle__button')) {
         const button = e.target.closest('.bsb-language-toggle__button');
         const newLanguage = button.getAttribute('data-language');
@@ -193,7 +193,7 @@ class LanguageToggle {
     });
 
     // Keyboard shortcut: Alt + L to toggle language
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.altKey && e.key === 'l') {
         e.preventDefault();
         const newLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
@@ -206,17 +206,17 @@ class LanguageToggle {
    * Switch to a new language
    */
   switchLanguage(newLanguage) {
-    if (newLanguage === this.currentLanguage) return;
-    
+    if (newLanguage === this.currentLanguage) {return;}
+
     const oldLanguage = this.currentLanguage;
     this.currentLanguage = newLanguage;
     this.setStoredLanguage(newLanguage);
-    
+
     // Update content
     this.updateContent();
     this.updateToggleElement();
     this.announceLanguageChange(newLanguage, true);
-    
+
     // Trigger custom event for other components
     document.dispatchEvent(new CustomEvent('languageChanged', {
       detail: { oldLanguage, newLanguage }
@@ -231,7 +231,7 @@ class LanguageToggle {
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const key = element.getAttribute('data-i18n');
       const translation = this.t(key);
-      
+
       if (translation !== key) {
         if (element.tagName === 'INPUT' && element.type === 'submit') {
           element.value = translation;
@@ -268,20 +268,20 @@ class LanguageToggle {
    */
   updateToggleElement() {
     const toggle = document.querySelector('.bsb-language-toggle__button');
-    if (!toggle) return;
+    if (!toggle) {return;}
 
     const currentSpan = toggle.querySelector('.bsb-language-toggle__current');
     const targetSpan = toggle.querySelector('.bsb-language-toggle__target');
-    
+
     const otherLang = this.currentLanguage === 'en' ? 'es' : 'en';
     const currentLangName = this.currentLanguage === 'en' ? 'English' : 'Español';
     const otherLangName = otherLang === 'en' ? 'English' : 'Español';
-    
+
     currentSpan.textContent = this.currentLanguage.toUpperCase();
     targetSpan.textContent = otherLang.toUpperCase();
-    
+
     toggle.setAttribute('data-language', otherLang);
-    toggle.setAttribute('aria-label', 
+    toggle.setAttribute('aria-label',
       `${this.t('lang.current')}: ${currentLangName}. ${this.t('lang.switch-to')} ${otherLangName}`
     );
   }
@@ -294,15 +294,15 @@ class LanguageToggle {
     announcement.setAttribute('aria-live', 'polite');
     announcement.setAttribute('aria-atomic', 'true');
     announcement.className = 'sr-only';
-    
+
     const langName = language === 'en' ? 'English' : 'Español';
-    const message = isChange 
+    const message = isChange
       ? (language === 'es' ? `Idioma cambiado a ${langName}` : `Language changed to ${langName}`)
       : (language === 'es' ? `Idioma actual: ${langName}` : `Current language: ${langName}`);
-    
+
     announcement.textContent = message;
     document.body.appendChild(announcement);
-    
+
     // Remove announcement after it's been read
     setTimeout(() => {
       document.body.removeChild(announcement);

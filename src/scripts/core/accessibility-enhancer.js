@@ -1,15 +1,15 @@
 /**
  * Accessibility Enhancement System
  * ===============================
- * 
+ *
  * Provides progressive accessibility enhancements for educational content:
  * - Screen reader optimizations
- * - Keyboard navigation improvements  
+ * - Keyboard navigation improvements
  * - Focus management
  * - ARIA live regions
  * - High contrast support
  * - Animation preferences
- * 
+ *
  * Educational Features:
  * - Interactive accessibility demonstrations
  * - Real-time accessibility feedback
@@ -36,7 +36,7 @@ class AccessibilityEnhancer {
     this.setupAccessibilityMenu();
     this.applyUserPreferences();
     this.setupEducationalFeatures();
-    
+
     debug.log('BSB Accessibility: Enhanced features initialized ♿');
   }
 
@@ -67,13 +67,13 @@ class AccessibilityEnhancer {
   setupKeyboardNavigation() {
     // Track keyboard usage for enhanced focus indicators
     let isKeyboardUser = false;
-    
-    document.addEventListener('keydown', (e) => {
+
+    document.addEventListener('keydown', e => {
       if (e.key === 'Tab') {
         isKeyboardUser = true;
         document.body.classList.add('keyboard-navigation');
       }
-      
+
       // Global keyboard shortcuts
       this.handleGlobalShortcuts(e);
     });
@@ -85,10 +85,10 @@ class AccessibilityEnhancer {
 
     // Enhanced skip links
     this.enhanceSkipLinks();
-    
+
     // Focus trapping for modals
     this.setupFocusTrapping();
-    
+
     // Arrow key navigation for menus
     this.setupMenuNavigation();
   }
@@ -107,7 +107,7 @@ class AccessibilityEnhancer {
         this.announceToScreenReader('Skipped to main content');
       }
     }
-    
+
     // Alt + 2: Skip to navigation
     if (e.altKey && e.key === '2') {
       e.preventDefault();
@@ -120,13 +120,13 @@ class AccessibilityEnhancer {
         }
       }
     }
-    
+
     // Alt + A: Toggle accessibility menu
     if (e.altKey && e.key.toLowerCase() === 'a') {
       e.preventDefault();
       this.toggleAccessibilityMenu();
     }
-    
+
     // Alt + H: Show keyboard shortcuts help
     if (e.altKey && e.key.toLowerCase() === 'h') {
       e.preventDefault();
@@ -139,23 +139,23 @@ class AccessibilityEnhancer {
    */
   enhanceSkipLinks() {
     const skipLinks = document.querySelectorAll('.skip-link, [href^="#"]:first-child');
-    
+
     skipLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.addEventListener('click', e => {
         e.preventDefault();
         const targetId = link.getAttribute('href').substring(1);
         const target = document.getElementById(targetId);
-        
+
         if (target) {
           // Make target focusable if not already
           if (!target.hasAttribute('tabindex')) {
             target.setAttribute('tabindex', '-1');
           }
-          
+
           // Focus and scroll
           target.focus();
           target.scrollIntoView({ behavior: 'smooth' });
-          
+
           // Announce to screen readers
           this.announceToScreenReader(`Navigated to ${target.tagName.toLowerCase()} section`);
         }
@@ -169,11 +169,11 @@ class AccessibilityEnhancer {
   setupFocusManagement() {
     // Remember focus position when navigating
     let lastFocusedElement = null;
-    
-    document.addEventListener('focusin', (e) => {
+
+    document.addEventListener('focusin', e => {
       lastFocusedElement = e.target;
     });
-    
+
     // Restore focus when appropriate
     window.addEventListener('popstate', () => {
       if (lastFocusedElement) {
@@ -182,10 +182,10 @@ class AccessibilityEnhancer {
         }, 100);
       }
     });
-    
+
     // Manage focus for dynamic content
     this.setupDynamicFocusManagement();
-    
+
     // Add focus indicators for interactive elements
     this.enhanceFocusIndicators();
   }
@@ -195,15 +195,15 @@ class AccessibilityEnhancer {
    */
   setupDynamicFocusManagement() {
     // Watch for content changes
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
         if (mutation.type === 'childList') {
-          mutation.addedNodes.forEach((node) => {
+          mutation.addedNodes.forEach(node => {
             if (node.nodeType === 1) { // Element node
               // Auto-focus new interactive content
-              const newInteractive = node.querySelector ? 
+              const newInteractive = node.querySelector ?
                 node.querySelector('button, input, select, textarea, [tabindex="0"]') : null;
-              
+
               if (newInteractive && node.hasAttribute('data-auto-focus')) {
                 setTimeout(() => {
                   newInteractive.focus();
@@ -215,7 +215,7 @@ class AccessibilityEnhancer {
         }
       });
     });
-    
+
     observer.observe(document.body, {
       childList: true,
       subtree: true
@@ -255,13 +255,13 @@ class AccessibilityEnhancer {
   setupScreenReaderOptimizations() {
     // Enhanced ARIA labels
     this.enhanceAriaLabels();
-    
+
     // Dynamic content announcements
     this.setupContentAnnouncements();
-    
+
     // Reading order optimization
     this.optimizeReadingOrder();
-    
+
     // Table accessibility
     this.enhanceTableAccessibility();
   }
@@ -279,17 +279,17 @@ class AccessibilityEnhancer {
         img.setAttribute('alt', 'Image');
       }
     });
-    
+
     // Enhance form labels
     document.querySelectorAll('input, select, textarea').forEach(input => {
       if (!input.getAttribute('aria-label') && !input.getAttribute('aria-labelledby')) {
         const label = document.querySelector(`label[for="${input.id}"]`);
         if (label) {
-          input.setAttribute('aria-labelledby', label.id || (label.id = `label-${Date.now()}`));
+          input.setAttribute('aria-labelledby', (label.id ||= `label-${Date.now()}`));
         }
       }
     });
-    
+
     // Add context to links
     document.querySelectorAll('a[href^="http"]').forEach(link => {
       if (!link.getAttribute('aria-label')) {
@@ -311,7 +311,7 @@ class AccessibilityEnhancer {
       announcements.className = 'sr-only';
       document.body.appendChild(announcements);
     }
-    
+
     // Create status region for immediate updates
     if (!document.getElementById('aria-status')) {
       const status = document.createElement('div');
@@ -329,10 +329,10 @@ class AccessibilityEnhancer {
   announceToScreenReader(message, priority = 'polite') {
     const regionId = priority === 'assertive' ? 'aria-status' : 'aria-announcements';
     const region = document.getElementById(regionId);
-    
+
     if (region) {
       region.textContent = message;
-      
+
       // Clear after announcement
       setTimeout(() => {
         region.textContent = '';
@@ -345,8 +345,8 @@ class AccessibilityEnhancer {
    */
   setupAccessibilityMenu() {
     // Create accessibility menu if not exists
-    if (document.querySelector('.bsb-a11y-menu')) return;
-    
+    if (document.querySelector('.bsb-a11y-menu')) {return;}
+
     const menu = document.createElement('div');
     menu.className = 'bsb-a11y-menu';
     menu.setAttribute('hidden', '');
@@ -370,9 +370,9 @@ class AccessibilityEnhancer {
         <button class="bsb-a11y-menu__close">Close</button>
       </div>
     `;
-    
+
     document.body.appendChild(menu);
-    
+
     // Setup menu controls
     this.bindAccessibilityControls();
   }
@@ -382,7 +382,7 @@ class AccessibilityEnhancer {
    */
   bindAccessibilityControls() {
     const menu = document.querySelector('.bsb-a11y-menu');
-    
+
     // High contrast toggle
     const highContrastToggle = document.getElementById('high-contrast-toggle');
     highContrastToggle.checked = this.preferences.highContrast;
@@ -391,7 +391,7 @@ class AccessibilityEnhancer {
       this.applyHighContrast();
       this.savePreferences();
     });
-    
+
     // Large text toggle
     const largeTextToggle = document.getElementById('large-text-toggle');
     largeTextToggle.checked = this.preferences.largeText;
@@ -400,7 +400,7 @@ class AccessibilityEnhancer {
       this.applyLargeText();
       this.savePreferences();
     });
-    
+
     // Reduced motion toggle
     const reducedMotionToggle = document.getElementById('reduced-motion-toggle');
     reducedMotionToggle.checked = this.preferences.reducedMotion;
@@ -409,7 +409,7 @@ class AccessibilityEnhancer {
       this.applyReducedMotion();
       this.savePreferences();
     });
-    
+
     // Close menu
     menu.querySelector('.bsb-a11y-menu__close').addEventListener('click', () => {
       this.toggleAccessibilityMenu();
@@ -422,7 +422,7 @@ class AccessibilityEnhancer {
   toggleAccessibilityMenu() {
     const menu = document.querySelector('.bsb-a11y-menu');
     const isHidden = menu.hasAttribute('hidden');
-    
+
     if (isHidden) {
       menu.removeAttribute('hidden');
       menu.querySelector('h3').focus();
@@ -437,9 +437,9 @@ class AccessibilityEnhancer {
    * Apply user preferences
    */
   applyUserPreferences() {
-    if (this.preferences.highContrast) this.applyHighContrast();
-    if (this.preferences.largeText) this.applyLargeText();
-    if (this.preferences.reducedMotion) this.applyReducedMotion();
+    if (this.preferences.highContrast) {this.applyHighContrast();}
+    if (this.preferences.largeText) {this.applyLargeText();}
+    if (this.preferences.reducedMotion) {this.applyReducedMotion();}
   }
 
   /**
@@ -447,7 +447,7 @@ class AccessibilityEnhancer {
    */
   applyHighContrast() {
     document.body.classList.toggle('high-contrast', this.preferences.highContrast);
-    
+
     if (this.preferences.highContrast) {
       this.announceToScreenReader('High contrast mode enabled');
     } else {
@@ -460,7 +460,7 @@ class AccessibilityEnhancer {
    */
   applyLargeText() {
     document.body.classList.toggle('large-text', this.preferences.largeText);
-    
+
     if (this.preferences.largeText) {
       this.announceToScreenReader('Large text mode enabled');
     } else {
@@ -473,7 +473,7 @@ class AccessibilityEnhancer {
    */
   applyReducedMotion() {
     document.body.classList.toggle('reduced-motion', this.preferences.reducedMotion);
-    
+
     if (this.preferences.reducedMotion) {
       this.announceToScreenReader('Reduced motion enabled');
     } else {
@@ -505,24 +505,24 @@ class AccessibilityEnhancer {
         <button class="bsb-keyboard-help__close">Close Help</button>
       </div>
     `;
-    
+
     document.body.appendChild(helpDialog);
     helpDialog.querySelector('h2').focus();
-    
+
     // Close on escape or close button
     const closeHelp = () => {
       document.body.removeChild(helpDialog);
       this.announceToScreenReader('Keyboard help closed');
     };
-    
+
     helpDialog.querySelector('.bsb-keyboard-help__close').addEventListener('click', closeHelp);
-    
-    helpDialog.addEventListener('keydown', (e) => {
+
+    helpDialog.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeHelp();
       }
     });
-    
+
     this.announceToScreenReader('Keyboard shortcuts help opened');
   }
 
@@ -532,10 +532,10 @@ class AccessibilityEnhancer {
   setupEducationalFeatures() {
     // Add accessibility inspector tool
     this.createAccessibilityInspector();
-    
+
     // Add ARIA role demonstrations
     this.enhanceAriaRoleDemos();
-    
+
     // Create accessibility checklist
     this.createAccessibilityChecklist();
   }
@@ -545,7 +545,7 @@ class AccessibilityEnhancer {
    */
   createAccessibilityInspector() {
     let inspectorMode = false;
-    
+
     // Add inspector toggle
     const toggle = document.createElement('button');
     toggle.className = 'bsb-a11y-inspector-toggle';
@@ -564,18 +564,18 @@ class AccessibilityEnhancer {
       font-size: 12px;
       cursor: pointer;
     `;
-    
+
     toggle.addEventListener('click', () => {
       inspectorMode = !inspectorMode;
       toggle.textContent = inspectorMode ? '♿ Inspector ON' : '♿ A11y Inspector';
-      
+
       if (inspectorMode) {
         this.enableAccessibilityInspector();
       } else {
         this.disableAccessibilityInspector();
       }
     });
-    
+
     document.body.appendChild(toggle);
   }
 
@@ -602,16 +602,16 @@ class AccessibilityEnhancer {
   /**
    * Highlight accessibility information on hover
    */
-  highlightAccessibilityInfo = (e) => {
+  highlightAccessibilityInfo = e => {
     // Remove existing tooltip
     const existingTooltip = document.querySelector('.bsb-a11y-tooltip');
     if (existingTooltip) {
       existingTooltip.remove();
     }
-    
+
     const element = e.target;
     const info = this.getAccessibilityInfo(element);
-    
+
     if (info.length > 0) {
       const tooltip = document.createElement('div');
       tooltip.className = 'bsb-a11y-tooltip';
@@ -628,68 +628,68 @@ class AccessibilityEnhancer {
         z-index: 10001;
         pointer-events: none;
       `;
-      
+
       document.body.appendChild(tooltip);
-      
+
       // Position tooltip
       const rect = element.getBoundingClientRect();
-      tooltip.style.left = rect.left + 'px';
-      tooltip.style.top = (rect.bottom + 5) + 'px';
+      tooltip.style.left = `${rect.left}px`;
+      tooltip.style.top = `${rect.bottom + 5}px`;
     }
-  }
+  };
 
   /**
    * Get accessibility information for an element
    */
   getAccessibilityInfo(element) {
     const info = [];
-    
+
     // Tag and role
     info.push(`Tag: ${element.tagName.toLowerCase()}`);
-    
+
     if (element.getAttribute('role')) {
       info.push(`Role: ${element.getAttribute('role')}`);
     }
-    
+
     // ARIA attributes
     const ariaAttrs = Array.from(element.attributes)
       .filter(attr => attr.name.startsWith('aria-'))
       .map(attr => `${attr.name}: ${attr.value}`);
-    
+
     if (ariaAttrs.length > 0) {
       info.push(`ARIA: ${ariaAttrs.join(', ')}`);
     }
-    
+
     // Accessibility labels
     if (element.getAttribute('aria-label')) {
       info.push(`Label: ${element.getAttribute('aria-label')}`);
     }
-    
+
     // Tab index
     if (element.hasAttribute('tabindex')) {
       info.push(`Tabindex: ${element.getAttribute('tabindex')}`);
     }
-    
+
     // Form-specific info
     if (element.matches('input, select, textarea')) {
       const label = document.querySelector(`label[for="${element.id}"]`);
       if (label) {
         info.push(`Label: ${label.textContent.trim()}`);
       } else {
-        info.push(`⚠️ Missing label`);
+        info.push('⚠️ Missing label');
       }
     }
-    
+
     // Image alt text
     if (element.tagName === 'IMG') {
       const alt = element.getAttribute('alt');
       if (alt !== null) {
         info.push(`Alt: ${alt || '(empty)'}`);
       } else {
-        info.push(`⚠️ Missing alt attribute`);
+        info.push('⚠️ Missing alt attribute');
       }
     }
-    
+
     return info;
   }
 

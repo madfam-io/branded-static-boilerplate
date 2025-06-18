@@ -356,14 +356,14 @@ export const translations = {
       description: 'From your first line of HTML to advanced performance optimization—master modern web development through comprehensive, hands-on tutorials designed for real-world application.',
       startLearning: 'Start Learning',
       gettingStarted: 'Getting Started Guide',
-      
+
       // Hero Stats
       stats: {
         coreTutorials: 'Core Tutorials',
         hoursContent: 'Hours of Content',
         codeExamples: 'Code Examples'
       },
-      
+
       // Learning Progress Overview
       learningProgress: {
         title: 'Your Learning Journey',
@@ -380,12 +380,12 @@ export const translations = {
         },
         complete: 'Complete'
       },
-      
+
       // Learning Paths
       learningPaths: {
         title: 'Choose Your Learning Path',
         description: 'Structured learning journeys designed for different goals and experience levels. Each path builds systematically on previous knowledge.',
-        
+
         foundation: {
           title: 'Foundation Builder',
           subtitle: 'Perfect for complete beginners',
@@ -394,7 +394,7 @@ export const translations = {
           level: 'Beginner',
           tutorials: '3 core tutorials'
         },
-        
+
         enhancement: {
           title: 'Skill Enhancer',
           subtitle: 'For developers ready to level up',
@@ -403,7 +403,7 @@ export const translations = {
           level: 'Intermediate',
           tutorials: '4 advanced tutorials'
         },
-        
+
         complete: {
           title: 'Complete Mastery',
           subtitle: 'The full professional curriculum',
@@ -415,7 +415,7 @@ export const translations = {
           commitment: 'Estimated completion: 6-8 weeks part-time'
         }
       },
-      
+
       // Tutorial Library
       tutorialLibrary: {
         title: 'Complete Tutorial Library',
@@ -438,7 +438,7 @@ export const translations = {
           alphabetical: 'Alphabetical',
           duration: 'Duration'
         },
-        
+
         // Individual Tutorials
         tutorials: {
           componentDevelopment: {
@@ -447,42 +447,42 @@ export const translations = {
             topics: ['HTML5', 'CSS Grid', 'JavaScript', 'Accessibility'],
             highlights: ['Semantic HTML structure', 'CSS component architecture', 'Progressive enhancement', 'Testing and validation']
           },
-          
+
           theming: {
             title: 'CSS Theming & Design Systems',
             description: 'Master CSS custom properties, design tokens, and scalable theming systems. Create consistent, maintainable designs that adapt to user preferences.',
             topics: ['CSS Variables', 'Design Systems', 'Dark Mode', 'Theming'],
             highlights: ['CSS custom properties', 'Design token systems', 'Theme switching', 'Brand customization']
           },
-          
+
           buildProcess: {
             title: 'Modern Build Process Mastery',
             description: 'Understand Vite, bundling, optimization, and modern development workflows. Learn to configure tools for efficient development and production builds.',
             topics: ['Vite', 'Bundling', 'Hot Reload', 'Optimization'],
             highlights: ['Vite configuration', 'Asset optimization', 'Development workflows', 'Production builds']
           },
-          
+
           deployment: {
             title: 'Deployment & CI/CD Excellence',
             description: 'Master GitHub Pages deployment, automated CI/CD pipelines, and production optimization. Learn professional deployment workflows and monitoring.',
             topics: ['GitHub Pages', 'GitHub Actions', 'CI/CD', 'Monitoring'],
             highlights: ['Automated deployment', 'Custom domains', 'Performance monitoring', 'Security best practices']
           },
-          
+
           performance: {
             title: 'Performance Optimization Mastery',
             description: 'Achieve perfect Lighthouse scores and optimize Core Web Vitals. Learn advanced techniques for faster loading, better user experience, and improved SEO.',
             topics: ['Core Web Vitals', 'Lighthouse', 'Image Optimization', 'Caching'],
             highlights: ['LCP, FID, CLS optimization', 'Image and font strategies', 'JavaScript performance', 'Performance budgets']
           },
-          
+
           accessibility: {
             title: 'Accessibility Best Practices',
             description: 'Create inclusive web experiences that work for everyone. Master WCAG guidelines, screen reader optimization, and assistive technology support.',
             topics: ['WCAG 2.1', 'ARIA', 'Screen Readers', 'Keyboard Navigation'],
             highlights: ['Semantic HTML structure', 'ARIA patterns and roles', 'Testing methodologies', 'Inclusive design principles']
           },
-          
+
           seo: {
             title: 'SEO Optimization Mastery',
             description: 'Master search engine optimization for static sites. Learn technical SEO, content strategy, structured data, and advanced techniques for better rankings.',
@@ -490,18 +490,18 @@ export const translations = {
             highlights: ['On-page optimization', 'Structured data markup', 'Local and mobile SEO', 'Performance for SEO']
           }
         },
-        
+
         progressStates: {
           notStarted: 'Not started',
           inProgress: 'In progress',
           completed: 'Completed ✓'
         },
-        
+
         startTutorial: 'Start Tutorial',
         showingAll: 'Showing all {total} tutorials',
         showingFiltered: 'Showing {visible} of {total} tutorials'
       },
-      
+
       // Call to Action
       cta: {
         title: 'Ready to Start Your Journey?',
@@ -517,39 +517,39 @@ export const translations = {
       title: 'Meta-Learning Showcase',
       subtitle: 'Where Code Teaches Itself',
       description: 'Discover BSB\'s meta-learning features—a revolutionary approach where the codebase becomes your teacher, demonstrating concepts through its own construction.',
-      
+
       features: {
         sourceViewer: {
           title: 'Source Code Viewer',
           description: 'View the source code of any component with inline explanations, best practices, and performance metrics.',
           demo: 'Interactive Demo'
         },
-        
+
         progressTracker: {
           title: 'Progress Tracker',
           description: 'Gamified achievement system that tracks your component exploration, learning time, and skill progression.',
           viewProgress: 'View Progress'
         },
-        
+
         learningToggle: {
           title: 'Learning Toggle',
           description: 'Activate learning mode on any page to reveal educational explanations, tips, and additional context.',
           toggleLearning: 'Toggle Learning'
         }
       },
-      
+
       benefits: {
         title: 'Meta-Learning Benefits',
         contextual: {
           title: 'Contextual Learning',
           description: 'Learn concepts directly in the context where they\'re applied, improving retention and understanding.'
         },
-        
+
         selfDocumenting: {
           title: 'Self-Documenting Code',
           description: 'Every component serves as its own documentation, showing real-world patterns and best practices.'
         },
-        
+
         progressive: {
           title: 'Progressive Disclosure',
           description: 'Information is revealed gradually based on your experience level and interest.'
@@ -562,18 +562,18 @@ export const translations = {
       title: 'Interactive Code Playground',
       subtitle: 'Learn Web Development by Doing',
       description: 'Master HTML, CSS, and JavaScript through hands-on experimentation. Edit code in real-time and see your changes instantly in a safe, educational environment designed for learning.',
-      
+
       editor: {
         title: 'Interactive Code Playground',
         description: 'Edit the code below and watch your changes come to life in real-time. Experiment, break things, and learn by doing!',
-        
+
         controls: {
           reset: 'Reset',
           fullscreen: 'Fullscreen',
           share: 'Share',
           run: 'Run'
         },
-        
+
         tabs: {
           html: {
             title: 'HTML',
@@ -588,7 +588,7 @@ export const translations = {
             help: 'Tip: Use console.log() for debugging and experiment with modern JavaScript (ES6+)'
           }
         },
-        
+
         output: {
           title: 'Live Output',
           description: 'Your rendered code appears here in real-time'
@@ -939,14 +939,14 @@ export const translations = {
       description: 'Desde tu primera línea de HTML hasta optimización avanzada de rendimiento—domina el desarrollo web moderno a través de tutoriales completos y prácticos diseñados para aplicación en el mundo real.',
       startLearning: 'Comenzar a Aprender',
       gettingStarted: 'Guía de Inicio',
-      
+
       // Estadísticas del Hero
       stats: {
         coreTutorials: 'Tutoriales Principales',
         hoursContent: 'Horas de Contenido',
         codeExamples: 'Ejemplos de Código'
       },
-      
+
       // Resumen de Progreso de Aprendizaje
       learningProgress: {
         title: 'Tu Jornada de Aprendizaje',
@@ -963,12 +963,12 @@ export const translations = {
         },
         complete: 'Completo'
       },
-      
+
       // Rutas de Aprendizaje
       learningPaths: {
         title: 'Elige tu Ruta de Aprendizaje',
         description: 'Jornadas de aprendizaje estructuradas diseñadas para diferentes objetivos y niveles de experiencia. Cada ruta construye sistemáticamente sobre conocimientos previos.',
-        
+
         foundation: {
           title: 'Constructor de Fundamentos',
           subtitle: 'Perfecto para principiantes completos',
@@ -977,7 +977,7 @@ export const translations = {
           level: 'Principiante',
           tutorials: '3 tutoriales principales'
         },
-        
+
         enhancement: {
           title: 'Potenciador de Habilidades',
           subtitle: 'Para desarrolladores listos para avanzar',
@@ -986,7 +986,7 @@ export const translations = {
           level: 'Intermedio',
           tutorials: '4 tutoriales avanzados'
         },
-        
+
         complete: {
           title: 'Dominio Completo',
           subtitle: 'El curriculum profesional completo',
@@ -998,7 +998,7 @@ export const translations = {
           commitment: 'Finalización estimada: 6-8 semanas medio tiempo'
         }
       },
-      
+
       // Biblioteca de Tutoriales
       tutorialLibrary: {
         title: 'Biblioteca Completa de Tutoriales',
@@ -1021,7 +1021,7 @@ export const translations = {
           alphabetical: 'Alfabético',
           duration: 'Duración'
         },
-        
+
         // Tutoriales Individuales
         tutorials: {
           componentDevelopment: {
@@ -1030,42 +1030,42 @@ export const translations = {
             topics: ['HTML5', 'CSS Grid', 'JavaScript', 'Accesibilidad'],
             highlights: ['Estructura HTML semántica', 'Arquitectura de componentes CSS', 'Mejora progresiva', 'Pruebas y validación']
           },
-          
+
           theming: {
             title: 'Tematización CSS y Sistemas de Diseño',
             description: 'Domina las propiedades personalizadas de CSS, tokens de diseño y sistemas de tematización escalables. Crea diseños consistentes y mantenibles que se adapten a las preferencias del usuario.',
             topics: ['Variables CSS', 'Sistemas de Diseño', 'Modo Oscuro', 'Tematización'],
             highlights: ['Propiedades personalizadas CSS', 'Sistemas de tokens de diseño', 'Cambio de temas', 'Personalización de marca']
           },
-          
+
           buildProcess: {
             title: 'Dominio del Proceso de Construcción Moderno',
             description: 'Entiende Vite, empaquetado, optimización y flujos de trabajo de desarrollo modernos. Aprende a configurar herramientas para desarrollo eficiente y construcciones de producción.',
             topics: ['Vite', 'Empaquetado', 'Recarga en Caliente', 'Optimización'],
             highlights: ['Configuración de Vite', 'Optimización de recursos', 'Flujos de trabajo de desarrollo', 'Construcciones de producción']
           },
-          
+
           deployment: {
             title: 'Excelencia en Despliegue y CI/CD',
             description: 'Domina el despliegue en GitHub Pages, pipelines automatizados de CI/CD y optimización de producción. Aprende flujos de trabajo profesionales de despliegue y monitoreo.',
             topics: ['GitHub Pages', 'GitHub Actions', 'CI/CD', 'Monitoreo'],
             highlights: ['Despliegue automatizado', 'Dominios personalizados', 'Monitoreo de rendimiento', 'Mejores prácticas de seguridad']
           },
-          
+
           performance: {
             title: 'Dominio de Optimización de Rendimiento',
             description: 'Logra puntuaciones perfectas de Lighthouse y optimiza Core Web Vitals. Aprende técnicas avanzadas para carga más rápida, mejor experiencia de usuario y SEO mejorado.',
             topics: ['Core Web Vitals', 'Lighthouse', 'Optimización de Imágenes', 'Caché'],
             highlights: ['Optimización LCP, FID, CLS', 'Estrategias de imágenes y fuentes', 'Rendimiento de JavaScript', 'Presupuestos de rendimiento']
           },
-          
+
           accessibility: {
             title: 'Mejores Prácticas de Accesibilidad',
             description: 'Crea experiencias web inclusivas que funcionen para todos. Domina las pautas WCAG, optimización para lectores de pantalla y soporte de tecnología asistiva.',
             topics: ['WCAG 2.1', 'ARIA', 'Lectores de Pantalla', 'Navegación por Teclado'],
             highlights: ['Estructura HTML semántica', 'Patrones y roles ARIA', 'Metodologías de pruebas', 'Principios de diseño inclusivo']
           },
-          
+
           seo: {
             title: 'Dominio de Optimización SEO',
             description: 'Domina la optimización para motores de búsqueda para sitios estáticos. Aprende SEO técnico, estrategia de contenido, datos estructurados y técnicas avanzadas para mejores rankings.',
@@ -1073,18 +1073,18 @@ export const translations = {
             highlights: ['Optimización en la página', 'Marcado de datos estructurados', 'SEO local y móvil', 'Rendimiento para SEO']
           }
         },
-        
+
         progressStates: {
           notStarted: 'No iniciado',
           inProgress: 'En progreso',
           completed: 'Completado ✓'
         },
-        
+
         startTutorial: 'Comenzar Tutorial',
         showingAll: 'Mostrando todos los {total} tutoriales',
         showingFiltered: 'Mostrando {visible} de {total} tutoriales'
       },
-      
+
       // Llamada a la Acción
       cta: {
         title: '¿Listo para Comenzar tu Jornada?',
@@ -1100,39 +1100,39 @@ export const translations = {
       title: 'Escaparate de Meta-Aprendizaje',
       subtitle: 'Donde el Código se Enseña a Sí Mismo',
       description: 'Descubre las características de meta-aprendizaje de BSB—un enfoque revolucionario donde la base de código se convierte en tu profesor, demostrando conceptos a través de su propia construcción.',
-      
+
       features: {
         sourceViewer: {
           title: 'Visor de Código Fuente',
           description: 'Ve el código fuente de cualquier componente con explicaciones en línea, mejores prácticas y métricas de rendimiento.',
           demo: 'Demostración Interactiva'
         },
-        
+
         progressTracker: {
           title: 'Rastreador de Progreso',
           description: 'Sistema de logros gamificado que rastrea tu exploración de componentes, tiempo de aprendizaje y progreso de habilidades.',
           viewProgress: 'Ver Progreso'
         },
-        
+
         learningToggle: {
           title: 'Alternador de Aprendizaje',
           description: 'Activa el modo de aprendizaje en cualquier página para revelar explicaciones educativas, consejos y contexto adicional.',
           toggleLearning: 'Alternar Aprendizaje'
         }
       },
-      
+
       benefits: {
         title: 'Beneficios del Meta-Aprendizaje',
         contextual: {
           title: 'Aprendizaje Contextual',
           description: 'Aprende conceptos directamente en el contexto donde se aplican, mejorando la retención y comprensión.'
         },
-        
+
         selfDocumenting: {
           title: 'Código Auto-Documentado',
           description: 'Cada componente sirve como su propia documentación, mostrando patrones del mundo real y mejores prácticas.'
         },
-        
+
         progressive: {
           title: 'Revelación Progresiva',
           description: 'La información se revela gradualmente basada en tu nivel de experiencia y interés.'
@@ -1140,23 +1140,23 @@ export const translations = {
       }
     },
 
-    // Interactive Playground - Laboratorio Interactivo  
+    // Interactive Playground - Laboratorio Interactivo
     interactivePlayground: {
       title: 'Laboratorio de Código Interactivo',
       subtitle: 'Aprende Desarrollo Web Practicando',
       description: 'Domina HTML, CSS y JavaScript a través de experimentación práctica. Edita código en tiempo real y ve tus cambios instantáneamente en un entorno seguro y educativo diseñado para el aprendizaje.',
-      
+
       editor: {
         title: 'Laboratorio de Código Interactivo',
         description: 'Edita el código a continuación y ve tus cambios en tiempo real. ¡Experimenta, rompe cosas y aprende haciendo!',
-        
+
         controls: {
           reset: 'Reiniciar',
-          fullscreen: 'Pantalla Completa', 
+          fullscreen: 'Pantalla Completa',
           share: 'Compartir',
           run: 'Ejecutar'
         },
-        
+
         tabs: {
           html: {
             title: 'HTML',
@@ -1171,7 +1171,7 @@ export const translations = {
             help: 'Consejo: Usa console.log() para depurar y experimentar con JavaScript moderno (ES6+)'
           }
         },
-        
+
         output: {
           title: 'Resultado en Vivo',
           description: 'Tu código renderizado aparece aquí en tiempo real'

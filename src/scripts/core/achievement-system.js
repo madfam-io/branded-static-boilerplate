@@ -1,7 +1,7 @@
 /**
  * BSB Achievement System
  * =====================
- * 
+ *
  * Gamified learning experience that tracks user progress and awards achievements
  * for completing tutorials, challenges, and exploring components.
  */
@@ -33,7 +33,7 @@ export class AchievementSystem {
         condition: 'complete_tutorial',
         count: 1
       },
-      
+
       'tutorial-master': {
         id: 'tutorial-master',
         title: 'Tutorial Master',
@@ -45,7 +45,7 @@ export class AchievementSystem {
         condition: 'complete_tutorial',
         count: 5
       },
-      
+
       'css-ninja': {
         id: 'css-ninja',
         title: 'CSS Ninja',
@@ -56,7 +56,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'complete_css_tutorials'
       },
-      
+
       // Component Exploration Achievements
       'component-explorer': {
         id: 'component-explorer',
@@ -69,7 +69,7 @@ export class AchievementSystem {
         condition: 'view_components',
         count: 10
       },
-      
+
       'playground-enthusiast': {
         id: 'playground-enthusiast',
         title: 'Playground Enthusiast',
@@ -81,7 +81,7 @@ export class AchievementSystem {
         condition: 'run_code',
         count: 25
       },
-      
+
       // Learning Mode Achievements
       'learning-advocate': {
         id: 'learning-advocate',
@@ -94,7 +94,7 @@ export class AchievementSystem {
         condition: 'learning_time',
         count: 600000 // 10 minutes in milliseconds
       },
-      
+
       // Accessibility Achievements
       'accessibility-champion': {
         id: 'accessibility-champion',
@@ -106,7 +106,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'complete_accessibility'
       },
-      
+
       // Special Achievements
       'dark-mode-fan': {
         id: 'dark-mode-fan',
@@ -118,7 +118,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'use_dark_mode'
       },
-      
+
       'bilingual': {
         id: 'bilingual',
         title: 'Bilingual',
@@ -129,7 +129,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'switch_language'
       },
-      
+
       'perfectionist': {
         id: 'perfectionist',
         title: 'Perfectionist',
@@ -140,7 +140,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'perfect_challenge'
       },
-      
+
       // Time-based Achievements
       'early-bird': {
         id: 'early-bird',
@@ -152,7 +152,7 @@ export class AchievementSystem {
         unlocked: false,
         condition: 'early_visit'
       },
-      
+
       'night-owl': {
         id: 'night-owl',
         title: 'Night Owl',
@@ -178,7 +178,7 @@ export class AchievementSystem {
       challengesCompleted: [],
       lastVisit: Date.now()
     };
-    
+
     return stored ? { ...defaultProgress, ...JSON.parse(stored) } : defaultProgress;
   }
 
@@ -193,7 +193,7 @@ export class AchievementSystem {
     notification.className = 'achievement-notification hidden';
     notification.setAttribute('role', 'status');
     notification.setAttribute('aria-live', 'polite');
-    
+
     document.body.appendChild(notification);
 
     // Create achievement panel toggle
@@ -205,16 +205,16 @@ export class AchievementSystem {
       <span class="achievement-count">${this.userProgress.unlockedAchievements.length}</span>
     `;
     toggle.setAttribute('aria-label', `View achievements (${this.userProgress.unlockedAchievements.length} unlocked)`);
-    
+
     // Create achievement panel
     const panel = document.createElement('div');
     panel.id = 'achievement-panel';
     panel.className = 'achievement-panel hidden';
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-labelledby', 'achievement-title');
-    
+
     panel.innerHTML = this.generatePanelHTML();
-    
+
     document.body.appendChild(toggle);
     document.body.appendChild(panel);
 
@@ -223,15 +223,15 @@ export class AchievementSystem {
   }
 
   generatePanelHTML() {
-    const totalPoints = this.userProgress.totalPoints;
+    const { totalPoints } = this.userProgress;
     const unlockedCount = this.userProgress.unlockedAchievements.length;
     const totalCount = Object.keys(this.achievements).length;
-    
+
     let achievementsList = '';
     Object.values(this.achievements).forEach(achievement => {
       const isUnlocked = this.userProgress.unlockedAchievements.includes(achievement.id);
       const className = isUnlocked ? 'achievement-item unlocked' : 'achievement-item locked';
-      
+
       achievementsList += `
         <div class="${className}">
           <div class="achievement-icon">${achievement.icon}</div>
@@ -554,13 +554,13 @@ export class AchievementSystem {
         }
       </style>
     `;
-    
+
     document.head.insertAdjacentHTML('beforeend', styles);
   }
 
   bindEvents() {
     // Toggle achievement panel
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', e => {
       if (e.target.closest('#achievement-toggle')) {
         this.togglePanel();
       } else if (e.target.id === 'close-achievements') {
@@ -571,7 +571,7 @@ export class AchievementSystem {
     });
 
     // Close panel on escape
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         this.closePanel();
       }
@@ -583,12 +583,12 @@ export class AchievementSystem {
 
   bindAchievementTracking() {
     // Track tutorial completions
-    document.addEventListener('tutorial-completed', (e) => {
+    document.addEventListener('tutorial-completed', e => {
       this.trackTutorialCompletion(e.detail.tutorialId);
     });
 
     // Track component views
-    document.addEventListener('component-viewed', (e) => {
+    document.addEventListener('component-viewed', e => {
       this.trackComponentView(e.detail.componentId);
     });
 
@@ -598,7 +598,7 @@ export class AchievementSystem {
     });
 
     // Track theme changes
-    document.addEventListener('theme-changed', (e) => {
+    document.addEventListener('theme-changed', e => {
       if (e.detail.theme === 'dark') {
         this.unlockAchievement('dark-mode-fan');
       }
@@ -619,7 +619,7 @@ export class AchievementSystem {
   togglePanel() {
     const panel = document.getElementById('achievement-panel');
     panel.classList.toggle('hidden');
-    
+
     if (!panel.classList.contains('hidden')) {
       // Update panel content
       panel.innerHTML = this.generatePanelHTML();
@@ -633,17 +633,17 @@ export class AchievementSystem {
   filterAchievements(type) {
     const filters = document.querySelectorAll('.category-filter');
     const achievements = document.querySelectorAll('.achievement-item');
-    
+
     // Update active filter
     filters.forEach(filter => {
       filter.classList.toggle('active', filter.dataset.type === type);
     });
-    
+
     // Filter achievements
     achievements.forEach(item => {
       const achievementId = item.querySelector('.achievement-title').textContent.toLowerCase().replace(/\s+/g, '-');
       const achievement = Object.values(this.achievements).find(a => a.title.toLowerCase().replace(/\s+/g, '-') === achievementId);
-      
+
       if (type === 'all' || (achievement && achievement.type === type)) {
         item.style.display = 'flex';
       } else {
@@ -661,16 +661,16 @@ export class AchievementSystem {
     // Unlock achievement
     this.userProgress.unlockedAchievements.push(achievementId);
     this.userProgress.totalPoints += achievement.points;
-    
+
     // Save progress
     this.saveProgress();
-    
+
     // Show notification
     this.showAchievementNotification(achievement);
-    
+
     // Update UI
     this.updateAchievementCount();
-    
+
     // Trigger custom event
     document.dispatchEvent(new CustomEvent('achievement-unlocked', {
       detail: { achievement }
@@ -679,7 +679,7 @@ export class AchievementSystem {
 
   showAchievementNotification(achievement) {
     const notification = document.getElementById('achievement-notification');
-    
+
     notification.innerHTML = `
       <div class="achievement-notification-content">
         <div class="achievement-notification-icon">${achievement.icon}</div>
@@ -689,9 +689,9 @@ export class AchievementSystem {
         </div>
       </div>
     `;
-    
+
     notification.classList.remove('hidden');
-    
+
     // Auto-hide after 4 seconds
     setTimeout(() => {
       notification.classList.add('hidden');
@@ -703,7 +703,7 @@ export class AchievementSystem {
     if (countElement) {
       countElement.textContent = this.userProgress.unlockedAchievements.length;
     }
-    
+
     const toggle = document.getElementById('achievement-toggle');
     if (toggle) {
       toggle.setAttribute('aria-label', `View achievements (${this.userProgress.unlockedAchievements.length} unlocked)`);
@@ -715,21 +715,21 @@ export class AchievementSystem {
     if (!this.userProgress.tutorialsCompleted.includes(tutorialId)) {
       this.userProgress.tutorialsCompleted.push(tutorialId);
       this.saveProgress();
-      
+
       // Check tutorial achievements
       if (this.userProgress.tutorialsCompleted.length === 1) {
         this.unlockAchievement('first-tutorial');
       } else if (this.userProgress.tutorialsCompleted.length >= 5) {
         this.unlockAchievement('tutorial-master');
       }
-      
+
       // Check CSS-specific achievements
       const cssGridCompleted = this.userProgress.tutorialsCompleted.includes('css-grid');
       const flexboxCompleted = this.userProgress.tutorialsCompleted.includes('flexbox');
       if (cssGridCompleted && flexboxCompleted) {
         this.unlockAchievement('css-ninja');
       }
-      
+
       // Check accessibility achievement
       if (tutorialId === 'accessibility') {
         this.unlockAchievement('accessibility-champion');
@@ -741,7 +741,7 @@ export class AchievementSystem {
     if (!this.userProgress.componentsViewed.includes(componentId)) {
       this.userProgress.componentsViewed.push(componentId);
       this.saveProgress();
-      
+
       if (this.userProgress.componentsViewed.length >= 10) {
         this.unlockAchievement('component-explorer');
       }
@@ -751,7 +751,7 @@ export class AchievementSystem {
   trackCodeRun() {
     this.userProgress.codeRuns++;
     this.saveProgress();
-    
+
     if (this.userProgress.codeRuns >= 25) {
       this.unlockAchievement('playground-enthusiast');
     }
@@ -759,20 +759,20 @@ export class AchievementSystem {
 
   trackLearningMode() {
     let learningModeStartTime = null;
-    
+
     // Listen for learning mode toggle
-    document.addEventListener('learning-mode-changed', (e) => {
+    document.addEventListener('learning-mode-changed', e => {
       if (e.detail.enabled) {
         learningModeStartTime = Date.now();
       } else if (learningModeStartTime) {
         const sessionTime = Date.now() - learningModeStartTime;
         this.userProgress.learningModeTime += sessionTime;
         this.saveProgress();
-        
+
         if (this.userProgress.learningModeTime >= 600000) { // 10 minutes
           this.unlockAchievement('learning-advocate');
         }
-        
+
         learningModeStartTime = null;
       }
     });
@@ -781,7 +781,7 @@ export class AchievementSystem {
   checkTimeBasedAchievements() {
     const now = new Date();
     const hour = now.getHours();
-    
+
     if (hour < 9) {
       this.unlockAchievement('early-bird');
     } else if (hour >= 22) {
@@ -792,7 +792,7 @@ export class AchievementSystem {
   checkInitialAchievements() {
     // Check if user has already unlocked some achievements based on current state
     this.checkTimeBasedAchievements();
-    
+
     // Check existing progress
     if (this.userProgress.tutorialsCompleted.length >= 1) {
       this.unlockAchievement('first-tutorial');

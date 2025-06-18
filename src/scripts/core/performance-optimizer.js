@@ -1,7 +1,7 @@
 /**
  * Performance Optimization System
  * ==============================
- * 
+ *
  * Provides comprehensive performance monitoring and optimization features:
  * - Real-time performance metrics
  * - Lazy loading optimizations
@@ -9,7 +9,7 @@
  * - Image optimization
  * - Code splitting insights
  * - Network efficiency monitoring
- * 
+ *
  * Educational Features:
  * - Performance learning dashboard
  * - Best practice recommendations
@@ -47,7 +47,7 @@ class PerformanceOptimizer {
       this.setupOptimizations();
       this.createPerformanceDashboard();
     }
-    
+
     debug.log('BSB Performance: Optimization system initialized ⚡');
   }
 
@@ -57,16 +57,16 @@ class PerformanceOptimizer {
   setupPerformanceMonitoring() {
     // Core Web Vitals monitoring
     this.measureWebVitals();
-    
+
     // Resource performance tracking
     this.trackResourcePerformance();
-    
+
     // Navigation performance
     this.trackNavigationPerformance();
-    
+
     // User interaction tracking
     this.trackUserInteractions();
-    
+
     // Memory usage monitoring (if available)
     this.trackMemoryUsage();
   }
@@ -77,16 +77,16 @@ class PerformanceOptimizer {
   measureWebVitals() {
     // Largest Contentful Paint (LCP)
     this.observeLCP();
-    
+
     // First Input Delay (FID)
     this.observeFID();
-    
+
     // Cumulative Layout Shift (CLS)
     this.observeCLS();
-    
+
     // First Contentful Paint (FCP)
     this.observeFCP();
-    
+
     // Time to First Byte (TTFB)
     this.measureTTFB();
   }
@@ -96,13 +96,13 @@ class PerformanceOptimizer {
    */
   observeLCP() {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
         this.metrics.vitals.lcp = Math.round(lastEntry.startTime);
         this.updateDashboard();
       });
-      
+
       try {
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
         this.observers.lcp = observer;
@@ -117,14 +117,14 @@ class PerformanceOptimizer {
    */
   observeFID() {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           this.metrics.vitals.fid = Math.round(entry.processingStart - entry.startTime);
           this.updateDashboard();
         });
       });
-      
+
       try {
         observer.observe({ entryTypes: ['first-input'] });
         this.observers.fid = observer;
@@ -140,10 +140,10 @@ class PerformanceOptimizer {
   observeCLS() {
     if ('PerformanceObserver' in window) {
       let clsValue = 0;
-      
-      const observer = new PerformanceObserver((list) => {
+
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
             this.metrics.vitals.cls = Math.round(clsValue * 10000) / 10000;
@@ -151,7 +151,7 @@ class PerformanceOptimizer {
           }
         });
       });
-      
+
       try {
         observer.observe({ entryTypes: ['layout-shift'] });
         this.observers.cls = observer;
@@ -166,16 +166,16 @@ class PerformanceOptimizer {
    */
   observeFCP() {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.name === 'first-contentful-paint') {
             this.metrics.vitals.fcp = Math.round(entry.startTime);
             this.updateDashboard();
           }
         });
       });
-      
+
       try {
         observer.observe({ entryTypes: ['paint'] });
         this.observers.fcp = observer;
@@ -203,9 +203,9 @@ class PerformanceOptimizer {
    */
   trackResourcePerformance() {
     if ('PerformanceObserver' in window) {
-      const observer = new PerformanceObserver((list) => {
+      const observer = new PerformanceObserver(list => {
         const entries = list.getEntries();
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           this.metrics.resources.push({
             name: entry.name,
             type: this.getResourceType(entry.name),
@@ -216,7 +216,7 @@ class PerformanceOptimizer {
         });
         this.analyzeResourcePerformance();
       });
-      
+
       try {
         observer.observe({ entryTypes: ['resource'] });
         this.observers.resource = observer;
@@ -230,10 +230,10 @@ class PerformanceOptimizer {
    * Get resource type from URL
    */
   getResourceType(url) {
-    if (url.match(/\.(css)$/i)) return 'stylesheet';
-    if (url.match(/\.(js)$/i)) return 'script';
-    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/i)) return 'image';
-    if (url.match(/\.(woff|woff2|ttf|eot)$/i)) return 'font';
+    if (url.match(/\.(css)$/i)) {return 'stylesheet';}
+    if (url.match(/\.(js)$/i)) {return 'script';}
+    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/i)) {return 'image';}
+    if (url.match(/\.(woff|woff2|ttf|eot)$/i)) {return 'font';}
     return 'other';
   }
 
@@ -241,9 +241,9 @@ class PerformanceOptimizer {
    * Analyze resource performance and provide recommendations
    */
   analyzeResourcePerformance() {
-    const resources = this.metrics.resources;
+    const { resources } = this.metrics;
     const recommendations = [];
-    
+
     // Check for large resources
     const largeResources = resources.filter(r => r.size > 1024 * 1024); // > 1MB
     if (largeResources.length > 0) {
@@ -253,7 +253,7 @@ class PerformanceOptimizer {
         details: largeResources.map(r => `${r.name}: ${this.formatBytes(r.size)}`)
       });
     }
-    
+
     // Check for slow-loading resources
     const slowResources = resources.filter(r => r.duration > 1000); // > 1s
     if (slowResources.length > 0) {
@@ -263,7 +263,7 @@ class PerformanceOptimizer {
         details: slowResources.map(r => `${r.name}: ${r.duration}ms`)
       });
     }
-    
+
     // Check for too many requests
     if (resources.length > 50) {
       recommendations.push({
@@ -271,7 +271,7 @@ class PerformanceOptimizer {
         message: `${resources.length} total requests. Consider bundling or HTTP/2 push.`
       });
     }
-    
+
     this.updateRecommendations(recommendations);
   }
 
@@ -301,16 +301,16 @@ class PerformanceOptimizer {
   trackUserInteractions() {
     let interactionCount = 0;
     const startTime = performance.now();
-    
+
     ['click', 'touchstart', 'keydown', 'scroll'].forEach(eventType => {
       document.addEventListener(eventType, () => {
         interactionCount++;
-        
+
         // Sample every 10th interaction to avoid performance impact
         if (interactionCount % 10 === 0) {
           const currentTime = performance.now();
           const sessionDuration = currentTime - startTime;
-          
+
           this.metrics.interactions = {
             count: interactionCount,
             sessionDuration: Math.round(sessionDuration),
@@ -334,7 +334,7 @@ class PerformanceOptimizer {
         };
         this.updateDashboard();
       };
-      
+
       updateMemory();
       setInterval(updateMemory, 5000); // Update every 5 seconds
     }
@@ -346,16 +346,16 @@ class PerformanceOptimizer {
   setupOptimizations() {
     // Enhanced lazy loading
     this.setupIntelligentLazyLoading();
-    
+
     // Resource hints optimization
     this.optimizeResourceHints();
-    
+
     // Critical CSS optimization
     this.optimizeCriticalCSS();
-    
+
     // Image optimization
     this.optimizeImages();
-    
+
     // Font loading optimization
     this.optimizeFonts();
   }
@@ -370,19 +370,19 @@ class PerformanceOptimizer {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const img = entry.target;
-            
+
             // Load image
             if (img.dataset.src) {
               img.src = img.dataset.src;
               img.removeAttribute('data-src');
             }
-            
+
             // Load srcset if available
             if (img.dataset.srcset) {
               img.srcset = img.dataset.srcset;
               img.removeAttribute('data-srcset');
             }
-            
+
             img.classList.remove('lazy');
             observer.unobserve(img);
           }
@@ -391,13 +391,13 @@ class PerformanceOptimizer {
         rootMargin: '50px 0px', // Start loading 50px before entering viewport
         threshold: 0.01
       });
-      
+
       // Observe all lazy images
       document.querySelectorAll('img[data-src]').forEach(img => {
         img.classList.add('lazy');
         imageObserver.observe(img);
       });
-      
+
       // Lazy load other content sections
       const contentObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -411,7 +411,7 @@ class PerformanceOptimizer {
         rootMargin: '100px 0px',
         threshold: 0.1
       });
-      
+
       document.querySelectorAll('[data-lazy-content]').forEach(element => {
         contentObserver.observe(element);
       });
@@ -424,7 +424,7 @@ class PerformanceOptimizer {
   optimizeResourceHints() {
     // Add preconnect for external domains
     const externalDomains = new Set();
-    
+
     document.querySelectorAll('link[href^="http"], script[src^="http"], img[src^="http"]').forEach(element => {
       try {
         const url = new URL(element.href || element.src);
@@ -435,7 +435,7 @@ class PerformanceOptimizer {
         // Invalid URL, skip
       }
     });
-    
+
     // Add preconnect links for external domains
     externalDomains.forEach(domain => {
       if (!document.querySelector(`link[rel="preconnect"][href="${domain}"]`)) {
@@ -456,17 +456,17 @@ class PerformanceOptimizer {
     if (unsizedImages.length > 0) {
       debug.warn(`${unsizedImages.length} images without explicit dimensions found. This may cause layout shifts.`);
     }
-    
+
     // Add modern image format support detection
     this.detectImageFormatSupport();
-    
+
     // Optimize image loading
     document.querySelectorAll('img').forEach(img => {
       // Add loading attribute if not present
       if (!img.hasAttribute('loading')) {
         img.setAttribute('loading', 'lazy');
       }
-      
+
       // Add decoding attribute for better performance
       if (!img.hasAttribute('decoding')) {
         img.setAttribute('decoding', 'async');
@@ -483,7 +483,7 @@ class PerformanceOptimizer {
       avif: 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABAAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQAMAAAAABNjb2xybmNseAACAAIAAIAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAAB9tZGF0EgAKCBgABogQEDQgMgkQAAAAB8dSLfI=',
       jxl: 'data:image/jxl;base64,/woIELASCAgQAFwASxLFgkWAHL8BeQPAjFxKbABwACQAOAUQANwwGA=='
     };
-    
+
     Object.entries(formats).forEach(([format, dataUri]) => {
       const img = new Image();
       img.onload = img.onerror = () => {
@@ -505,13 +505,13 @@ class PerformanceOptimizer {
       }
     `;
     document.head.appendChild(style);
-    
+
     // Preload critical fonts
     const criticalFonts = [
       '/assets/fonts/main-font.woff2',
       '/assets/fonts/heading-font.woff2'
     ];
-    
+
     criticalFonts.forEach(fontUrl => {
       const link = document.createElement('link');
       link.rel = 'preload';
@@ -528,11 +528,11 @@ class PerformanceOptimizer {
    */
   createPerformanceDashboard() {
     // Only show in development or when explicitly enabled
-    const showDashboard = localStorage.getItem('bsb-show-performance') === 'true' || 
+    const showDashboard = localStorage.getItem('bsb-show-performance') === 'true' ||
                          window.location.hostname === 'localhost';
-    
-    if (!showDashboard) return;
-    
+
+    if (!showDashboard) {return;}
+
     const dashboard = document.createElement('div');
     dashboard.id = 'bsb-performance-dashboard';
     dashboard.className = 'bsb-perf-dashboard';
@@ -578,17 +578,17 @@ class PerformanceOptimizer {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(dashboard);
-    
+
     // Style the dashboard
     this.styleDashboard();
-    
+
     // Bind toggle functionality
     dashboard.querySelector('.bsb-perf-dashboard__toggle').addEventListener('click', () => {
       dashboard.classList.toggle('minimized');
     });
-    
+
     // Update initially
     this.updateDashboard();
   }
@@ -723,13 +723,13 @@ class PerformanceOptimizer {
    */
   updateDashboard() {
     const dashboard = document.getElementById('bsb-performance-dashboard');
-    if (!dashboard) return;
-    
+    if (!dashboard) {return;}
+
     // Update Core Web Vitals
     this.updateMetric('lcp', this.metrics.vitals.lcp, 'ms', { good: 2500, poor: 4000 });
     this.updateMetric('fid', this.metrics.vitals.fid, 'ms', { good: 100, poor: 300 });
     this.updateMetric('cls', this.metrics.vitals.cls, '', { good: 0.1, poor: 0.25 });
-    
+
     // Update resource metrics
     this.updateMetric('resourceCount', this.metrics.resources.length, '');
     const totalSize = this.metrics.resources.reduce((sum, r) => sum + r.size, 0);
@@ -741,10 +741,10 @@ class PerformanceOptimizer {
    */
   updateMetric(metricName, value, unit, thresholds = null) {
     const element = document.querySelector(`[data-metric="${metricName}"]`);
-    if (!element || value === undefined) return;
-    
+    if (!element || value === undefined) {return;}
+
     element.textContent = value + (unit || '');
-    
+
     if (thresholds && typeof value === 'number') {
       element.className = 'bsb-perf-value';
       if (value <= thresholds.good) {
@@ -762,15 +762,15 @@ class PerformanceOptimizer {
    */
   updateRecommendations(recommendations) {
     const container = document.querySelector('[data-recommendations]');
-    if (!container) return;
-    
+    if (!container) {return;}
+
     container.innerHTML = '';
-    
+
     if (recommendations.length === 0) {
       container.innerHTML = '<div class="bsb-perf-recommendation info">All metrics look good! 🎉</div>';
       return;
     }
-    
+
     recommendations.forEach(rec => {
       const div = document.createElement('div');
       div.className = `bsb-perf-recommendation ${rec.type}`;
@@ -786,11 +786,11 @@ class PerformanceOptimizer {
    * Format bytes to human readable
    */
   formatBytes(bytes) {
-    if (bytes === 0) return '0 B';
+    if (bytes === 0) {return '0 B';}
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    return `${parseFloat((bytes / k**i).toFixed(1))} ${sizes[i]}`;
   }
 
   /**
@@ -811,7 +811,7 @@ class PerformanceOptimizer {
       metrics: this.getMetrics(),
       recommendations: this.generateRecommendations()
     };
-    
+
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -826,22 +826,22 @@ class PerformanceOptimizer {
    */
   generateRecommendations() {
     const recommendations = [];
-    
+
     // LCP recommendations
     if (this.metrics.vitals.lcp > 4000) {
       recommendations.push('Optimize Largest Contentful Paint: Consider reducing server response times, optimizing resource loading, and removing render-blocking resources.');
     }
-    
+
     // FID recommendations
     if (this.metrics.vitals.fid > 300) {
       recommendations.push('Improve First Input Delay: Reduce JavaScript execution time, split code into smaller chunks, and use web workers for heavy computations.');
     }
-    
+
     // CLS recommendations
     if (this.metrics.vitals.cls > 0.25) {
       recommendations.push('Reduce Cumulative Layout Shift: Add dimensions to images and videos, avoid inserting content above existing content, and use CSS transforms instead of changing layout properties.');
     }
-    
+
     return recommendations;
   }
 }

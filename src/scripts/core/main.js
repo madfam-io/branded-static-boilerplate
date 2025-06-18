@@ -299,7 +299,7 @@ window.BSBUtils = {
    * @param {number} wait - The number of milliseconds to delay
    * @returns {Function} The debounced function
    */
-  debounce: function(func, wait) {
+  debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
       const later = () => {
@@ -318,7 +318,7 @@ window.BSBUtils = {
    * @param {number} limit - The number of milliseconds to limit execution
    * @returns {Function} The throttled function
    */
-  throttle: function(func, limit) {
+  throttle(func, limit) {
     let inThrottle;
     return function(...args) {
       if (!inThrottle) {

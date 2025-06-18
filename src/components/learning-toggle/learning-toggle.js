@@ -388,7 +388,7 @@ class BSBLearningToggle {
    */
   async loadMetaLearningStyles() {
     const components = ['source-viewer', 'learning-progress'];
-    
+
     for (const component of components) {
       const cssId = `bsb-${component}-css`;
       if (!document.getElementById(cssId)) {
@@ -468,7 +468,7 @@ class BSBLearningToggle {
    */
   showProgressSummary() {
     if (window.BSBLearningProgress) {
-      const progress = window.BSBLearningProgress.progress;
+      const { progress } = window.BSBLearningProgress;
       const totalComponents = document.querySelectorAll('[data-bsb-component]').length;
       const completion = Math.round((progress.componentsExplored.size / totalComponents) * 100);
 
@@ -487,11 +487,11 @@ class BSBLearningToggle {
   formatTime(milliseconds) {
     const minutes = Math.floor(milliseconds / 60000);
     const hours = Math.floor(minutes / 60);
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes % 60}m`;
     }
-    
+
     return `${minutes}m`;
   }
 }
