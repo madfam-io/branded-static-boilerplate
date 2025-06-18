@@ -108,41 +108,75 @@ class AccessibilityEnhancer {
    * Handle global accessibility keyboard shortcuts
    */
   handleGlobalShortcuts(event) {
-    // Alt + 1: Skip to main content
-    if (event.altKey && event.key === '1') {
-      event.preventDefault();
-      const main = document.querySelector('#main, main');
-      if (main) {
-        main.focus();
-        main.scrollIntoView();
-        this.announceToScreenReader('Skipped to main content');
+    if (!event.altKey) return;
+
+    switch (event.key) {
+      case '1':
+        this.handleSkipToMain(event);
+        break;
+      case '2':
+        this.handleSkipToNavigation(event);
+        break;
+      case 'a':
+      case 'A':
+        this.handleToggleAccessibilityMenu(event);
+        break;
+      case 'h':
+      case 'H':
+        this.handleShowKeyboardHelp(event);
+        break;
+      default:
+        // No action for other keys
+        break;
+    }
+  }
+
+  /**
+   * Handle skip to main content shortcut
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  handleSkipToMain(event) {
+    event.preventDefault();
+    const main = document.querySelector('#main, main');
+    if (main) {
+      main.focus();
+      main.scrollIntoView();
+      this.announceToScreenReader('Skipped to main content');
+    }
+  }
+
+  /**
+   * Handle skip to navigation shortcut
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  handleSkipToNavigation(event) {
+    event.preventDefault();
+    const nav = document.querySelector('[role="navigation"], nav');
+    if (nav) {
+      const firstLink = nav.querySelector('a, button');
+      if (firstLink) {
+        firstLink.focus();
+        this.announceToScreenReader('Skipped to navigation');
       }
     }
+  }
 
-    // Alt + 2: Skip to navigation
-    if (event.altKey && event.key === '2') {
-      event.preventDefault();
-      const nav = document.querySelector('[role="navigation"], nav');
-      if (nav) {
-        const firstLink = nav.querySelector('a, button');
-        if (firstLink) {
-          firstLink.focus();
-          this.announceToScreenReader('Skipped to navigation');
-        }
-      }
-    }
+  /**
+   * Handle toggle accessibility menu shortcut
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  handleToggleAccessibilityMenu(event) {
+    event.preventDefault();
+    this.toggleAccessibilityMenu();
+  }
 
-    // Alt + A: Toggle accessibility menu
-    if (event.altKey && event.key.toLowerCase() === 'a') {
-      event.preventDefault();
-      this.toggleAccessibilityMenu();
-    }
-
-    // Alt + H: Show keyboard shortcuts help
-    if (event.altKey && event.key.toLowerCase() === 'h') {
-      event.preventDefault();
-      this.showKeyboardHelp();
-    }
+  /**
+   * Handle show keyboard help shortcut
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  handleShowKeyboardHelp(event) {
+    event.preventDefault();
+    this.showKeyboardHelp();
   }
 
   /**

@@ -14,7 +14,7 @@ const STORAGE_KEY = 'bsb-learning-progress';
  * Save progress to localStorage
  * @param {Object} progress - Progress data to save
  */
-export const saveProgress = (progress) => {
+export const saveProgress = progress => {
   try {
     const saveData = {
       componentsExplored: Array.from(progress.componentsExplored),
@@ -44,7 +44,7 @@ export const loadProgress = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const data = JSON.parse(saved);
-      
+
       // Convert arrays back to Sets and Maps
       const progress = {
         componentsExplored: new Set(data.componentsExplored || []),
@@ -80,7 +80,7 @@ export const loadProgress = () => {
  * @param {Object} progress - Progress data to export
  * @returns {Object} Export data
  */
-export const exportProgress = (progress) => {
+export const exportProgress = progress => {
   const exportData = {
     learningProgress: {
       componentsExplored: Array.from(progress.componentsExplored),
@@ -98,16 +98,16 @@ export const exportProgress = (progress) => {
     [JSON.stringify(exportData, null, 2)],
     { type: 'application/json' }
   );
-  
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
   link.download = `bsb-learning-progress-${new Date().toISOString().split('T')[0]}.json`;
   link.click();
-  
+
   URL.revokeObjectURL(url);
   debug.log('📤 Learning progress exported');
-  
+
   return exportData;
 };
 

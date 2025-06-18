@@ -18,7 +18,8 @@ const CONSTANTS = {
   PERCENTAGE_MAX: 100,
   KEYWORD_BASE: 10,
   MIN_WORD_LENGTH: 2,
-  MIN_KEYWORD_LENGTH: 3
+  MIN_KEYWORD_LENGTH: 3,
+  DECIMAL_PLACES: 1
 };
 
 /**
@@ -37,27 +38,6 @@ export const gatherPageData = () => {
     content: analyzeContent(),
     hasStructuredData: hasStructuredData(),
     isMobileFriendly: isMobileFriendly()
-  };
-};
-
-/**
- * Analyze page headings structure
- * @returns {Object} Heading analysis
- */
-export const analyzeHeadings = () => {
-  const headings = {
-    h1: document.querySelectorAll('h1').length,
-    h2: document.querySelectorAll('h2').length,
-    h3: document.querySelectorAll('h3').length,
-    h4: document.querySelectorAll('h4').length,
-    h5: document.querySelectorAll('h5').length,
-    h6: document.querySelectorAll('h6').length
-  };
-
-  return {
-    ...headings,
-    total: Object.values(headings).reduce((sum, count) => sum + count, 0),
-    hierarchy: checkHeadingHierarchy()
   };
 };
 
@@ -88,6 +68,27 @@ const checkHeadingHierarchy = () => {
   return {
     isValid: issues.length === 0,
     issues
+  };
+};
+
+/**
+ * Analyze page headings structure
+ * @returns {Object} Heading analysis
+ */
+export const analyzeHeadings = () => {
+  const headings = {
+    h1: document.querySelectorAll('h1').length,
+    h2: document.querySelectorAll('h2').length,
+    h3: document.querySelectorAll('h3').length,
+    h4: document.querySelectorAll('h4').length,
+    h5: document.querySelectorAll('h5').length,
+    h6: document.querySelectorAll('h6').length
+  };
+
+  return {
+    ...headings,
+    total: Object.values(headings).reduce((sum, count) => sum + count, 0),
+    hierarchy: checkHeadingHierarchy()
   };
 };
 
@@ -171,7 +172,7 @@ export const analyzeContent = () => {
   const topKeywords = sortedWords.map(([word, count]) => ({
     word,
     count,
-    density: ((count / wordCount) * CONSTANTS.PERCENTAGE_MAX).toFixed(CONSTANTS.DECIMAL_PLACES)
+    density: ((count / wordCount) * CONSTANTS.PERCENTAGE_MAX).toFixed(1)
   }));
 
   return {

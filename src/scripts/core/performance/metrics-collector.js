@@ -16,7 +16,7 @@ const METRICS_CONSTANTS = {
   FID_POOR_THRESHOLD: 300,
   CLS_GOOD_THRESHOLD: 0.1,
   CLS_POOR_THRESHOLD: 0.25,
-  
+
   // Memory and network
   LARGE_RESOURCE_THRESHOLD: 1024 * 1024, // 1MB
   SLOW_RESOURCE_THRESHOLD: 1000, // 1 second
@@ -82,7 +82,7 @@ export const collectWebVitals = () => {
 
   // Time to First Byte
   if ('performance' in window && 'timing' in performance) {
-    const timing = performance.timing;
+    const { timing } = performance;
     vitals.ttfb = timing.responseStart - timing.requestStart;
   }
 
@@ -98,8 +98,8 @@ export const collectNavigationTiming = () => {
     return {};
   }
 
-  const timing = performance.timing;
-  const navigationStart = timing.navigationStart;
+  const { timing } = performance;
+  const { navigationStart } = timing;
 
   return {
     domainLookup: timing.domainLookupEnd - timing.domainLookupStart,
@@ -113,6 +113,19 @@ export const collectNavigationTiming = () => {
 };
 
 /**
+ * Get resource type from URL
+ * @param {string} url - Resource URL
+ * @returns {string} Resource type
+ */
+const getResourceType = url => {
+  if (url.match(/\.(js|mjs)$/)) {return 'script';}
+  if (url.match(/\.css$/)) {return 'stylesheet';}
+  if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) {return 'image';}
+  if (url.match(/\.(woff|woff2|ttf|otf)$/)) {return 'font';}
+  return 'other';
+};
+
+/**
  * Collect resource performance data
  * @returns {Array} Resource performance entries
  */
@@ -122,7 +135,7 @@ export const collectResourceMetrics = () => {
   }
 
   const resources = performance.getEntriesByType('resource');
-  
+
   return resources
     .slice(-METRICS_CONSTANTS.MAX_RESOURCE_COUNT) // Keep only recent entries
     .map(entry => ({
@@ -134,19 +147,6 @@ export const collectResourceMetrics = () => {
       isLarge: (entry.transferSize || 0) > METRICS_CONSTANTS.LARGE_RESOURCE_THRESHOLD,
       isSlow: entry.duration > METRICS_CONSTANTS.SLOW_RESOURCE_THRESHOLD
     }));
-};
-
-/**
- * Get resource type from URL
- * @param {string} url - Resource URL
- * @returns {string} Resource type
- */
-const getResourceType = (url) => {
-  if (url.match(/\.(js|mjs)$/)) return 'script';
-  if (url.match(/\.css$/)) return 'stylesheet';
-  if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) return 'image';
-  if (url.match(/\.(woff|woff2|ttf|otf)$/)) return 'font';
-  return 'other';
 };
 
 /**
@@ -172,50 +172,164 @@ export const collectMemoryMetrics = () => {
 };
 
 /**
+ * Calculate LCP deductions
+ * @param {number} lcp - Largest Contentful Paint value
+ * @returns {number} Deduction amount
+ */
+const calculateLCPDeductions = lcp => {
+  if (!lcp) return 0;
+  if (lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) return 30;
+  if (lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) return 15;
+  return 0;
+};
+
+/**
+ * Calculate FID deductions
+ * @param {number} fid - First Input Delay value
+ * @returns {number} Deduction amount
+ */
+const calculateFIDDeductions = fid => {
+  if (!fid) return 0;
+  if (fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) return 25;
+  if (fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) return 10;
+  return 0;
+};
+
+/**
+ * Calculate CLS deductions
+ * @param {number} cls - Cumulative Layout Shift value
+ * @returns {number} Deduction amount
+ */
+const calculateCLSDeductions = cls => {
+  if (cls === null) return 0;
+  if (cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) return 25;
+  if (cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) return 10;
+  return 0;
+};
+
+/**
+ * Calculate timing deductions
+ * @param {number} totalTime - Total loading time
+ * @returns {number} Deduction amount
+ */
+const calculateTimingDeductions = totalTime => {
+  const SLOW_TIMING_THRESHOLD = 5000;
+  const MODERATE_TIMING_THRESHOLD = 3000;
+  
+  if (totalTime > SLOW_TIMING_THRESHOLD) return 20;
+  if (totalTime > MODERATE_TIMING_THRESHOLD) return 10;
+  return 0;
+};
+
+/**
  * Calculate performance score based on metrics
  * @param {Object} vitals - Web Vitals data
  * @param {Object} timing - Navigation timing data
  * @returns {number} Performance score (0-100)
  */
 export const calculatePerformanceScore = (vitals, timing) => {
-  let score = 100;
+  const baseScore = 100;
   let deductions = 0;
 
-  // LCP scoring
-  if (vitals.lcp) {
-    if (vitals.lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) {
-      deductions += 30;
-    } else if (vitals.lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) {
-      deductions += 15;
-    }
-  }
+  deductions += calculateLCPDeductions(vitals.lcp);
+  deductions += calculateFIDDeductions(vitals.fid);
+  deductions += calculateCLSDeductions(vitals.cls);
+  deductions += calculateTimingDeductions(timing.totalTime);
 
-  // FID scoring
-  if (vitals.fid) {
-    if (vitals.fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) {
-      deductions += 25;
-    } else if (vitals.fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) {
-      deductions += 10;
-    }
-  }
+  return Math.max(0, baseScore - deductions);
+};
 
-  // CLS scoring
-  if (vitals.cls !== null) {
-    if (vitals.cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) {
-      deductions += 25;
-    } else if (vitals.cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) {
-      deductions += 10;
-    }
+/**
+ * Add LCP recommendation if needed
+ * @param {Array} recommendations - Recommendations array
+ * @param {number} lcp - LCP value
+ */
+const addLCPRecommendation = (recommendations, lcp) => {
+  if (lcp && lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) {
+    recommendations.push({
+      type: 'lcp',
+      severity: lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD ? 'high' : 'medium',
+      message: 'Optimize Largest Contentful Paint by reducing image sizes and improving server response times',
+      action: 'optimize-images'
+    });
   }
+};
 
-  // Navigation timing scoring
-  if (timing.totalTime > 5000) {
-    deductions += 20;
-  } else if (timing.totalTime > 3000) {
-    deductions += 10;
+/**
+ * Add FID recommendation if needed
+ * @param {Array} recommendations - Recommendations array
+ * @param {number} fid - FID value
+ */
+const addFIDRecommendation = (recommendations, fid) => {
+  if (fid && fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) {
+    recommendations.push({
+      type: 'fid',
+      severity: fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD ? 'high' : 'medium',
+      message: 'Reduce JavaScript execution time and break up long tasks',
+      action: 'optimize-js'
+    });
   }
+};
 
-  return Math.max(0, score - deductions);
+/**
+ * Add CLS recommendation if needed
+ * @param {Array} recommendations - Recommendations array
+ * @param {number} cls - CLS value
+ */
+const addCLSRecommendation = (recommendations, cls) => {
+  if (cls && cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) {
+    recommendations.push({
+      type: 'cls',
+      severity: cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD ? 'high' : 'medium',
+      message: 'Prevent layout shifts by setting dimensions for images and ads',
+      action: 'fix-layout-shifts'
+    });
+  }
+};
+
+/**
+ * Add resource-based recommendations
+ * @param {Array} recommendations - Recommendations array
+ * @param {Array} resources - Resource metrics
+ */
+const addResourceRecommendations = (recommendations, resources) => {
+  const largeResources = resources.filter(resource => resource.isLarge);
+  if (largeResources.length > 0) {
+    recommendations.push({
+      type: 'resources',
+      severity: 'medium',
+      message: `${largeResources.length} large resources detected. Consider optimization or lazy loading`,
+      action: 'optimize-resources'
+    });
+  }
+};
+
+/**
+ * Add memory recommendations
+ * @param {Array} recommendations - Recommendations array
+ * @param {Object} memory - Memory metrics
+ */
+const addMemoryRecommendations = (recommendations, memory) => {
+  const MEMORY_USAGE_THRESHOLD = 0.8;
+  if (memory.available && memory.used > memory.limit * MEMORY_USAGE_THRESHOLD) {
+    recommendations.push({
+      type: 'memory',
+      severity: 'high',
+      message: 'High memory usage detected. Check for memory leaks',
+      action: 'optimize-memory'
+    });
+  }
+};
+
+/**
+ * Add Web Vitals recommendations
+ * @param {Array} recommendations - Recommendations array
+ * @param {Object} vitals - Web Vitals data
+ */
+const addVitalsRecommendations = (recommendations, vitals) => {
+  addLCPRecommendation(recommendations, vitals.lcp);
+  addFIDRecommendation(recommendations, vitals.fid);
+  addCLSRecommendation(recommendations, vitals.cls);
 };
 
 /**
@@ -228,56 +342,9 @@ export const calculatePerformanceScore = (vitals, timing) => {
 export const getPerformanceRecommendations = (vitals, resources, memory) => {
   const recommendations = [];
 
-  // LCP recommendations
-  if (vitals.lcp && vitals.lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) {
-    recommendations.push({
-      type: 'lcp',
-      severity: vitals.lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD ? 'high' : 'medium',
-      message: 'Optimize Largest Contentful Paint by reducing image sizes and improving server response times',
-      action: 'optimize-images'
-    });
-  }
-
-  // FID recommendations
-  if (vitals.fid && vitals.fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) {
-    recommendations.push({
-      type: 'fid',
-      severity: vitals.fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD ? 'high' : 'medium',
-      message: 'Reduce JavaScript execution time and break up long tasks',
-      action: 'optimize-js'
-    });
-  }
-
-  // CLS recommendations
-  if (vitals.cls && vitals.cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) {
-    recommendations.push({
-      type: 'cls',
-      severity: vitals.cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD ? 'high' : 'medium',
-      message: 'Prevent layout shifts by setting dimensions for images and ads',
-      action: 'fix-layout-shifts'
-    });
-  }
-
-  // Resource-based recommendations
-  const largeResources = resources.filter(r => r.isLarge);
-  if (largeResources.length > 0) {
-    recommendations.push({
-      type: 'resources',
-      severity: 'medium',
-      message: `${largeResources.length} large resources detected. Consider optimization or lazy loading`,
-      action: 'optimize-resources'
-    });
-  }
-
-  // Memory recommendations
-  if (memory.available && memory.used > memory.limit * 0.8) {
-    recommendations.push({
-      type: 'memory',
-      severity: 'high',
-      message: 'High memory usage detected. Check for memory leaks',
-      action: 'optimize-memory'
-    });
-  }
+  addVitalsRecommendations(recommendations, vitals);
+  addResourceRecommendations(recommendations, resources);
+  addMemoryRecommendations(recommendations, memory);
 
   return recommendations;
 };

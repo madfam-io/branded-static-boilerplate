@@ -9,8 +9,7 @@
  * Generate the console capture script
  * @returns {string} JavaScript code for console capture
  */
-function getConsoleCaptureScript() {
-  return `
+const getConsoleCaptureScript = () => `
     // Console capture setup
     const originalConsole = {
       log: console.log,
@@ -39,14 +38,12 @@ function getConsoleCaptureScript() {
         }
       };
     });`;
-}
 
 /**
  * Generate the error handling script
  * @returns {string} JavaScript code for error handling
  */
-function getErrorHandlingScript() {
-  return `
+const getErrorHandlingScript = () => `
     // Error handling - capture errors without logging to console
     window.addEventListener('error', event => {
       const message = \`\${event.filename}:\${event.lineno} - \${event.message}\`;
@@ -70,15 +67,13 @@ function getErrorHandlingScript() {
       event.preventDefault();
       return true;
     });`;
-}
 
 /**
  * Generate the user code execution wrapper
  * @param {string} js - User's JavaScript code
  * @returns {string} Wrapped JavaScript code
  */
-function getUserCodeWrapper(js) {
-  return `
+const getUserCodeWrapper = js => `
     try {
       ${js}
     } catch (error) {
@@ -99,7 +94,6 @@ function getUserCodeWrapper(js) {
         }, '*');
       }
     }`;
-}
 
 /**
  * Generate complete preview document HTML
@@ -108,7 +102,7 @@ function getUserCodeWrapper(js) {
  * @param {string} js - JavaScript content
  * @returns {string} Complete HTML document
  */
-export function generatePreviewDocument(html, css, js) {
+export const generatePreviewDocument = (html, css, js) => {
   const consoleCaptureScript = getConsoleCaptureScript();
   const errorHandlingScript = getErrorHandlingScript();
   const userCodeWrapper = getUserCodeWrapper(js);
@@ -138,4 +132,4 @@ ${userCodeWrapper}
   </script>
 </body>
 </html>`.trim();
-}
+};

@@ -98,46 +98,95 @@ export const learningPaths = {
  * @param {Set} conceptsLearned - Concepts user has learned
  * @returns {Array} Recommended learning paths
  */
-export const getRecommendedPaths = (componentsExplored, conceptsLearned) => {
-  const recommendations = [];
-  
-  // Analyze current progress
-  const hasBasicHTML = componentsExplored.has('header') || componentsExplored.has('navigation');
-  const hasCSS = componentsExplored.has('theme-variables') || conceptsLearned.has('css-styling');
-  const hasJS = componentsExplored.has('interactive-components') || conceptsLearned.has('javascript');
-  
-  // Recommend based on gaps
-  if (!hasBasicHTML) {
+/**
+ * Analyze user's current skill levels
+ * @param {Set} componentsExplored - Components user has explored
+ * @param {Set} conceptsLearned - Concepts user has learned
+ * @returns {Object} Skill level analysis
+ */
+const analyzeSkillLevels = (componentsExplored, conceptsLearned) => ({
+  hasBasicHTML: componentsExplored.has('header') || componentsExplored.has('navigation'),
+  hasCSS: componentsExplored.has('theme-variables') || conceptsLearned.has('css-styling'),
+  hasJS: componentsExplored.has('interactive-components') || conceptsLearned.has('javascript')
+});
+
+/**
+ * Add HTML-related recommendations
+ * @param {Array} recommendations - Recommendations array to modify
+ * @param {Object} skillLevels - User's skill levels
+ */
+const addHTMLRecommendations = (recommendations, skillLevels) => {
+  if (!skillLevels.hasBasicHTML) {
     recommendations.push({
       path: 'html-structure',
       reason: 'Start with HTML fundamentals',
       priority: 'high'
     });
   }
-  
-  if (hasBasicHTML && !hasCSS) {
+};
+
+/**
+ * Add CSS-related recommendations
+ * @param {Array} recommendations - Recommendations array to modify
+ * @param {Object} skillLevels - User's skill levels
+ */
+const addCSSRecommendations = (recommendations, skillLevels) => {
+  if (skillLevels.hasBasicHTML && !skillLevels.hasCSS) {
     recommendations.push({
       path: 'css-styling',
       reason: 'Build on HTML with styling',
       priority: 'high'
     });
   }
-  
-  if (hasBasicHTML && hasCSS && !hasJS) {
+};
+
+/**
+ * Add JavaScript-related recommendations
+ * @param {Array} recommendations - Recommendations array to modify
+ * @param {Object} skillLevels - User's skill levels
+ */
+const addJavaScriptRecommendations = (recommendations, skillLevels) => {
+  if (skillLevels.hasBasicHTML && skillLevels.hasCSS && !skillLevels.hasJS) {
     recommendations.push({
       path: 'javascript-interactivity',
       reason: 'Add interactivity to your knowledge',
       priority: 'medium'
     });
   }
-  
-  if (hasBasicHTML && hasCSS && hasJS) {
+};
+
+/**
+ * Add advanced topic recommendations
+ * @param {Array} recommendations - Recommendations array to modify
+ * @param {Object} skillLevels - User's skill levels
+ */
+const addAdvancedRecommendations = (recommendations, skillLevels) => {
+  if (skillLevels.hasBasicHTML && skillLevels.hasCSS && skillLevels.hasJS) {
     recommendations.push({
       path: 'performance-optimization',
       reason: 'Optimize for production',
       priority: 'low'
     });
   }
-  
+};
+
+/**
+ * Get learning path recommendations based on current progress
+ * @param {Set} componentsExplored - Components user has explored
+ * @param {Set} conceptsLearned - Concepts user has learned
+ * @returns {Array} Recommended learning paths
+ */
+export const getRecommendedPaths = (componentsExplored, conceptsLearned) => {
+  const recommendations = [];
+
+  // Analyze current progress
+  const skillLevels = analyzeSkillLevels(componentsExplored, conceptsLearned);
+
+  // Generate recommendations based on skill gaps
+  addHTMLRecommendations(recommendations, skillLevels);
+  addCSSRecommendations(recommendations, skillLevels);
+  addJavaScriptRecommendations(recommendations, skillLevels);
+  addAdvancedRecommendations(recommendations, skillLevels);
+
   return recommendations;
 };

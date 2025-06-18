@@ -16,29 +16,51 @@ const SEO_CONFIG = {
   scoreWordCountDivisor: 10
 };
 
-// Simple validators (copied to avoid circular import)
-function validateTitle(title) {
-  if (!title) {return { status: 'error' };}
-  if (title.length < 30) {return { status: 'warning' };}
-  if (title.length > 60) {return { status: 'warning' };}
-  if (title.length >= 50 && title.length <= 60) {return { status: 'excellent' };}
-  return { status: 'good' };
-}
+// Content length validation constants
+const TITLE_VALIDATION = {
+  MIN_LENGTH: 30,
+  MAX_LENGTH: 60,
+  EXCELLENT_MIN: 50,
+  EXCELLENT_MAX: 60
+};
 
-function validateDescription(description) {
-  if (!description) {return { status: 'error' };}
-  if (description.length < 120) {return { status: 'warning' };}
-  if (description.length > 160) {return { status: 'warning' };}
-  if (description.length >= 150 && description.length <= 160) {return { status: 'excellent' };}
+const DESCRIPTION_VALIDATION = {
+  MIN_LENGTH: 120,
+  MAX_LENGTH: 160,
+  EXCELLENT_MIN: 150,
+  EXCELLENT_MAX: 160
+};
+
+// Scoring constants
+const LINK_SCORES = {
+  INTERNAL_BONUS: 50,
+  EXTERNAL_BONUS: 50,
+  EXTERNAL_PARTIAL: 25
+};
+
+// Simple validators (copied to avoid circular import)
+const validateTitle = title => {
+  if (!title) {return { status: 'error' };}
+  if (title.length < TITLE_VALIDATION.MIN_LENGTH) {return { status: 'warning' };}
+  if (title.length > TITLE_VALIDATION.MAX_LENGTH) {return { status: 'warning' };}
+  if (title.length >= TITLE_VALIDATION.EXCELLENT_MIN && title.length <= TITLE_VALIDATION.EXCELLENT_MAX) {return { status: 'excellent' };}
   return { status: 'good' };
-}
+};
+
+const validateDescription = description => {
+  if (!description) {return { status: 'error' };}
+  if (description.length < DESCRIPTION_VALIDATION.MIN_LENGTH) {return { status: 'warning' };}
+  if (description.length > DESCRIPTION_VALIDATION.MAX_LENGTH) {return { status: 'warning' };}
+  if (description.length >= DESCRIPTION_VALIDATION.EXCELLENT_MIN && description.length <= DESCRIPTION_VALIDATION.EXCELLENT_MAX) {return { status: 'excellent' };}
+  return { status: 'good' };
+};
 
 /**
  * Calculate title score
  * @param {string} title - Page title
  * @returns {number} Title score
  */
-export function calculateTitleScore(title) {
+export const calculateTitleScore = title => {
   const validation = validateTitle(title || '');
   const scoreMap = {
     excellent: SEO_CONFIG.scoreExcellent,
@@ -47,14 +69,14 @@ export function calculateTitleScore(title) {
     error: SEO_CONFIG.scorePoor
   };
   return scoreMap[validation.status] || SEO_CONFIG.scorePoor;
-}
+};
 
 /**
  * Calculate description score
  * @param {string} description - Page description
  * @returns {number} Description score
  */
-export function calculateDescriptionScore(description) {
+export const calculateDescriptionScore = description => {
   const validation = validateDescription(description || '');
   const scoreMap = {
     excellent: SEO_CONFIG.scoreExcellent,
@@ -63,14 +85,14 @@ export function calculateDescriptionScore(description) {
     error: SEO_CONFIG.scorePoor
   };
   return scoreMap[validation.status] || SEO_CONFIG.scorePoor;
-}
+};
 
 /**
  * Calculate headings score and insights
  * @param {Object} page - Page data
  * @returns {Object} Score and insights
  */
-export function calculateHeadingsScore(page) {
+export const calculateHeadingsScore = page => {
   let score = 0;
   const insights = [];
 
@@ -99,14 +121,14 @@ export function calculateHeadingsScore(page) {
   }
 
   return { score, insights };
-}
+};
 
 /**
  * Calculate images score and insights
  * @param {Object} page - Page data
  * @returns {Object} Score and insights
  */
-export function calculateImagesScore(page) {
+export const calculateImagesScore = page => {
   const insights = [];
   const imagesWithoutAlt = page.images?.filter(img => !img.alt).length || 0;
 
@@ -124,20 +146,20 @@ export function calculateImagesScore(page) {
   }
 
   return { score, insights };
-}
+};
 
 /**
  * Calculate links score and insights
  * @param {Object} page - Page data
  * @returns {Object} Score and insights
  */
-export function calculateLinksScore(page) {
+export const calculateLinksScore = page => {
   let score = 0;
   const insights = [];
 
   // Internal links
   if (page.links?.internal > 0) {
-    score += 50;
+    score += LINK_SCORES.INTERNAL_BONUS;
   } else {
     insights.push({
       category: 'Links',
@@ -150,9 +172,9 @@ export function calculateLinksScore(page) {
   // External links
   if (page.links?.external > 0) {
     if (page.links?.externalNofollow > 0) {
-      score += 50;
+      score += LINK_SCORES.EXTERNAL_BONUS;
     } else {
-      score += 25;
+      score += LINK_SCORES.EXTERNAL_PARTIAL;
       insights.push({
         category: 'Links',
         issue: 'External links without nofollow',
@@ -163,14 +185,14 @@ export function calculateLinksScore(page) {
   }
 
   return { score, insights };
-}
+};
 
 /**
  * Calculate content score and insights
  * @param {Object} page - Page data
  * @returns {Object} Score and insights
  */
-export function calculateContentScore(page) {
+export const calculateContentScore = page => {
   const insights = [];
   const wordCount = page.content?.wordCount || 0;
 
@@ -190,14 +212,14 @@ export function calculateContentScore(page) {
   }
 
   return { score, insights };
-}
+};
 
 /**
  * Calculate technical score
  * @param {Object} page - Page data
  * @returns {number} Technical score
  */
-export function calculateTechnicalScore(page) {
+export const calculateTechnicalScore = page => {
   let score = 0;
 
   if (page.canonical) {score += 25;}
@@ -206,4 +228,4 @@ export function calculateTechnicalScore(page) {
   if (page.https) {score += 25;}
 
   return score;
-}
+};

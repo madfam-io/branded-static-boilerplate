@@ -6,25 +6,10 @@
  */
 
 /**
- * Generate and inject source viewer styles
- */
-export const injectViewerStyles = () => {
-  if (document.querySelector('#bsb-source-viewer-styles')) {
-    return; // Styles already injected
-  }
-
-  const style = document.createElement('style');
-  style.id = 'bsb-source-viewer-styles';
-  style.textContent = getViewerStyles();
-  document.head.appendChild(style);
-};
-
-/**
  * Get complete CSS styles for the source viewer
  * @returns {string} CSS styles
  */
-const getViewerStyles = () => {
-  return `
+const getViewerStyles = () => `
     /* Source Viewer Button */
     .bsb-view-source-btn {
       position: absolute;
@@ -402,4 +387,17 @@ const getViewerStyles = () => {
       }
     }
   `;
+
+/**
+ * Generate and inject source viewer styles
+ */
+export const injectViewerStyles = () => {
+  if (document.querySelector('#bsb-source-viewer-styles')) {
+    return; // Styles already injected
+  }
+
+  const style = document.createElement('style');
+  style.id = 'bsb-source-viewer-styles';
+  style.textContent = getViewerStyles();
+  document.head.appendChild(style);
 };

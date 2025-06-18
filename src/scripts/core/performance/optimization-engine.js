@@ -12,8 +12,37 @@ const OPTIMIZATION_CONSTANTS = {
   LAZY_LOAD_THRESHOLD: 0.1,
   MIN_INTERSECTION_RATIO: 0.01,
   MAX_FID_DELAY: 10000,
-  PRELOAD_THRESHOLD: 3, // seconds
+  PRELOAD_THRESHOLD: 3, // Seconds
   CRITICAL_RESOURCE_DELAY: 100
+};
+
+/**
+ * Load individual image
+ * @param {HTMLImageElement} img - Image element
+ */
+const loadImage = img => {
+  const { src } = img.dataset;
+  const { srcset } = img.dataset;
+
+  if (src) {
+    img.src = src;
+    img.removeAttribute('data-src');
+  }
+
+  if (srcset) {
+    img.srcset = srcset;
+    img.removeAttribute('data-srcset');
+  }
+
+  img.classList.add('loaded');
+};
+
+/**
+ * Fallback to load all images immediately
+ * @param {string} selector - Image selector
+ */
+const loadAllImages = selector => {
+  document.querySelectorAll(selector).forEach(loadImage);
 };
 
 /**
@@ -48,40 +77,11 @@ export const initializeLazyLoading = (selector = 'img[data-src]') => {
 };
 
 /**
- * Load individual image
- * @param {HTMLImageElement} img - Image element
- */
-const loadImage = (img) => {
-  const src = img.dataset.src;
-  const srcset = img.dataset.srcset;
-
-  if (src) {
-    img.src = src;
-    img.removeAttribute('data-src');
-  }
-
-  if (srcset) {
-    img.srcset = srcset;
-    img.removeAttribute('data-srcset');
-  }
-
-  img.classList.add('loaded');
-};
-
-/**
- * Fallback to load all images immediately
- * @param {string} selector - Image selector
- */
-const loadAllImages = (selector) => {
-  document.querySelectorAll(selector).forEach(loadImage);
-};
-
-/**
  * Preload critical resources
  * @param {Array} resources - Array of resource URLs
  */
-export const preloadCriticalResources = (resources) => {
-  if (!Array.isArray(resources)) return;
+export const preloadCriticalResources = resources => {
+  if (!Array.isArray(resources)) {return;}
 
   resources.forEach(resource => {
     const link = document.createElement('link');
@@ -118,12 +118,12 @@ export const optimizeJavaScriptExecution = (callback, options = {}) => {
  * Implement resource hints for better loading
  * @param {Array} hints - Array of resource hint objects
  */
-export const addResourceHints = (hints) => {
-  if (!Array.isArray(hints)) return;
+export const addResourceHints = hints => {
+  if (!Array.isArray(hints)) {return;}
 
   hints.forEach(hint => {
     const link = document.createElement('link');
-    link.rel = hint.rel; // dns-prefetch, preconnect, etc.
+    link.rel = hint.rel; // Dns-prefetch, preconnect, etc.
     link.href = hint.href;
 
     if (hint.crossorigin) {
@@ -138,8 +138,8 @@ export const addResourceHints = (hints) => {
  * Optimize font loading with font-display
  * @param {Array} fontFaces - Array of font face objects
  */
-export const optimizeFontLoading = (fontFaces) => {
-  if (!Array.isArray(fontFaces)) return;
+export const optimizeFontLoading = fontFaces => {
+  if (!Array.isArray(fontFaces)) {return;}
 
   fontFaces.forEach(font => {
     const fontFace = new FontFace(
@@ -217,7 +217,7 @@ export const throttle = (func, limit) => {
  * Monitor and optimize long tasks
  * @param {Function} callback - Callback for long task detection
  */
-export const monitorLongTasks = (callback) => {
+export const monitorLongTasks = callback => {
   if (!('PerformanceObserver' in window)) {
     debug.warn('PerformanceObserver not supported for long task monitoring');
     return;
@@ -249,7 +249,7 @@ export const monitorLongTasks = (callback) => {
  * @param {Array} modules - Array of module objects to lazy load
  * @returns {Object} Module loading utilities
  */
-export const implementCodeSplitting = (modules) => {
+export const implementCodeSplitting = modules => {
   const loadedModules = new Map();
 
   return {
@@ -294,10 +294,10 @@ export const implementCodeSplitting = (modules) => {
  * Optimize third-party script loading
  * @param {Array} scripts - Array of third-party script configs
  */
-export const optimizeThirdPartyScripts = (scripts) => {
+export const optimizeThirdPartyScripts = scripts => {
   scripts.forEach(script => {
     const scriptElement = document.createElement('script');
-    
+
     // Use appropriate loading strategy
     if (script.critical) {
       scriptElement.src = script.src;

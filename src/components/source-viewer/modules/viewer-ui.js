@@ -12,11 +12,83 @@ const UI_CONSTANTS = {
 };
 
 /**
+ * Update statistics display
+ * @param {Object} stats - Statistics data
+ */
+const updateStats = stats => {
+  Object.entries(stats).forEach(([key, value]) => {
+    const statElement = document.querySelector(`[data-stat="${key}"]`);
+    if (statElement) {
+      statElement.textContent = value;
+    }
+  });
+};
+
+/**
+ * Apply syntax highlighting to code blocks
+ */
+const applySyntaxHighlighting = () => {
+  // If Prism.js is available, highlight the code
+  if (window.Prism) {
+    Prism.highlightAll();
+  }
+};
+
+/**
+ * Show notification message
+ * @param {string} message - Notification message
+ * @param {string} type - Notification type
+ */
+const showNotification = (message, type = 'info') => {
+  const notification = document.createElement('div');
+  notification.className = `bsb-source-viewer__notification bsb-source-viewer__notification--${type}`;
+  notification.textContent = message;
+
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bsb-${type === 'success' ? 'success' : 'primary'});
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10001;
+    font-size: 14px;
+    animation: slideInRight 0.3s ease;
+  `;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => notification.remove(), UI_CONSTANTS.ANIMATION_DURATION);
+  }, UI_CONSTANTS.NOTIFICATION_DURATION);
+};
+
+/**
+ * Download individual file
+ * @param {string} filename - Name of file
+ * @param {string} content - File content
+ * @param {string} mimeType - MIME type
+ */
+const downloadFile = (filename, content, mimeType) => {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
+/**
  * Generate the source viewer template
  * @returns {string} HTML template for the viewer
  */
-export const getViewerTemplate = () => {
-  return `
+export const getViewerTemplate = () => `
     <div class="bsb-source-viewer" id="source-viewer">
       <div class="bsb-source-viewer__backdrop"></div>
       <div class="bsb-source-viewer__container">
@@ -101,13 +173,12 @@ export const getViewerTemplate = () => {
       </div>
     </div>
   `;
-};
 
 /**
  * Update the viewer with source code
  * @param {Object} sourceData - Source code data
  */
-export const updateViewerContent = (sourceData) => {
+export const updateViewerContent = sourceData => {
   const { html, css, js, componentName } = sourceData;
 
   // Update code content
@@ -115,9 +186,9 @@ export const updateViewerContent = (sourceData) => {
   const cssCode = document.getElementById('css-code');
   const jsCode = document.getElementById('js-code');
 
-  if (htmlCode) htmlCode.textContent = html;
-  if (cssCode) cssCode.textContent = css;
-  if (jsCode) jsCode.textContent = js;
+  if (htmlCode) {htmlCode.textContent = html;}
+  if (cssCode) {cssCode.textContent = css;}
+  if (jsCode) {jsCode.textContent = js;}
 
   // Update component name
   const componentNameEl = document.querySelector('.bsb-source-viewer__component-name');
@@ -137,33 +208,10 @@ export const updateViewerContent = (sourceData) => {
 };
 
 /**
- * Update statistics display
- * @param {Object} stats - Statistics data
- */
-const updateStats = (stats) => {
-  Object.entries(stats).forEach(([key, value]) => {
-    const statElement = document.querySelector(`[data-stat="${key}"]`);
-    if (statElement) {
-      statElement.textContent = value;
-    }
-  });
-};
-
-/**
- * Apply syntax highlighting to code blocks
- */
-const applySyntaxHighlighting = () => {
-  // If Prism.js is available, highlight the code
-  if (window.Prism) {
-    Prism.highlightAll();
-  }
-};
-
-/**
  * Switch between tabs
  * @param {string} tabName - Name of tab to switch to
  */
-export const switchTab = (tabName) => {
+export const switchTab = tabName => {
   // Update tab states
   const tabs = document.querySelectorAll('.bsb-source-viewer__tab');
   tabs.forEach(tab => {
@@ -183,10 +231,10 @@ export const switchTab = (tabName) => {
  * Show the source viewer
  * @param {HTMLElement} viewer - Viewer element
  */
-export const showViewer = (viewer) => {
+export const showViewer = viewer => {
   viewer.classList.add('bsb-source-viewer--active');
   document.body.style.overflow = 'hidden';
-  
+
   // Focus the close button for accessibility
   const closeBtn = viewer.querySelector('[data-action="close"]');
   if (closeBtn) {
@@ -198,7 +246,7 @@ export const showViewer = (viewer) => {
  * Hide the source viewer
  * @param {HTMLElement} viewer - Viewer element
  */
-export const hideViewer = (viewer) => {
+export const hideViewer = viewer => {
   viewer.classList.remove('bsb-source-viewer--active');
   document.body.style.overflow = '';
 };
@@ -208,7 +256,7 @@ export const hideViewer = (viewer) => {
  * @param {string} code - Code to copy
  * @param {string} type - Type of code (html, css, js)
  */
-export const copyToClipboard = async (code, type) => {
+export const copyToClipboard = async(code, type) => {
   try {
     await navigator.clipboard.writeText(code);
     showNotification(`${type.toUpperCase()} code copied to clipboard!`, 'success');
@@ -225,75 +273,25 @@ export const copyToClipboard = async (code, type) => {
 };
 
 /**
- * Show notification message
- * @param {string} message - Notification message
- * @param {string} type - Notification type
- */
-const showNotification = (message, type = 'info') => {
-  const notification = document.createElement('div');
-  notification.className = `bsb-source-viewer__notification bsb-source-viewer__notification--${type}`;
-  notification.textContent = message;
-
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--bsb-${type === 'success' ? 'success' : 'primary'});
-    color: white;
-    padding: 12px 16px;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 10001;
-    font-size: 14px;
-    animation: slideInRight 0.3s ease;
-  `;
-
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.style.animation = 'slideOutRight 0.3s ease';
-    setTimeout(() => notification.remove(), UI_CONSTANTS.ANIMATION_DURATION);
-  }, UI_CONSTANTS.NOTIFICATION_DURATION);
-};
-
-/**
  * Download source code as files
  * @param {Object} sourceData - Source code data
  */
-export const downloadSource = (sourceData) => {
+export const downloadSource = sourceData => {
   const { html, css, js, componentName } = sourceData;
-  
+
   // Create a zip-like structure by downloading individual files
   downloadFile(`${componentName}.html`, html, 'text/html');
   downloadFile(`${componentName}.css`, css, 'text/css');
   downloadFile(`${componentName}.js`, js, 'text/javascript');
-  
-  showNotification('Source files downloaded!', 'success');
-};
 
-/**
- * Download individual file
- * @param {string} filename - Name of file
- * @param {string} content - File content
- * @param {string} mimeType - MIME type
- */
-const downloadFile = (filename, content, mimeType) => {
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  
-  URL.revokeObjectURL(url);
+  showNotification('Source files downloaded!', 'success');
 };
 
 /**
  * Add view source button to component
  * @param {HTMLElement} component - Component element
  */
-export const addViewSourceButton = (component) => {
+export const addViewSourceButton = component => {
   // Check if button already exists
   if (component.querySelector('.bsb-view-source-btn')) {
     return;
@@ -306,7 +304,7 @@ export const addViewSourceButton = (component) => {
   button.title = 'View Source Code';
 
   // Position the button appropriately
-  const position = window.getComputedStyle(component).position;
+  const { position } = window.getComputedStyle(component);
   if (position === 'static') {
     component.style.position = 'relative';
   }

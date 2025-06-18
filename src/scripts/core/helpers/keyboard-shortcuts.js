@@ -12,7 +12,7 @@
  * @returns {void}
  */
 export const setupKeyboardShortcuts = (devMode, actions) => {
-  const keydownHandler = (event) => {
+  const keydownHandler = event => {
     // Only in dev mode
     if (!devMode) {
       return;

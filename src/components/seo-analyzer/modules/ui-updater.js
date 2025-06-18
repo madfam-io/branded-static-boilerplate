@@ -11,6 +11,7 @@ import { generateMetaTags, generateSERPPreview } from '../../../scripts/seo/seo-
 const CONSTANTS = {
   CIRCLE_RADIUS: 45,
   PI_MULTIPLIER: 2,
+  PERCENTAGE_MAX: 100,
   EXCELLENT_THRESHOLD: 90,
   GOOD_THRESHOLD: 80,
   AVERAGE_THRESHOLD: 70,
@@ -20,46 +21,101 @@ const CONSTANTS = {
 };
 
 /**
+ * Update the score number display
+ * @param {number} score - SEO score (0-100)
+ * @returns {void}
+ */
+const updateScoreNumber = score => {
+  const scoreElement = document.querySelector('.seo-analyzer__score-number');
+  if (scoreElement) {
+    scoreElement.textContent = Math.round(score);
+  }
+};
+
+/**
+ * Get color class based on score
+ * @param {number} score - SEO score
+ * @returns {string} Color class name
+ */
+const getScoreColorClass = score => {
+  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {return 'excellent';}
+  if (score >= CONSTANTS.GOOD_THRESHOLD) {return 'good';}
+  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {return 'average';}
+  if (score >= CONSTANTS.POOR_THRESHOLD) {return 'poor';}
+  return 'critical';
+};
+
+/**
+ * Update circle progress visualization
+ * @param {HTMLElement} circleElement - Circle element
+ * @param {number} score - SEO score
+ * @returns {void}
+ */
+const updateCircleProgress = (circleElement, score) => {
+  const circumference = CONSTANTS.PI_MULTIPLIER * Math.PI * CONSTANTS.CIRCLE_RADIUS;
+  const offset = circumference - (score / CONSTANTS.PERCENTAGE_MAX) * circumference;
+  circleElement.style.strokeDasharray = circumference;
+  circleElement.style.strokeDashoffset = offset;
+};
+
+/**
+ * Update circle color based on score
+ * @param {HTMLElement} circleElement - Circle element
+ * @param {number} score - SEO score
+ * @returns {void}
+ */
+const updateCircleColor = (circleElement, score) => {
+  const colorClass = getScoreColorClass(score);
+  circleElement.className = `seo-analyzer__score-circle seo-analyzer__score-circle--${colorClass}`;
+};
+
+/**
+ * Update the score circle visualization
+ * @param {number} score - SEO score (0-100)
+ * @returns {void}
+ */
+const updateScoreCircle = score => {
+  const circleElement = document.querySelector('.seo-analyzer__score-circle');
+  if (!circleElement) {return;}
+
+  updateCircleProgress(circleElement, score);
+  updateCircleColor(circleElement, score);
+};
+
+/**
+ * Get letter grade based on score
+ * @param {number} score - SEO score
+ * @returns {string} Letter grade
+ */
+const getScoreGrade = score => {
+  if (score >= CONSTANTS.EXCELLENT_THRESHOLD) {return 'A+';}
+  if (score >= CONSTANTS.GOOD_THRESHOLD) {return 'A';}
+  if (score >= CONSTANTS.AVERAGE_THRESHOLD) {return 'B';}
+  if (score >= CONSTANTS.POOR_THRESHOLD) {return 'C';}
+  return 'D';
+};
+
+/**
+ * Update the score grade display
+ * @param {number} score - SEO score (0-100)
+ * @returns {void}
+ */
+const updateScoreGrade = score => {
+  const gradeElement = document.querySelector('.seo-analyzer__grade');
+  if (gradeElement) {
+    gradeElement.textContent = getScoreGrade(score);
+  }
+};
+
+/**
  * Update the SEO score display
  * @param {number} score - SEO score (0-100)
  * @returns {void}
  */
-export const updateScore = (score) => {
-  const scoreElement = document.querySelector('.seo-analyzer__score-number');
-  const circleElement = document.querySelector('.seo-analyzer__score-circle');
-  const gradeElement = document.querySelector('.seo-analyzer__grade');
-
-  if (scoreElement) {
-    scoreElement.textContent = Math.round(score);
-  }
-
-  if (circleElement) {
-    const circumference = CONSTANTS.PI_MULTIPLIER * Math.PI * CONSTANTS.CIRCLE_RADIUS;
-    const offset = circumference - (score / 100) * circumference;
-    circleElement.style.strokeDasharray = circumference;
-    circleElement.style.strokeDashoffset = offset;
-
-    // Update circle color based on score
-    let colorClass = 'poor';
-    if (score >= CONSTANTS.EXCELLENT_THRESHOLD) colorClass = 'excellent';
-    else if (score >= CONSTANTS.GOOD_THRESHOLD) colorClass = 'good';
-    else if (score >= CONSTANTS.AVERAGE_THRESHOLD) colorClass = 'average';
-    else if (score >= CONSTANTS.POOR_THRESHOLD) colorClass = 'poor';
-    else colorClass = 'critical';
-
-    circleElement.className = `seo-analyzer__score-circle seo-analyzer__score-circle--${colorClass}`;
-  }
-
-  if (gradeElement) {
-    let grade = 'F';
-    if (score >= CONSTANTS.EXCELLENT_THRESHOLD) grade = 'A+';
-    else if (score >= CONSTANTS.GOOD_THRESHOLD) grade = 'A';
-    else if (score >= CONSTANTS.AVERAGE_THRESHOLD) grade = 'B';
-    else if (score >= CONSTANTS.POOR_THRESHOLD) grade = 'C';
-    else grade = 'D';
-
-    gradeElement.textContent = grade;
-  }
+export const updateScore = score => {
+  updateScoreNumber(score);
+  updateScoreCircle(score);
+  updateScoreGrade(score);
 };
 
 /**
@@ -67,7 +123,7 @@ export const updateScore = (score) => {
  * @param {Object} breakdown - Score breakdown by category
  * @returns {void}
  */
-export const updateBreakdown = (breakdown) => {
+export const updateBreakdown = breakdown => {
   Object.entries(breakdown).forEach(([category, data]) => {
     const categoryElement = document.querySelector(`[data-category="${category}"]`);
     if (categoryElement) {
@@ -89,13 +145,29 @@ export const updateBreakdown = (breakdown) => {
 };
 
 /**
+ * Get icon for insight type
+ * @param {string} type - Insight type
+ * @returns {string} Icon HTML
+ */
+const getInsightIcon = type => {
+  const icons = {
+    success: '✅',
+    warning: '⚠️',
+    error: '❌',
+    info: 'ℹ️',
+    tip: '💡'
+  };
+  return icons[type] || icons.info;
+};
+
+/**
  * Update the insights and recommendations
  * @param {Array} insights - Array of insight objects
  * @returns {void}
  */
-export const updateInsights = (insights) => {
+export const updateInsights = insights => {
   const insightsContainer = document.querySelector('.seo-analyzer__insights');
-  if (!insightsContainer) return;
+  if (!insightsContainer) {return;}
 
   insightsContainer.innerHTML = insights.map(insight => `
     <div class="insight insight--${insight.type}">
@@ -112,29 +184,13 @@ export const updateInsights = (insights) => {
 };
 
 /**
- * Get icon for insight type
- * @param {string} type - Insight type
- * @returns {string} Icon HTML
- */
-const getInsightIcon = (type) => {
-  const icons = {
-    success: '✅',
-    warning: '⚠️',
-    error: '❌',
-    info: 'ℹ️',
-    tip: '💡'
-  };
-  return icons[type] || icons.info;
-};
-
-/**
  * Update meta tags preview
  * @param {Object} pageData - Page data object
  * @returns {void}
  */
-export const updateMetaTags = (pageData) => {
+export const updateMetaTags = pageData => {
   const metaContainer = document.querySelector('.seo-analyzer__meta-tags');
-  if (!metaContainer) return;
+  if (!metaContainer) {return;}
 
   const metaTags = generateMetaTags(pageData);
   const serpPreview = generateSERPPreview(pageData);
@@ -162,9 +218,9 @@ export const updateMetaTags = (pageData) => {
  * @param {Object} contentData - Content analysis data
  * @returns {void}
  */
-export const updateContentStats = (contentData) => {
+export const updateContentStats = contentData => {
   const statsContainer = document.querySelector('.seo-analyzer__content-stats');
-  if (!statsContainer) return;
+  if (!statsContainer) {return;}
 
   statsContainer.innerHTML = `
     <div class="content-stats__item">
@@ -178,9 +234,9 @@ export const updateContentStats = (contentData) => {
     <div class="content-stats__item">
       <span class="content-stats__label">Top Keywords:</span>
       <div class="content-stats__keywords">
-        ${contentData.topKeywords.slice(0, 5).map(keyword => 
-          `<span class="keyword-tag">${keyword.word} (${keyword.density}%)</span>`
-        ).join('')}
+        ${contentData.topKeywords.slice(0, 5).map(keyword =>
+    `<span class="keyword-tag">${keyword.word} (${keyword.density}%)</span>`
+  ).join('')}
       </div>
     </div>
   `;
@@ -191,9 +247,9 @@ export const updateContentStats = (contentData) => {
  * @param {Object} techData - Technical SEO data
  * @returns {void}
  */
-export const updateTechnicalSEO = (techData) => {
+export const updateTechnicalSEO = techData => {
   const techContainer = document.querySelector('.seo-analyzer__technical');
-  if (!techContainer) return;
+  if (!techContainer) {return;}
 
   techContainer.innerHTML = `
     <div class="technical-item">

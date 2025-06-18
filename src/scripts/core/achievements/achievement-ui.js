@@ -14,42 +14,6 @@ const UI_CONSTANTS = {
 };
 
 /**
- * Create the achievement toggle button and panel UI
- * @param {Object} userProgress - Current user progress data
- * @returns {void}
- */
-export const createAchievementUI = userProgress => {
-  // Check if UI already exists
-  if (document.querySelector('#achievement-toggle')) {
-    return;
-  }
-
-  // Count unlocked achievements
-  const unlockedCount = Object.values(userProgress.achievements || {})
-    .filter(achievement => achievement.unlocked).length;
-
-  // Create toggle button
-  const toggleButton = document.createElement('button');
-  toggleButton.id = 'achievement-toggle';
-  toggleButton.className = 'achievement-toggle';
-  toggleButton.innerHTML = `
-    🏆
-    ${unlockedCount > 0 ? `<span class="achievement-count">${unlockedCount}</span>` : ''}
-  `;
-  toggleButton.setAttribute('aria-label', 'Toggle achievements panel');
-
-  // Create achievement panel
-  const panel = document.createElement('div');
-  panel.id = 'achievement-panel';
-  panel.className = 'achievement-panel hidden';
-  panel.innerHTML = getAchievementPanelHTML(userProgress);
-
-  // Add to document
-  document.body.appendChild(toggleButton);
-  document.body.appendChild(panel);
-};
-
-/**
  * Generate achievement panel HTML structure
  * @param {Object} userProgress - User progress data
  * @returns {string} Panel HTML content
@@ -88,6 +52,42 @@ const getAchievementPanelHTML = userProgress => {
       <!-- Achievement items will be populated here -->
     </div>
   `;
+};
+
+/**
+ * Create the achievement toggle button and panel UI
+ * @param {Object} userProgress - Current user progress data
+ * @returns {void}
+ */
+export const createAchievementUI = userProgress => {
+  // Check if UI already exists
+  if (document.querySelector('#achievement-toggle')) {
+    return;
+  }
+
+  // Count unlocked achievements
+  const unlockedCount = Object.values(userProgress.achievements || {})
+    .filter(achievement => achievement.unlocked).length;
+
+  // Create toggle button
+  const toggleButton = document.createElement('button');
+  toggleButton.id = 'achievement-toggle';
+  toggleButton.className = 'achievement-toggle';
+  toggleButton.innerHTML = `
+    🏆
+    ${unlockedCount > 0 ? `<span class="achievement-count">${unlockedCount}</span>` : ''}
+  `;
+  toggleButton.setAttribute('aria-label', 'Toggle achievements panel');
+
+  // Create achievement panel
+  const panel = document.createElement('div');
+  panel.id = 'achievement-panel';
+  panel.className = 'achievement-panel hidden';
+  panel.innerHTML = getAchievementPanelHTML(userProgress);
+
+  // Add to document
+  document.body.appendChild(toggleButton);
+  document.body.appendChild(panel);
 };
 
 /**

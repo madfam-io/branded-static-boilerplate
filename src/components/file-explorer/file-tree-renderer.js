@@ -5,25 +5,22 @@
  */
 
 /**
- * Generate HTML for a single file/folder item
- * @param {Object} item - File/folder item
- * @param {Object} data - File data
- * @param {boolean} isExpanded - Whether folder is expanded
- * @returns {string} HTML string for the item
+ * Get appropriate icon for file type
+ * @param {string} fileType - Type of file
+ * @returns {string} Emoji icon for the file type
  */
-export function renderFileItem(item, data, isExpanded) {
-  const isFolder = data.type === 'folder';
-  const itemClasses = getItemClasses(data.type, isExpanded);
-  const itemAttributes = getItemAttributes(item, data, isFolder, isExpanded);
-
-  return `
-    <li class="${itemClasses}"
-        ${itemAttributes}>
-      ${renderItemContent(data, isFolder, isExpanded)}
-      ${renderNestedItems(item)}
-    </li>
-  `;
-}
+export const getFileIcon = fileType => {
+  const icons = {
+    config: '⚙️',
+    docs: '📝',
+    style: '🎨',
+    script: '⚡',
+    markup: '📄',
+    test: '🧪',
+    file: '📄'
+  };
+  return icons[fileType] || icons.file;
+};
 
 /**
  * Get CSS classes for item
@@ -31,12 +28,12 @@ export function renderFileItem(item, data, isExpanded) {
  * @param {boolean} isExpanded - Whether expanded
  * @returns {string} CSS classes
  */
-function getItemClasses(type, isExpanded) {
+const getItemClasses = (type, isExpanded) => {
   const baseClass = 'bsb-file-explorer__item';
   const typeClass = `${baseClass}--${type}`;
   const collapsedClass = isExpanded ? '' : ` ${baseClass}--collapsed`;
   return `${baseClass} ${typeClass}${collapsedClass}`;
-}
+};
 
 /**
  * Get HTML attributes for item
@@ -46,7 +43,7 @@ function getItemClasses(type, isExpanded) {
  * @param {boolean} isExpanded - Whether expanded
  * @returns {string} HTML attributes
  */
-function getItemAttributes(item, data, isFolder, isExpanded) {
+const getItemAttributes = (item, data, isFolder, isExpanded) => {
   const attributes = [
     'role="treeitem"',
     isFolder ? `aria-expanded="${isExpanded}"` : '',
@@ -58,28 +55,7 @@ function getItemAttributes(item, data, isFolder, isExpanded) {
   ];
 
   return attributes.filter(Boolean).join(' ');
-}
-
-/**
- * Render item content (icon, name, badge)
- * @param {Object} data - File data
- * @param {boolean} isFolder - Whether item is folder
- * @param {boolean} isExpanded - Whether expanded
- * @returns {string} HTML for content
- */
-function renderItemContent(data, isFolder, isExpanded) {
-  const icon = renderIcon(data, isFolder, isExpanded);
-  const name = `<span class="bsb-file-explorer__name">${data.name}</span>`;
-  const badge = renderBadge(data.importance);
-
-  return `
-    <div class="bsb-file-explorer__item-content">
-      ${icon}
-      ${name}
-      ${badge}
-    </div>
-  `;
-}
+};
 
 /**
  * Render icon for item
@@ -88,7 +64,7 @@ function renderItemContent(data, isFolder, isExpanded) {
  * @param {boolean} isExpanded - Whether expanded
  * @returns {string} HTML for icon
  */
-function renderIcon(data, isFolder, isExpanded) {
+const renderIcon = (data, isFolder, isExpanded) => {
   if (isFolder) {
     const icon = isExpanded ? '📂' : '📁';
     return `
@@ -101,14 +77,14 @@ function renderIcon(data, isFolder, isExpanded) {
 
   const icon = getFileIcon(data.fileType || 'file');
   return `<span class="bsb-file-explorer__toggle-icon">${icon}</span>`;
-}
+};
 
 /**
  * Render importance badge
  * @param {string} importance - Importance level
  * @returns {string} HTML for badge
  */
-function renderBadge(importance) {
+const renderBadge = importance => {
   if (importance === 'high') {
     return '<span class="bsb-file-explorer__badge">Essential</span>';
   }
@@ -116,16 +92,18 @@ function renderBadge(importance) {
     return '<span class="bsb-file-explorer__badge">Important</span>';
   }
   return '';
-}
+};
 
 /**
  * Render nested items placeholder
  * @param {Object} item - Item data
  * @returns {string} Placeholder for nested items
  */
-function renderNestedItems(item) {
+const renderNestedItems = item => {
   const hasChildren = item.children && item.children.length > 0;
-  if (!hasChildren) {return '';}
+  if (!hasChildren) {
+    return '';
+  }
 
   return `
     <ul class="bsb-file-explorer__list bsb-file-explorer__list--nested" 
@@ -133,22 +111,46 @@ function renderNestedItems(item) {
         data-children-path="${item.path}">
     </ul>
   `;
-}
+};
 
 /**
- * Get appropriate icon for file type
- * @param {string} fileType - Type of file
- * @returns {string} Emoji icon for the file type
+ * Render item content (icon, name, badge)
+ * @param {Object} data - File data
+ * @param {boolean} isFolder - Whether item is folder
+ * @param {boolean} isExpanded - Whether expanded
+ * @returns {string} HTML for content
  */
-export function getFileIcon(fileType) {
-  const icons = {
-    config: '⚙️',
-    docs: '📝',
-    style: '🎨',
-    script: '⚡',
-    markup: '📄',
-    test: '🧪',
-    file: '📄'
-  };
-  return icons[fileType] || icons.file;
-}
+const renderItemContent = (data, isFolder, isExpanded) => {
+  const icon = renderIcon(data, isFolder, isExpanded);
+  const name = `<span class="bsb-file-explorer__name">${data.name}</span>`;
+  const badge = renderBadge(data.importance);
+
+  return `
+    <div class="bsb-file-explorer__item-content">
+      ${icon}
+      ${name}
+      ${badge}
+    </div>
+  `;
+};
+
+/**
+ * Generate HTML for a single file/folder item
+ * @param {Object} item - File/folder item
+ * @param {Object} data - File data
+ * @param {boolean} isExpanded - Whether folder is expanded
+ * @returns {string} HTML string for the item
+ */
+export const renderFileItem = (item, data, isExpanded) => {
+  const isFolder = data.type === 'folder';
+  const itemClasses = getItemClasses(data.type, isExpanded);
+  const itemAttributes = getItemAttributes(item, data, isFolder, isExpanded);
+
+  return `
+    <li class="${itemClasses}"
+        ${itemAttributes}>
+      ${renderItemContent(data, isFolder, isExpanded)}
+      ${renderNestedItems(item)}
+    </li>
+  `;
+};

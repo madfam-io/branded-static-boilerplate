@@ -26,6 +26,7 @@
  */
 
 import { debug } from '../../scripts/core/debug.js';
+
 import {
   trackComponentViews,
   trackSourceViewer,
@@ -133,15 +134,15 @@ class BSBLearningProgress {
     header.addEventListener('click', () => this.toggleMinimize());
 
     // Setup tracking
-    this.componentObserver = trackComponentViews(this.progress, (componentName) => {
+    this.componentObserver = trackComponentViews(this.progress, componentName => {
       this.addComponentExplored(componentName);
     });
 
-    trackSourceViewer((concept) => {
+    trackSourceViewer(concept => {
       this.addConceptLearned(concept);
     });
 
-    trackPlayground((concept) => {
+    trackPlayground(concept => {
       this.addConceptLearned(concept);
     });
 
@@ -199,12 +200,12 @@ class BSBLearningProgress {
   addConceptLearned(concept) {
     this.progress.conceptsLearned.add(concept);
     logActivity(this.progress, 'concept', `Learned ${concept}`);
-    
+
     const newAchievements = checkAchievements(this.progress);
     newAchievements.forEach(achievement => {
       showAchievementNotification(achievement);
     });
-    
+
     this.updateDisplay();
     saveProgress(this.progress);
   }
@@ -245,7 +246,7 @@ class BSBLearningProgress {
    */
   async showResetConfirmation() {
     const confirmed = confirm('Are you sure you want to reset all learning progress? This cannot be undone.');
-    
+
     if (confirmed) {
       resetProgress();
       this.progress = loadProgress();
@@ -261,7 +262,7 @@ class BSBLearningProgress {
     if (this.trackingInterval) {
       clearInterval(this.trackingInterval);
     }
-    
+
     if (this.componentObserver) {
       this.componentObserver.disconnect();
     }

@@ -86,7 +86,7 @@ export const disableLearningMode = () => {
  * @param {Map} components - Components map
  * @returns {void}
  */
-export const disableDevFeatures = (components) => {
+export const disableDevFeatures = components => {
   // Hide development panel
   const devPanel = document.querySelector('.bsb-dev-panel');
   if (devPanel) {

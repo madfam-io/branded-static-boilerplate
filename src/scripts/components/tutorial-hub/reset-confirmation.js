@@ -151,12 +151,12 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
   };
 
   // Escape key handler
-  const escapeHandler = event => {
+  function escapeHandler(event) {
     if (event.key === 'Escape') {
       closeDialog();
       if (onCancel) {onCancel();}
     }
-  };
+  }
 
   // Event handlers
   const handleCancel = () => {

@@ -22,14 +22,15 @@
  */
 
 import { calculateSEOScore } from '../../scripts/seo/seo-utils.js';
+
 import { gatherPageData } from './modules/page-analyzer.js';
-import { 
-  updateScore, 
-  updateBreakdown, 
-  updateInsights, 
-  updateMetaTags, 
-  updateContentStats, 
-  updateTechnicalSEO 
+import {
+  updateScore,
+  updateBreakdown,
+  updateInsights,
+  updateMetaTags,
+  updateContentStats,
+  updateTechnicalSEO
 } from './modules/ui-updater.js';
 import { bindEvents, cleanup, toggleCollapse, switchTab } from './modules/event-handlers.js';
 
@@ -82,7 +83,7 @@ class BSBSEOAnalyzer {
   bindEvents() {
     const handlers = {
       onToggle: () => this.toggleCollapse(),
-      onTabSwitch: (tabName) => this.switchTab(tabName),
+      onTabSwitch: tabName => this.switchTab(tabName),
       onRefresh: () => this.analyzePage(),
       onAutoRefresh: () => this.analyzePage()
     };
@@ -116,13 +117,13 @@ class BSBSEOAnalyzer {
     try {
       // Gather page data
       this.pageData = gatherPageData();
-      
+
       // Calculate SEO score
       const seoResult = await calculateSEOScore(this.pageData);
-      
+
       // Update UI components
       this.updateAllDisplays(seoResult);
-      
+
     } catch (error) {
       console.error('SEO Analysis Error:', error);
       this.showError('Failed to analyze page. Please try again.');
@@ -138,16 +139,16 @@ class BSBSEOAnalyzer {
     // Update score and breakdown
     updateScore(seoResult.score);
     updateBreakdown(seoResult.breakdown);
-    
+
     // Update insights and recommendations
     updateInsights(seoResult.insights);
-    
+
     // Update meta tags and SERP preview
     updateMetaTags(this.pageData);
-    
+
     // Update content statistics
     updateContentStats(this.pageData.content);
-    
+
     // Update technical SEO information
     updateTechnicalSEO(this.pageData);
   }

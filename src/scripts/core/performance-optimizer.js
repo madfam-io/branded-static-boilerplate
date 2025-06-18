@@ -99,13 +99,13 @@ class PerformanceOptimizer {
     this.metrics.navigation = collectNavigationTiming();
     this.metrics.resources = collectResourceMetrics();
     this.metrics.memory = collectMemoryMetrics();
-    
+
     // Calculate overall score
     this.metrics.score = calculatePerformanceScore(
       this.metrics.vitals,
       this.metrics.navigation
     );
-    
+
     // Get recommendations
     this.metrics.recommendations = getPerformanceRecommendations(
       this.metrics.vitals,
@@ -120,14 +120,14 @@ class PerformanceOptimizer {
   setupOptimizations() {
     // Initialize lazy loading for images
     initializeLazyLoading();
-    
+
     // Preload critical resources
     const criticalResources = [
       { url: '/styles/critical.css', type: 'style' },
       { url: '/scripts/core.js', type: 'script' }
     ];
     preloadCriticalResources(criticalResources);
-    
+
     debug.log('Performance optimizations applied');
   }
 
@@ -139,10 +139,10 @@ class PerformanceOptimizer {
     const container = document.createElement('div');
     container.innerHTML = template;
     this.dashboard = container.firstElementChild;
-    
+
     // Add to page
     document.body.appendChild(this.dashboard);
-    
+
     // Setup event listeners
     this.setupDashboardEvents();
   }
@@ -151,8 +151,8 @@ class PerformanceOptimizer {
    * Setup dashboard event listeners
    */
   setupDashboardEvents() {
-    if (!this.dashboard) return;
-    
+    if (!this.dashboard) {return;}
+
     const toggleBtn = this.dashboard.querySelector('.bsb-performance-dashboard__toggle');
     if (toggleBtn) {
       toggleBtn.addEventListener('click', () => {
@@ -165,8 +165,8 @@ class PerformanceOptimizer {
    * Toggle dashboard visibility
    */
   toggleDashboard() {
-    if (!this.dashboard) return;
-    
+    if (!this.dashboard) {return;}
+
     this.dashboard.classList.toggle('minimized');
     const toggleBtn = this.dashboard.querySelector('.bsb-performance-dashboard__toggle span');
     if (toggleBtn) {
@@ -215,7 +215,7 @@ class PerformanceOptimizer {
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
     }
-    
+
     if (this.dashboard) {
       this.dashboard.remove();
     }

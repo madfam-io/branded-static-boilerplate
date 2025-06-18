@@ -15,59 +15,72 @@ const UI_CONSTANTS = {
 };
 
 /**
- * Create performance dashboard HTML template
- * @param {Object} metrics - Performance metrics
- * @returns {string} Dashboard HTML
+ * Get performance score CSS class
+ * @param {number} score - Performance score
+ * @returns {string} CSS class
  */
-export const createDashboardTemplate = (metrics) => {
-  const score = metrics.score || 0;
-  const scoreClass = getScoreClass(score);
-
-  return `
-    <div class="bsb-performance-dashboard" id="performance-dashboard">
-      <div class="bsb-performance-dashboard__header">
-        <h3 class="bsb-performance-dashboard__title">
-          ⚡ Performance Monitor
-        </h3>
-        <div class="bsb-performance-dashboard__score">
-          <div class="bsb-performance-dashboard__score-circle ${scoreClass}">
-            <span class="bsb-performance-dashboard__score-value">${score}</span>
-          </div>
-        </div>
-        <button class="bsb-performance-dashboard__toggle" 
-                aria-label="Toggle dashboard">
-          <span>−</span>
-        </button>
-      </div>
-
-      <div class="bsb-performance-dashboard__content">
-        ${createVitalsSection(metrics.vitals)}
-        ${createResourcesSection(metrics.resources)}
-        ${createRecommendationsSection(metrics.recommendations)}
-      </div>
-    </div>
-  `;
+const getScoreClass = score => {
+  if (score >= 90) {return 'excellent';}
+  if (score >= 70) {return 'good';}
+  if (score >= 50) {return 'fair';}
+  return 'poor';
 };
 
 /**
- * Create Web Vitals section
- * @param {Object} vitals - Web Vitals data
- * @returns {string} Vitals section HTML
+ * Get vital metric status
+ * @param {number} value - Metric value
+ * @param {number} goodThreshold - Good threshold
+ * @param {number} poorThreshold - Poor threshold
+ * @returns {string} Status class
  */
-const createVitalsSection = (vitals) => {
-  if (!vitals) return '';
+const getVitalStatus = (value, goodThreshold, poorThreshold) => {
+  if (value <= goodThreshold) {return 'good';}
+  if (value <= poorThreshold) {return 'fair';}
+  return 'poor';
+};
 
-  return `
-    <div class="bsb-performance-dashboard__section">
-      <h4 class="bsb-performance-dashboard__section-title">Web Vitals</h4>
-      <div class="bsb-performance-dashboard__vitals">
-        ${createVitalMetric('LCP', vitals.lcp, 'ms', 2500, 4000)}
-        ${createVitalMetric('FID', vitals.fid, 'ms', 100, 300)}
-        ${createVitalMetric('CLS', vitals.cls, '', 0.1, 0.25)}
-        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', 600, 1500)}
-      </div>
-    </div>
-  `;
+/**
+ * Format metric value for display
+ * @param {number} value - Raw value
+ * @returns {string} Formatted value
+ */
+const formatMetricValue = value => {
+  if (value < 1) {
+    return (Math.round(value * UI_CONSTANTS.PRECISION_MULTIPLIER) / UI_CONSTANTS.PRECISION_MULTIPLIER).toString();
+  }
+  return Math.round(value).toString();
+};
+
+/**
+ * Format bytes to human readable format
+ * @param {number} bytes - Byte count
+ * @returns {string} Formatted string
+ */
+const formatBytes = bytes => {
+  if (bytes === 0) {return '0 B';}
+
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / k**i).toFixed(1))} ${sizes[i]}`;
+};
+
+/**
+ * Get recommendation icon
+ * @param {string} type - Recommendation type
+ * @returns {string} Icon
+ */
+const getRecommendationIcon = type => {
+  const icons = {
+    lcp: '🖼️',
+    fid: '⚡',
+    cls: '📐',
+    resources: '📦',
+    memory: '💾',
+    default: '💡'
+  };
+  return icons[type] || icons.default;
 };
 
 /**
@@ -103,12 +116,33 @@ const createVitalMetric = (name, value, unit, goodThreshold, poorThreshold) => {
 };
 
 /**
+ * Create Web Vitals section
+ * @param {Object} vitals - Web Vitals data
+ * @returns {string} Vitals section HTML
+ */
+const createVitalsSection = vitals => {
+  if (!vitals) {return '';}
+
+  return `
+    <div class="bsb-performance-dashboard__section">
+      <h4 class="bsb-performance-dashboard__section-title">Web Vitals</h4>
+      <div class="bsb-performance-dashboard__vitals">
+        ${createVitalMetric('LCP', vitals.lcp, 'ms', 2500, 4000)}
+        ${createVitalMetric('FID', vitals.fid, 'ms', 100, 300)}
+        ${createVitalMetric('CLS', vitals.cls, '', 0.1, 0.25)}
+        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', 600, 1500)}
+      </div>
+    </div>
+  `;
+};
+
+/**
  * Create resources section
  * @param {Array} resources - Resource metrics
  * @returns {string} Resources section HTML
  */
-const createResourcesSection = (resources) => {
-  if (!resources || resources.length === 0) return '';
+const createResourcesSection = resources => {
+  if (!resources || resources.length === 0) {return '';}
 
   const totalSize = resources.reduce((sum, r) => sum + r.size, 0);
   const largeResources = resources.filter(r => r.isLarge);
@@ -144,7 +178,7 @@ const createResourcesSection = (resources) => {
  * @param {Array} recommendations - Performance recommendations
  * @returns {string} Recommendations section HTML
  */
-const createRecommendationsSection = (recommendations) => {
+const createRecommendationsSection = recommendations => {
   if (!recommendations || recommendations.length === 0) {
     return `
       <div class="bsb-performance-dashboard__section">
@@ -179,73 +213,40 @@ const createRecommendationsSection = (recommendations) => {
 };
 
 /**
- * Get performance score CSS class
- * @param {number} score - Performance score
- * @returns {string} CSS class
+ * Create performance dashboard HTML template
+ * @param {Object} metrics - Performance metrics
+ * @returns {string} Dashboard HTML
  */
-const getScoreClass = (score) => {
-  if (score >= 90) return 'excellent';
-  if (score >= 70) return 'good';
-  if (score >= 50) return 'fair';
-  return 'poor';
+export const createDashboardTemplate = metrics => {
+  const score = metrics.score || 0;
+  const scoreClass = getScoreClass(score);
+
+  return `
+    <div class="bsb-performance-dashboard" id="performance-dashboard">
+      <div class="bsb-performance-dashboard__header">
+        <h3 class="bsb-performance-dashboard__title">
+          ⚡ Performance Monitor
+        </h3>
+        <div class="bsb-performance-dashboard__score">
+          <div class="bsb-performance-dashboard__score-circle ${scoreClass}">
+            <span class="bsb-performance-dashboard__score-value">${score}</span>
+          </div>
+        </div>
+        <button class="bsb-performance-dashboard__toggle" 
+                aria-label="Toggle dashboard">
+          <span>−</span>
+        </button>
+      </div>
+
+      <div class="bsb-performance-dashboard__content">
+        ${createVitalsSection(metrics.vitals)}
+        ${createResourcesSection(metrics.resources)}
+        ${createRecommendationsSection(metrics.recommendations)}
+      </div>
+    </div>
+  `;
 };
 
-/**
- * Get vital metric status
- * @param {number} value - Metric value
- * @param {number} goodThreshold - Good threshold
- * @param {number} poorThreshold - Poor threshold
- * @returns {string} Status class
- */
-const getVitalStatus = (value, goodThreshold, poorThreshold) => {
-  if (value <= goodThreshold) return 'good';
-  if (value <= poorThreshold) return 'fair';
-  return 'poor';
-};
-
-/**
- * Format metric value for display
- * @param {number} value - Raw value
- * @returns {string} Formatted value
- */
-const formatMetricValue = (value) => {
-  if (value < 1) {
-    return (Math.round(value * UI_CONSTANTS.PRECISION_MULTIPLIER) / UI_CONSTANTS.PRECISION_MULTIPLIER).toString();
-  }
-  return Math.round(value).toString();
-};
-
-/**
- * Format bytes to human readable format
- * @param {number} bytes - Byte count
- * @returns {string} Formatted string
- */
-const formatBytes = (bytes) => {
-  if (bytes === 0) return '0 B';
-  
-  const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-};
-
-/**
- * Get recommendation icon
- * @param {string} type - Recommendation type
- * @returns {string} Icon
- */
-const getRecommendationIcon = (type) => {
-  const icons = {
-    lcp: '🖼️',
-    fid: '⚡',
-    cls: '📐',
-    resources: '📦',
-    memory: '💾',
-    default: '💡'
-  };
-  return icons[type] || icons.default;
-};
 
 /**
  * Update dashboard with new metrics
@@ -253,12 +254,12 @@ const getRecommendationIcon = (type) => {
  * @param {Object} metrics - New metrics data
  */
 export const updateDashboard = (dashboard, metrics) => {
-  if (!dashboard) return;
+  if (!dashboard) {return;}
 
   // Update score
   const scoreElement = dashboard.querySelector('.bsb-performance-dashboard__score-value');
   const scoreCircle = dashboard.querySelector('.bsb-performance-dashboard__score-circle');
-  
+
   if (scoreElement && scoreCircle) {
     const newScore = metrics.score || 0;
     scoreElement.textContent = newScore;

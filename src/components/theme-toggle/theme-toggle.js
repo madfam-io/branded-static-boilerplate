@@ -139,36 +139,78 @@ class BSBThemeToggle {
   handleKeydown(event) {
     const { key } = event;
 
-    // Escape key closes menu
+    if (this.handleEscapeKey(event, key)) {return;}
+    if (this.handleButtonToggle(event, key)) {return;}
+    if (this.handleArrowNavigation(event, key)) {return;}
+    if (this.handleMenuSelection(event, key)) {}
+  }
+
+  /**
+   * Handle escape key press
+   * @method handleEscapeKey
+   * @param {KeyboardEvent} event - The keyboard event
+   * @param {string} key - The key pressed
+   * @returns {boolean} True if handled
+   */
+  handleEscapeKey(event, key) {
     if (key === 'Escape' && this.isMenuOpen) {
       event.preventDefault();
       this.closeMenu();
       this.button.focus();
-      return;
+      return true;
     }
+    return false;
+  }
 
-    // Enter or Space on button toggles menu
+  /**
+   * Handle button toggle keys
+   * @method handleButtonToggle
+   * @param {KeyboardEvent} event - The keyboard event
+   * @param {string} key - The key pressed
+   * @returns {boolean} True if handled
+   */
+  handleButtonToggle(event, key) {
     if ((key === 'Enter' || key === ' ') && event.target === this.button) {
       event.preventDefault();
       this.toggleMenu();
-      return;
+      return true;
     }
+    return false;
+  }
 
-    // Arrow key navigation in menu
+  /**
+   * Handle arrow key navigation
+   * @method handleArrowNavigation
+   * @param {KeyboardEvent} event - The keyboard event
+   * @param {string} key - The key pressed
+   * @returns {boolean} True if handled
+   */
+  handleArrowNavigation(event, key) {
     if (this.isMenuOpen && ['ArrowDown', 'ArrowUp'].includes(key)) {
       event.preventDefault();
       this.navigateMenu(key === 'ArrowDown' ? 1 : -1);
-      return;
+      return true;
     }
+    return false;
+  }
 
-    // Enter or Space on menu option selects theme
+  /**
+   * Handle menu selection keys
+   * @method handleMenuSelection
+   * @param {KeyboardEvent} event - The keyboard event
+   * @param {string} key - The key pressed
+   * @returns {boolean} True if handled
+   */
+  handleMenuSelection(event, key) {
     if (this.isMenuOpen && (key === 'Enter' || key === ' ') && event.target.dataset.theme) {
       event.preventDefault();
       const { theme } = event.target.dataset;
       this.setTheme(theme);
       this.closeMenu();
       this.button.focus();
+      return true;
     }
+    return false;
   }
 
   /**

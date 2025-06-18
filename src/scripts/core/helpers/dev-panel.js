@@ -6,6 +6,39 @@
  */
 
 /**
+ * Setup panel interactions
+ * @param {HTMLElement} panel - The development panel element
+ * @param {Object} actions - Action handlers
+ * @returns {void}
+ */
+const setupPanelInteractions = (panel, actions) => {
+  // Close button
+  panel.querySelector('.bsb-dev-panel__close').addEventListener('click', () => {
+    actions.toggleDevPanel();
+  });
+
+  // Action buttons
+  panel.querySelectorAll('.bsb-dev-panel__action').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const { action } = btn.dataset;
+      switch (action) {
+        case 'toggle-grid':
+          actions.toggleGrid();
+          break;
+        case 'toggle-helpers':
+          actions.toggleHelpers();
+          break;
+        case 'inspect':
+          actions.toggleInspectMode();
+          break;
+        default:
+          break;
+      }
+    });
+  });
+};
+
+/**
  * Create floating development panel
  * @param {Map} components - Components map for stats
  * @param {Object} actions - Action handlers
@@ -58,39 +91,6 @@ export const createDevPanel = (components, actions) => {
   });
 
   return panel;
-};
-
-/**
- * Setup panel interactions
- * @param {HTMLElement} panel - The development panel element
- * @param {Object} actions - Action handlers
- * @returns {void}
- */
-const setupPanelInteractions = (panel, actions) => {
-  // Close button
-  panel.querySelector('.bsb-dev-panel__close').addEventListener('click', () => {
-    actions.toggleDevPanel();
-  });
-
-  // Action buttons
-  panel.querySelectorAll('.bsb-dev-panel__action').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const { action } = btn.dataset;
-      switch (action) {
-        case 'toggle-grid':
-          actions.toggleGrid();
-          break;
-        case 'toggle-helpers':
-          actions.toggleHelpers();
-          break;
-        case 'inspect':
-          actions.toggleInspectMode();
-          break;
-        default:
-          break;
-      }
-    });
-  });
 };
 
 /**

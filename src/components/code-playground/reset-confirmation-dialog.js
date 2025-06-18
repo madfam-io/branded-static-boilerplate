@@ -9,8 +9,7 @@
  * Get dialog HTML structure
  * @returns {string} Dialog HTML
  */
-function getDialogHTML() {
-  return `
+const getDialogHTML = () => `
     <div class="bsb-code-playground__confirm-backdrop"></div>
     <div class="bsb-code-playground__confirm-content">
       <h3>Reset Code</h3>
@@ -21,14 +20,12 @@ function getDialogHTML() {
       </div>
     </div>
   `;
-}
 
 /**
  * Get dialog styles
  * @returns {string} CSS styles for dialog
  */
-function getDialogStyles() {
-  return `
+const getDialogStyles = () => `
     .bsb-code-playground__confirm-dialog {
       position: fixed;
       top: 0;
@@ -109,26 +106,25 @@ function getDialogStyles() {
       border-color: #c82333;
     }
   `;
-}
 
 /**
  * Inject dialog styles if not already present
  */
-function injectStyles() {
+const injectStyles = () => {
   if (!document.querySelector('#bsb-confirm-dialog-styles')) {
     const styles = document.createElement('style');
     styles.id = 'bsb-confirm-dialog-styles';
     styles.textContent = getDialogStyles();
     document.head.appendChild(styles);
   }
-}
+};
 
 /**
  * Show reset confirmation dialog
  * @param {Function} onConfirm - Callback when reset is confirmed
  * @returns {void}
  */
-export function showResetConfirmation(onConfirm) {
+export const showResetConfirmation = onConfirm => {
   // Create dialog element
   const confirmDialog = document.createElement('div');
   confirmDialog.className = 'bsb-code-playground__confirm-dialog';
@@ -145,18 +141,18 @@ export function showResetConfirmation(onConfirm) {
   const resetBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-reset');
   const backdrop = confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop');
 
-  // Close dialog function
-  const closeDialog = () => {
-    document.body.removeChild(confirmDialog);
-    document.removeEventListener('keydown', escapeHandler);
-  };
-
   // Escape key handler
-  const escapeHandler = event => {
+  function escapeHandler(event) {
     if (event.key === 'Escape') {
       closeDialog();
     }
-  };
+  }
+
+  // Close dialog function
+  function closeDialog() {
+    document.body.removeChild(confirmDialog);
+    document.removeEventListener('keydown', escapeHandler);
+  }
 
   // Add event listeners
   cancelBtn.addEventListener('click', closeDialog);
@@ -167,4 +163,4 @@ export function showResetConfirmation(onConfirm) {
     closeDialog();
     onConfirm();
   });
-}
+};

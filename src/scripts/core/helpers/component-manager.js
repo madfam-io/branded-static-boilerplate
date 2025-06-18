@@ -12,7 +12,7 @@ import { debug } from '../debug.js';
  * @param {Map} components - Components map to populate
  * @returns {void}
  */
-export const findComponents = (components) => {
+export const findComponents = components => {
   const componentElements = document.querySelectorAll('[data-bsb-component]');
 
   componentElements.forEach(component => {

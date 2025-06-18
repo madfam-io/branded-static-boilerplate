@@ -157,41 +157,81 @@ export const validateDescription = function validateDescription(description) {
  * @param {Object} options - Meta tag options
  * @returns {Object} Meta tags object with educational insights
  */
-export const generateMetaTags = function generateMetaTags(options) {
-  const {
-    title,
-    description,
-    keywords,
-    author,
-    image,
-    url,
-    type = 'website',
-    locale = 'en_US',
-    alternates = [],
-    noindex = false,
-    canonical
-  } = options;
+export const generateMetaTags = options => {
+  const config = extractMetaConfig(options);
+  const metaTags = createMetaTagsStructure();
+  
+  addBasicMetaTags(metaTags, config);
+  addOpenGraphTags(metaTags, config);
+  addTwitterTags(metaTags, config);
+  addEducationalTags(metaTags, config);
+  
+  return metaTags;
+};
 
-  const metaTags = {
-    basic: [],
-    openGraph: [],
-    twitter: [],
-    educational: []
-  };
+/**
+ * Extract and set defaults for meta tag configuration
+ * @param {Object} options - Meta tag options
+ * @returns {Object} Processed configuration
+ */
+const extractMetaConfig = options => ({
+  title: options.title,
+  description: options.description,
+  keywords: options.keywords,
+  author: options.author,
+  image: options.image,
+  url: options.url,
+  type: options.type || 'website',
+  locale: options.locale || 'en_US',
+  alternates: options.alternates || [],
+  noindex: options.noindex || false,
+  canonical: options.canonical
+});
 
-  // Basic meta tags
+/**
+ * Create the meta tags structure
+ * @returns {Object} Empty meta tags structure
+ */
+const createMetaTagsStructure = () => ({
+  basic: [],
+  openGraph: [],
+  twitter: [],
+  educational: []
+});
+
+/**
+ * Add basic meta tags
+ * @param {Object} metaTags - Meta tags structure
+ * @param {Object} config - Configuration
+ */
+const addBasicMetaTags = (metaTags, config) => {
+  // Title tag
   metaTags.basic.push({
     tag: 'title',
-    content: title,
-    insight: validateTitle(title)
+    content: config.title,
+    insight: validateTitle(config.title)
   });
 
+  // Description tag
   metaTags.basic.push({
     name: 'description',
-    content: description,
-    insight: validateDescription(description)
+    content: config.description,
+    insight: validateDescription(config.description)
   });
 
+  // Optional tags
+  addKeywordsTags(metaTags, config.keywords);
+  addAuthorTag(metaTags, config.author);
+  addRobotsTag(metaTags, config.noindex);
+  addCanonicalTag(metaTags, config.canonical, config.url);
+};
+
+/**
+ * Add keywords meta tag if provided
+ * @param {Object} metaTags - Meta tags structure
+ * @param {Array} keywords - Keywords array
+ */
+const addKeywordsTags = (metaTags, keywords) => {
   if (keywords && keywords.length > 0) {
     metaTags.basic.push({
       name: 'keywords',
@@ -202,7 +242,14 @@ export const generateMetaTags = function generateMetaTags(options) {
       }
     });
   }
+};
 
+/**
+ * Add author meta tag if provided
+ * @param {Object} metaTags - Meta tags structure
+ * @param {string} author - Author name
+ */
+const addAuthorTag = (metaTags, author) => {
   if (author) {
     metaTags.basic.push({
       name: 'author',
@@ -213,8 +260,14 @@ export const generateMetaTags = function generateMetaTags(options) {
       }
     });
   }
+};
 
-  // Robots meta tag
+/**
+ * Add robots meta tag if needed
+ * @param {Object} metaTags - Meta tags structure
+ * @param {boolean} noindex - Whether to noindex
+ */
+const addRobotsTag = (metaTags, noindex) => {
   if (noindex) {
     metaTags.basic.push({
       name: 'robots',
@@ -225,8 +278,15 @@ export const generateMetaTags = function generateMetaTags(options) {
       }
     });
   }
+};
 
-  // Canonical URL
+/**
+ * Add canonical link tag
+ * @param {Object} metaTags - Meta tags structure
+ * @param {string} canonical - Canonical URL
+ * @param {string} url - Current URL
+ */
+const addCanonicalTag = (metaTags, canonical, url) => {
   if (canonical || url) {
     metaTags.basic.push({
       tag: 'link',
@@ -238,9 +298,40 @@ export const generateMetaTags = function generateMetaTags(options) {
       }
     });
   }
+};
 
-  // Language alternates
-  alternates.forEach(alt => {
+/**
+ * Add Open Graph meta tags
+ * @param {Object} metaTags - Meta tags structure
+ * @param {Object} config - Configuration
+ */
+const addOpenGraphTags = (metaTags, config) => {
+  metaTags.openGraph = [
+    { property: 'og:title', content: config.title },
+    { property: 'og:description', content: config.description },
+    { property: 'og:type', content: config.type },
+    { property: 'og:url', content: config.url },
+    { property: 'og:locale', content: config.locale }
+  ];
+
+  if (config.image) {
+    metaTags.openGraph.push(
+      { property: 'og:image', content: config.image },
+      { property: 'og:image:width', content: SEO_CONFIG.ogImage.width },
+      { property: 'og:image:height', content: SEO_CONFIG.ogImage.height },
+      {
+        property: 'og:image:alt',
+        content: `Preview image for ${config.title}`,
+        insight: {
+          note: 'Alt text for social media images improves accessibility',
+          recommendation: 'Describe what the image shows, not just repeat the title'
+        }
+      }
+    );
+  }
+
+  // Add language alternates
+  config.alternates.forEach(alt => {
     metaTags.basic.push({
       tag: 'link',
       rel: 'alternate',
@@ -252,49 +343,36 @@ export const generateMetaTags = function generateMetaTags(options) {
       }
     });
   });
+};
 
-  // Open Graph tags
-  metaTags.openGraph = [
-    { property: 'og:title', content: title },
-    { property: 'og:description', content: description },
-    { property: 'og:type', content: type },
-    { property: 'og:url', content: url },
-    { property: 'og:locale', content: locale }
-  ];
-
-  if (image) {
-    metaTags.openGraph.push(
-      { property: 'og:image', content: image },
-      { property: 'og:image:width', content: SEO_CONFIG.ogImage.width },
-      { property: 'og:image:height', content: SEO_CONFIG.ogImage.height },
-      {
-        property: 'og:image:alt',
-        content: `Preview image for ${title}`,
-        insight: {
-          note: 'Alt text for social media images improves accessibility',
-          recommendation: 'Describe what the image shows, not just repeat the title'
-        }
-      }
-    );
-  }
-
-  // Twitter Card tags
+/**
+ * Add Twitter Card meta tags
+ * @param {Object} metaTags - Meta tags structure
+ * @param {Object} config - Configuration
+ */
+const addTwitterTags = (metaTags, config) => {
   metaTags.twitter = [
-    { name: 'twitter:card', content: image ? 'summary_large_image' : 'summary' },
-    { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description }
+    { name: 'twitter:card', content: config.image ? 'summary_large_image' : 'summary' },
+    { name: 'twitter:title', content: config.title },
+    { name: 'twitter:description', content: config.description }
   ];
 
-  if (image) {
-    metaTags.twitter.push({ name: 'twitter:image', content: image });
+  if (config.image) {
+    metaTags.twitter.push({ name: 'twitter:image', content: config.image });
   }
+};
 
-  // Educational insights
+/**
+ * Add educational insights and tips
+ * @param {Object} metaTags - Meta tags structure  
+ * @param {Object} config - Configuration
+ */
+const addEducationalTags = (metaTags, config) => {
   metaTags.educational = [
     {
       topic: 'Title Optimization',
-      current: title,
-      analysis: validateTitle(title),
+      current: config.title,
+      analysis: validateTitle(config.title),
       tips: [
         'Include primary keyword near the beginning',
         'Make it compelling to increase click-through rate',
@@ -304,8 +382,8 @@ export const generateMetaTags = function generateMetaTags(options) {
     },
     {
       topic: 'Description Optimization',
-      current: description,
-      analysis: validateDescription(description),
+      current: config.description,
+      analysis: validateDescription(config.description),
       tips: [
         'Include a clear call-to-action',
         'Use active voice',
@@ -314,8 +392,6 @@ export const generateMetaTags = function generateMetaTags(options) {
       ]
     }
   ];
-
-  return metaTags;
 };
 
 /**

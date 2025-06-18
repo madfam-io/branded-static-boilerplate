@@ -27,6 +27,7 @@
  */
 
 import { debug } from '../../scripts/core/debug.js';
+
 import { extractComponentSource } from './modules/source-extractor.js';
 import {
   getViewerTemplate,
@@ -101,7 +102,7 @@ class BSBSourceViewer {
    */
   setupEventListeners() {
     // Action handlers
-    this.viewer.addEventListener('click', (event) => {
+    this.viewer.addEventListener('click', event => {
       const { action } = event.target.dataset;
       if (action) {
         this.handleAction(action, event);
@@ -109,7 +110,7 @@ class BSBSourceViewer {
     });
 
     // Tab switching
-    this.viewer.addEventListener('click', (event) => {
+    this.viewer.addEventListener('click', event => {
       if (event.target.matches('.bsb-source-viewer__tab')) {
         const tabName = event.target.dataset.tab;
         this.switchTab(tabName);
@@ -117,14 +118,14 @@ class BSBSourceViewer {
     });
 
     // Escape key
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && this.isActive) {
         this.close();
       }
     });
 
     // Backdrop click
-    this.viewer.addEventListener('click', (event) => {
+    this.viewer.addEventListener('click', event => {
       if (event.target.matches('.bsb-source-viewer__backdrop')) {
         this.close();
       }
@@ -147,7 +148,7 @@ class BSBSourceViewer {
     components.forEach(component => {
       const button = addViewSourceButton(component);
       if (button) {
-        button.addEventListener('click', (event) => {
+        button.addEventListener('click', event => {
           event.stopPropagation();
           this.showComponentSource(component);
         });
@@ -162,13 +163,13 @@ class BSBSourceViewer {
    */
   showComponentSource(component) {
     this.currentComponent = component;
-    
+
     // Extract source code
     const sourceData = extractComponentSource(component);
-    
+
     // Update viewer content
     updateViewerContent(sourceData);
-    
+
     // Show the viewer
     this.show();
   }
@@ -222,11 +223,11 @@ class BSBSourceViewer {
    * @param {string} type - Type of code (html, css, js)
    */
   copyCode(type) {
-    if (!this.currentComponent) return;
+    if (!this.currentComponent) {return;}
 
     const sourceData = extractComponentSource(this.currentComponent);
     const code = sourceData[type];
-    
+
     if (code) {
       copyToClipboard(code, type);
     }
@@ -237,11 +238,11 @@ class BSBSourceViewer {
    * @method copyAll
    */
   copyAll() {
-    if (!this.currentComponent) return;
+    if (!this.currentComponent) {return;}
 
     const sourceData = extractComponentSource(this.currentComponent);
     const allCode = `<!-- HTML -->\n${sourceData.html}\n\n/* CSS */\n${sourceData.css}\n\n// JavaScript\n${sourceData.js}`;
-    
+
     copyToClipboard(allCode, 'all');
   }
 
@@ -258,7 +259,7 @@ class BSBSourceViewer {
    * @method download
    */
   download() {
-    if (!this.currentComponent) return;
+    if (!this.currentComponent) {return;}
 
     const sourceData = extractComponentSource(this.currentComponent);
     downloadSource(sourceData);
@@ -269,15 +270,15 @@ class BSBSourceViewer {
    * @method openInPlayground
    */
   openInPlayground() {
-    if (!this.currentComponent) return;
+    if (!this.currentComponent) {return;}
 
     const sourceData = extractComponentSource(this.currentComponent);
-    
+
     // Trigger playground open event
     document.dispatchEvent(new CustomEvent('open-playground', {
       detail: sourceData
     }));
-    
+
     this.close();
   }
 

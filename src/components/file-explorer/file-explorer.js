@@ -218,28 +218,58 @@ class BSBFileExplorer {
     switch (event.key) {
       case 'Enter':
       case ' ':
-        event.preventDefault();
-        if (item.dataset.type === 'folder') {
-          this.toggleFolder(item, path);
-        } else {
-          this.showDetails(path);
-        }
+        this.handleEnterSpaceKey(event, item, path);
         break;
       case 'ArrowRight':
-        if (item.dataset.type === 'folder' && !this.expandedFolders.has(path)) {
-          event.preventDefault();
-          this.toggleFolder(item, path);
-        }
+        this.handleArrowRightKey(event, item, path);
         break;
       case 'ArrowLeft':
-        if (item.dataset.type === 'folder' && this.expandedFolders.has(path)) {
-          event.preventDefault();
-          this.toggleFolder(item, path);
-        }
+        this.handleArrowLeftKey(event, item, path);
         break;
       default:
         // No action needed for other keys
         break;
+    }
+  }
+
+  /**
+   * Handle Enter and Space key press
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {HTMLElement} item - The item element
+   * @param {string} path - Item path
+   */
+  handleEnterSpaceKey(event, item, path) {
+    event.preventDefault();
+    if (item.dataset.type === 'folder') {
+      this.toggleFolder(item, path);
+    } else {
+      this.showDetails(path);
+    }
+  }
+
+  /**
+   * Handle Arrow Right key press
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {HTMLElement} item - The item element
+   * @param {string} path - Item path
+   */
+  handleArrowRightKey(event, item, path) {
+    if (item.dataset.type === 'folder' && !this.expandedFolders.has(path)) {
+      event.preventDefault();
+      this.toggleFolder(item, path);
+    }
+  }
+
+  /**
+   * Handle Arrow Left key press
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {HTMLElement} item - The item element
+   * @param {string} path - Item path
+   */
+  handleArrowLeftKey(event, item, path) {
+    if (item.dataset.type === 'folder' && this.expandedFolders.has(path)) {
+      event.preventDefault();
+      this.toggleFolder(item, path);
     }
   }
 

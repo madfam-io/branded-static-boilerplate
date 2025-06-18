@@ -204,30 +204,68 @@ export class AchievementSystem {
 
     switch (achievement.condition) {
       case 'complete_tutorial':
-        this.userProgress.tutorialsCompleted = this.userProgress.tutorialsCompleted || [];
-        if (data && !this.userProgress.tutorialsCompleted.includes(data.tutorialId)) {
-          this.userProgress.tutorialsCompleted.push(data.tutorialId);
-        }
-        return this.userProgress.tutorialsCompleted.length >= (achievement.count || 1);
+        return this.checkTutorialCondition(achievement, data);
 
       case 'view_components':
-        this.userProgress.componentsViewed = this.userProgress.componentsViewed || [];
-        if (data && !this.userProgress.componentsViewed.includes(data.componentId)) {
-          this.userProgress.componentsViewed.push(data.componentId);
-        }
-        return this.userProgress.componentsViewed.length >= (achievement.count || 1);
+        return this.checkComponentViewCondition(achievement, data);
 
       case 'run_code':
-        this.userProgress.codeRuns = (this.userProgress.codeRuns || 0) + 1;
-        return this.userProgress.codeRuns >= (achievement.count || 1);
+        return this.checkCodeRunCondition(achievement);
 
       case 'learning_time':
-        this.userProgress.learningModeTime = (this.userProgress.learningModeTime || 0) + CONSTANTS.MIN_DURATION_TIME;
-        return this.userProgress.learningModeTime >= achievement.count;
+        return this.checkLearningTimeCondition(achievement);
 
       default:
         return true; // Simple one-time achievements
     }
+  }
+
+  /**
+   * Check tutorial completion condition
+   * @param {Object} achievement - Achievement definition
+   * @param {*} data - Tutorial data
+   * @returns {boolean} Whether condition is met
+   */
+  checkTutorialCondition(achievement, data) {
+    this.userProgress.tutorialsCompleted = this.userProgress.tutorialsCompleted || [];
+    if (data && !this.userProgress.tutorialsCompleted.includes(data.tutorialId)) {
+      this.userProgress.tutorialsCompleted.push(data.tutorialId);
+    }
+    return this.userProgress.tutorialsCompleted.length >= (achievement.count || 1);
+  }
+
+  /**
+   * Check component view condition
+   * @param {Object} achievement - Achievement definition
+   * @param {*} data - Component data
+   * @returns {boolean} Whether condition is met
+   */
+  checkComponentViewCondition(achievement, data) {
+    this.userProgress.componentsViewed = this.userProgress.componentsViewed || [];
+    if (data && !this.userProgress.componentsViewed.includes(data.componentId)) {
+      this.userProgress.componentsViewed.push(data.componentId);
+    }
+    return this.userProgress.componentsViewed.length >= (achievement.count || 1);
+  }
+
+  /**
+   * Check code run condition
+   * @param {Object} achievement - Achievement definition
+   * @returns {boolean} Whether condition is met
+   */
+  checkCodeRunCondition(achievement) {
+    this.userProgress.codeRuns = (this.userProgress.codeRuns || 0) + 1;
+    return this.userProgress.codeRuns >= (achievement.count || 1);
+  }
+
+  /**
+   * Check learning time condition
+   * @param {Object} achievement - Achievement definition
+   * @returns {boolean} Whether condition is met
+   */
+  checkLearningTimeCondition(achievement) {
+    this.userProgress.learningModeTime = (this.userProgress.learningModeTime || 0) + CONSTANTS.MIN_DURATION_TIME;
+    return this.userProgress.learningModeTime >= achievement.count;
   }
 
   /**

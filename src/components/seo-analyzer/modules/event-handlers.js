@@ -14,13 +14,13 @@
 export const toggleCollapse = (element, isCollapsed) => {
   const newState = !isCollapsed;
   element.classList.toggle('seo-analyzer--collapsed', newState);
-  
+
   const toggleBtn = element.querySelector('.seo-analyzer__toggle');
   if (toggleBtn) {
     toggleBtn.setAttribute('aria-expanded', (!newState).toString());
     toggleBtn.textContent = newState ? 'Show Analysis' : 'Hide Analysis';
   }
-  
+
   return newState;
 };
 
@@ -64,7 +64,7 @@ export const bindEvents = (element, handlers) => {
   // Tab buttons
   const tabButtons = element.querySelectorAll('.seo-analyzer__tab');
   tabButtons.forEach(btn => {
-    btn.addEventListener('click', (event) => {
+    btn.addEventListener('click', event => {
       const tabName = event.target.dataset.tab;
       if (tabName) {
         handlers.onTabSwitch(tabName);
@@ -108,7 +108,7 @@ export const bindEvents = (element, handlers) => {
  * @param {HTMLElement} element - Analyzer element
  * @returns {void}
  */
-export const cleanup = (element) => {
+export const cleanup = element => {
   if (element._seoObserver) {
     element._seoObserver.disconnect();
     delete element._seoObserver;

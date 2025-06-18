@@ -38,7 +38,7 @@ export const SUPPORTED_LANGUAGES = Object.keys(translations);
  * @param {string} fallback - Fallback text if translation not found
  * @returns {string} Translated text
  */
-export function getTranslation(lang, key, fallback = '') {
+export const getTranslation = (lang, key, fallback = '') => {
   const keys = key.split('.');
   let translation = translations[lang];
 
@@ -51,27 +51,25 @@ export function getTranslation(lang, key, fallback = '') {
   }
 
   return translation || fallback || key;
-}
+};
 
 /**
  * Check if a language is supported
  * @param {string} lang - Language code to check
  * @returns {boolean} True if language is supported
  */
-export function isLanguageSupported(lang) {
-  return SUPPORTED_LANGUAGES.includes(lang);
-}
+export const isLanguageSupported = lang => SUPPORTED_LANGUAGES.includes(lang);
 
 /**
  * Get browser's preferred language
  * @returns {string} Language code
  */
-export function getBrowserLanguage() {
+export const getBrowserLanguage = () => {
   const browserLang = navigator.language || navigator.userLanguage;
   const primaryLang = browserLang.split('-')[0];
 
   return isLanguageSupported(primaryLang) ? primaryLang : DEFAULT_LANGUAGE;
-}
+};
 
 /**
  * Format string with placeholders
@@ -79,9 +77,7 @@ export function getBrowserLanguage() {
  * @param {Object} params - Parameters to replace
  * @returns {string} Formatted string
  */
-export function formatString(str, params = {}) {
-  return str.replace(/{(\w+)}/g, (match, key) => params[key] !== undefined ? params[key] : match);
-}
+export const formatString = (str, params = {}) => str.replace(/{(\w+)}/g, (match, key) => params[key] !== undefined ? params[key] : match);
 
 /**
  * Export everything from component-specific translations

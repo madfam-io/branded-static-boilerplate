@@ -190,46 +190,74 @@ class BSBCodePlayground {
    * @returns {void}
    */
   setupKeyboardShortcuts() {
-    document.addEventListener('keydown', event => {
-      // Only handle shortcuts when playground is focused
-      if (!this.element.contains(document.activeElement)) {
-        return;
-      }
+    document.addEventListener('keydown', event => this.handleKeyboardShortcut(event));
+  }
 
-      if (event.ctrlKey || event.metaKey) {
-        switch (event.key) {
-          case 'Enter':
-            event.preventDefault();
-            this.updatePreview();
-            break;
-          case 's':
-            event.preventDefault();
-            this.saveCode();
-            this.showConsoleMessage('💾 Code saved!', 'info');
-            break;
-          case '1':
-          case '2':
-          case '3': {
-            event.preventDefault();
-            const tabIndex = parseInt(event.key, 10);
-            const [htmlTab, cssTab, jsTab] = ['html', 'css', 'js'];
-            const selectedTab = [htmlTab, cssTab, jsTab][tabIndex - 1];
-            if (selectedTab) {
-              this.switchTab(selectedTab);
-            }
-            break;
-          }
-          default:
-            // Other key combinations are ignored
-            break;
-        }
-      }
+  /**
+   * Handle keyboard shortcut events
+   * @method handleKeyboardShortcut
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {void}
+   */
+  handleKeyboardShortcut(event) {
+    // Only handle shortcuts when playground is focused
+    if (!this.element.contains(document.activeElement)) {
+      return;
+    }
 
-      // Escape key handling
-      if (event.key === 'Escape' && this.isFullscreen) {
-        this.toggleFullscreen();
+    if (event.ctrlKey || event.metaKey) {
+      this.handleControlKeyShortcuts(event);
+    }
+
+    // Escape key handling
+    if (event.key === 'Escape' && this.isFullscreen) {
+      this.toggleFullscreen();
+    }
+  }
+
+  /**
+   * Handle control/meta key shortcuts
+   * @method handleControlKeyShortcuts
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {void}
+   */
+  handleControlKeyShortcuts(event) {
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        this.updatePreview();
+        break;
+      case 's':
+        event.preventDefault();
+        this.saveCode();
+        this.showConsoleMessage('💾 Code saved!', 'info');
+        break;
+      case '1':
+      case '2':
+      case '3': {
+        event.preventDefault();
+        this.handleTabShortcut(event.key);
+        break;
       }
-    });
+      default:
+        // Other key combinations are ignored
+        break;
+    }
+  }
+
+  /**
+   * Handle tab switching shortcuts
+   * @method handleTabShortcut
+   * @param {string} key - Key pressed (1, 2, or 3)
+   * @returns {void}
+   */
+  handleTabShortcut(key) {
+    const tabIndex = parseInt(key, 10);
+    const [htmlTab, cssTab, jsTab] = ['html', 'css', 'js'];
+    const selectedTab = [htmlTab, cssTab, jsTab][tabIndex - 1];
+    if (selectedTab) {
+      this.switchTab(selectedTab);
+    }
   }
 
   /**
@@ -719,41 +747,83 @@ class BSBCodePlayground {
    */
   loadSavedCode() {
     // Check for URL-encoded code first
-    const urlParams = new URLSearchParams(window.location.search);
-    const encodedCode = urlParams.get('code');
-
-    if (encodedCode) {
-      try {
-        const code = JSON.parse(atob(encodedCode));
-        this.editors.get('html').value = code.html || '';
-        this.editors.get('css').value = code.css || '';
-        this.editors.get('js').value = code.js || '';
-        this.showConsoleMessage('📤 Loaded shared code!', 'info');
-        return;
-      } catch (error) {
-        debug.warn('Could not load shared code:', error);
-      }
+    if (this.tryLoadSharedCode()) {
+      return;
     }
 
     // Load from localStorage
+    this.tryLoadLocalCode();
+  }
+
+  /**
+   * Try to load shared code from URL parameters
+   * @method tryLoadSharedCode
+   * @returns {boolean} True if shared code was loaded
+   */
+  tryLoadSharedCode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const encodedCode = urlParams.get('code');
+
+    if (!encodedCode) {
+      return false;
+    }
+
+    try {
+      const code = JSON.parse(atob(encodedCode));
+      this.loadCodeIntoEditors(code);
+      this.showConsoleMessage('📤 Loaded shared code!', 'info');
+      return true;
+    } catch (error) {
+      debug.warn('Could not load shared code:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Try to load code from localStorage
+   * @method tryLoadLocalCode
+   * @returns {void}
+   */
+  tryLoadLocalCode() {
     try {
       const savedCode = localStorage.getItem('bsb-playground-code');
-      if (savedCode) {
-        const code = JSON.parse(savedCode);
-        const age = Date.now() - code.timestamp;
+      if (!savedCode) {
+        return;
+      }
 
-        // Only load if saved within last 24 hours
-        if (age < CONSTANTS.MAX_CODE_AGE_HOURS * CONSTANTS.MINUTES_PER_HOUR *
-             CONSTANTS.SECONDS_PER_MINUTE * CONSTANTS.MS_PER_SECOND) {
-          this.editors.get('html').value = code.html || '';
-          this.editors.get('css').value = code.css || '';
-          this.editors.get('js').value = code.js || '';
-          this.showConsoleMessage('💾 Restored previous session', 'info');
-        }
+      const code = JSON.parse(savedCode);
+      if (this.isCodeFresh(code)) {
+        this.loadCodeIntoEditors(code);
+        this.showConsoleMessage('💾 Restored previous session', 'info');
       }
     } catch (error) {
       debug.warn('Could not load saved code:', error);
     }
+  }
+
+  /**
+   * Load code into all editors
+   * @method loadCodeIntoEditors
+   * @param {Object} code - Code object with html, css, js properties
+   * @returns {void}
+   */
+  loadCodeIntoEditors(code) {
+    this.editors.get('html').value = code.html || '';
+    this.editors.get('css').value = code.css || '';
+    this.editors.get('js').value = code.js || '';
+  }
+
+  /**
+   * Check if saved code is fresh (within age limit)
+   * @method isCodeFresh
+   * @param {Object} code - Code object with timestamp
+   * @returns {boolean} True if code is fresh
+   */
+  isCodeFresh(code) {
+    const age = Date.now() - code.timestamp;
+    const maxAge = CONSTANTS.MAX_CODE_AGE_HOURS * CONSTANTS.MINUTES_PER_HOUR *
+                   CONSTANTS.SECONDS_PER_MINUTE * CONSTANTS.MS_PER_SECOND;
+    return age < maxAge;
   }
 }
 

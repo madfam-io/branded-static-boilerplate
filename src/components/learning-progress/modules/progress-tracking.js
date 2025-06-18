@@ -53,7 +53,7 @@ export const trackComponentViews = (progress, addComponentExplored) => {
  * Track source viewer interactions
  * @param {Function} addConceptLearned - Callback for new concepts
  */
-export const trackSourceViewer = (addConceptLearned) => {
+export const trackSourceViewer = addConceptLearned => {
   document.addEventListener('source-viewed', event => {
     const { file, language } = event.detail;
     debug.log(`👁️ Source viewed: ${file} (${language})`);
@@ -66,7 +66,7 @@ export const trackSourceViewer = (addConceptLearned) => {
  * Track code playground usage
  * @param {Function} addConceptLearned - Callback for new concepts
  */
-export const trackPlayground = (addConceptLearned) => {
+export const trackPlayground = addConceptLearned => {
   document.addEventListener('code-executed', event => {
     const { language } = event.detail || {};
     debug.log(`⚡ Code executed: ${language || 'unknown'}`);
@@ -83,23 +83,21 @@ export const trackPlayground = (addConceptLearned) => {
  * @param {Function} saveProgress - Save function
  * @returns {number} Interval ID
  */
-export const startProgressTracking = (progress, saveProgress) => {
-  return setInterval(() => {
-    // Only track time if user is active and page is visible
-    const now = Date.now();
-    const timeSinceLastActivity = now - progress.lastActivity;
+export const startProgressTracking = (progress, saveProgress) => setInterval(() => {
+  // Only track time if user is active and page is visible
+  const now = Date.now();
+  const timeSinceLastActivity = now - progress.lastActivity;
 
-    if (document.hidden) {
-      return; // Don't track time when tab is hidden
-    }
+  if (document.hidden) {
+    return; // Don't track time when tab is hidden
+  }
 
-    if (timeSinceLastActivity < TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL * 2) {
-      progress.timeSpent += TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL;
-      progress.lastActivity = now;
-      saveProgress();
-    }
-  }, TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL);
-};
+  if (timeSinceLastActivity < TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL * 2) {
+    progress.timeSpent += TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL;
+    progress.lastActivity = now;
+    saveProgress();
+  }
+}, TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL);
 
 /**
  * Log learning activity
@@ -127,7 +125,7 @@ export const logActivity = (progress, type, description) => {
  * @param {Object} progress - Progress data object
  * @returns {Array} New achievements unlocked
  */
-export const checkAchievements = (progress) => {
+export const checkAchievements = progress => {
   const newAchievements = [];
   const { componentsExplored, conceptsLearned, timeSpent } = progress;
 
