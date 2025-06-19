@@ -9,6 +9,8 @@ import { debug } from '../../../scripts/core/debug.js';
 
 // Storage key
 const STORAGE_KEY = 'bsb-learning-progress';
+const MAX_SAVED_ACTIVITIES = 20;
+const JSON_INDENT_SPACES = 2;
 
 /**
  * Save progress to localStorage
@@ -23,7 +25,7 @@ export const saveProgress = progress => {
       checkpoints: Array.from(progress.checkpoints),
       timeSpent: progress.timeSpent,
       lastActivity: progress.lastActivity,
-      activityLog: progress.activityLog.slice(0, 20), // Limit saved activities
+      activityLog: progress.activityLog.slice(0, MAX_SAVED_ACTIVITIES), // Limit saved activities
       version: '1.0.0',
       savedAt: Date.now()
     };
@@ -95,7 +97,7 @@ export const exportProgress = progress => {
 
   // Create download
   const blob = new Blob(
-    [JSON.stringify(exportData, null, 2)],
+    [JSON.stringify(exportData, null, JSON_INDENT_SPACES)],
     { type: 'application/json' }
   );
 

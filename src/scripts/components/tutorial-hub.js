@@ -176,7 +176,9 @@ class TutorialHub {
    */
   updateTutorialCards() {
     const container = document.querySelector('.tutorial-grid');
-    if (!container) {return;}
+    if (!container) {
+      return;
+    }
 
     const cardsHTML = this.filteredTutorials.map(tutorial => {
       const progress = this.progressManager.getTutorialProgress(tutorial.id);
@@ -346,7 +348,9 @@ class TutorialHub {
 
     input.onchange = event => {
       const file = event.target.files[0];
-      if (!file) {return;}
+      if (!file) {
+        return;
+      }
 
       const reader = new FileReader();
       reader.onload = e => {

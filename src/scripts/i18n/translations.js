@@ -42,9 +42,9 @@ export const getTranslation = (lang, key, fallback = '') => {
   const keys = key.split('.');
   let translation = translations[lang];
 
-  for (const k of keys) {
-    if (translation && typeof translation === 'object' && k in translation) {
-      translation = translation[k];
+  for (const keySegment of keys) {
+    if (translation && typeof translation === 'object' && keySegment in translation) {
+      translation = translation[keySegment];
     } else {
       return fallback || key;
     }

@@ -139,10 +139,18 @@ class BSBThemeToggle {
   handleKeydown(event) {
     const { key } = event;
 
-    if (this.handleEscapeKey(event, key)) {return;}
-    if (this.handleButtonToggle(event, key)) {return;}
-    if (this.handleArrowNavigation(event, key)) {return;}
-    if (this.handleMenuSelection(event, key)) {}
+    if (this.handleEscapeKey(event, key)) {
+      return;
+    }
+    if (this.handleButtonToggle(event, key)) {
+      return;
+    }
+    if (this.handleArrowNavigation(event, key)) {
+      return;
+    }
+    if (this.handleMenuSelection(event, key)) {
+      // Menu selection handled
+    }
   }
 
   /**

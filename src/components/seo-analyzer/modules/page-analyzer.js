@@ -33,9 +33,9 @@ const CONSTANTS = {
  */
 const checkHeadingHierarchy = () => {
   const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))
-    .map(h => ({
-      level: parseInt(h.tagName.charAt(1)),
-      text: h.textContent.trim()
+    .map(heading => ({
+      level: parseInt(heading.tagName.charAt(1)),
+      text: heading.textContent.trim()
     }));
 
   const issues = [];

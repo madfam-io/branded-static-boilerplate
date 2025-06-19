@@ -82,7 +82,9 @@ export const bindEvents = (element, handlers) => {
   let refreshTimeout;
   const observer = new MutationObserver(() => {
     clearTimeout(refreshTimeout);
-    refreshTimeout = setTimeout(handlers.onAutoRefresh, 1000);
+    // Auto-refresh delay constant
+    const AUTO_REFRESH_DELAY = 1000;
+    refreshTimeout = setTimeout(handlers.onAutoRefresh, AUTO_REFRESH_DELAY);
   });
 
   observer.observe(document.head, {
