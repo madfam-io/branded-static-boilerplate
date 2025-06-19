@@ -13,7 +13,8 @@ const OPTIMIZATION_CONSTANTS = {
   MIN_INTERSECTION_RATIO: 0.01,
   MAX_FID_DELAY: 10000,
   PRELOAD_THRESHOLD: 3, // Seconds
-  CRITICAL_RESOURCE_DELAY: 100
+  CRITICAL_RESOURCE_DELAY: 100,
+  LONG_TASK_THRESHOLD: 50 // Tasks longer than 50ms
 };
 
 /**
@@ -81,7 +82,9 @@ export const initializeLazyLoading = (selector = 'img[data-src]') => {
  * @param {Array} resources - Array of resource URLs
  */
 export const preloadCriticalResources = resources => {
-  if (!Array.isArray(resources)) {return;}
+  if (!Array.isArray(resources)) {
+    return;
+  }
 
   resources.forEach(resource => {
     const link = document.createElement('link');
@@ -119,7 +122,9 @@ export const optimizeJavaScriptExecution = (callback, options = {}) => {
  * @param {Array} hints - Array of resource hint objects
  */
 export const addResourceHints = hints => {
-  if (!Array.isArray(hints)) {return;}
+  if (!Array.isArray(hints)) {
+    return;
+  }
 
   hints.forEach(hint => {
     const link = document.createElement('link');
@@ -139,7 +144,9 @@ export const addResourceHints = hints => {
  * @param {Array} fontFaces - Array of font face objects
  */
 export const optimizeFontLoading = fontFaces => {
-  if (!Array.isArray(fontFaces)) {return;}
+  if (!Array.isArray(fontFaces)) {
+    return;
+  }
 
   fontFaces.forEach(font => {
     const fontFace = new FontFace(
@@ -227,7 +234,7 @@ export const monitorLongTasks = callback => {
     const observer = new PerformanceObserver(list => {
       const entries = list.getEntries();
       entries.forEach(entry => {
-        if (entry.duration > 50) { // Tasks longer than 50ms
+        if (entry.duration > OPTIMIZATION_CONSTANTS.LONG_TASK_THRESHOLD) { // Tasks longer than threshold
           callback({
             duration: entry.duration,
             startTime: entry.startTime,
@@ -258,7 +265,7 @@ export const implementCodeSplitting = modules => {
         return loadedModules.get(moduleName);
       }
 
-      const moduleConfig = modules.find(m => m.name === moduleName);
+      const moduleConfig = modules.find(module => module.name === moduleName);
       if (!moduleConfig) {
         throw new Error(`Module ${moduleName} not found`);
       }
@@ -275,7 +282,7 @@ export const implementCodeSplitting = modules => {
     },
 
     preloadModule(moduleName) {
-      const moduleConfig = modules.find(m => m.name === moduleName);
+      const moduleConfig = modules.find(module => module.name === moduleName);
       if (moduleConfig) {
         const link = document.createElement('link');
         link.rel = 'modulepreload';

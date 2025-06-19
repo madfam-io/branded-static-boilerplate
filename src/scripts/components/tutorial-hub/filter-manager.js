@@ -5,6 +5,11 @@
  * Manages filtering, sorting, and search functionality for tutorials
  */
 
+// Filter constants
+const FILTER_CONSTANTS = {
+  SEARCH_DEBOUNCE_DELAY: 300
+};
+
 /**
  * Tutorial filter manager class
  */
@@ -102,7 +107,7 @@ export class FilterManager {
         searchTimeout = setTimeout(() => {
           this.currentFilters.search = this.searchInput.value;
           this.applyFilters();
-        }, 300); // Debounce search
+        }, FILTER_CONSTANTS.SEARCH_DEBOUNCE_DELAY); // Debounce search
       });
     }
   }
@@ -174,18 +179,18 @@ export class FilterManager {
     switch (sortBy) {
       case 'difficulty':
         const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
-        return sorted.sort((a, b) =>
-          difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]
+        return sorted.sort((tutorialA, tutorialB) =>
+          difficultyOrder[tutorialA.difficulty] - difficultyOrder[tutorialB.difficulty]
         );
 
       case 'duration':
-        return sorted.sort((a, b) => a.duration - b.duration);
+        return sorted.sort((tutorialA, tutorialB) => tutorialA.duration - tutorialB.duration);
 
       case 'topic':
-        return sorted.sort((a, b) => a.topic.localeCompare(b.topic));
+        return sorted.sort((tutorialA, tutorialB) => tutorialA.topic.localeCompare(tutorialB.topic));
 
       case 'alphabetical':
-        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+        return sorted.sort((tutorialA, tutorialB) => tutorialA.title.localeCompare(tutorialB.title));
 
       case 'recommended':
       default:
@@ -214,10 +219,18 @@ export class FilterManager {
     };
 
     // Update UI elements
-    if (this.difficultyFilter) {this.difficultyFilter.value = 'all';}
-    if (this.topicFilter) {this.topicFilter.value = 'all';}
-    if (this.sortSelect) {this.sortSelect.value = 'recommended';}
-    if (this.searchInput) {this.searchInput.value = '';}
+    if (this.difficultyFilter) {
+      this.difficultyFilter.value = 'all';
+    }
+    if (this.topicFilter) {
+      this.topicFilter.value = 'all';
+    }
+    if (this.sortSelect) {
+      this.sortSelect.value = 'recommended';
+    }
+    if (this.searchInput) {
+      this.searchInput.value = '';
+    }
 
     this.saveFilters();
     this.applyFilters();
@@ -228,8 +241,8 @@ export class FilterManager {
    * @returns {Object} Available filter options
    */
   getFilterOptions() {
-    const difficulties = [...new Set(this.tutorials.map(t => t.difficulty))];
-    const topics = [...new Set(this.tutorials.map(t => t.topic))];
+    const difficulties = [...new Set(this.tutorials.map(tutorial => tutorial.difficulty))];
+    const topics = [...new Set(this.tutorials.map(tutorial => tutorial.topic))];
 
     return {
       difficulties: difficulties.sort(),

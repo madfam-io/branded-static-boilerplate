@@ -151,7 +151,9 @@ class PerformanceOptimizer {
    * Setup dashboard event listeners
    */
   setupDashboardEvents() {
-    if (!this.dashboard) {return;}
+    if (!this.dashboard) {
+      return;
+    }
 
     const toggleBtn = this.dashboard.querySelector('.bsb-performance-dashboard__toggle');
     if (toggleBtn) {
@@ -165,7 +167,9 @@ class PerformanceOptimizer {
    * Toggle dashboard visibility
    */
   toggleDashboard() {
-    if (!this.dashboard) {return;}
+    if (!this.dashboard) {
+      return;
+    }
 
     this.dashboard.classList.toggle('minimized');
     const toggleBtn = this.dashboard.querySelector('.bsb-performance-dashboard__toggle span');

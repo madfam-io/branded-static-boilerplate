@@ -13,6 +13,8 @@ const CONSTANTS = {
   PI_MULTIPLIER: 2,
   PERCENTAGE_MAX: 100,
   EXCELLENT_THRESHOLD: 90,
+  MAX_TOP_KEYWORDS: 5,
+  ALT_TAG_COVERAGE_THRESHOLD: 90,
   GOOD_THRESHOLD: 80,
   AVERAGE_THRESHOLD: 70,
   POOR_THRESHOLD: 60,
@@ -258,7 +260,7 @@ export const updateContentStats = contentData => {
     <div class="content-stats__item">
       <span class="content-stats__label">Top Keywords:</span>
       <div class="content-stats__keywords">
-        ${contentData.topKeywords.slice(0, 5).map(keyword =>
+        ${contentData.topKeywords.slice(0, CONSTANTS.MAX_TOP_KEYWORDS).map(keyword =>
     `<span class="keyword-tag">${keyword.word} (${keyword.density}%)</span>`
   ).join('')}
       </div>
@@ -298,7 +300,7 @@ export const updateTechnicalSEO = techData => {
     </div>
     <div class="technical-item">
       <span class="technical-item__label">Image Alt Tags:</span>
-      <span class="technical-item__status technical-item__status--${techData.images.altCoverage >= 90 ? 'success' : 'warning'}">
+      <span class="technical-item__status technical-item__status--${techData.images.altCoverage >= CONSTANTS.ALT_TAG_COVERAGE_THRESHOLD ? 'success' : 'warning'}">
         ${Math.round(techData.images.altCoverage)}% Coverage
       </span>
     </div>

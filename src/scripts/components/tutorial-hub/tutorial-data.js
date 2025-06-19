@@ -147,18 +147,18 @@ export const sortTutorials = (tutorials, sortBy = 'title') => {
   switch (sortBy) {
     case 'difficulty':
       const difficultyOrder = getDifficultyLevels();
-      return sorted.sort((a, b) =>
-        difficultyOrder[a.difficulty].order - difficultyOrder[b.difficulty].order
+      return sorted.sort((firstTutorial, secondTutorial) =>
+        difficultyOrder[firstTutorial.difficulty].order - difficultyOrder[secondTutorial.difficulty].order
       );
 
     case 'duration':
-      return sorted.sort((a, b) => a.duration - b.duration);
+      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.duration - secondTutorial.duration);
 
     case 'topic':
-      return sorted.sort((a, b) => a.topic.localeCompare(b.topic));
+      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.topic.localeCompare(secondTutorial.topic));
 
     case 'title':
     default:
-      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.title.localeCompare(secondTutorial.title));
   }
 };

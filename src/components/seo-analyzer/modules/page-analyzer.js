@@ -14,12 +14,25 @@ import {
 
 // Constants
 const CONSTANTS = {
+  // Content analysis
   MIN_WORD_COUNT: 300,
-  PERCENTAGE_MAX: 100,
-  KEYWORD_BASE: 10,
+  WORDS_PER_MINUTE: 200, // Average reading speed
   MIN_WORD_LENGTH: 2,
   MIN_KEYWORD_LENGTH: 3,
-  DECIMAL_PLACES: 1
+  KEYWORD_BASE: 10,
+
+  // Calculations
+  PERCENTAGE_MAX: 100,
+  DECIMAL_PLACES: 1,
+
+  // Array and indexing
+  ARRAY_EMPTY: 0,
+  FIRST_INDEX: 0,
+  INCREMENT: 1,
+
+  // Heading levels
+  H1_LEVEL: 1,
+  HEADING_CHAR_POSITION: 1
 };
 
 /**
@@ -34,25 +47,25 @@ const CONSTANTS = {
 const checkHeadingHierarchy = () => {
   const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6'))
     .map(heading => ({
-      level: parseInt(heading.tagName.charAt(1)),
+      level: parseInt(heading.tagName.charAt(CONSTANTS.HEADING_CHAR_POSITION), 10),
       text: heading.textContent.trim()
     }));
 
   const issues = [];
-  let previousLevel = 0;
+  let previousLevel = CONSTANTS.ARRAY_EMPTY;
 
   headings.forEach((heading, index) => {
-    if (index === 0 && heading.level !== 1) {
+    if (index === CONSTANTS.FIRST_INDEX && heading.level !== CONSTANTS.H1_LEVEL) {
       issues.push('Page should start with an H1 heading');
     }
-    if (heading.level > previousLevel + 1) {
+    if (heading.level > previousLevel + CONSTANTS.INCREMENT) {
       issues.push(`Heading hierarchy skips levels (H${previousLevel} to H${heading.level})`);
     }
     previousLevel = heading.level;
   });
 
   return {
-    isValid: issues.length === 0,
+    isValid: issues.length === CONSTANTS.ARRAY_EMPTY,
     issues
   };
 };
@@ -73,7 +86,7 @@ export const analyzeHeadings = () => {
 
   return {
     ...headings,
-    total: Object.values(headings).reduce((sum, count) => sum + count, 0),
+    total: Object.values(headings).reduce((sum, count) => sum + count, CONSTANTS.ARRAY_EMPTY),
     hierarchy: checkHeadingHierarchy()
   };
 };
@@ -84,16 +97,20 @@ export const analyzeHeadings = () => {
  */
 export const analyzeImages = () => {
   const images = Array.from(document.querySelectorAll('img'));
-  const withAlt = images.filter(img => img.alt && img.alt.trim().length > 0);
+  const withAlt = images.filter(img => img.alt &&
+    img.alt.trim().length > CONSTANTS.ARRAY_EMPTY);
   const withTitle = images.filter(img => img.title);
-  const withoutAlt = images.filter(img => !img.alt || img.alt.trim().length === 0);
+  const withoutAlt = images.filter(img => !img.alt ||
+    img.alt.trim().length === CONSTANTS.ARRAY_EMPTY);
 
   return {
     total: images.length,
     withAlt: withAlt.length,
     withTitle: withTitle.length,
     withoutAlt: withoutAlt.length,
-    altCoverage: images.length > 0 ? (withAlt.length / images.length) * CONSTANTS.PERCENTAGE_MAX : CONSTANTS.PERCENTAGE_MAX
+    altCoverage: images.length > CONSTANTS.ARRAY_EMPTY
+      ? (withAlt.length / images.length) * CONSTANTS.PERCENTAGE_MAX
+      : CONSTANTS.PERCENTAGE_MAX
   };
 };
 
@@ -119,7 +136,8 @@ export const analyzeLinks = () => {
       return false;
     }
   });
-  const withoutTitle = links.filter(link => !link.title || link.title.trim().length === 0);
+  const withoutTitle = links.filter(link => !link.title ||
+    link.title.trim().length === CONSTANTS.ARRAY_EMPTY);
 
   return {
     total: links.length,
@@ -137,28 +155,28 @@ export const analyzeContent = () => {
   const textContent = document.body.textContent || '';
   const words = textContent
     .toLowerCase()
-    .split(/\s+/)
+    .split(/\s+/u)
     .filter(word => word.length >= CONSTANTS.MIN_WORD_LENGTH);
 
   const wordCount = words.length;
-  const readingTime = Math.ceil(wordCount / 200); // 200 words per minute
+  const readingTime = Math.ceil(wordCount / CONSTANTS.WORDS_PER_MINUTE);
 
   // Calculate keyword density (simple version)
   const wordFrequency = {};
   words.forEach(word => {
     if (word.length >= CONSTANTS.MIN_KEYWORD_LENGTH) {
-      wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+      wordFrequency[word] = (wordFrequency[word] || CONSTANTS.ARRAY_EMPTY) + CONSTANTS.INCREMENT;
     }
   });
 
   const sortedWords = Object.entries(wordFrequency)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, CONSTANTS.KEYWORD_BASE);
+    .sort(([, countA], [, countB]) => countB - countA)
+    .slice(CONSTANTS.FIRST_INDEX, CONSTANTS.KEYWORD_BASE);
 
   const topKeywords = sortedWords.map(([word, count]) => ({
     word,
     count,
-    density: ((count / wordCount) * CONSTANTS.PERCENTAGE_MAX).toFixed(1)
+    density: ((count / wordCount) * CONSTANTS.PERCENTAGE_MAX).toFixed(CONSTANTS.DECIMAL_PLACES)
   }));
 
   return {
@@ -176,7 +194,7 @@ export const analyzeContent = () => {
 const hasStructuredData = () => {
   const jsonLd = document.querySelectorAll('script[type="application/ld+json"]');
   const microdata = document.querySelectorAll('[itemscope]');
-  return jsonLd.length > 0 || microdata.length > 0;
+  return jsonLd.length > CONSTANTS.ARRAY_EMPTY || microdata.length > CONSTANTS.ARRAY_EMPTY;
 };
 
 /**
@@ -192,17 +210,15 @@ const isMobileFriendly = () => {
  * Gather comprehensive page data for analysis
  * @returns {Object} Page data
  */
-export const gatherPageData = () => {
-  return {
-    title: document.title,
-    description: document.querySelector('meta[name="description"]')?.content || '',
-    keywords: document.querySelector('meta[name="keywords"]')?.content || '',
-    url: window.location.href,
-    headings: analyzeHeadings(),
-    images: analyzeImages(),
-    links: analyzeLinks(),
-    content: analyzeContent(),
-    hasStructuredData: hasStructuredData(),
-    isMobileFriendly: isMobileFriendly()
-  };
-};
+export const gatherPageData = () => ({
+  title: document.title,
+  description: document.querySelector('meta[name="description"]')?.content || '',
+  keywords: document.querySelector('meta[name="keywords"]')?.content || '',
+  url: window.location.href,
+  headings: analyzeHeadings(),
+  images: analyzeImages(),
+  links: analyzeLinks(),
+  content: analyzeContent(),
+  hasStructuredData: hasStructuredData(),
+  isMobileFriendly: isMobileFriendly()
+});

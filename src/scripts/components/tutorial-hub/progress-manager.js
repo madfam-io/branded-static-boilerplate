@@ -15,7 +15,15 @@ const PROGRESS_CONSTANTS = {
   CIRCLE_RADIUS: 45,
   MIN_DURATION: 60,
   MID_DURATION: 100,
-  MAX_DURATION: 95
+  MAX_DURATION: 95,
+  DEFAULT_SCORE: 100
+};
+
+// Skill level thresholds
+const SKILL_LEVEL_THRESHOLDS = {
+  LEARNING_MAX: 2,
+  INTERMEDIATE_MAX: 4,
+  ADVANCED_MAX: 6
 };
 
 /**
@@ -57,7 +65,7 @@ export class ProgressManager {
    * @param {string} tutorialId - Tutorial identifier
    * @param {number} score - Completion score (optional)
    */
-  markTutorialCompleted(tutorialId, score = 100) {
+  markTutorialCompleted(tutorialId, score = PROGRESS_CONSTANTS.DEFAULT_SCORE) {
     if (!this.progressData[tutorialId]) {
       this.progressData[tutorialId] = {};
     }
@@ -79,7 +87,7 @@ export class ProgressManager {
       this.progressData[tutorialId] = {};
     }
 
-    this.progressData[tutorialId].progress = Math.max(0, Math.min(100, progress));
+    this.progressData[tutorialId].progress = Math.max(0, Math.min(PROGRESS_CONSTANTS.PERCENTAGE_MAX, progress));
     this.progressData[tutorialId].lastAccessed = Date.now();
 
     this.saveProgress();
@@ -112,14 +120,14 @@ export class ProgressManager {
 
     const totalHours = Object.entries(this.progressData).reduce((total, [id, progress]) => {
       if (progress.completed) {
-        const tutorial = this.tutorials.find(t => t.id === id);
+        const tutorial = this.tutorials.find(tutorial => tutorial.id === id);
         return total + (tutorial?.duration || 0);
       }
       return total;
     }, 0);
 
     const averageScore = completedCount > 0
-      ? Math.round(completedTutorials.reduce((sum, p) => sum + (p.score || 0), 0) / completedCount)
+      ? Math.round(completedTutorials.reduce((sum, progress) => sum + (progress.score || 0), 0) / completedCount)
       : 0;
 
     const overallPercentage = Math.round(
@@ -144,10 +152,18 @@ export class ProgressManager {
    * @returns {string} Skill level
    */
   calculateSkillLevel(completedCount) {
-    if (completedCount === 0) {return 'Beginner';}
-    if (completedCount <= 2) {return 'Learning';}
-    if (completedCount <= 4) {return 'Intermediate';}
-    if (completedCount <= 6) {return 'Advanced';}
+    if (completedCount === 0) {
+      return 'Beginner';
+    }
+    if (completedCount <= SKILL_LEVEL_THRESHOLDS.LEARNING_MAX) {
+      return 'Learning';
+    }
+    if (completedCount <= SKILL_LEVEL_THRESHOLDS.INTERMEDIATE_MAX) {
+      return 'Intermediate';
+    }
+    if (completedCount <= SKILL_LEVEL_THRESHOLDS.ADVANCED_MAX) {
+      return 'Advanced';
+    }
     return 'Expert';
   }
 
@@ -197,11 +213,13 @@ export class ProgressManager {
     const stats = this.getProgressStats();
     const progressCircle = document.querySelector('.progress-circle');
 
-    if (!progressCircle) {return;}
+    if (!progressCircle) {
+      return;
+    }
 
-    const circumference = 2 * Math.PI * PROGRESS_CONSTANTS.CIRCLE_RADIUS;
+    const circumference = SKILL_LEVEL_THRESHOLDS.LEARNING_MAX * Math.PI * PROGRESS_CONSTANTS.CIRCLE_RADIUS;
     const strokeDasharray = circumference;
-    const strokeDashoffset = circumference * (1 - stats.overallPercentage / 100);
+    const strokeDashoffset = circumference * (1 - stats.overallPercentage / PROGRESS_CONSTANTS.PERCENTAGE_MAX);
 
     // Update SVG circle
     const circle = progressCircle.querySelector('circle.progress-ring');
@@ -239,9 +257,9 @@ export class ProgressManager {
     });
 
     // Sort by difficulty and topic
-    return incomplete.sort((a, b) => {
+    return incomplete.sort((tutorialA, tutorialB) => {
       const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
-      return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+      return difficultyOrder[tutorialA.difficulty] - difficultyOrder[tutorialB.difficulty];
     });
   }
 

@@ -314,12 +314,12 @@ const addOpenGraphTags = (metaTags, config) => {
   }
 
   // Add language alternates
-  config.alternates.forEach(alt => {
+  config.alternates.forEach(alternate => {
     metaTags.basic.push({
       tag: 'link',
       rel: 'alternate',
-      hreflang: alt.lang,
-      href: alt.url,
+      hreflang: alternate.lang,
+      href: alternate.url,
       insight: {
         note: 'Helps search engines serve the correct language version',
         example: 'Essential for multilingual sites'
@@ -347,7 +347,7 @@ const addTwitterTags = (metaTags, config) => {
 
 /**
  * Add educational insights and tips
- * @param {Object} metaTags - Meta tags structure  
+ * @param {Object} metaTags - Meta tags structure
  * @param {Object} config - Configuration
  */
 const addEducationalTags = (metaTags, config) => {
@@ -385,12 +385,12 @@ const addEducationalTags = (metaTags, config) => {
 export const generateMetaTags = options => {
   const config = extractMetaConfig(options);
   const metaTags = createMetaTagsStructure();
-  
+
   addBasicMetaTags(metaTags, config);
   addOpenGraphTags(metaTags, config);
   addTwitterTags(metaTags, config);
   addEducationalTags(metaTags, config);
-  
+
   return metaTags;
 };
 
@@ -474,12 +474,12 @@ export const generateFAQSchema = function generateFAQSchema(faqs) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
+    mainEntity: faqs.map(faqItem => ({
       '@type': 'Question',
-      name: faq.question,
+      name: faqItem.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: faq.answer
+        text: faqItem.answer
       }
     }))
   };

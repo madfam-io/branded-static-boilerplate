@@ -13,7 +13,8 @@ const SEO_CONFIG = {
   scoreHeadingBonus: 50,
   scoreImagePenalty: 10,
   minWordCount: 300,
-  scoreWordCountDivisor: 10
+  scoreWordCountDivisor: 10,
+  technicalFeatureScore: 25
 };
 
 // Content length validation constants
@@ -239,16 +240,16 @@ export const calculateTechnicalScore = page => {
   let score = 0;
 
   if (page.canonical) {
-    score += 25;
+    score += SEO_CONFIG.technicalFeatureScore;
   }
   if (page.structuredData) {
-    score += 25;
+    score += SEO_CONFIG.technicalFeatureScore;
   }
   if (page.mobileFriendly) {
-    score += 25;
+    score += SEO_CONFIG.technicalFeatureScore;
   }
   if (page.https) {
-    score += 25;
+    score += SEO_CONFIG.technicalFeatureScore;
   }
 
   return score;

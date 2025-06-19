@@ -14,15 +14,40 @@ const UI_CONSTANTS = {
   PRECISION_MULTIPLIER: 10000
 };
 
+// Performance score thresholds
+const SCORE_THRESHOLDS = {
+  EXCELLENT: 90,
+  GOOD: 70,
+  FAIR: 50
+};
+
+// Web Vitals thresholds (in milliseconds or unitless)
+const VITALS_THRESHOLDS = {
+  LCP_GOOD: 2500,
+  LCP_POOR: 4000,
+  FID_GOOD: 100,
+  FID_POOR: 300,
+  CLS_GOOD: 0.1,
+  CLS_POOR: 0.25,
+  TTFB_GOOD: 600,
+  TTFB_POOR: 1500
+};
+
 /**
  * Get performance score CSS class
  * @param {number} score - Performance score
  * @returns {string} CSS class
  */
 const getScoreClass = score => {
-  if (score >= 90) {return 'excellent';}
-  if (score >= 70) {return 'good';}
-  if (score >= 50) {return 'fair';}
+  if (score >= SCORE_THRESHOLDS.EXCELLENT) {
+    return 'excellent';
+  }
+  if (score >= SCORE_THRESHOLDS.GOOD) {
+    return 'good';
+  }
+  if (score >= SCORE_THRESHOLDS.FAIR) {
+    return 'fair';
+  }
   return 'poor';
 };
 
@@ -34,8 +59,12 @@ const getScoreClass = score => {
  * @returns {string} Status class
  */
 const getVitalStatus = (value, goodThreshold, poorThreshold) => {
-  if (value <= goodThreshold) {return 'good';}
-  if (value <= poorThreshold) {return 'fair';}
+  if (value <= goodThreshold) {
+    return 'good';
+  }
+  if (value <= poorThreshold) {
+    return 'fair';
+  }
   return 'poor';
 };
 
@@ -57,13 +86,15 @@ const formatMetricValue = value => {
  * @returns {string} Formatted string
  */
 const formatBytes = bytes => {
-  if (bytes === 0) {return '0 B';}
+  if (bytes === 0) {
+    return '0 B';
+  }
 
-  const k = 1024;
+  const kilobyte = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const index = Math.floor(Math.log(bytes) / Math.log(kilobyte));
 
-  return `${parseFloat((bytes / k**i).toFixed(1))} ${sizes[i]}`;
+  return `${parseFloat((bytes / kilobyte**index).toFixed(1))} ${sizes[index]}`;
 };
 
 /**
@@ -121,16 +152,18 @@ const createVitalMetric = (name, value, unit, goodThreshold, poorThreshold) => {
  * @returns {string} Vitals section HTML
  */
 const createVitalsSection = vitals => {
-  if (!vitals) {return '';}
+  if (!vitals) {
+    return '';
+  }
 
   return `
     <div class="bsb-performance-dashboard__section">
       <h4 class="bsb-performance-dashboard__section-title">Web Vitals</h4>
       <div class="bsb-performance-dashboard__vitals">
-        ${createVitalMetric('LCP', vitals.lcp, 'ms', 2500, 4000)}
-        ${createVitalMetric('FID', vitals.fid, 'ms', 100, 300)}
-        ${createVitalMetric('CLS', vitals.cls, '', 0.1, 0.25)}
-        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', 600, 1500)}
+        ${createVitalMetric('LCP', vitals.lcp, 'ms', VITALS_THRESHOLDS.LCP_GOOD, VITALS_THRESHOLDS.LCP_POOR)}
+        ${createVitalMetric('FID', vitals.fid, 'ms', VITALS_THRESHOLDS.FID_GOOD, VITALS_THRESHOLDS.FID_POOR)}
+        ${createVitalMetric('CLS', vitals.cls, '', VITALS_THRESHOLDS.CLS_GOOD, VITALS_THRESHOLDS.CLS_POOR)}
+        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', VITALS_THRESHOLDS.TTFB_GOOD, VITALS_THRESHOLDS.TTFB_POOR)}
       </div>
     </div>
   `;
@@ -142,11 +175,13 @@ const createVitalsSection = vitals => {
  * @returns {string} Resources section HTML
  */
 const createResourcesSection = resources => {
-  if (!resources || resources.length === 0) {return '';}
+  if (!resources || resources.length === 0) {
+    return '';
+  }
 
-  const totalSize = resources.reduce((sum, r) => sum + r.size, 0);
-  const largeResources = resources.filter(r => r.isLarge);
-  const slowResources = resources.filter(r => r.isSlow);
+  const totalSize = resources.reduce((sum, resource) => sum + resource.size, 0);
+  const largeResources = resources.filter(resource => resource.isLarge);
+  const slowResources = resources.filter(resource => resource.isSlow);
 
   return `
     <div class="bsb-performance-dashboard__section">
@@ -254,7 +289,9 @@ export const createDashboardTemplate = metrics => {
  * @param {Object} metrics - New metrics data
  */
 export const updateDashboard = (dashboard, metrics) => {
-  if (!dashboard) {return;}
+  if (!dashboard) {
+    return;
+  }
 
   // Update score
   const scoreElement = dashboard.querySelector('.bsb-performance-dashboard__score-value');

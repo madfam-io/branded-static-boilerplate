@@ -8,7 +8,8 @@
 // UI Constants
 const UI_CONSTANTS = {
   NOTIFICATION_DURATION: 3000,
-  ANIMATION_DURATION: 300
+  ANIMATION_DURATION: 300,
+  FOCUS_DELAY: 100
 };
 
 /**
@@ -186,9 +187,15 @@ export const updateViewerContent = sourceData => {
   const cssCode = document.getElementById('css-code');
   const jsCode = document.getElementById('js-code');
 
-  if (htmlCode) {htmlCode.textContent = html;}
-  if (cssCode) {cssCode.textContent = css;}
-  if (jsCode) {jsCode.textContent = js;}
+  if (htmlCode) {
+    htmlCode.textContent = html;
+  }
+  if (cssCode) {
+    cssCode.textContent = css;
+  }
+  if (jsCode) {
+    jsCode.textContent = js;
+  }
 
   // Update component name
   const componentNameEl = document.querySelector('.bsb-source-viewer__component-name');
@@ -238,7 +245,7 @@ export const showViewer = viewer => {
   // Focus the close button for accessibility
   const closeBtn = viewer.querySelector('[data-action="close"]');
   if (closeBtn) {
-    setTimeout(() => closeBtn.focus(), 100);
+    setTimeout(() => closeBtn.focus(), UI_CONSTANTS.FOCUS_DELAY);
   }
 };
 

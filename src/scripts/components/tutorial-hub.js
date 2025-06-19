@@ -38,7 +38,8 @@ const CONSTANTS = {
   NOTIFICATION_DELAY: 200,
   JSON_INDENT: 2,
   MS_PER_SECOND: 1000,
-  SECONDS_PER_MINUTE: 60
+  SECONDS_PER_MINUTE: 60,
+  MAX_ANALYTICS_EVENTS: 100
 };
 
 /**
@@ -308,9 +309,9 @@ class TutorialHub {
       page: 'tutorial-hub'
     });
 
-    // Keep only last 100 events
-    if (analytics.length > 100) {
-      analytics.splice(0, analytics.length - 100);
+    // Keep only last events
+    if (analytics.length > CONSTANTS.MAX_ANALYTICS_EVENTS) {
+      analytics.splice(0, analytics.length - CONSTANTS.MAX_ANALYTICS_EVENTS);
     }
 
     localStorage.setItem('bsb-analytics', JSON.stringify(analytics));
@@ -353,9 +354,9 @@ class TutorialHub {
       }
 
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = event => {
         try {
-          const data = JSON.parse(e.target.result);
+          const data = JSON.parse(event.target.result);
           if (this.progressManager.importProgress(data)) {
             this.updateTutorialCards();
             this.showNotification('Progress data imported successfully!', 'success');

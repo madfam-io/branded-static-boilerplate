@@ -157,14 +157,18 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
   escapeHandler = (event) => {
     if (event.key === 'Escape') {
       closeDialog();
-      if (onCancel) {onCancel();}
+      if (onCancel) {
+        onCancel();
+      }
     }
   };
 
   // Event handlers
   const handleCancel = () => {
     closeDialog();
-    if (onCancel) {onCancel();}
+    if (onCancel) {
+      onCancel();
+    }
   };
 
   const handleConfirm = () => {

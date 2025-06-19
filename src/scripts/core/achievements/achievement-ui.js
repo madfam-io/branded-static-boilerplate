@@ -99,7 +99,9 @@ export const createAchievementUI = userProgress => {
  */
 export const updateAchievementList = (achievements, userProgress, filterType = 'all') => {
   const listContainer = document.querySelector('#achievement-list');
-  if (!listContainer) {return;}
+  if (!listContainer) {
+    return;
+  }
 
   const achievementItems = Object.values(achievements)
     .filter(achievement => filterType === 'all' || achievement.type === filterType)
@@ -171,7 +173,9 @@ export const showAchievementNotification = achievement => {
  */
 export const updateToggleBadge = unlockedCount => {
   const toggle = document.querySelector('#achievement-toggle');
-  if (!toggle) {return;}
+  if (!toggle) {
+    return;
+  }
 
   const existingBadge = toggle.querySelector('.achievement-count');
 
@@ -195,7 +199,9 @@ export const updateToggleBadge = unlockedCount => {
  */
 export const toggleAchievementPanel = () => {
   const panel = document.querySelector('#achievement-panel');
-  if (!panel) {return;}
+  if (!panel) {
+    return;
+  }
 
   panel.classList.toggle('hidden');
 };
@@ -206,7 +212,9 @@ export const toggleAchievementPanel = () => {
  */
 export const closeAchievementPanel = () => {
   const panel = document.querySelector('#achievement-panel');
-  if (!panel) {return;}
+  if (!panel) {
+    return;
+  }
 
   panel.classList.add('hidden');
 };

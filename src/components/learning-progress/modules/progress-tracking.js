@@ -13,6 +13,7 @@ const TRACKING_CONSTANTS = {
   ACTIVITY_CHECK_INTERVAL: 60000, // 1 minute
   MAX_ACTIVITY_LOG_SIZE: 20,
   EXPLORER_THRESHOLD: 5,
+  ACTIVITY_TIMEOUT_MULTIPLIER: 2,
   ARCHITECT_THRESHOLD: 10,
   SESSION_TIME_THRESHOLD: 1800000, // 30 minutes
   ENGAGEMENT_THRESHOLD: 10
@@ -92,7 +93,7 @@ export const startProgressTracking = (progress, saveProgress) => setInterval(() 
     return; // Don't track time when tab is hidden
   }
 
-  if (timeSinceLastActivity < TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL * 2) {
+  if (timeSinceLastActivity < TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL * TRACKING_CONSTANTS.ACTIVITY_TIMEOUT_MULTIPLIER) {
     progress.timeSpent += TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL;
     progress.lastActivity = now;
     saveProgress();

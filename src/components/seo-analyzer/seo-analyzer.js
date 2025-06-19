@@ -34,6 +34,11 @@ import {
 } from './modules/ui-updater.js';
 import { bindEvents, cleanup, toggleCollapse, switchTab } from './modules/event-handlers.js';
 
+// SEO Analyzer constants
+const SEO_ANALYZER_CONSTANTS = {
+  ERROR_DISPLAY_DURATION: 5000 // 5 seconds
+};
+
 /**
  * SEO Analyzer Component
  * @class BSBSEOAnalyzer
@@ -165,7 +170,7 @@ class BSBSEOAnalyzer {
       errorContainer.style.display = 'block';
       setTimeout(() => {
         errorContainer.style.display = 'none';
-      }, 5000);
+      }, SEO_ANALYZER_CONSTANTS.ERROR_DISPLAY_DURATION);
     }
   }
 

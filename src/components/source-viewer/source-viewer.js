@@ -223,7 +223,9 @@ class BSBSourceViewer {
    * @param {string} type - Type of code (html, css, js)
    */
   copyCode(type) {
-    if (!this.currentComponent) {return;}
+    if (!this.currentComponent) {
+      return;
+    }
 
     const sourceData = extractComponentSource(this.currentComponent);
     const code = sourceData[type];
@@ -238,7 +240,9 @@ class BSBSourceViewer {
    * @method copyAll
    */
   copyAll() {
-    if (!this.currentComponent) {return;}
+    if (!this.currentComponent) {
+      return;
+    }
 
     const sourceData = extractComponentSource(this.currentComponent);
     const allCode = `<!-- HTML -->\n${sourceData.html}\n\n/* CSS */\n${sourceData.css}\n\n// JavaScript\n${sourceData.js}`;
@@ -259,7 +263,9 @@ class BSBSourceViewer {
    * @method download
    */
   download() {
-    if (!this.currentComponent) {return;}
+    if (!this.currentComponent) {
+      return;
+    }
 
     const sourceData = extractComponentSource(this.currentComponent);
     downloadSource(sourceData);
@@ -270,7 +276,9 @@ class BSBSourceViewer {
    * @method openInPlayground
    */
   openInPlayground() {
-    if (!this.currentComponent) {return;}
+    if (!this.currentComponent) {
+      return;
+    }
 
     const sourceData = extractComponentSource(this.currentComponent);
 

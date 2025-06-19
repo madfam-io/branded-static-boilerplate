@@ -17,11 +17,35 @@ const METRICS_CONSTANTS = {
   CLS_GOOD_THRESHOLD: 0.1,
   CLS_POOR_THRESHOLD: 0.25,
 
+  // Performance score deductions
+  LCP_POOR_DEDUCTION: 30,
+  LCP_MODERATE_DEDUCTION: 15,
+  FID_POOR_DEDUCTION: 25,
+  FID_MODERATE_DEDUCTION: 10,
+  CLS_POOR_DEDUCTION: 25,
+  CLS_MODERATE_DEDUCTION: 10,
+  TIMING_SLOW_DEDUCTION: 20,
+  TIMING_MODERATE_DEDUCTION: 10,
+
+  // Timing thresholds
+  SLOW_TIMING_THRESHOLD: 5000, // 5 seconds
+  MODERATE_TIMING_THRESHOLD: 3000, // 3 seconds
+
+  // Performance scoring
+  BASE_PERFORMANCE_SCORE: 100,
+  MIN_PERFORMANCE_SCORE: 0,
+
   // Memory and network
-  LARGE_RESOURCE_THRESHOLD: 1024 * 1024, // 1MB
+  BYTES_IN_KB: 1024,
+  BYTES_IN_MB: 1048576, // 1024 * 1024
+  LARGE_RESOURCE_THRESHOLD: 1048576, // 1MB
   SLOW_RESOURCE_THRESHOLD: 1000, // 1 second
   MEMORY_UPDATE_INTERVAL: 5000, // 5 seconds
-  MAX_RESOURCE_COUNT: 50
+  MAX_RESOURCE_COUNT: 50,
+  MEMORY_USAGE_WARNING_RATIO: 0.8, // 80% memory usage threshold
+
+  // Array checks
+  EMPTY_ARRAY_LENGTH: 0
 };
 
 /**
@@ -118,10 +142,18 @@ export const collectNavigationTiming = () => {
  * @returns {string} Resource type
  */
 const getResourceType = url => {
-  if (url.match(/\.(js|mjs)$/)) {return 'script';}
-  if (url.match(/\.css$/)) {return 'stylesheet';}
-  if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) {return 'image';}
-  if (url.match(/\.(woff|woff2|ttf|otf)$/)) {return 'font';}
+  if (url.match(/\.(js|mjs)$/)) {
+    return 'script';
+  }
+  if (url.match(/\.css$/)) {
+    return 'stylesheet';
+  }
+  if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) {
+    return 'image';
+  }
+  if (url.match(/\.(woff|woff2|ttf|otf)$/)) {
+    return 'font';
+  }
   return 'other';
 };
 
@@ -178,8 +210,8 @@ export const collectMemoryMetrics = () => {
  */
 const calculateLCPDeductions = lcp => {
   if (!lcp) return 0;
-  if (lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) return 30;
-  if (lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) return 15;
+  if (lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) return METRICS_CONSTANTS.LCP_POOR_DEDUCTION;
+  if (lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) return METRICS_CONSTANTS.LCP_MODERATE_DEDUCTION;
   return 0;
 };
 
@@ -190,8 +222,8 @@ const calculateLCPDeductions = lcp => {
  */
 const calculateFIDDeductions = fid => {
   if (!fid) return 0;
-  if (fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) return 25;
-  if (fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) return 10;
+  if (fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) return METRICS_CONSTANTS.FID_POOR_DEDUCTION;
+  if (fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) return METRICS_CONSTANTS.FID_MODERATE_DEDUCTION;
   return 0;
 };
 
@@ -202,8 +234,8 @@ const calculateFIDDeductions = fid => {
  */
 const calculateCLSDeductions = cls => {
   if (cls === null) return 0;
-  if (cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) return 25;
-  if (cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) return 10;
+  if (cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) return METRICS_CONSTANTS.CLS_POOR_DEDUCTION;
+  if (cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) return METRICS_CONSTANTS.CLS_MODERATE_DEDUCTION;
   return 0;
 };
 
@@ -213,11 +245,8 @@ const calculateCLSDeductions = cls => {
  * @returns {number} Deduction amount
  */
 const calculateTimingDeductions = totalTime => {
-  const SLOW_TIMING_THRESHOLD = 5000;
-  const MODERATE_TIMING_THRESHOLD = 3000;
-  
-  if (totalTime > SLOW_TIMING_THRESHOLD) return 20;
-  if (totalTime > MODERATE_TIMING_THRESHOLD) return 10;
+  if (totalTime > METRICS_CONSTANTS.SLOW_TIMING_THRESHOLD) return METRICS_CONSTANTS.TIMING_SLOW_DEDUCTION;
+  if (totalTime > METRICS_CONSTANTS.MODERATE_TIMING_THRESHOLD) return METRICS_CONSTANTS.TIMING_MODERATE_DEDUCTION;
   return 0;
 };
 
@@ -228,7 +257,7 @@ const calculateTimingDeductions = totalTime => {
  * @returns {number} Performance score (0-100)
  */
 export const calculatePerformanceScore = (vitals, timing) => {
-  const baseScore = 100;
+  const baseScore = METRICS_CONSTANTS.BASE_PERFORMANCE_SCORE;
   let deductions = 0;
 
   deductions += calculateLCPDeductions(vitals.lcp);
@@ -236,7 +265,7 @@ export const calculatePerformanceScore = (vitals, timing) => {
   deductions += calculateCLSDeductions(vitals.cls);
   deductions += calculateTimingDeductions(timing.totalTime);
 
-  return Math.max(0, baseScore - deductions);
+  return Math.max(METRICS_CONSTANTS.MIN_PERFORMANCE_SCORE, baseScore - deductions);
 };
 
 /**
@@ -294,7 +323,7 @@ const addCLSRecommendation = (recommendations, cls) => {
  */
 const addResourceRecommendations = (recommendations, resources) => {
   const largeResources = resources.filter(resource => resource.isLarge);
-  if (largeResources.length > 0) {
+  if (largeResources.length > METRICS_CONSTANTS.EMPTY_ARRAY_LENGTH) {
     recommendations.push({
       type: 'resources',
       severity: 'medium',
@@ -310,8 +339,7 @@ const addResourceRecommendations = (recommendations, resources) => {
  * @param {Object} memory - Memory metrics
  */
 const addMemoryRecommendations = (recommendations, memory) => {
-  const MEMORY_USAGE_THRESHOLD = 0.8;
-  if (memory.available && memory.used > memory.limit * MEMORY_USAGE_THRESHOLD) {
+  if (memory.available && memory.used > memory.limit * METRICS_CONSTANTS.MEMORY_USAGE_WARNING_RATIO) {
     recommendations.push({
       type: 'memory',
       severity: 'high',
