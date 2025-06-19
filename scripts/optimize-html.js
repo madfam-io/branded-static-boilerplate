@@ -67,7 +67,9 @@ async function optimizeHTML() {
     const styleLinks = document.querySelectorAll('link[rel="stylesheet"]');
     styleLinks.forEach(link => {
       // Skip third-party styles
-      if (link.href.includes('fonts.googleapis.com')) return;
+      if (link.href.includes('fonts.googleapis.com')) {
+        return;
+      }
       
       // Convert to preload + onload pattern
       link.setAttribute('rel', 'preload');
@@ -104,7 +106,9 @@ async function optimizeHTML() {
     const scripts = document.querySelectorAll('script[src]');
     scripts.forEach(script => {
       // Skip third-party scripts
-      if (script.src.includes('http://') || script.src.includes('https://')) return;
+      if (script.src.includes('http://') || script.src.includes('https://')) {
+        return;
+      }
       
       // Add defer to all scripts unless they have async
       if (!script.hasAttribute('async') && !script.hasAttribute('defer')) {

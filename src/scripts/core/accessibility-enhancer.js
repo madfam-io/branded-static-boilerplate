@@ -108,7 +108,9 @@ class AccessibilityEnhancer {
    * Handle global accessibility keyboard shortcuts
    */
   handleGlobalShortcuts(event) {
-    if (!event.altKey) return;
+    if (!event.altKey) {
+      return;
+    }
 
     switch (event.key) {
       case '1':

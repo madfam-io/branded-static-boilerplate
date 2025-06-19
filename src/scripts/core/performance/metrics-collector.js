@@ -209,9 +209,15 @@ export const collectMemoryMetrics = () => {
  * @returns {number} Deduction amount
  */
 const calculateLCPDeductions = lcp => {
-  if (!lcp) return 0;
-  if (lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) return METRICS_CONSTANTS.LCP_POOR_DEDUCTION;
-  if (lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) return METRICS_CONSTANTS.LCP_MODERATE_DEDUCTION;
+  if (!lcp) {
+    return 0;
+  }
+  if (lcp > METRICS_CONSTANTS.LCP_POOR_THRESHOLD) {
+    return METRICS_CONSTANTS.LCP_POOR_DEDUCTION;
+  }
+  if (lcp > METRICS_CONSTANTS.LCP_GOOD_THRESHOLD) {
+    return METRICS_CONSTANTS.LCP_MODERATE_DEDUCTION;
+  }
   return 0;
 };
 
@@ -221,9 +227,15 @@ const calculateLCPDeductions = lcp => {
  * @returns {number} Deduction amount
  */
 const calculateFIDDeductions = fid => {
-  if (!fid) return 0;
-  if (fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) return METRICS_CONSTANTS.FID_POOR_DEDUCTION;
-  if (fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) return METRICS_CONSTANTS.FID_MODERATE_DEDUCTION;
+  if (!fid) {
+    return 0;
+  }
+  if (fid > METRICS_CONSTANTS.FID_POOR_THRESHOLD) {
+    return METRICS_CONSTANTS.FID_POOR_DEDUCTION;
+  }
+  if (fid > METRICS_CONSTANTS.FID_GOOD_THRESHOLD) {
+    return METRICS_CONSTANTS.FID_MODERATE_DEDUCTION;
+  }
   return 0;
 };
 
@@ -233,9 +245,15 @@ const calculateFIDDeductions = fid => {
  * @returns {number} Deduction amount
  */
 const calculateCLSDeductions = cls => {
-  if (cls === null) return 0;
-  if (cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) return METRICS_CONSTANTS.CLS_POOR_DEDUCTION;
-  if (cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) return METRICS_CONSTANTS.CLS_MODERATE_DEDUCTION;
+  if (cls === null) {
+    return 0;
+  }
+  if (cls > METRICS_CONSTANTS.CLS_POOR_THRESHOLD) {
+    return METRICS_CONSTANTS.CLS_POOR_DEDUCTION;
+  }
+  if (cls > METRICS_CONSTANTS.CLS_GOOD_THRESHOLD) {
+    return METRICS_CONSTANTS.CLS_MODERATE_DEDUCTION;
+  }
   return 0;
 };
 
@@ -245,8 +263,12 @@ const calculateCLSDeductions = cls => {
  * @returns {number} Deduction amount
  */
 const calculateTimingDeductions = totalTime => {
-  if (totalTime > METRICS_CONSTANTS.SLOW_TIMING_THRESHOLD) return METRICS_CONSTANTS.TIMING_SLOW_DEDUCTION;
-  if (totalTime > METRICS_CONSTANTS.MODERATE_TIMING_THRESHOLD) return METRICS_CONSTANTS.TIMING_MODERATE_DEDUCTION;
+  if (totalTime > METRICS_CONSTANTS.SLOW_TIMING_THRESHOLD) {
+    return METRICS_CONSTANTS.TIMING_SLOW_DEDUCTION;
+  }
+  if (totalTime > METRICS_CONSTANTS.MODERATE_TIMING_THRESHOLD) {
+    return METRICS_CONSTANTS.TIMING_MODERATE_DEDUCTION;
+  }
   return 0;
 };
 

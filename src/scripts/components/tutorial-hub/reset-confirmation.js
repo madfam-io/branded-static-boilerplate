@@ -150,7 +150,9 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
     if (confirmDialog.parentNode) {
       document.body.removeChild(confirmDialog);
     }
-    if (escapeHandler) document.removeEventListener('keydown', escapeHandler);
+    if (escapeHandler) {
+      document.removeEventListener('keydown', escapeHandler);
+    }
   };
 
   // Escape key handler
