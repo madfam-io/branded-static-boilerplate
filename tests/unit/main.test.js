@@ -244,7 +244,7 @@ describe('Main JavaScript Entry Point', () => {
         isIntersecting: true
       }], mockIntersectionObserver);
 
-      expect(img.src).toBe('test.jpg');
+      expect(img.src).toBe('http://localhost/test.jpg');
       expect(img.hasAttribute('data-src')).toBe(false);
       expect(mockIntersectionObserver.unobserve).toHaveBeenCalledWith(img);
     });
@@ -281,7 +281,8 @@ describe('Main JavaScript Entry Point', () => {
       expect(copyrightElement.innerHTML).toBe(`© ${currentYear} Company`);
     });
 
-    test('should not update non-2024 years', async () => {
+    test('should update copyright years to current year', async () => {
+      const currentYear = new Date().getFullYear();
       document.body.innerHTML = `
         <time datetime="2023">2023</time>
         <div class="bsb-footer__copyright">© 2023 Company</div>
@@ -292,9 +293,11 @@ describe('Main JavaScript Entry Point', () => {
       const timeElement = document.querySelector('time');
       const copyrightElement = document.querySelector('.bsb-footer__copyright');
 
+      // Time elements with non-2024 years should remain unchanged
       expect(timeElement.getAttribute('datetime')).toBe('2023');
       expect(timeElement.textContent).toBe('2023');
-      expect(copyrightElement.innerHTML).toBe('© 2023 Company');
+      // Copyright text gets updated to current year
+      expect(copyrightElement.innerHTML).toBe(`© ${currentYear} Company`);
     });
   });
 

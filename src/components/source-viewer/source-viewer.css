@@ -30,9 +30,9 @@
   width: 90%;
   max-width: 1200px;
   height: 85vh;
-  background: var(--bsb-bg-primary, #ffffff);
+  background: var(--bsb-bg-primary, #fff);
   border-radius: var(--bsb-radius-lg, 12px);
-  box-shadow: var(--bsb-shadow-2xl, 0 25px 50px -12px rgba(0, 0, 0, 0.25));
+  box-shadow: var(--bsb-shadow-2xl, 0 25px 50px -12px rgb(0 0 0 / 25%));
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -54,11 +54,8 @@
 /* Overlay backdrop */
 .bsb-source-viewer__overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
   backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
@@ -118,7 +115,7 @@
 }
 
 .bsb-source-viewer__close:hover {
-  background: var(--bsb-bg-primary, #ffffff);
+  background: var(--bsb-bg-primary, #fff);
   border-color: var(--bsb-border-dark, #d1d5db);
 }
 
@@ -157,7 +154,7 @@
 
 .bsb-source-viewer__tab:hover {
   color: var(--bsb-text-primary, #111827);
-  background: var(--bsb-bg-hover, rgba(0, 0, 0, 0.02));
+  background: var(--bsb-bg-hover, rgb(0 0 0 / 2%));
 }
 
 .bsb-source-viewer__tab--active {
@@ -178,10 +175,7 @@
 
 .bsb-source-viewer__panel {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -232,7 +226,7 @@
 }
 
 .bsb-source-viewer__action:hover {
-  background: var(--bsb-bg-hover-dark, rgba(255, 255, 255, 0.05));
+  background: var(--bsb-bg-hover-dark, rgb(255 255 255 / 5%));
   color: var(--bsb-text-primary-light, #e5e7eb);
   border-color: var(--bsb-border-light, #4b5563);
 }
@@ -454,7 +448,7 @@
 }
 
 [data-bsb-theme="dark"] .bsb-source-viewer__close:hover {
-  background: var(--bsb-bg-hover-dark, rgba(255, 255, 255, 0.05));
+  background: var(--bsb-bg-hover-dark, rgb(255 255 255 / 5%));
 }
 
 [data-bsb-theme="dark"] .bsb-source-viewer__metric,
@@ -469,7 +463,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bsb-source-viewer {
     width: 95%;
     height: 90vh;
@@ -527,9 +521,11 @@
   0% {
     background: transparent;
   }
+
   50% {
-    background: rgba(59, 130, 246, 0.1);
+    background: rgb(59 130 246 / 10%);
   }
+
   100% {
     background: transparent;
   }

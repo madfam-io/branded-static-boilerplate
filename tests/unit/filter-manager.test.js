@@ -104,7 +104,6 @@ describe('FilterManager', () => {
     mockUpdateCallback = jest.fn();
 
     filterManager = new FilterManager(
-      mockContainer,
       mockTutorials,
       mockUpdateCallback
     );
@@ -118,24 +117,23 @@ describe('FilterManager', () => {
 
   describe('constructor', () => {
     test('should initialize with provided parameters', () => {
-      expect(filterManager.container).toBe(mockContainer);
       expect(filterManager.tutorials).toBe(mockTutorials);
-      expect(filterManager.updateCallback).toBe(mockUpdateCallback);
+      expect(filterManager.onFilterChange).toBe(mockUpdateCallback);
     });
 
     test('should initialize with default filters', () => {
       expect(filterManager.currentFilters).toEqual({
         difficulty: '',
         topic: '',
-        search: '',
-        sort: 'difficulty'
+        sort: 'difficulty',
+        search: ''
       });
     });
 
     test('should setup event listeners', () => {
       const addEventListenerSpy = jest.spyOn(mockSearchInput, 'addEventListener');
       
-      new FilterManager(mockContainer, mockTutorials, mockUpdateCallback);
+      new FilterManager(mockTutorials, mockUpdateCallback);
       
       expect(addEventListenerSpy).toHaveBeenCalled();
       addEventListenerSpy.mockRestore();
@@ -152,7 +150,6 @@ describe('FilterManager', () => {
       localStorageMock.getItem.mockReturnValue(JSON.stringify(savedFilters));
       
       const newFilterManager = new FilterManager(
-        mockContainer,
         mockTutorials,
         mockUpdateCallback
       );
@@ -165,7 +162,7 @@ describe('FilterManager', () => {
       localStorageMock.getItem.mockReturnValue('invalid-json');
       
       expect(() => {
-        new FilterManager(mockContainer, mockTutorials, mockUpdateCallback);
+        new FilterManager(mockTutorials, mockUpdateCallback);
       }).not.toThrow();
     });
   });
@@ -303,13 +300,16 @@ describe('FilterManager', () => {
       
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'bsb-tutorial-filters',
-        JSON.stringify({
-          difficulty: '',
-          topic: '',
-          search: '',
-          sort: 'difficulty'
-        })
+        expect.any(String)
       );
+      
+      const savedFilters = JSON.parse(localStorageMock.setItem.mock.calls[0][1]);
+      expect(savedFilters).toEqual({
+        difficulty: '',
+        topic: '',
+        search: '',
+        sort: 'difficulty'
+      });
     });
 
     test('should call updateCallback after reset', () => {
@@ -375,7 +375,15 @@ describe('FilterManager', () => {
   });
 
   describe('Search Debouncing', () => {
-    test('should debounce search input', (done) => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+    
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+    
+    test('should debounce search input', () => {
       const updateFilterSpy = jest.spyOn(filterManager, 'updateFilter');
       
       // Simulate rapid typing
@@ -391,13 +399,13 @@ describe('FilterManager', () => {
       // Should not be called immediately
       expect(updateFilterSpy).not.toHaveBeenCalled();
       
+      // Fast forward time to trigger debounce
+      jest.advanceTimersByTime(300);
+      
       // Should be called after debounce delay
-      setTimeout(() => {
-        expect(updateFilterSpy).toHaveBeenCalledWith('search', 'flex');
-        expect(updateFilterSpy).toHaveBeenCalledTimes(1);
-        updateFilterSpy.mockRestore();
-        done();
-      }, 350);
+      expect(updateFilterSpy).toHaveBeenCalledWith('search', 'flex');
+      expect(updateFilterSpy).toHaveBeenCalledTimes(1);
+      updateFilterSpy.mockRestore();
     });
   });
 
@@ -406,13 +414,13 @@ describe('FilterManager', () => {
       document.body.innerHTML = '';
       
       expect(() => {
-        new FilterManager(null, mockTutorials, mockUpdateCallback);
+        new FilterManager(mockTutorials, mockUpdateCallback);
       }).not.toThrow();
     });
 
     test('should handle null tutorials array', () => {
       expect(() => {
-        new FilterManager(mockContainer, null, mockUpdateCallback);
+        new FilterManager(null, mockUpdateCallback);
       }).not.toThrow();
     });
 
@@ -428,7 +436,6 @@ describe('FilterManager', () => {
 
     test('should handle invalid callback', () => {
       const invalidFilterManager = new FilterManager(
-        mockContainer,
         mockTutorials,
         'not-a-function'
       );

@@ -77,11 +77,7 @@ export const getBrowserLanguage = () => {
  * @param {Object} params - Parameters to replace
  * @returns {string} Formatted string
  */
-export const formatString = (str, params = {}) => {
-  return str.replace(/{(\w+)}/g, (match, key) => {
-    return params[key] !== undefined ? params[key] : match;
-  });
-};
+export const formatString = (str, params = {}) => str.replace(/{(\w+)}/g, (match, key) => params[key] !== undefined ? params[key] : match);
 
 /**
  * Export everything from component-specific translations

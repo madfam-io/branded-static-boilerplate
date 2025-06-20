@@ -90,7 +90,7 @@
 .bsb-seo-analyzer__toggle-icon {
   width: 16px;
   height: 2px;
-  background: currentColor;
+  background: currentcolor;
   transition: transform 0.2s;
 }
 
@@ -495,7 +495,7 @@
 }
 
 /* Mobile Adjustments */
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .bsb-seo-analyzer {
     width: 100%;
     max-width: 100%;

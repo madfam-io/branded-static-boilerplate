@@ -9,8 +9,6 @@
         "message": "Expected class selector to follow BEM methodology (block__element--modifier)"
       }
     ],
-    "indentation": 2,
-    "string-quotes": "single",
     "no-descending-specificity": null
   },
   "ignoreFiles": [

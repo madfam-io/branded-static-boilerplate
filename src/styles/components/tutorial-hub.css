@@ -32,10 +32,7 @@
 .bsb-hero--tutorials::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-image:
     radial-gradient(circle at 25% 25%, var(--color-primary-200) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, var(--color-secondary-200) 0%, transparent 50%);
@@ -60,10 +57,10 @@
 .hero-stat {
   text-align: center;
   padding: var(--spacing-md);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 10%);
   border-radius: var(--border-radius-md);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(255 255 255 / 20%);
 }
 
 .hero-stat__number {
@@ -83,7 +80,7 @@
   letter-spacing: 0.05em;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bsb-hero__stats {
     gap: var(--spacing-md);
   }
@@ -207,7 +204,7 @@
   letter-spacing: 0.05em;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .learning-progress-overview {
     grid-template-columns: 1fr;
     text-align: center;
@@ -430,7 +427,7 @@
   color: var(--color-text-muted);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .learning-paths-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
@@ -490,7 +487,7 @@
   box-shadow: 0 0 0 2px rgba(var(--color-primary-500), 0.2);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .tutorial-filters {
     flex-direction: column;
     gap: var(--spacing-md);
@@ -674,7 +671,7 @@
   color: var(--color-text-muted);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .tutorials-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
@@ -708,7 +705,7 @@
 
 .cta-description {
   font-size: var(--font-size-lg);
-  color: rgba(255, 255, 255, 0.9);
+  color: rgb(255 255 255 / 90%);
   line-height: 1.6;
   margin-bottom: var(--spacing-xl);
 }
@@ -722,11 +719,11 @@
 }
 
 .cta-note {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   font-style: italic;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .cta-actions {
     flex-direction: column;
     align-items: center;
@@ -757,11 +754,11 @@
 @media (prefers-contrast: high) {
   .tutorial-badge,
   .topic-tag {
-    border: 1px solid currentColor;
+    border: 1px solid currentcolor;
   }
 
   .progress-bar {
-    border: 1px solid currentColor;
+    border: 1px solid currentcolor;
   }
 
   .learning-path,
@@ -773,8 +770,8 @@
 /* Dark Mode Adjustments */
 @media (prefers-color-scheme: dark) {
   .hero-stat {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgb(255 255 255 / 5%);
+    border-color: rgb(255 255 255 / 10%);
   }
 
   .learning-path--featured {
@@ -785,7 +782,7 @@
 
   .tutorial-card__highlights,
   .learning-path__highlights {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgb(255 255 255 / 2%);
   }
 }
 

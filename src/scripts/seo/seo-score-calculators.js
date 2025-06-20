@@ -237,6 +237,10 @@ export const calculateContentScore = page => {
  * @returns {number} Technical score
  */
 export const calculateTechnicalScore = page => {
+  if (!page) {
+    return 0;
+  }
+  
   let score = 0;
 
   if (page.canonical) {

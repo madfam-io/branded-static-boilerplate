@@ -117,7 +117,7 @@
 @media (prefers-contrast: high) {
   .bsb-language-toggle__button {
     border-width: 2px;
-    border-color: currentColor;
+    border-color: currentcolor;
   }
 
   .bsb-language-toggle__button:focus {
@@ -138,7 +138,7 @@
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bsb-language-toggle {
     margin-right: var(--bsb-space-2);
   }
@@ -149,7 +149,7 @@
   }
 
   /* Show only current language on very small screens */
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .bsb-language-toggle__arrow,
     .bsb-language-toggle__target {
       display: none;
@@ -193,7 +193,6 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
   margin-top: var(--bsb-space-2);
 
   /* Styling */

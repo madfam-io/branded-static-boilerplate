@@ -276,12 +276,12 @@
 }
 
 .bsb-file-explorer__tooltip-meta {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgb(255 255 255 / 80%);
   font-size: var(--bsb-text-xs);
 }
 
 .bsb-file-explorer__tooltip-learn-more {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
   border: none;
   border-radius: var(--bsb-radius-sm);
   color: inherit;
@@ -292,13 +292,13 @@
 }
 
 .bsb-file-explorer__tooltip-learn-more:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255 255 255 / 30%);
 }
 
 .bsb-file-explorer__tooltip-arrow {
   border-color: var(--bsb-text-primary) transparent transparent transparent;
   border-style: solid;
-  border-width: 6px 6px 0 6px;
+  border-width: 6px 6px 0;
   bottom: -6px;
   height: 0;
   left: 50%;
@@ -406,7 +406,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bsb-file-explorer__tooltip {
     font-size: var(--bsb-text-xs);
     max-width: 280px;

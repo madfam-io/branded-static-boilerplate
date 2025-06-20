@@ -136,8 +136,8 @@
 }
 
 .code-block__copy {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 20%);
   border-radius: var(--bsb-radius-sm);
   color: var(--bsb-text-code);
   cursor: pointer;
@@ -147,8 +147,8 @@
 }
 
 .code-block__copy:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgb(255 255 255 / 20%);
+  border-color: rgb(255 255 255 / 30%);
 }
 
 .code-block pre {
@@ -350,7 +350,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .component-nav {
     top: 60px; /* Adjusted for mobile header */
   }
@@ -385,7 +385,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .button-group {
     flex-direction: column;
     align-items: stretch;

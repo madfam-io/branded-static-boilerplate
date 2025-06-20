@@ -71,6 +71,7 @@ export const initializeLazyLoading = (selector = 'img[data-src]') => {
   });
 
   document.querySelectorAll(selector).forEach(img => {
+    img.classList.add('lazy');
     imageObserver.observe(img);
   });
 

@@ -12,11 +12,11 @@
 const getConfirmationHTML = () => `
   <div class="tutorial-hub__confirm-backdrop"></div>
   <div class="tutorial-hub__confirm-content">
-    <h3>Reset Learning Progress</h3>
-    <p>Are you sure you want to reset all learning progress? This cannot be undone.</p>
+    <h3>Reset Tutorial Progress</h3>
+    <p>Are you sure you want to reset all tutorial progress? This action cannot be undone.</p>
     <div class="tutorial-hub__confirm-actions">
-      <button class="tutorial-hub__confirm-cancel">Cancel</button>
-      <button class="tutorial-hub__confirm-reset">Reset Progress</button>
+      <button type="button" class="tutorial-hub__confirm-cancel">Cancel</button>
+      <button type="button" class="tutorial-hub__confirm-reset">Reset Progress</button>
     </div>
   </div>
 `;
@@ -115,53 +115,57 @@ const injectConfirmationStyles = () => {
     const styles = document.createElement('style');
     styles.id = 'tutorial-hub-confirm-styles';
     styles.textContent = getConfirmationStyles();
-    document.head.appendChild(styles);
+    
+    // Handle missing document.head
+    if (!document.head) {
+      console.error('document.head is not available');
+      return;
+    }
+    
+    try {
+      document.head.appendChild(styles);
+    } catch (error) {
+      console.error('Failed to inject confirmation styles:', error);
+    }
   }
 };
 
 /**
- * Show reset confirmation dialog
- * @param {Function} onConfirm - Callback when reset is confirmed
- * @param {Function} onCancel - Optional callback when cancelled
- * @returns {void}
+ * Create and setup dialog element
+ * @returns {HTMLElement} Dialog element
  */
-export const showResetConfirmation = (onConfirm, onCancel = null) => {
-  // Inject styles
-  injectConfirmationStyles();
-
-  // Create dialog
+const createDialogElement = () => {
   const confirmDialog = document.createElement('div');
   confirmDialog.className = 'tutorial-hub__confirm-dialog';
   confirmDialog.innerHTML = getConfirmationHTML();
+  return confirmDialog;
+};
 
-  // Add to document
-  document.body.appendChild(confirmDialog);
-
-  // Get elements
-  const cancelBtn = confirmDialog.querySelector('.tutorial-hub__confirm-cancel');
-  const resetBtn = confirmDialog.querySelector('.tutorial-hub__confirm-reset');
-  const backdrop = confirmDialog.querySelector('.tutorial-hub__confirm-backdrop');
-
-  // Declare handler variable first to avoid circular dependency
-  let escapeHandler;
-
-  // Close dialog function
-  const closeDialog = () => {
-    if (confirmDialog.parentNode) {
-      document.body.removeChild(confirmDialog);
-    }
-    if (escapeHandler) {
-      document.removeEventListener('keydown', escapeHandler);
-    }
-  };
+/**
+ * Setup dialog event handlers
+ * @param {Object} elements - Dialog elements
+ * @param {Function} closeDialog - Close dialog function
+ * @param {Function} onConfirm - Confirm callback
+ * @param {Function} onCancel - Cancel callback
+ */
+const setupEventHandlers = (elements, closeDialog, onConfirm, onCancel) => {
+  const { cancelBtn, resetBtn, backdrop } = elements;
 
   // Escape key handler
-  escapeHandler = (event) => {
-    if (event.key === 'Escape') {
-      closeDialog();
-      if (onCancel) {
-        onCancel();
+  const escapeHandler = event => {
+    try {
+      if (event.key === 'Escape') {
+        closeDialog();
+        if (onCancel) {
+          try {
+            onCancel();
+          } catch (error) {
+            console.error('Error in onCancel callback:', error);
+          }
+        }
       }
+    } catch (error) {
+      console.error('Error in escape key handler:', error);
     }
   };
 
@@ -175,7 +179,11 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
 
   const handleConfirm = () => {
     closeDialog();
-    onConfirm();
+    try {
+      onConfirm();
+    } catch (error) {
+      console.error('Error in onConfirm callback:', error);
+    }
   };
 
   // Add event listeners
@@ -183,4 +191,59 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
   resetBtn.addEventListener('click', handleConfirm);
   backdrop.addEventListener('click', handleCancel);
   document.addEventListener('keydown', escapeHandler);
+
+  return escapeHandler;
+};
+
+/**
+ * Show reset confirmation dialog
+ * @param {Function} onConfirm - Callback when reset is confirmed
+ * @param {Function} onCancel - Optional callback when cancelled
+ * @returns {void}
+ */
+export const showResetConfirmation = (onConfirm, onCancel = null) => {
+  try {
+    // Inject styles
+    injectConfirmationStyles();
+
+    // Create dialog
+    const confirmDialog = createDialogElement();
+    
+    // Try to append dialog with error handling
+    try {
+      document.body.appendChild(confirmDialog);
+    } catch (domError) {
+      console.error('Failed to append dialog to DOM:', domError);
+      return;
+    }
+
+    // Get elements
+    const elements = {
+      cancelBtn: confirmDialog.querySelector('.tutorial-hub__confirm-cancel'),
+      resetBtn: confirmDialog.querySelector('.tutorial-hub__confirm-reset'),
+      backdrop: confirmDialog.querySelector('.tutorial-hub__confirm-backdrop')
+    };
+
+    // Initialize handler variable
+    let escapeHandler = null;
+
+    // Close dialog function
+    const closeDialog = () => {
+      try {
+        if (confirmDialog.parentNode) {
+          document.body.removeChild(confirmDialog);
+        }
+        if (escapeHandler) {
+          document.removeEventListener('keydown', escapeHandler);
+        }
+      } catch (error) {
+        console.error('Error closing dialog:', error);
+      }
+    };
+
+    // Setup event handlers
+    escapeHandler = setupEventHandlers(elements, closeDialog, onConfirm, onCancel);
+  } catch (error) {
+    console.error('Error in showResetConfirmation:', error);
+  }
 };

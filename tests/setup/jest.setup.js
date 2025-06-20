@@ -179,7 +179,9 @@ global.mockViewport = (width, height = 768) => {
 afterEach(() => {
   // Clear DOM
   document.body.innerHTML = '';
-  document.head.innerHTML = '';
+  if (document.head) {
+    document.head.innerHTML = '';
+  }
 
   // Clear mocks
   jest.clearAllMocks();

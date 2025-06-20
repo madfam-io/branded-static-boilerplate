@@ -31,6 +31,7 @@ import {
   updateDashboard,
   showPerformanceToast
 } from './performance/dashboard-ui.js';
+import { createElementFromHTML } from './helpers/safe-html.js';
 import {
   initializeLazyLoading,
   preloadCriticalResources,
@@ -59,6 +60,7 @@ class PerformanceOptimizer {
     };
     this.dashboard = null;
     this.updateInterval = null;
+    this.observers = {}; // Track IntersectionObserver instances
     this.init();
   }
 
@@ -136,9 +138,7 @@ class PerformanceOptimizer {
    */
   createDashboard() {
     const template = createDashboardTemplate(this.metrics);
-    const container = document.createElement('div');
-    container.innerHTML = template;
-    this.dashboard = container.firstElementChild;
+    this.dashboard = createElementFromHTML(template);
 
     // Add to page
     document.body.appendChild(this.dashboard);
@@ -213,6 +213,126 @@ class PerformanceOptimizer {
   }
 
   /**
+   * Optimize resource hints for better loading performance
+   */
+  optimizeResourceHints() {
+    // Add preconnect hints for external resources
+    const externalHosts = new Set();
+
+    // Find all external resources
+    const resources = document.querySelectorAll('link[href], script[src], img[src]');
+    resources.forEach(resource => {
+      const url = resource.href || resource.src;
+      if (url && url.startsWith('http')) {
+        try {
+          const urlObj = new URL(url);
+          if (urlObj.host !== window.location.host) {
+            externalHosts.add(urlObj.origin);
+          }
+        } catch (e) {
+          // Invalid URL
+        }
+      }
+    });
+
+    // Add preconnect hints
+    externalHosts.forEach(host => {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = host;
+      document.head.appendChild(link);
+    });
+
+    debug.log(`Added preconnect hints for ${externalHosts.size} external hosts`);
+  }
+
+  /**
+   * Optimize critical CSS delivery
+   */
+  optimizeCriticalCSS() {
+    // Find all stylesheets
+    const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+
+    stylesheets.forEach(stylesheet => {
+      // Skip already optimized sheets
+      if (stylesheet.dataset.critical === 'true') {return;}
+
+      // For non-critical stylesheets, load them asynchronously
+      if (!stylesheet.href.includes('critical')) {
+        const newLink = document.createElement('link');
+        newLink.rel = 'preload';
+        newLink.as = 'style';
+        newLink.href = stylesheet.href;
+        newLink.onload = function() {
+          this.onload = null;
+          this.rel = 'stylesheet';
+        };
+
+        // Insert before the original link
+        stylesheet.parentNode.insertBefore(newLink, stylesheet);
+        // Remove the original blocking link
+        stylesheet.remove();
+      }
+    });
+
+    debug.log('Optimized critical CSS delivery');
+  }
+
+  /**
+   * Measure Web Vitals metrics
+   */
+  measureWebVitals() {
+    // Measure Largest Contentful Paint (LCP)
+    if ('PerformanceObserver' in window) {
+      try {
+        const lcpObserver = new PerformanceObserver(entryList => {
+          const entries = entryList.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          this.metrics.vitals.lcp = lastEntry.renderTime || lastEntry.loadTime;
+          debug.log(`LCP: ${this.metrics.vitals.lcp}ms`);
+        });
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        this.observers.lcp = lcpObserver;
+      } catch (e) {
+        // LCP observer not supported
+      }
+
+      // Measure First Input Delay (FID)
+      try {
+        const fidObserver = new PerformanceObserver(entryList => {
+          const entries = entryList.getEntries();
+          entries.forEach(entry => {
+            this.metrics.vitals.fid = entry.processingStart - entry.startTime;
+            debug.log(`FID: ${this.metrics.vitals.fid}ms`);
+          });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+        this.observers.fid = fidObserver;
+      } catch (e) {
+        // FID observer not supported
+      }
+
+      // Measure Cumulative Layout Shift (CLS)
+      try {
+        let clsValue = 0;
+        const clsObserver = new PerformanceObserver(entryList => {
+          for (const entry of entryList.getEntries()) {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+              this.metrics.vitals.cls = clsValue;
+            }
+          }
+          debug.log(`CLS: ${this.metrics.vitals.cls}`);
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+        this.observers.cls = clsObserver;
+      } catch (e) {
+        // CLS observer not supported
+      }
+    }
+  }
+
+  /**
    * Cleanup resources
    */
   cleanup() {
@@ -223,6 +343,13 @@ class PerformanceOptimizer {
     if (this.dashboard) {
       this.dashboard.remove();
     }
+
+    // Disconnect all observers
+    Object.values(this.observers).forEach(observer => {
+      if (observer && observer.disconnect) {
+        observer.disconnect();
+      }
+    });
   }
 }
 

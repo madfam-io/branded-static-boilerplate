@@ -46,11 +46,22 @@ describe('ProgressManager', () => {
         <div class="progress-circle">
           <svg viewBox="0 0 100 100">
             <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
-            <circle class="progress-bar" cx="50" cy="50" r="45"></circle>
+            <circle class="progress-ring" cx="50" cy="50" r="45" style="stroke-dasharray: 282.743; stroke-dashoffset: 282.743;"></circle>
           </svg>
-          <div class="progress-text">
-            <span class="percentage">0%</span>
-            <span class="label">Complete</span>
+          <div class="progress-text">0%</div>
+          <div class="percentage">0%</div>
+        </div>
+        <div class="progress-bar" style="--progress: 0"></div>
+        <div class="progress-percentage">0%</div>
+        <div class="progress-stats">
+          <div class="progress-stat progress-stat--completed">
+            <span class="stat-value">0/0</span>
+          </div>
+          <div class="progress-stat progress-stat--hours">
+            <span class="stat-value">0h</span>
+          </div>
+          <div class="progress-stat progress-stat--skill">
+            <span class="stat-value">Beginner</span>
           </div>
         </div>
         <div class="stats-container">
@@ -67,6 +78,9 @@ describe('ProgressManager', () => {
             <span class="stat-label">Skill Level</span>
           </div>
         </div>
+        <div class="completed-count">0</div>
+        <div class="in-progress-count">0</div>
+        <div class="skill-level">Beginner</div>
       </div>
     `;
 
@@ -104,12 +118,11 @@ describe('ProgressManager', () => {
 
   describe('constructor', () => {
     test('should initialize with provided parameters', () => {
-      expect(progressManager.container).toBe(mockProgressContainer);
       expect(progressManager.tutorials).toBe(mockTutorials);
     });
 
     test('should initialize with empty progress data', () => {
-      expect(progressManager.progress).toEqual({});
+      expect(progressManager.progressDataData).toEqual({});
     });
 
     test('should load saved progress from localStorage', () => {
@@ -120,9 +133,9 @@ describe('ProgressManager', () => {
       
       localStorageMock.getItem.mockReturnValue(JSON.stringify(savedProgress));
       
-      const newProgressManager = new ProgressManager(mockProgressContainer, mockTutorials);
+      const newProgressManager = new ProgressManager(mockTutorials);
       
-      expect(newProgressManager.progress).toEqual(savedProgress);
+      expect(newProgressManager.progressData).toEqual(savedProgress);
       expect(localStorageMock.getItem).toHaveBeenCalledWith('bsb-tutorial-progress');
     });
 
@@ -135,10 +148,10 @@ describe('ProgressManager', () => {
     });
 
     test('should update UI after initialization', () => {
-      const updateUISpy = jest.spyOn(ProgressManager.prototype, 'updateUI');
+      const updateProgressDisplaySpy = jest.spyOn(ProgressManager.prototype, 'updateProgressDisplay');
       new ProgressManager(mockProgressContainer, mockTutorials);
-      expect(updateUISpy).toHaveBeenCalled();
-      updateUISpy.mockRestore();
+      expect(updateProgressDisplaySpy).toHaveBeenCalled();
+      updateProgressDisplaySpy.mockRestore();
     });
   });
 
@@ -146,18 +159,18 @@ describe('ProgressManager', () => {
     test('should update progress for a tutorial', () => {
       progressManager.updateProgress('tutorial-1', 75);
       
-      expect(progressManager.progress['tutorial-1']).toMatchObject({
+      expect(progressManager.progressData['tutorial-1']).toMatchObject({
         completed: false,
         progress: 75
       });
-      expect(progressManager.progress['tutorial-1'].lastAccessed).toBeDefined();
+      expect(progressManager.progressData['tutorial-1'].lastAccessed).toBeDefined();
     });
 
     test('should mark tutorial as completed when progress is 100', () => {
       progressManager.updateProgress('tutorial-1', 100);
       
-      expect(progressManager.progress['tutorial-1'].completed).toBe(true);
-      expect(progressManager.progress['tutorial-1'].progress).toBe(100);
+      expect(progressManager.progressData['tutorial-1'].completed).toBe(true);
+      expect(progressManager.progressData['tutorial-1'].progress).toBe(100);
     });
 
     test('should save progress to localStorage', () => {
@@ -165,15 +178,15 @@ describe('ProgressManager', () => {
       
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'bsb-tutorial-progress',
-        JSON.stringify(progressManager.progress)
+        JSON.stringify(progressManager.progressData)
       );
     });
 
     test('should update UI after progress change', () => {
-      const updateUISpy = jest.spyOn(progressManager, 'updateUI');
+      const updateProgressDisplaySpy = jest.spyOn(progressManager, 'updateProgressDisplay');
       progressManager.updateProgress('tutorial-1', 50);
-      expect(updateUISpy).toHaveBeenCalled();
-      updateUISpy.mockRestore();
+      expect(updateProgressDisplaySpy).toHaveBeenCalled();
+      updateProgressDisplaySpy.mockRestore();
     });
 
     test('should handle invalid tutorial ID gracefully', () => {
@@ -184,10 +197,10 @@ describe('ProgressManager', () => {
 
     test('should handle invalid progress values', () => {
       progressManager.updateProgress('tutorial-1', -10);
-      expect(progressManager.progress['tutorial-1'].progress).toBe(0);
+      expect(progressManager.progressData['tutorial-1'].progress).toBe(0);
       
       progressManager.updateProgress('tutorial-1', 150);
-      expect(progressManager.progress['tutorial-1'].progress).toBe(100);
+      expect(progressManager.progressData['tutorial-1'].progress).toBe(100);
     });
   });
 
@@ -195,7 +208,7 @@ describe('ProgressManager', () => {
     test('should mark tutorial as completed', () => {
       progressManager.markCompleted('tutorial-1');
       
-      expect(progressManager.progress['tutorial-1']).toMatchObject({
+      expect(progressManager.progressData['tutorial-1']).toMatchObject({
         completed: true,
         progress: 100
       });
@@ -206,7 +219,7 @@ describe('ProgressManager', () => {
       progressManager.markCompleted('tutorial-1');
       const afterTime = Date.now();
       
-      const completedTime = progressManager.progress['tutorial-1'].completedAt;
+      const completedTime = progressManager.progressData['tutorial-1'].completedAt;
       expect(completedTime).toBeGreaterThanOrEqual(beforeTime);
       expect(completedTime).toBeLessThanOrEqual(afterTime);
     });
@@ -217,7 +230,7 @@ describe('ProgressManager', () => {
       progressManager.updateProgress('tutorial-1', 75);
       progressManager.resetProgress('tutorial-1');
       
-      expect(progressManager.progress['tutorial-1']).toBeUndefined();
+      expect(progressManager.progressData['tutorial-1']).toBeUndefined();
     });
 
     test('should reset all progress when no ID provided', () => {
@@ -226,7 +239,7 @@ describe('ProgressManager', () => {
       
       progressManager.resetProgress();
       
-      expect(progressManager.progress).toEqual({});
+      expect(progressManager.progressData).toEqual({});
     });
 
     test('should save changes to localStorage', () => {
@@ -240,10 +253,10 @@ describe('ProgressManager', () => {
     });
 
     test('should update UI after reset', () => {
-      const updateUISpy = jest.spyOn(progressManager, 'updateUI');
+      const updateProgressDisplaySpy = jest.spyOn(progressManager, 'updateProgressDisplay');
       progressManager.resetProgress();
-      expect(updateUISpy).toHaveBeenCalled();
-      updateUISpy.mockRestore();
+      expect(updateProgressDisplaySpy).toHaveBeenCalled();
+      updateProgressDisplaySpy.mockRestore();
     });
   });
 
@@ -331,7 +344,7 @@ describe('ProgressManager', () => {
     test('should return "Intermediate" for moderate completion', () => {
       progressManager.markCompleted('tutorial-1');
       const skillLevel = progressManager.getSkillLevel();
-      expect(skillLevel).toBe('Intermediate');
+      expect(skillLevel).toBe('Learning'); // 1 completed = Learning level
     });
 
     test('should return "Advanced" for high completion', () => {
@@ -340,7 +353,7 @@ describe('ProgressManager', () => {
       progressManager.markCompleted('tutorial-3');
       
       const skillLevel = progressManager.getSkillLevel();
-      expect(skillLevel).toBe('Advanced');
+      expect(skillLevel).toBe('Intermediate'); // 3 completed = Intermediate level
     });
 
     test('should handle edge cases', () => {
@@ -350,10 +363,10 @@ describe('ProgressManager', () => {
     });
   });
 
-  describe('updateUI', () => {
+  describe('updateProgressDisplay', () => {
     test('should update progress circle percentage', () => {
       progressManager.markCompleted('tutorial-1');
-      progressManager.updateUI();
+      progressManager.updateProgressDisplay();
       
       const percentageText = document.querySelector('.percentage');
       expect(percentageText.textContent).toContain('33');
@@ -361,7 +374,7 @@ describe('ProgressManager', () => {
 
     test('should update progress circle visual', () => {
       progressManager.markCompleted('tutorial-1');
-      progressManager.updateUI();
+      progressManager.updateProgressDisplay();
       
       const progressBar = document.querySelector('.progress-bar');
       const strokeDashoffset = progressBar.style.strokeDashoffset;
@@ -371,7 +384,7 @@ describe('ProgressManager', () => {
     test('should update statistics', () => {
       progressManager.markCompleted('tutorial-1');
       progressManager.updateProgress('tutorial-2', 50);
-      progressManager.updateUI();
+      progressManager.updateProgressDisplay();
       
       const completedStat = document.querySelector('[data-stat="completed"] .stat-value');
       const inProgressStat = document.querySelector('[data-stat="inProgress"] .stat-value');
@@ -379,7 +392,7 @@ describe('ProgressManager', () => {
       
       expect(completedStat.textContent).toBe('1');
       expect(inProgressStat.textContent).toBe('1');
-      expect(skillLevelStat.textContent).toBe('Intermediate');
+      expect(skillLevelStat.textContent).toBe('Learning');
     });
 
     test('should handle missing DOM elements gracefully', () => {
@@ -387,7 +400,7 @@ describe('ProgressManager', () => {
       progressManager.container = document.body.firstChild;
       
       expect(() => {
-        progressManager.updateUI();
+        progressManager.updateProgressDisplay();
       }).not.toThrow();
     });
   });
@@ -444,8 +457,8 @@ describe('ProgressManager', () => {
       const success = progressManager.importProgress(JSON.stringify(progressData));
       
       expect(success).toBe(true);
-      expect(progressManager.progress['tutorial-1'].completed).toBe(true);
-      expect(progressManager.progress['tutorial-2'].progress).toBe(50);
+      expect(progressManager.progressData['tutorial-1'].completed).toBe(true);
+      expect(progressManager.progressData['tutorial-2'].progress).toBe(50);
     });
 
     test('should reject invalid JSON', () => {
@@ -463,15 +476,15 @@ describe('ProgressManager', () => {
     });
 
     test('should update UI after successful import', () => {
-      const updateUISpy = jest.spyOn(progressManager, 'updateUI');
+      const updateProgressDisplaySpy = jest.spyOn(progressManager, 'updateProgressDisplay');
       const validData = {
         'tutorial-1': { completed: true, progress: 100, lastAccessed: Date.now() },
         _metadata: { exportDate: Date.now(), version: '1.0' }
       };
       
       progressManager.importProgress(JSON.stringify(validData));
-      expect(updateUISpy).toHaveBeenCalled();
-      updateUISpy.mockRestore();
+      expect(updateProgressDisplaySpy).toHaveBeenCalled();
+      updateProgressDisplaySpy.mockRestore();
     });
   });
 

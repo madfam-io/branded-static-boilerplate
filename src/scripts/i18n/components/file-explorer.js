@@ -41,7 +41,7 @@ export const fileExplorerTranslations = {
     descriptions: {
       src: 'Source code directory',
       dist: 'Distribution/build output',
-      node_modules: 'NPM dependencies',
+      nodeModules: 'NPM dependencies',
       public: 'Public assets',
       components: 'Reusable components',
       styles: 'CSS/SCSS files',
@@ -89,7 +89,7 @@ export const fileExplorerTranslations = {
     descriptions: {
       src: 'Directorio de código fuente',
       dist: 'Salida de distribución/compilación',
-      node_modules: 'Dependencias NPM',
+      nodeModules: 'Dependencias NPM',
       public: 'Activos públicos',
       components: 'Componentes reutilizables',
       styles: 'Archivos CSS/SCSS',

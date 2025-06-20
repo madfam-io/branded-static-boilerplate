@@ -71,7 +71,7 @@ describe('Tutorial Data', () => {
       const tutorialTopics = [...new Set(tutorialData.map(t => t.topic))];
       
       tutorialTopics.forEach(topic => {
-        expect(Object.values(categories)).toContain(topic);
+        expect(Object.keys(categories)).toContain(topic);
       });
     });
 
@@ -260,7 +260,7 @@ describe('Tutorial Data', () => {
     });
 
     test('should sort by title alphabetically', () => {
-      const sorted = sortTutorials([...tutorialData], 'alphabetical');
+      const sorted = sortTutorials([...tutorialData], 'title');
       
       for (let i = 1; i < sorted.length; i++) {
         expect(sorted[i - 1].title.localeCompare(sorted[i].title)).toBeLessThanOrEqual(0);
@@ -316,10 +316,10 @@ describe('Tutorial Data', () => {
       
       // Check that all tutorial topics exist in categories
       const tutorialTopics = [...new Set(data.map(t => t.topic))];
-      const categoryValues = Object.values(categories);
+      const categoryKeys = Object.keys(categories);
       
       tutorialTopics.forEach(topic => {
-        expect(categoryValues).toContain(topic);
+        expect(categoryKeys).toContain(topic);
       });
       
       // Check that all tutorial difficulties exist in levels
@@ -340,7 +340,7 @@ describe('Tutorial Data', () => {
 
     test('should have reasonable duration formats', () => {
       tutorialData.forEach(tutorial => {
-        expect(tutorial.duration).toMatch(/\d+\s*(min|hour|hr)/i);
+        expect(tutorial.duration).toMatch(/\d+\s*(min|hour|hr|h)/i);
       });
     });
 

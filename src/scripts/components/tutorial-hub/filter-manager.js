@@ -15,13 +15,15 @@ const FILTER_CONSTANTS = {
  */
 export class FilterManager {
   constructor(tutorials, onFilterChange) {
-    this.tutorials = tutorials;
+    this.tutorials = tutorials || [];
     this.onFilterChange = onFilterChange;
     this.currentFilters = {
-      difficulty: 'all',
-      topic: 'all',
-      sort: 'recommended'
+      difficulty: '',
+      topic: '',
+      sort: 'difficulty',
+      search: ''
     };
+    this.searchTimeout = null;
 
     this.init();
   }
@@ -40,17 +42,18 @@ export class FilterManager {
    * Setup filter DOM elements
    */
   setupFilterElements() {
-    this.difficultyFilter = document.getElementById('difficulty-filter');
-    this.topicFilter = document.getElementById('topic-filter');
+    this.difficultyFilter = document.getElementById('difficulty-filter') || document.getElementById('difficulty-select');
+    this.topicFilter = document.getElementById('topic-filter') || document.getElementById('topic-select');
     this.sortSelect = document.getElementById('sort-select');
     this.searchInput = document.getElementById('search-input');
+    this.resetButton = document.getElementById('reset-filters');
   }
 
   /**
    * Restore filter states from localStorage
    */
   restoreFilterStates() {
-    const savedFilters = localStorage.getItem('tutorial-hub-filters');
+    const savedFilters = localStorage.getItem('bsb-tutorial-filters');
 
     if (savedFilters) {
       try {
@@ -58,13 +61,16 @@ export class FilterManager {
         this.currentFilters = { ...this.currentFilters, ...filters };
 
         if (this.difficultyFilter) {
-          this.difficultyFilter.value = this.currentFilters.difficulty;
+          this.difficultyFilter.value = this.currentFilters.difficulty || '';
         }
         if (this.topicFilter) {
-          this.topicFilter.value = this.currentFilters.topic;
+          this.topicFilter.value = this.currentFilters.topic || '';
         }
         if (this.sortSelect) {
-          this.sortSelect.value = this.currentFilters.sort;
+          this.sortSelect.value = this.currentFilters.sort || 'difficulty';
+        }
+        if (this.searchInput && this.currentFilters.search) {
+          this.searchInput.value = this.currentFilters.search;
         }
       } catch (error) {
         console.warn('Failed to restore filter state:', error);
@@ -78,36 +84,34 @@ export class FilterManager {
   bindFilterEvents() {
     if (this.difficultyFilter) {
       this.difficultyFilter.addEventListener('change', () => {
-        this.currentFilters.difficulty = this.difficultyFilter.value;
-        this.saveFilters();
-        this.applyFilters();
+        this.updateFilter('difficulty', this.difficultyFilter.value);
       });
     }
 
     if (this.topicFilter) {
       this.topicFilter.addEventListener('change', () => {
-        this.currentFilters.topic = this.topicFilter.value;
-        this.saveFilters();
-        this.applyFilters();
+        this.updateFilter('topic', this.topicFilter.value);
       });
     }
 
     if (this.sortSelect) {
       this.sortSelect.addEventListener('change', () => {
-        this.currentFilters.sort = this.sortSelect.value;
-        this.saveFilters();
-        this.applyFilters();
+        this.updateFilter('sort', this.sortSelect.value);
       });
     }
 
     if (this.searchInput) {
-      let searchTimeout;
       this.searchInput.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-          this.currentFilters.search = this.searchInput.value;
-          this.applyFilters();
+        clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(() => {
+          this.updateFilter('search', this.searchInput.value);
         }, FILTER_CONSTANTS.SEARCH_DEBOUNCE_DELAY); // Debounce search
+      });
+    }
+
+    if (this.resetButton) {
+      this.resetButton.addEventListener('click', () => {
+        this.resetFilters();
       });
     }
   }
@@ -117,7 +121,7 @@ export class FilterManager {
    */
   saveFilters() {
     try {
-      localStorage.setItem('tutorial-hub-filters', JSON.stringify(this.currentFilters));
+      localStorage.setItem('bsb-tutorial-filters', JSON.stringify(this.currentFilters));
     } catch (error) {
       console.warn('Failed to save filter state:', error);
     }
@@ -130,9 +134,11 @@ export class FilterManager {
     let filteredTutorials = this.filterTutorials(this.tutorials, this.currentFilters);
     filteredTutorials = this.sortTutorials(filteredTutorials, this.currentFilters.sort);
 
-    if (this.onFilterChange) {
+    if (typeof this.onFilterChange === 'function') {
       this.onFilterChange(filteredTutorials);
     }
+    
+    return filteredTutorials;
   }
 
   /**
@@ -145,12 +151,12 @@ export class FilterManager {
     let filtered = [...tutorials];
 
     // Filter by difficulty
-    if (filters.difficulty && filters.difficulty !== 'all') {
+    if (filters.difficulty && filters.difficulty !== 'all' && filters.difficulty !== '') {
       filtered = filtered.filter(tutorial => tutorial.difficulty === filters.difficulty);
     }
 
     // Filter by topic
-    if (filters.topic && filters.topic !== 'all') {
+    if (filters.topic && filters.topic !== 'all' && filters.topic !== '') {
       filtered = filtered.filter(tutorial => tutorial.topic === filters.topic);
     }
 
@@ -212,21 +218,21 @@ export class FilterManager {
    */
   resetFilters() {
     this.currentFilters = {
-      difficulty: 'all',
-      topic: 'all',
-      sort: 'recommended',
+      difficulty: '',
+      topic: '',
+      sort: 'difficulty',
       search: ''
     };
 
     // Update UI elements
     if (this.difficultyFilter) {
-      this.difficultyFilter.value = 'all';
+      this.difficultyFilter.value = '';
     }
     if (this.topicFilter) {
-      this.topicFilter.value = 'all';
+      this.topicFilter.value = '';
     }
     if (this.sortSelect) {
-      this.sortSelect.value = 'recommended';
+      this.sortSelect.value = 'difficulty';
     }
     if (this.searchInput) {
       this.searchInput.value = '';
@@ -248,5 +254,47 @@ export class FilterManager {
       difficulties: difficulties.sort(),
       topics: topics.sort()
     };
+  }
+
+  /**
+   * Update a specific filter
+   * @param {string} filterType - Type of filter to update
+   * @param {string} value - New value for the filter
+   */
+  updateFilter(filterType, value) {
+    this.currentFilters[filterType] = value;
+    
+    // Update DOM elements if needed
+    if (filterType === 'difficulty' && this.difficultyFilter) {
+      this.difficultyFilter.value = value;
+    } else if (filterType === 'topic' && this.topicFilter) {
+      this.topicFilter.value = value;
+    } else if (filterType === 'search' && this.searchInput) {
+      this.searchInput.value = value;
+    } else if (filterType === 'sort' && this.sortSelect) {
+      this.sortSelect.value = value;
+    }
+    
+    this.saveFilters();
+    this.applyFilters();
+  }
+
+  /**
+   * Get filtered count
+   * @returns {number} Number of filtered tutorials
+   */
+  getFilteredCount() {
+    const filtered = this.filterTutorials(this.tutorials, this.currentFilters);
+    return filtered.length;
+  }
+
+  /**
+   * Destroy filter manager and clean up
+   */
+  destroy() {
+    // Clear timeout if exists
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
   }
 }

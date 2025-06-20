@@ -263,14 +263,16 @@ const initAccessibility = function initAccessibility() {
  */
 const monitorPerformance = function monitorPerformance() {
   // Only in development
-  if (window.location.hostname === 'localhost') {
+  if (window.location.hostname === 'localhost' && typeof performance !== 'undefined' && performance.getEntriesByType) {
     window.addEventListener('load', () => {
-      const [perfData] = performance.getEntriesByType('navigation');
-
-      debug.log('BSB Performance Metrics:');
-      debug.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
-      debug.log(`- Page Load Complete: ${Math.round(perfData.loadEventEnd)}ms`);
-      debug.log(`- Total Resources: ${performance.getEntriesByType('resource').length}`);
+      const navEntries = performance.getEntriesByType('navigation');
+      if (navEntries && navEntries.length > 0) {
+        const perfData = navEntries[0];
+        debug.log('BSB Performance Metrics:');
+        debug.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
+        debug.log(`- Page Load Complete: ${Math.round(perfData.loadEventEnd)}ms`);
+        debug.log(`- Total Resources: ${performance.getEntriesByType('resource').length}`);
+      }
     });
   }
 };

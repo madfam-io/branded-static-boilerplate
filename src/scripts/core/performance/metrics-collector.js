@@ -49,6 +49,72 @@ const METRICS_CONSTANTS = {
 };
 
 /**
+ * Setup LCP observer
+ * @param {Object} vitals - Vitals object to update
+ */
+const setupLCPObserver = vitals => {
+  try {
+    if (typeof PerformanceObserver === 'undefined') {
+      return;
+    }
+    const lcpObserver = new PerformanceObserver(list => {
+      const entries = list.getEntries();
+      const lastEntry = entries[entries.length - 1];
+      vitals.lcp = lastEntry.startTime;
+    });
+    lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+  } catch (error) {
+    debug.warn('LCP observation failed:', error);
+  }
+};
+
+/**
+ * Setup FID observer
+ * @param {Object} vitals - Vitals object to update
+ */
+const setupFIDObserver = vitals => {
+  try {
+    if (typeof PerformanceObserver === 'undefined') {
+      return;
+    }
+    const fidObserver = new PerformanceObserver(list => {
+      const entries = list.getEntries();
+      entries.forEach(entry => {
+        vitals.fid = entry.processingStart - entry.startTime;
+      });
+    });
+    fidObserver.observe({ entryTypes: ['first-input'] });
+  } catch (error) {
+    debug.warn('FID observation failed:', error);
+  }
+};
+
+/**
+ * Setup CLS observer
+ * @param {Object} vitals - Vitals object to update
+ */
+const setupCLSObserver = vitals => {
+  try {
+    if (typeof PerformanceObserver === 'undefined') {
+      return;
+    }
+    let clsValue = 0;
+    const clsObserver = new PerformanceObserver(list => {
+      const entries = list.getEntries();
+      entries.forEach(entry => {
+        if (!entry.hadRecentInput) {
+          clsValue += entry.value;
+        }
+      });
+      vitals.cls = clsValue;
+    });
+    clsObserver.observe({ entryTypes: ['layout-shift'] });
+  } catch (error) {
+    debug.warn('CLS observation failed:', error);
+  }
+};
+
+/**
  * Collect Web Vitals metrics
  * @returns {Object} Web Vitals data
  */
@@ -60,48 +126,11 @@ export const collectWebVitals = () => {
     ttfb: null
   };
 
-  // Largest Contentful Paint
+  // Setup observers if available
   if ('PerformanceObserver' in window) {
-    try {
-      const lcpObserver = new PerformanceObserver(list => {
-        const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1];
-        vitals.lcp = lastEntry.startTime;
-      });
-      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-    } catch (error) {
-      debug.warn('LCP observation failed:', error);
-    }
-
-    // First Input Delay
-    try {
-      const fidObserver = new PerformanceObserver(list => {
-        const entries = list.getEntries();
-        entries.forEach(entry => {
-          vitals.fid = entry.processingStart - entry.startTime;
-        });
-      });
-      fidObserver.observe({ entryTypes: ['first-input'] });
-    } catch (error) {
-      debug.warn('FID observation failed:', error);
-    }
-
-    // Cumulative Layout Shift
-    try {
-      let clsValue = 0;
-      const clsObserver = new PerformanceObserver(list => {
-        const entries = list.getEntries();
-        entries.forEach(entry => {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value;
-          }
-        });
-        vitals.cls = clsValue;
-      });
-      clsObserver.observe({ entryTypes: ['layout-shift'] });
-    } catch (error) {
-      debug.warn('CLS observation failed:', error);
-    }
+    setupLCPObserver(vitals);
+    setupFIDObserver(vitals);
+    setupCLSObserver(vitals);
   }
 
   // Time to First Byte
@@ -142,16 +171,16 @@ export const collectNavigationTiming = () => {
  * @returns {string} Resource type
  */
 const getResourceType = url => {
-  if (url.match(/\.(js|mjs)$/)) {
+  if (url.match(/\.(?:js|mjs)$/u)) {
     return 'script';
   }
-  if (url.match(/\.css$/)) {
+  if (url.match(/\.css$/u)) {
     return 'stylesheet';
   }
-  if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) {
+  if (url.match(/\.(?:png|jpg|jpeg|gif|svg|webp)$/u)) {
     return 'image';
   }
-  if (url.match(/\.(woff|woff2|ttf|otf)$/)) {
+  if (url.match(/\.(?:woff|woff2|ttf|otf)$/u)) {
     return 'font';
   }
   return 'other';
@@ -166,7 +195,7 @@ export const collectResourceMetrics = () => {
     return [];
   }
 
-  const resources = performance.getEntriesByType('resource');
+  const resources = performance.getEntriesByType ? performance.getEntriesByType('resource') : [];
 
   return resources
     .slice(-METRICS_CONSTANTS.MAX_RESOURCE_COUNT) // Keep only recent entries
@@ -361,7 +390,8 @@ const addResourceRecommendations = (recommendations, resources) => {
  * @param {Object} memory - Memory metrics
  */
 const addMemoryRecommendations = (recommendations, memory) => {
-  if (memory.available && memory.used > memory.limit * METRICS_CONSTANTS.MEMORY_USAGE_WARNING_RATIO) {
+  if (memory.available &&
+      memory.used > memory.limit * METRICS_CONSTANTS.MEMORY_USAGE_WARNING_RATIO) {
     recommendations.push({
       type: 'memory',
       severity: 'high',

@@ -15,8 +15,8 @@ const getDialogHTML = () => `
       <h3>Reset Code</h3>
       <p>Are you sure you want to reset all code? This cannot be undone.</p>
       <div class="bsb-code-playground__confirm-actions">
-        <button class="bsb-code-playground__confirm-cancel">Cancel</button>
-        <button class="bsb-code-playground__confirm-reset">Reset Code</button>
+        <button type="button" class="bsb-code-playground__confirm-cancel">Cancel</button>
+        <button type="button" class="bsb-code-playground__confirm-reset">Reset Code</button>
       </div>
     </div>
   `;
@@ -120,40 +120,27 @@ const injectStyles = () => {
 };
 
 /**
- * Show reset confirmation dialog
- * @param {Function} onConfirm - Callback when reset is confirmed
- * @returns {void}
+ * Create and setup dialog element
+ * @returns {HTMLElement} Dialog element
  */
-export const showResetConfirmation = onConfirm => {
-  // Create dialog element
+const createDialogElement = () => {
   const confirmDialog = document.createElement('div');
   confirmDialog.className = 'bsb-code-playground__confirm-dialog';
   confirmDialog.innerHTML = getDialogHTML();
+  return confirmDialog;
+};
 
-  // Add to document
-  document.body.appendChild(confirmDialog);
-
-  // Add styles
-  injectStyles();
-
-  // Get elements
-  const cancelBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-cancel');
-  const resetBtn = confirmDialog.querySelector('.bsb-code-playground__confirm-reset');
-  const backdrop = confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop');
-
-  // Declare handler variable first to avoid circular dependency
-  let escapeHandler;
-
-  // Close dialog function
-  const closeDialog = () => {
-    document.body.removeChild(confirmDialog);
-    if (escapeHandler) {
-      document.removeEventListener('keydown', escapeHandler);
-    }
-  };
+/**
+ * Setup dialog event handlers
+ * @param {Object} elements - Dialog elements
+ * @param {Function} closeDialog - Close dialog function
+ * @param {Function} onConfirm - Confirm callback
+ */
+const setupEventHandlers = (elements, closeDialog, onConfirm) => {
+  const { cancelBtn, resetBtn, backdrop } = elements;
 
   // Escape key handler
-  escapeHandler = (event) => {
+  const escapeHandler = event => {
     if (event.key === 'Escape') {
       closeDialog();
     }
@@ -168,4 +155,43 @@ export const showResetConfirmation = onConfirm => {
     closeDialog();
     onConfirm();
   });
+
+  return escapeHandler;
+};
+
+/**
+ * Show reset confirmation dialog
+ * @param {Function} onConfirm - Callback when reset is confirmed
+ * @returns {void}
+ */
+export const showResetConfirmation = onConfirm => {
+  // Create dialog
+  const confirmDialog = createDialogElement();
+  document.body.appendChild(confirmDialog);
+
+  // Add styles
+  injectStyles();
+
+  // Get elements
+  const elements = {
+    cancelBtn: confirmDialog.querySelector('.bsb-code-playground__confirm-cancel'),
+    resetBtn: confirmDialog.querySelector('.bsb-code-playground__confirm-reset'),
+    backdrop: confirmDialog.querySelector('.bsb-code-playground__confirm-backdrop')
+  };
+
+  // Initialize handler variable
+  let escapeHandler = null;
+
+  // Close dialog function
+  const closeDialog = () => {
+    if (confirmDialog.parentNode) {
+      document.body.removeChild(confirmDialog);
+    }
+    if (escapeHandler) {
+      document.removeEventListener('keydown', escapeHandler);
+    }
+  };
+
+  // Setup event handlers
+  escapeHandler = setupEventHandlers(elements, closeDialog, onConfirm);
 };

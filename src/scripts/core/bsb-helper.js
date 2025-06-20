@@ -114,6 +114,16 @@ class BSBHelper {
   }
 
   /**
+   * Toggle grid overlay
+   * @method toggleGrid
+   * @description Shows or hides the CSS grid overlay
+   * @returns {void}
+   */
+  toggleGrid() {
+    toggleGrid();
+  }
+
+  /**
    * Disable learning mode and clean up features
    * @method disable
    * @description Removes all development mode features and UI elements

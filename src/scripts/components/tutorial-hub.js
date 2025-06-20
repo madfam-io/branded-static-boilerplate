@@ -26,6 +26,9 @@
  * =============================================================================
  */
 
+import { escapeHtml, createElementFromHTML } from '../core/helpers/safe-html.js';
+import { logger } from '../core/logger.js';
+
 import { getTutorialData } from './tutorial-hub/tutorial-data.js';
 import { FilterManager } from './tutorial-hub/filter-manager.js';
 import { ProgressManager } from './tutorial-hub/progress-manager.js';
@@ -202,24 +205,24 @@ class TutorialHub {
 
     return `
       <article class="tutorial-card ${difficultyClass} ${completedClass}" 
-               data-tutorial-id="${tutorial.id}">
+               data-tutorial-id="${escapeHtml(tutorial.id)}">
         <div class="tutorial-card__header">
-          <span class="tutorial-card__difficulty">${tutorial.difficulty}</span>
-          <span class="tutorial-card__duration">${tutorial.duration}h</span>
+          <span class="tutorial-card__difficulty">${escapeHtml(tutorial.difficulty)}</span>
+          <span class="tutorial-card__duration">${escapeHtml(tutorial.duration)}h</span>
         </div>
         
         <div class="tutorial-card__content">
-          <h3 class="tutorial-card__title">${tutorial.title}</h3>
+          <h3 class="tutorial-card__title">${escapeHtml(tutorial.title)}</h3>
           <div class="tutorial-card__progress">
             <div class="progress-bar">
               <div class="progress-fill" style="width: ${progressPercentage}%"></div>
             </div>
-            <span class="progress-text">${progressPercentage}%</span>
+            <span class="progress-text">${escapeHtml(progressPercentage)}%</span>
           </div>
         </div>
         
         <div class="tutorial-card__footer">
-          <a href="${tutorial.url}" class="tutorial-card__link">
+          <a href="${escapeHtml(tutorial.url)}" class="tutorial-card__link">
             ${progress.completed ? 'Review' : 'Start'} Tutorial
           </a>
         </div>
@@ -294,8 +297,8 @@ class TutorialHub {
     // Send to analytics service
     if (window.gtag) {
       window.gtag('event', eventName, {
-        custom_parameter_1: eventData.tutorialId || '',
-        custom_parameter_2: eventData.pathType || '',
+        customParameter1: eventData.tutorialId || '',
+        customParameter2: eventData.pathType || '',
         value: eventData.score || 0
       });
     }
@@ -335,7 +338,7 @@ class TutorialHub {
       this.trackEvent('progress_exported');
     } catch (error) {
       this.showNotification('Failed to export progress data.', 'error');
-      console.error('Export failed:', error);
+      logger.error('Export failed:', error);
     }
   }
 
@@ -366,7 +369,7 @@ class TutorialHub {
           }
         } catch (error) {
           this.showNotification('Failed to import progress data.', 'error');
-          console.error('Import failed:', error);
+          logger.error('Import failed:', error);
         }
       };
 

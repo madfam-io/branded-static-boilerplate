@@ -206,7 +206,7 @@
    Responsive Design
    ============================================================================= */
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .bsb-language-toggle__button {
     padding: var(--bsb-space-2);
   }
@@ -234,6 +234,7 @@
   0%, 100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }

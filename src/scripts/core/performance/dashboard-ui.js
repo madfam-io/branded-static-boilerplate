@@ -5,6 +5,8 @@
  * Manages the performance dashboard interface and visualization
  */
 
+import { escapeHtml } from '../helpers/safe-html.js';
+
 // UI Constants
 const UI_CONSTANTS = {
   ANIMATION_DURATION: 300,
@@ -189,19 +191,19 @@ const createResourcesSection = resources => {
       <div class="bsb-performance-dashboard__resources-summary">
         <div class="bsb-performance-dashboard__resource-stat">
           <span class="label">Total:</span>
-          <span class="value">${resources.length}</span>
+          <span class="value">${escapeHtml(resources.length)}</span>
         </div>
         <div class="bsb-performance-dashboard__resource-stat">
           <span class="label">Size:</span>
-          <span class="value">${formatBytes(totalSize)}</span>
+          <span class="value">${escapeHtml(formatBytes(totalSize))}</span>
         </div>
         <div class="bsb-performance-dashboard__resource-stat">
           <span class="label">Large:</span>
-          <span class="value ${largeResources.length > 0 ? 'warning' : ''}">${largeResources.length}</span>
+          <span class="value ${largeResources.length > 0 ? 'warning' : ''}">${escapeHtml(largeResources.length)}</span>
         </div>
         <div class="bsb-performance-dashboard__resource-stat">
           <span class="label">Slow:</span>
-          <span class="value ${slowResources.length > 0 ? 'warning' : ''}">${slowResources.length}</span>
+          <span class="value ${slowResources.length > 0 ? 'warning' : ''}">${escapeHtml(slowResources.length)}</span>
         </div>
       </div>
     </div>
@@ -231,8 +233,8 @@ const createRecommendationsSection = recommendations => {
         ${getRecommendationIcon(rec.type)}
       </div>
       <div class="bsb-performance-dashboard__rec-content">
-        <div class="bsb-performance-dashboard__rec-message">${rec.message}</div>
-        <div class="bsb-performance-dashboard__rec-severity">${rec.severity.toUpperCase()}</div>
+        <div class="bsb-performance-dashboard__rec-message">${escapeHtml(rec.message)}</div>
+        <div class="bsb-performance-dashboard__rec-severity">${escapeHtml(rec.severity.toUpperCase())}</div>
       </div>
     </div>
   `).join('');
@@ -264,7 +266,7 @@ export const createDashboardTemplate = metrics => {
         </h3>
         <div class="bsb-performance-dashboard__score">
           <div class="bsb-performance-dashboard__score-circle ${scoreClass}">
-            <span class="bsb-performance-dashboard__score-value">${score}</span>
+            <span class="bsb-performance-dashboard__score-value">${escapeHtml(score)}</span>
           </div>
         </div>
         <button class="bsb-performance-dashboard__toggle" 

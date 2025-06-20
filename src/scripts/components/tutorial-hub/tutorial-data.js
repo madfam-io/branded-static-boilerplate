@@ -15,7 +15,7 @@ export const getTutorialData = () => [
     title: 'Component Development Mastery',
     difficulty: 'beginner',
     topic: 'html-css',
-    duration: 6,
+    duration: '6h',
     url: './component-development.html'
   },
   {
@@ -23,7 +23,7 @@ export const getTutorialData = () => [
     title: 'CSS Theming & Design Systems',
     difficulty: 'beginner',
     topic: 'html-css',
-    duration: 4,
+    duration: '4h',
     url: './theming.html'
   },
   {
@@ -31,7 +31,7 @@ export const getTutorialData = () => [
     title: 'Modern Build Process Mastery',
     difficulty: 'intermediate',
     topic: 'tooling',
-    duration: 5,
+    duration: '5h',
     url: './build-process.html'
   },
   {
@@ -39,7 +39,7 @@ export const getTutorialData = () => [
     title: 'Deployment & CI/CD Excellence',
     difficulty: 'intermediate',
     topic: 'deployment',
-    duration: 5,
+    duration: '5h',
     url: './deployment.html'
   },
   {
@@ -47,7 +47,7 @@ export const getTutorialData = () => [
     title: 'Performance Optimization Mastery',
     difficulty: 'intermediate',
     topic: 'optimization',
-    duration: 8,
+    duration: '8h',
     url: './performance.html'
   },
   {
@@ -55,7 +55,7 @@ export const getTutorialData = () => [
     title: 'Accessibility Best Practices',
     difficulty: 'intermediate',
     topic: 'optimization',
-    duration: 7,
+    duration: '7h',
     url: './accessibility.html'
   },
   {
@@ -63,7 +63,7 @@ export const getTutorialData = () => [
     title: 'SEO Optimization Mastery',
     difficulty: 'advanced',
     topic: 'optimization',
-    duration: 6,
+    duration: '6h',
     url: './seo.html'
   }
 ];
@@ -85,16 +85,19 @@ export const getTutorialCategories = () => ({
  */
 export const getDifficultyLevels = () => ({
   'beginner': {
+    name: 'Beginner',
     label: 'Beginner',
     color: '#28a745',
     order: 1
   },
   'intermediate': {
+    name: 'Intermediate',
     label: 'Intermediate',
     color: '#ffc107',
     order: 2
   },
   'advanced': {
+    name: 'Advanced',
     label: 'Advanced',
     color: '#dc3545',
     order: 3
@@ -106,7 +109,10 @@ export const getDifficultyLevels = () => ({
  * @param {string} tutorialId - Tutorial identifier
  * @returns {Object|null} Tutorial object or null if not found
  */
-export const getTutorialById = tutorialId => getTutorialData().find(tutorial => tutorial.id === tutorialId) || null;
+export const getTutorialById = tutorialId => {
+  if (!tutorialId) {return undefined;}
+  return getTutorialData().find(tutorial => tutorial.id === tutorialId);
+};
 
 /**
  * Filter tutorials by criteria
@@ -115,6 +121,9 @@ export const getTutorialById = tutorialId => getTutorialData().find(tutorial => 
  * @returns {Array} Filtered tutorials
  */
 export const filterTutorials = (tutorials, filters = {}) => {
+  if (!tutorials || !Array.isArray(tutorials)) {return [];}
+  if (!filters || typeof filters !== 'object') {return [...tutorials];}
+
   let filtered = [...tutorials];
 
   if (filters.difficulty && filters.difficulty !== 'all') {
@@ -128,7 +137,8 @@ export const filterTutorials = (tutorials, filters = {}) => {
   if (filters.search) {
     const searchTerm = filters.search.toLowerCase();
     filtered = filtered.filter(tutorial =>
-      tutorial.title.toLowerCase().includes(searchTerm)
+      tutorial.title.toLowerCase().includes(searchTerm) ||
+      tutorial.topic.toLowerCase().includes(searchTerm)
     );
   }
 
@@ -142,6 +152,7 @@ export const filterTutorials = (tutorials, filters = {}) => {
  * @returns {Array} Sorted tutorials
  */
 export const sortTutorials = (tutorials, sortBy = 'title') => {
+  if (!tutorials || !Array.isArray(tutorials)) {return [];}
   const sorted = [...tutorials];
 
   switch (sortBy) {
@@ -152,13 +163,21 @@ export const sortTutorials = (tutorials, sortBy = 'title') => {
       );
 
     case 'duration':
-      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.duration - secondTutorial.duration);
+      return sorted.sort((firstTutorial, secondTutorial) => {
+        const getDurationHours = duration => {
+          const match = duration.match(/(\d+)h/);
+          return match ? parseInt(match[1], 10) : 0;
+        };
+        return getDurationHours(firstTutorial.duration) - getDurationHours(secondTutorial.duration);
+      });
 
     case 'topic':
       return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.topic.localeCompare(secondTutorial.topic));
 
     case 'title':
-    default:
       return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.title.localeCompare(secondTutorial.title));
+
+    default:
+      return sorted;
   }
 };
