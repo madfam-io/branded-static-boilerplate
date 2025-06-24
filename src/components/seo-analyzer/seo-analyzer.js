@@ -21,8 +21,8 @@
  * =============================================================================
  */
 
-import { calculateSEOScore } from '../../scripts/seo/seo-utils.js';
 import { logger } from '../../scripts/core/logger.js';
+import { calculateSEOScore } from '../../scripts/seo/seo-utils.js';
 
 import { gatherPageData } from './modules/page-analyzer.js';
 import {
