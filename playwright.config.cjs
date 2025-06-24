@@ -31,7 +31,7 @@ const { defineConfig, devices } = require('@playwright/test');
  * Base URL for testing
  * @type {string}
  */
-const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000/branded-static-boilerplate';
 
 module.exports = defineConfig({
   // Test directory

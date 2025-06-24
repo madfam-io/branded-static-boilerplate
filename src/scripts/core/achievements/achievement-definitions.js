@@ -16,11 +16,10 @@ export const ACHIEVEMENT_CONSTANTS = {
 };
 
 /**
- * Get all achievement definitions
- * @returns {Object} Achievement definitions by ID
+ * Get tutorial achievements
+ * @returns {Object} Tutorial achievement definitions
  */
-export const getAchievementDefinitions = () => ({
-  // Tutorial Completion Achievements
+const getTutorialAchievements = () => ({
   'first-tutorial': {
     id: 'first-tutorial',
     title: 'Getting Started',
@@ -32,7 +31,6 @@ export const getAchievementDefinitions = () => ({
     condition: 'complete_tutorial',
     count: 1
   },
-
   'tutorial-master': {
     id: 'tutorial-master',
     title: 'Tutorial Master',
@@ -44,7 +42,6 @@ export const getAchievementDefinitions = () => ({
     condition: 'complete_tutorial',
     count: ACHIEVEMENT_CONSTANTS.EXPLORER_THRESHOLD
   },
-
   'css-ninja': {
     id: 'css-ninja',
     title: 'CSS Ninja',
@@ -55,8 +52,23 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'complete_css_tutorials'
   },
+  'accessibility-champion': {
+    id: 'accessibility-champion',
+    title: 'Accessibility Champion',
+    description: 'Complete the accessibility tutorial',
+    icon: '♿',
+    points: 40,
+    type: 'tutorial',
+    unlocked: false,
+    condition: 'complete_accessibility'
+  }
+});
 
-  // Component Exploration Achievements
+/**
+ * Get exploration achievements
+ * @returns {Object} Exploration achievement definitions
+ */
+const getExplorationAchievements = () => ({
   'component-explorer': {
     id: 'component-explorer',
     title: 'Component Explorer',
@@ -68,7 +80,6 @@ export const getAchievementDefinitions = () => ({
     condition: 'view_components',
     count: 10
   },
-
   'playground-enthusiast': {
     id: 'playground-enthusiast',
     title: 'Playground Enthusiast',
@@ -80,8 +91,6 @@ export const getAchievementDefinitions = () => ({
     condition: 'run_code',
     count: ACHIEVEMENT_CONSTANTS.LEGEND_THRESHOLD
   },
-
-  // Learning Mode Achievements
   'learning-advocate': {
     id: 'learning-advocate',
     title: 'Learning Advocate',
@@ -92,21 +101,14 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'learning_time',
     count: ACHIEVEMENT_CONSTANTS.TIMER_INTERVAL
-  },
+  }
+});
 
-  // Accessibility Achievements
-  'accessibility-champion': {
-    id: 'accessibility-champion',
-    title: 'Accessibility Champion',
-    description: 'Complete the accessibility tutorial',
-    icon: '♿',
-    points: 40,
-    type: 'tutorial',
-    unlocked: false,
-    condition: 'complete_accessibility'
-  },
-
-  // Special Achievements
+/**
+ * Get interaction achievements
+ * @returns {Object} Interaction achievement definitions
+ */
+const getInteractionAchievements = () => ({
   'dark-mode-fan': {
     id: 'dark-mode-fan',
     title: 'Dark Mode Fan',
@@ -117,7 +119,6 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'use_dark_mode'
   },
-
   'bilingual': {
     id: 'bilingual',
     title: 'Bilingual',
@@ -128,7 +129,6 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'switch_language'
   },
-
   'perfectionist': {
     id: 'perfectionist',
     title: 'Perfectionist',
@@ -138,9 +138,14 @@ export const getAchievementDefinitions = () => ({
     type: 'challenge',
     unlocked: false,
     condition: 'perfect_challenge'
-  },
+  }
+});
 
-  // Time-based Achievements
+/**
+ * Get time-based achievements
+ * @returns {Object} Time-based achievement definitions
+ */
+const getTimeBasedAchievements = () => ({
   'early-bird': {
     id: 'early-bird',
     title: 'Early Bird',
@@ -151,7 +156,6 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'early_visit'
   },
-
   'night-owl': {
     id: 'night-owl',
     title: 'Night Owl',
@@ -162,6 +166,17 @@ export const getAchievementDefinitions = () => ({
     unlocked: false,
     condition: 'late_visit'
   }
+});
+
+/**
+ * Get all achievement definitions
+ * @returns {Object} Achievement definitions by ID
+ */
+export const getAchievementDefinitions = () => ({
+  ...getTutorialAchievements(),
+  ...getExplorationAchievements(),
+  ...getInteractionAchievements(),
+  ...getTimeBasedAchievements()
 });
 
 /**

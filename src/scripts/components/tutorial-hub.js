@@ -204,13 +204,13 @@ class TutorialHub {
     const progressPercentage = progress.progress || 0;
 
     return `
-      <article class="tutorial-card ${difficultyClass} ${completedClass}" 
+      <article class="tutorial-card ${difficultyClass} ${completedClass}"
                data-tutorial-id="${escapeHtml(tutorial.id)}">
         <div class="tutorial-card__header">
           <span class="tutorial-card__difficulty">${escapeHtml(tutorial.difficulty)}</span>
           <span class="tutorial-card__duration">${escapeHtml(tutorial.duration)}h</span>
         </div>
-        
+
         <div class="tutorial-card__content">
           <h3 class="tutorial-card__title">${escapeHtml(tutorial.title)}</h3>
           <div class="tutorial-card__progress">
@@ -220,13 +220,13 @@ class TutorialHub {
             <span class="progress-text">${escapeHtml(progressPercentage)}%</span>
           </div>
         </div>
-        
+
         <div class="tutorial-card__footer">
           <a href="${escapeHtml(tutorial.url)}" class="tutorial-card__link">
             ${progress.completed ? 'Review' : 'Start'} Tutorial
           </a>
         </div>
-        
+
         ${progress.completed ? '<div class="tutorial-card__badge">✓</div>' : ''}
       </article>
     `;
@@ -351,15 +351,15 @@ class TutorialHub {
     input.accept = '.json';
 
     input.onchange = event => {
-      const file = event.target.files[0];
+      const [file] = event.target.files;
       if (!file) {
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = loadEvent => {
         try {
-          const data = JSON.parse(event.target.result);
+          const data = JSON.parse(loadEvent.target.result);
           if (this.progressManager.importProgress(data)) {
             this.updateTutorialCards();
             this.showNotification('Progress data imported successfully!', 'success');

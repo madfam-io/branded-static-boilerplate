@@ -79,7 +79,7 @@ export const bindEvents = (element, handlers) => {
   }
 
   // Auto-refresh on content changes (debounced)
-  let refreshTimeout;
+  let refreshTimeout = null;
   const observer = new MutationObserver(() => {
     clearTimeout(refreshTimeout);
     // Auto-refresh delay constant

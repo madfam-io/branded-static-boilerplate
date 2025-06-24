@@ -93,7 +93,9 @@ export const startProgressTracking = (progress, saveProgress) => setInterval(() 
     return; // Don't track time when tab is hidden
   }
 
-  if (timeSinceLastActivity < TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL * TRACKING_CONSTANTS.ACTIVITY_TIMEOUT_MULTIPLIER) {
+  const activityTimeout = TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL *
+    TRACKING_CONSTANTS.ACTIVITY_TIMEOUT_MULTIPLIER;
+  if (timeSinceLastActivity < activityTimeout) {
     progress.timeSpent += TRACKING_CONSTANTS.ACTIVITY_CHECK_INTERVAL;
     progress.lastActivity = now;
     saveProgress();

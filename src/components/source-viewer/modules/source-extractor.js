@@ -22,7 +22,7 @@ const getComponentName = component => component.dataset.bsbComponent ||
  * @returns {string} Formatted HTML
  */
 const formatHTML = html => {
-  const lines = html.split(/>\s*</);
+  const lines = html.split(/>\s*</u);
   let formatted = '';
   let indent = 0;
 
@@ -46,7 +46,7 @@ const formatHTML = html => {
 
     if (trimmed.startsWith('<') && !trimmed.startsWith('</') &&
         !trimmed.endsWith('/>') && !trimmed.includes('</')) {
-      indent++;
+      indent += 1;
     }
   });
 

@@ -316,4 +316,25 @@ const getViewerStyles = () => [
   getResponsiveStyles()
 ].join('\n');
 
-export { getViewerStyles };
+/**
+ * Inject viewer styles into the document head
+ * @returns {void}
+ */
+const injectViewerStyles = () => {
+  const styleId = 'bsb-source-viewer-styles';
+
+  // Check if styles already exist
+  if (document.getElementById(styleId)) {
+    return;
+  }
+
+  // Create style element
+  const styleElement = document.createElement('style');
+  styleElement.id = styleId;
+  styleElement.textContent = getViewerStyles();
+
+  // Inject into head
+  document.head.appendChild(styleElement);
+};
+
+export { getViewerStyles, injectViewerStyles };

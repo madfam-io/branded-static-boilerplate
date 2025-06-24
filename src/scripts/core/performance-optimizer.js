@@ -229,7 +229,7 @@ class PerformanceOptimizer {
           if (urlObj.host !== window.location.host) {
             externalHosts.add(urlObj.origin);
           }
-        } catch (e) {
+        } catch (error) {
           // Invalid URL
         }
       }
@@ -255,7 +255,9 @@ class PerformanceOptimizer {
 
     stylesheets.forEach(stylesheet => {
       // Skip already optimized sheets
-      if (stylesheet.dataset.critical === 'true') {return;}
+      if (stylesheet.dataset.critical === 'true') {
+        return;
+      }
 
       // For non-critical stylesheets, load them asynchronously
       if (!stylesheet.href.includes('critical')) {
@@ -263,7 +265,7 @@ class PerformanceOptimizer {
         newLink.rel = 'preload';
         newLink.as = 'style';
         newLink.href = stylesheet.href;
-        newLink.onload = function() {
+        newLink.onload = function onload() {
           this.onload = null;
           this.rel = 'stylesheet';
         };
@@ -293,7 +295,7 @@ class PerformanceOptimizer {
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
         this.observers.lcp = lcpObserver;
-      } catch (e) {
+      } catch (error) {
         // LCP observer not supported
       }
 
@@ -308,7 +310,7 @@ class PerformanceOptimizer {
         });
         fidObserver.observe({ entryTypes: ['first-input'] });
         this.observers.fid = fidObserver;
-      } catch (e) {
+      } catch (error) {
         // FID observer not supported
       }
 
@@ -326,7 +328,7 @@ class PerformanceOptimizer {
         });
         clsObserver.observe({ entryTypes: ['layout-shift'] });
         this.observers.cls = clsObserver;
-      } catch (e) {
+      } catch (error) {
         // CLS observer not supported
       }
     }

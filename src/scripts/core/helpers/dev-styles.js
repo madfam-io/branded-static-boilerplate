@@ -6,12 +6,10 @@
  */
 
 /**
- * Add development styles to the page
- * @returns {void}
+ * Get basic panel styles
+ * @returns {string} CSS for basic panel structure
  */
-export const addDevStyles = () => {
-  const style = document.createElement('style');
-  style.textContent = `
+const getBasicPanelStyles = () => `
     /* Dev Panel */
     .bsb-dev-panel {
       position: fixed;
@@ -29,8 +27,13 @@ export const addDevStyles = () => {
 
     .bsb-dev-panel--hidden {
       transform: translateX(320px);
-    }
+    }`;
 
+/**
+ * Get panel header styles
+ * @returns {string} CSS for panel header elements
+ */
+const getPanelHeaderStyles = () => `
     .bsb-dev-panel__header {
       display: flex;
       justify-content: space-between;
@@ -60,8 +63,13 @@ export const addDevStyles = () => {
 
     .bsb-dev-panel__close:hover {
       opacity: 1;
-    }
+    }`;
 
+/**
+ * Get panel content styles
+ * @returns {string} CSS for panel content areas
+ */
+const getPanelContentStyles = () => `
     .bsb-dev-panel__content {
       padding: 16px;
     }
@@ -108,8 +116,13 @@ export const addDevStyles = () => {
 
     .bsb-dev-panel__action:hover {
       background: #f5f5f5;
-    }
+    }`;
 
+/**
+ * Get component helper styles
+ * @returns {string} CSS for component helpers
+ */
+const getComponentHelperStyles = () => `
     /* Component Helpers */
     .bsb-dev-helper {
       position: absolute;
@@ -132,8 +145,13 @@ export const addDevStyles = () => {
     .bsb-show-helpers .bsb-dev-helper,
     [data-bsb-component]:hover .bsb-dev-helper {
       opacity: 1;
-    }
+    }`;
 
+/**
+ * Get grid overlay styles
+ * @returns {string} CSS for grid overlay and inspect mode
+ */
+const getGridOverlayStyles = () => `
     /* Grid Overlay */
     .bsb-grid-overlay {
       position: fixed;
@@ -169,8 +187,13 @@ export const addDevStyles = () => {
     .bsb-highlight {
       outline: 2px solid #007bff !important;
       outline-offset: 2px;
-    }
+    }`;
 
+/**
+ * Get modal styles
+ * @returns {string} CSS for dev modal
+ */
+const getModalStyles = () => `
     /* Dev Modal */
     .bsb-dev-modal {
       position: fixed;
@@ -209,8 +232,13 @@ export const addDevStyles = () => {
       margin-top: 32px;
       display: flex;
       gap: 12px;
-    }
+    }`;
 
+/**
+ * Get dark mode styles
+ * @returns {string} CSS for dark mode support
+ */
+const getDarkModeStyles = () => `
     /* Dark mode support */
     [data-bsb-theme="dark"] .bsb-dev-panel,
     [data-bsb-theme="dark"] .bsb-dev-modal__content {
@@ -228,8 +256,28 @@ export const addDevStyles = () => {
       background: #2a2a2a;
       color: #e0e0e0;
       border-color: #333;
-    }
-  `;
+    }`;
 
+/**
+ * Get development panel styles
+ * @returns {string} CSS for development panel
+ */
+const getDevPanelStyles = () => [
+  getBasicPanelStyles(),
+  getPanelHeaderStyles(),
+  getPanelContentStyles(),
+  getComponentHelperStyles(),
+  getGridOverlayStyles(),
+  getModalStyles(),
+  getDarkModeStyles()
+].join('\n');
+
+/**
+ * Add development styles to the page
+ * @returns {void}
+ */
+export const addDevStyles = () => {
+  const style = document.createElement('style');
+  style.textContent = getDevPanelStyles();
   document.head.appendChild(style);
 };

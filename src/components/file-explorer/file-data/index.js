@@ -12,14 +12,20 @@ import { projectFilesData } from './project-files.js';
  * @param {Object} obj - Object to clone
  * @returns {Object} Deep cloned object
  */
-const deepClone = (obj) => {
-  if (obj === null || typeof obj !== 'object') return obj;
-  if (obj instanceof Date) return new Date(obj.getTime());
-  if (obj instanceof Array) return obj.map(item => deepClone(item));
-  
+const deepClone = obj => {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  if (obj instanceof Date) {
+    return new Date(obj.getTime());
+  }
+  if (obj instanceof Array) {
+    return obj.map(item => deepClone(item));
+  }
+
   const clonedObj = {};
   for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.hasOwn(obj, key)) {
       clonedObj[key] = deepClone(obj[key]);
     }
   }

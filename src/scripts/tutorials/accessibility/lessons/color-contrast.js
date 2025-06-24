@@ -10,7 +10,7 @@ export const colorContrastLesson = {
   html: `<!-- Color Contrast Demo -->
 <section class="contrast-demo">
   <h2>Color Contrast Examples</h2>
-  
+
   <!-- Bad Contrast Examples -->
   <div class="contrast-examples">
     <div class="example bad-contrast-1">
@@ -18,27 +18,27 @@ export const colorContrastLesson = {
       <p>This light gray text on white background fails WCAG standards.</p>
       <button class="low-contrast-btn">Hard to Read Button</button>
     </div>
-    
+
     <div class="example bad-contrast-2">
       <h3>❌ Color Only (No Contrast)</h3>
       <p class="error-color-only">Error: Please fill in all fields</p>
       <p class="success-color-only">Success: Form submitted</p>
     </div>
-    
+
     <!-- Good Contrast Examples -->
     <div class="example good-contrast-1">
       <h3>✅ AA Compliant (4.5:1)</h3>
       <p>This dark text on light background meets WCAG AA standards.</p>
       <button class="good-contrast-btn">Easy to Read Button</button>
     </div>
-    
+
     <div class="example good-contrast-2">
       <h3>✅ Color + Icon/Text</h3>
       <p class="error-with-icon">❌ Error: Please fill in all fields</p>
       <p class="success-with-icon">✅ Success: Form submitted</p>
     </div>
   </div>
-  
+
   <!-- Interactive Contrast Checker -->
   <div class="contrast-checker">
     <h3>Contrast Checker Tool</h3>
@@ -180,15 +180,15 @@ function getContrastRatio(color1, color2) {
   // Convert hex to RGB
   const rgb1 = hexToRgb(color1);
   const rgb2 = hexToRgb(color2);
-  
+
   // Calculate relative luminance
   const lum1 = getLuminance(rgb1);
   const lum2 = getLuminance(rgb2);
-  
+
   // Calculate contrast ratio
   const brightest = Math.max(lum1, lum2);
   const darkest = Math.min(lum1, lum2);
-  
+
   return (brightest + 0.05) / (darkest + 0.05);
 }
 
@@ -205,11 +205,11 @@ function getLuminance(rgb) {
   const rsRGB = rgb.r / 255;
   const gsRGB = rgb.g / 255;
   const bsRGB = rgb.b / 255;
-  
+
   const r = rsRGB <= 0.03928 ? rsRGB / 12.92 : Math.pow((rsRGB + 0.055) / 1.055, 2.4);
   const g = gsRGB <= 0.03928 ? gsRGB / 12.92 : Math.pow((gsRGB + 0.055) / 1.055, 2.4);
   const b = bsRGB <= 0.03928 ? bsRGB / 12.92 : Math.pow((bsRGB + 0.055) / 1.055, 2.4);
-  
+
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
@@ -223,11 +223,11 @@ const resultSpan = document.getElementById('result');
 function updateContrast() {
   const ratio = getContrastRatio(fgColor.value, bgColor.value);
   const roundedRatio = Math.round(ratio * 10) / 10;
-  
+
   preview.style.color = fgColor.value;
   preview.style.backgroundColor = bgColor.value;
   ratioSpan.textContent = roundedRatio + ':1';
-  
+
   if (ratio >= 7) {
     resultSpan.textContent = '✅ Passes WCAG AAA';
     resultSpan.style.color = '#155724';

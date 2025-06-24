@@ -227,7 +227,7 @@ export class AchievementSystem {
    * @returns {boolean} Whether condition is met
    */
   checkTutorialCondition(achievement, data) {
-    this.userProgress.tutorialsCompleted = this.userProgress.tutorialsCompleted || [];
+    this.userProgress.tutorialsCompleted ||= [];
     if (data && !this.userProgress.tutorialsCompleted.includes(data.tutorialId)) {
       this.userProgress.tutorialsCompleted.push(data.tutorialId);
     }
@@ -241,7 +241,7 @@ export class AchievementSystem {
    * @returns {boolean} Whether condition is met
    */
   checkComponentViewCondition(achievement, data) {
-    this.userProgress.componentsViewed = this.userProgress.componentsViewed || [];
+    this.userProgress.componentsViewed ||= [];
     if (data && !this.userProgress.componentsViewed.includes(data.componentId)) {
       this.userProgress.componentsViewed.push(data.componentId);
     }
@@ -264,7 +264,8 @@ export class AchievementSystem {
    * @returns {boolean} Whether condition is met
    */
   checkLearningTimeCondition(achievement) {
-    this.userProgress.learningModeTime = (this.userProgress.learningModeTime || 0) + CONSTANTS.MIN_DURATION_TIME;
+    this.userProgress.learningModeTime = (this.userProgress.learningModeTime || 0) +
+      CONSTANTS.MIN_DURATION_TIME;
     return this.userProgress.learningModeTime >= achievement.count;
   }
 
@@ -334,7 +335,8 @@ export class AchievementSystem {
       unlockedCount: unlockedAchievements.length,
       totalAchievements: Object.keys(this.achievements).length,
       completionPercentage: Math.round(
-        (unlockedAchievements.length / Object.keys(this.achievements).length) * CONSTANTS.PERCENTAGE_MAX
+        (unlockedAchievements.length / Object.keys(this.achievements).length) *
+        CONSTANTS.PERCENTAGE_MAX
       )
     };
   }

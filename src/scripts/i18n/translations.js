@@ -66,7 +66,7 @@ export const isLanguageSupported = lang => SUPPORTED_LANGUAGES.includes(lang);
  */
 export const getBrowserLanguage = () => {
   const browserLang = navigator.language || navigator.userLanguage;
-  const primaryLang = browserLang.split('-')[0];
+  const [primaryLang] = browserLang.split('-');
 
   return isLanguageSupported(primaryLang) ? primaryLang : DEFAULT_LANGUAGE;
 };
@@ -77,7 +77,13 @@ export const getBrowserLanguage = () => {
  * @param {Object} params - Parameters to replace
  * @returns {string} Formatted string
  */
-export const formatString = (str, params = {}) => str.replace(/{(\w+)}/g, (match, key) => params[key] !== undefined ? params[key] : match);
+export const formatString = (str, params = {}) =>
+  str.replace(/\{(?<key>\w+)\}/gu, (match, key) => {
+    if (typeof params[key] === 'undefined') {
+      return match;
+    }
+    return params[key];
+  });
 
 /**
  * Export everything from component-specific translations

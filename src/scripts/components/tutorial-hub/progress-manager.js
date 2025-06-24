@@ -18,7 +18,8 @@ const PROGRESS_CONSTANTS = {
   MIN_DURATION: 60,
   MID_DURATION: 100,
   MAX_DURATION: 95,
-  DEFAULT_SCORE: 100
+  DEFAULT_SCORE: 100,
+  TIMELINE_COUNT: 5
 };
 
 // Skill level thresholds
@@ -82,7 +83,7 @@ export class ProgressManager {
 
     this.saveProgress();
     this.updateProgressDisplay();
-    
+
     // Dispatch completion event
     if (this.container) {
       const event = new CustomEvent('tutorialCompleted', {
@@ -91,7 +92,7 @@ export class ProgressManager {
       this.container.dispatchEvent(event);
     }
   }
-  
+
   /**
    * Alias for markCompleted (for backward compatibility)
    */
@@ -119,29 +120,29 @@ export class ProgressManager {
     const clampedProgress = Math.max(0, Math.min(PROGRESS_CONSTANTS.PERCENTAGE_MAX, progress));
     this.progressData[tutorialId].progress = clampedProgress;
     this.progressData[tutorialId].lastAccessed = Date.now();
-    
+
     // Auto-mark as completed if progress is 100
-    if (clampedProgress === 100) {
+    if (clampedProgress === PROGRESS_CONSTANTS.PERCENTAGE_MAX) {
       this.progressData[tutorialId].completed = true;
       this.progressData[tutorialId].completedAt = Date.now();
     }
 
     this.saveProgress();
     this.updateProgressDisplay();
-    
+
     // Dispatch progress event
     if (this.container) {
       const event = new CustomEvent('progressUpdate', {
-        detail: { 
-          tutorialId, 
+        detail: {
+          tutorialId,
           progress: clampedProgress,
-          completed: clampedProgress === 100
+          completed: clampedProgress === PROGRESS_CONSTANTS.PERCENTAGE_MAX
         }
       });
       this.container.dispatchEvent(event);
     }
   }
-  
+
   /**
    * Alias for updateProgress (for backward compatibility)
    */
@@ -171,17 +172,20 @@ export class ProgressManager {
 
     const totalHours = Object.entries(this.progressData).reduce((total, [id, progress]) => {
       if (progress.completed) {
-        const tutorial = this.tutorials.find(tutorial => tutorial.id === id);
+        const tutorial = this.tutorials.find(tut => tut.id === id);
         return total + (tutorial?.duration || 0);
       }
       return total;
     }, 0);
 
     const averageScore = completedCount > 0
-      ? Math.round(completedTutorials.reduce((sum, progress) => sum + (progress.score || 0), 0) / completedCount)
+      ? Math.round(
+        completedTutorials.reduce((sum, progress) =>
+          sum + (progress.score || 0), 0) / completedCount
+      )
       : 0;
 
-    const overallPercentage = totalTutorials > 0 
+    const overallPercentage = totalTutorials > 0
       ? (completedCount / totalTutorials) * PROGRESS_CONSTANTS.PERCENTAGE_MAX
       : 0;
 
@@ -217,7 +221,7 @@ export class ProgressManager {
     }
     return 'Expert';
   }
-  
+
   /**
    * Get skill level (test compatibility)
    * @returns {string} Skill level
@@ -239,54 +243,54 @@ export class ProgressManager {
   }
 
   /**
+   * Update single stat element
+   * @param {string} selector - Element selector
+   * @param {string} value - Value to display
+   */
+  updateStatElement(selector, value) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.textContent = value;
+    }
+  }
+
+  /**
    * Update progress statistics in the UI
    */
   updateProgressStats() {
     const stats = this.getProgressStats();
 
-    // Update completed count
-    const completedElement = document.querySelector('.progress-stat--completed .stat-value');
-    if (completedElement) {
-      completedElement.textContent = `${stats.completedCount}/${stats.totalTutorials}`;
-    }
+    // Update all stat elements
+    this.updateStatElement('.progress-stat--completed .stat-value',
+      `${stats.completedCount}/${stats.totalTutorials}`);
+    this.updateStatElement('.progress-stat--hours .stat-value',
+      `${stats.totalHours}h`);
+    this.updateStatElement('.progress-stat--skill .stat-value',
+      stats.skillLevel);
+    this.updateStatElement('.progress-percentage',
+      `${Math.round(stats.overallPercentage)}%`);
 
-    // Update hours learned
-    const hoursElement = document.querySelector('.progress-stat--hours .stat-value');
-    if (hoursElement) {
-      hoursElement.textContent = `${stats.totalHours}h`;
-    }
-
-    // Update skill level
-    const skillElement = document.querySelector('.progress-stat--skill .stat-value');
-    if (skillElement) {
-      skillElement.textContent = stats.skillLevel;
-    }
-
-    // Update percentage - round for display
-    const percentageElement = document.querySelector('.progress-percentage');
-    if (percentageElement) {
-      percentageElement.textContent = `${Math.round(stats.overallPercentage)}%`;
-    }
-    
     // Update percentage in .percentage element too (for tests)
     const percentageTestElement = document.querySelector('.percentage');
     if (percentageTestElement) {
       percentageTestElement.textContent = `${Math.round(stats.overallPercentage)}%`;
     }
-    
+
     // Update stats container
     const completedStat = document.querySelector('[data-stat="completed"] .stat-value');
     if (completedStat) {
       completedStat.textContent = stats.completedCount;
     }
-    
+
     // Calculate and update in-progress count
-    const inProgressCount = Object.values(this.progressData).filter(p => p.progress > 0 && p.progress < 100).length;
+    const inProgressCount = Object.values(this.progressData).filter(progress =>
+      progress.progress > 0 && progress.progress < PROGRESS_CONSTANTS.PERCENTAGE_MAX
+    ).length;
     const inProgressStat = document.querySelector('[data-stat="inProgress"] .stat-value');
     if (inProgressStat) {
       inProgressStat.textContent = inProgressCount;
     }
-    
+
     const skillLevelStat = document.querySelector('[data-stat="skillLevel"] .stat-value');
     if (skillLevelStat) {
       skillLevelStat.textContent = stats.skillLevel;
@@ -304,9 +308,11 @@ export class ProgressManager {
       return;
     }
 
-    const circumference = SKILL_LEVEL_THRESHOLDS.LEARNING_MAX * Math.PI * PROGRESS_CONSTANTS.CIRCLE_RADIUS;
+    const circumference = SKILL_LEVEL_THRESHOLDS.LEARNING_MAX * Math.PI
+      * PROGRESS_CONSTANTS.CIRCLE_RADIUS;
     const strokeDasharray = circumference;
-    const strokeDashoffset = circumference * (1 - stats.overallPercentage / PROGRESS_CONSTANTS.PERCENTAGE_MAX);
+    const strokeDashoffset = circumference *
+      (1 - stats.overallPercentage / PROGRESS_CONSTANTS.PERCENTAGE_MAX);
 
     // Update SVG circle
     const circle = progressCircle.querySelector('circle.progress-ring');
@@ -349,11 +355,11 @@ export class ProgressManager {
       const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
       return difficultyOrder[tutorialA.difficulty] - difficultyOrder[tutorialB.difficulty];
     });
-    
+
     // Limit recommendations
-    return sorted.slice(0, 5);
+    return sorted.slice(0, PROGRESS_CONSTANTS.TIMELINE_COUNT);
   }
-  
+
   /**
    * Get overall progress percentage
    * @returns {number} Progress percentage (0-100)
@@ -363,21 +369,23 @@ export class ProgressManager {
     // Return the raw percentage without rounding for precise values like 33.33
     return stats.overallPercentage;
   }
-  
+
   /**
    * Get completed tutorial count
    * @returns {number} Number of completed tutorials
    */
   getCompletedCount() {
-    return Object.values(this.progressData).filter(p => p.completed).length;
+    return Object.values(this.progressData).filter(progress => progress.completed).length;
   }
-  
+
   /**
    * Get in-progress tutorial count
    * @returns {number} Number of in-progress tutorials
    */
   getInProgressCount() {
-    return Object.values(this.progressData).filter(p => p.progress > 0 && !p.completed).length;
+    return Object.values(this.progressData).filter(progress =>
+      progress.progress > 0 && !progress.completed
+    ).length;
   }
 
   /**
@@ -417,20 +425,20 @@ export class ProgressManager {
   importProgress(dataString) {
     try {
       const data = JSON.parse(dataString);
-      
+
       // Check for metadata
       if (!data || !data._metadata) {
         return false;
       }
-      
+
       // Extract progress data, excluding metadata
       const progressData = {};
       Object.entries(data).forEach(([key, value]) => {
-        if (key !== '_metadata' && this.tutorials.find(t => t.id === key)) {
+        if (key !== '_metadata' && this.tutorials.find(tutorial => tutorial.id === key)) {
           progressData[key] = value;
         }
       });
-      
+
       this.progressData = progressData;
       this.saveProgress();
       this.updateProgressDisplay();

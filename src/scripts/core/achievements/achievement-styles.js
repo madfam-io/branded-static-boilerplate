@@ -12,11 +12,10 @@ const STYLE_CONSTANTS = {
 };
 
 /**
- * Generate achievement system CSS styles
- * @returns {string} Complete CSS for achievement system
+ * Get toggle button styles
+ * @returns {string} CSS for toggle button
  */
-export const getAchievementStyles = () => `
-  <style>
+const getToggleStyles = () => `
     .achievement-toggle {
       position: fixed;
       top: 50%;
@@ -53,8 +52,13 @@ export const getAchievementStyles = () => `
       right: -5px;
       min-width: 20px;
       text-align: center;
-    }
+    }`;
 
+/**
+ * Get panel container styles
+ * @returns {string} CSS for panel container
+ */
+const getPanelContainerStyles = () => `
     .achievement-panel {
       position: fixed;
       top: 50%;
@@ -84,8 +88,13 @@ export const getAchievementStyles = () => `
         opacity: 1;
         transform: translateY(-50%) translateX(0);
       }
-    }
+    }`;
 
+/**
+ * Get panel header styles
+ * @returns {string} CSS for panel header
+ */
+const getPanelHeaderStyles = () => `
     .achievement-header {
       display: flex;
       justify-content: space-between;
@@ -116,8 +125,22 @@ export const getAchievementStyles = () => `
     #close-achievements:hover {
       background: var(--bsb-bg-hover);
       color: var(--bsb-text-primary);
-    }
+    }`;
 
+/**
+ * Get panel styles
+ * @returns {string} CSS for panel
+ */
+const getPanelStyles = () => [
+  getPanelContainerStyles(),
+  getPanelHeaderStyles()
+].join('\n');
+
+/**
+ * Get stats and categories styles
+ * @returns {string} CSS for stats and categories
+ */
+const getStatsAndCategoriesStyles = () => `
     .achievement-stats {
       display: flex;
       justify-content: space-around;
@@ -162,8 +185,13 @@ export const getAchievementStyles = () => `
       background: var(--bsb-primary);
       color: white;
       border-color: var(--bsb-primary);
-    }
+    }`;
 
+/**
+ * Get achievement item styles
+ * @returns {string} CSS for achievement items
+ */
+const getAchievementItemStyles = () => `
     .achievement-list {
       padding: 20px;
     }
@@ -219,8 +247,13 @@ export const getAchievementStyles = () => `
     .achievement-badge {
       font-size: 1.25rem;
       margin-left: 10px;
-    }
+    }`;
 
+/**
+ * Get notification styles
+ * @returns {string} CSS for notifications
+ */
+const getNotificationStyles = () => `
     .achievement-notification {
       position: fixed;
       top: 20px;
@@ -265,14 +298,24 @@ export const getAchievementStyles = () => `
 
     .achievement-notification-text h4 {
       margin: 0 0 5px 0;
-      font-size: 1rem;
     }
 
     .achievement-notification-text p {
       margin: 0;
       font-size: 0.875rem;
-      opacity: 0.9;
-    }
+    }`;
+
+/**
+ * Generate achievement system CSS styles
+ * @returns {string} Complete CSS for achievement system
+ */
+export const getAchievementStyles = () => `
+  <style>
+${getToggleStyles()}
+${getPanelStyles()}
+${getStatsAndCategoriesStyles()}
+${getAchievementItemStyles()}
+${getNotificationStyles()}
 
     @media (max-width: 768px) {
       .achievement-panel {

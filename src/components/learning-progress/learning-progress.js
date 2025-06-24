@@ -38,9 +38,7 @@ import {
 import {
   getTemplate,
   updateUI,
-  showAchievementNotification,
-  formatTime,
-  formatTimeAgo
+  showAchievementNotification
 } from './modules/progress-ui.js';
 import {
   saveProgress,
@@ -49,11 +47,7 @@ import {
   resetProgress
 } from './modules/progress-storage.js';
 
-// Constants
-const CONSTANTS = {
-  NOTIFICATION_DELAY: 3000,
-  SCROLL_PADDING: 20
-};
+// Constants are removed as they were unused
 
 /**
  * Learning Progress Tracker Class
@@ -244,14 +238,34 @@ class BSBLearningProgress {
    * Show reset confirmation dialog
    * @method showResetConfirmation
    */
-  async showResetConfirmation() {
-    const confirmed = confirm('Are you sure you want to reset all learning progress? This cannot be undone.');
+  showResetConfirmation() {
+    // Create custom confirmation dialog
+    const dialogOverlay = document.createElement('div');
+    dialogOverlay.className = 'bsb-confirm-dialog-overlay';
+    dialogOverlay.innerHTML = `
+      <div class="bsb-confirm-dialog">
+        <h3>Reset Learning Progress?</h3>
+        <p>Are you sure you want to reset all learning progress? This cannot be undone.</p>
+        <div class="bsb-confirm-dialog__actions">
+          <button class="bsb-confirm-dialog__cancel">Cancel</button>
+          <button class="bsb-confirm-dialog__confirm">Reset Progress</button>
+        </div>
+      </div>
+    `;
 
-    if (confirmed) {
+    document.body.appendChild(dialogOverlay);
+
+    // Handle dialog actions
+    dialogOverlay.querySelector('.bsb-confirm-dialog__cancel').addEventListener('click', () => {
+      document.body.removeChild(dialogOverlay);
+    });
+
+    dialogOverlay.querySelector('.bsb-confirm-dialog__confirm').addEventListener('click', () => {
       resetProgress();
       this.progress = loadProgress();
       this.updateDisplay();
-    }
+      document.body.removeChild(dialogOverlay);
+    });
   }
 
   /**

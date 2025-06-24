@@ -25,7 +25,7 @@ export const escapeHtml = str => {
     '/': '&#x2F;'
   };
 
-  return str.replace(/[&<>"'/]/g, match => htmlEscapes[match]);
+  return str.replace(/[&<>"'/]/gu, match => htmlEscapes[match]);
 };
 
 /**
@@ -45,7 +45,7 @@ export const createElementFromHTML = html => {
  * @param {string} text - Text content
  */
 export const setSafeText = (element, text) => {
-  if (element && text !== undefined) {
+  if (element && typeof text !== 'undefined') {
     element.textContent = String(text);
   }
 };
@@ -57,10 +57,13 @@ export const setSafeText = (element, text) => {
  * @param {Object} data - Data to bind
  */
 export const setSafeHTML = (element, template, data = {}) => {
-  if (!element || !template) {return;}
+  if (!element || !template) {
+    return;
+  }
 
   // Replace placeholders with escaped data
-  const safeHTML = template.replace(/\{\{(\w+)\}\}/g, (match, key) => escapeHtml(data[key] || ''));
+  const safeHTML = template.replace(/\{\{(?<key>\w+)\}\}/gu, (match, key) =>
+    escapeHtml(data[key] || ''));
 
   element.innerHTML = safeHTML;
 };
@@ -72,10 +75,10 @@ export const setSafeHTML = (element, template, data = {}) => {
  * @returns {string} Safe HTML string
  */
 export const safeHTML = (strings, ...values) => {
-  let result = strings[0];
+  let [result] = strings;
 
-  for (let i = 0; i < values.length; i++) {
-    result += escapeHtml(values[i]) + strings[i + 1];
+  for (let index = 0; index < values.length; index++) {
+    result += escapeHtml(values[index]) + strings[index + 1];
   }
 
   return result;

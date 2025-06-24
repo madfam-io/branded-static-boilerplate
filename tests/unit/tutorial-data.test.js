@@ -119,15 +119,15 @@ describe('Tutorial Data', () => {
       expect(foundTutorial).toEqual(firstTutorial);
     });
 
-    test('should return undefined for invalid id', () => {
+    test('should return null for invalid id', () => {
       const foundTutorial = getTutorialById('non-existent-id');
-      expect(foundTutorial).toBeUndefined();
+      expect(foundTutorial).toBeNull();
     });
 
-    test('should return undefined for null/undefined id', () => {
-      expect(getTutorialById(null)).toBeUndefined();
-      expect(getTutorialById(undefined)).toBeUndefined();
-      expect(getTutorialById('')).toBeUndefined();
+    test('should return null for null/undefined id', () => {
+      expect(getTutorialById(null)).toBeNull();
+      expect(getTutorialById(undefined)).toBeNull();
+      expect(getTutorialById('')).toBeNull();
     });
 
     test('should handle string and number ids', () => {

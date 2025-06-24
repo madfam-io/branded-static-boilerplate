@@ -68,7 +68,7 @@ const renderIcon = (data, isFolder, isExpanded) => {
   if (isFolder) {
     const icon = isExpanded ? '📂' : '📁';
     return `
-      <button class="bsb-file-explorer__toggle" 
+      <button class="bsb-file-explorer__toggle"
               aria-label="${isExpanded ? 'Collapse' : 'Expand'} ${data.name}">
         <span class="bsb-file-explorer__toggle-icon">${icon}</span>
       </button>
@@ -106,7 +106,7 @@ const renderNestedItems = item => {
   }
 
   return `
-    <ul class="bsb-file-explorer__list bsb-file-explorer__list--nested" 
+    <ul class="bsb-file-explorer__list bsb-file-explorer__list--nested"
         role="group"
         data-children-path="${item.path}">
     </ul>

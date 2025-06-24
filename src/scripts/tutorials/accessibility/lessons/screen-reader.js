@@ -10,39 +10,39 @@ export const screenReaderLesson = {
   html: `<!-- Screen Reader Optimization -->
 <section class="screen-reader-demo">
   <h2>Screen Reader Best Practices</h2>
-  
+
   <!-- Live Regions -->
   <div class="live-region-demo">
     <h3>Live Region Updates</h3>
     <button onclick="updateStatus()">Update Status</button>
     <button onclick="updateAlert()">Show Alert</button>
-    
+
     <!-- Polite updates -->
     <div role="status" aria-live="polite" aria-atomic="true" class="status-region">
       <p id="status-message">Status: Ready</p>
     </div>
-    
+
     <!-- Important alerts -->
     <div role="alert" aria-live="assertive" class="alert-region" id="alert-region"></div>
   </div>
-  
+
   <!-- Descriptive Links -->
   <div class="link-examples">
     <h3>Descriptive Link Text</h3>
-    
+
     <div class="bad-example">
       <h4>❌ Avoid This</h4>
       <p>To learn more about our services, <a href="#">click here</a>.</p>
       <p>Download the report <a href="#">here</a>.</p>
     </div>
-    
+
     <div class="good-example">
       <h4>✅ Do This</h4>
       <p>Learn more about <a href="#">our accessibility services</a>.</p>
       <p><a href="#">Download the 2024 accessibility report (PDF, 2.5MB)</a></p>
     </div>
   </div>
-  
+
   <!-- Complex Data Table -->
   <div class="table-demo">
     <h3>Accessible Data Tables</h3>
@@ -198,7 +198,7 @@ function updateAlert() {
   alertCount++;
   const alertRegion = document.getElementById('alert-region');
   alertRegion.innerHTML = \`<strong>Alert #\${alertCount}:</strong> This is an important notification that interrupts the user.\`;
-  
+
   // Clear alert after 5 seconds
   setTimeout(() => {
     alertRegion.innerHTML = '';
@@ -212,9 +212,9 @@ function announceToScreenReader(message, priority = 'polite') {
   announcement.setAttribute('aria-live', priority);
   announcement.className = 'sr-only';
   announcement.textContent = message;
-  
+
   document.body.appendChild(announcement);
-  
+
   // Remove after announcement
   setTimeout(() => {
     announcement.remove();
@@ -229,7 +229,7 @@ table.addEventListener('click', (e) => {
     const row = cell.parentElement;
     const rowHeader = row.querySelector('th');
     const colHeader = table.querySelector(\`thead th:nth-child(\${cell.cellIndex + 1})\`);
-    
+
     if (rowHeader && colHeader) {
       const message = \`Selected \${rowHeader.textContent} for \${colHeader.textContent}: \${cell.textContent}\`;
       announceToScreenReader(message);

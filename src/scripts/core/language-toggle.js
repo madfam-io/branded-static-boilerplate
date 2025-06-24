@@ -66,88 +66,98 @@ class LanguageToggle {
     localStorage.setItem('bsb-language', language);
   }
 
+
+
+  /**
+   * Get English translations
+   * @returns {Object} English translation dictionary
+   */
+  getEnglishTranslations() {
+    return {
+      // Navigation
+      'nav.home': 'Home',
+      'nav.about': 'About',
+      'nav.services': 'Services',
+      'nav.playground': 'Playground',
+      'nav.contact': 'Contact',
+      'nav.project-structure': 'Project Structure',
+      'nav.component-library': 'Components',
+      // Common UI
+      'ui.skip-to-content': 'Skip to main content',
+      'ui.toggle-navigation': 'Toggle navigation',
+      'ui.current-page': 'Current page',
+      'ui.learn-more': 'Learn More',
+      'ui.get-started': 'Get Started',
+      'ui.view-source': 'View Source',
+      // Language toggle
+      'lang.current': 'Current language',
+      'lang.switch-to': 'Switch to',
+      'lang.english': 'English',
+      'lang.spanish': 'Spanish',
+      // Educational content
+      'education.tip': 'Tip',
+      'education.example': 'Example',
+      'education.try-it': 'Try it yourself',
+      'education.best-practice': 'Best Practice',
+      'education.common-mistake': 'Common Mistake',
+      // Achievements
+      'achievement.unlocked': 'Achievement Unlocked!',
+      'achievement.first-visit': 'Welcome Explorer',
+      'achievement.component-viewer': 'Component Inspector',
+      'achievement.code-editor': 'Code Warrior',
+      'achievement.tutorial-master': 'Tutorial Master'
+    };
+  }
+
+  /**
+   * Get Spanish translations
+   * @returns {Object} Spanish translation dictionary
+   */
+  getSpanishTranslations() {
+    return {
+      // Navigation
+      'nav.home': 'Inicio',
+      'nav.about': 'Acerca de',
+      'nav.services': 'Servicios',
+      'nav.playground': 'Laboratorio',
+      'nav.contact': 'Contacto',
+      'nav.project-structure': 'Estructura del Proyecto',
+      'nav.component-library': 'Componentes',
+      // Common UI
+      'ui.skip-to-content': 'Saltar al contenido principal',
+      'ui.toggle-navigation': 'Alternar navegación',
+      'ui.current-page': 'Página actual',
+      'ui.learn-more': 'Aprender Más',
+      'ui.get-started': 'Comenzar',
+      'ui.view-source': 'Ver Código',
+      // Language toggle
+      'lang.current': 'Idioma actual',
+      'lang.switch-to': 'Cambiar a',
+      'lang.english': 'Inglés',
+      'lang.spanish': 'Español',
+      // Educational content
+      'education.tip': 'Consejo',
+      'education.example': 'Ejemplo',
+      'education.try-it': 'Pruébalo tú mismo',
+      'education.best-practice': 'Mejor Práctica',
+      'education.common-mistake': 'Error Común',
+      // Achievements
+      'achievement.unlocked': '¡Logro Desbloqueado!',
+      'achievement.first-visit': 'Explorador de Bienvenida',
+      'achievement.component-viewer': 'Inspector de Componentes',
+      'achievement.code-editor': 'Guerrero del Código',
+      'achievement.tutorial-master': 'Maestro de Tutoriales'
+    };
+  }
+
   /**
    * Load translation data
    */
   loadTranslations() {
     // In a real application, these would be loaded from external JSON files
     this.translations = {
-      en: {
-        // Navigation
-        'nav.home': 'Home',
-        'nav.about': 'About',
-        'nav.services': 'Services',
-        'nav.playground': 'Playground',
-        'nav.contact': 'Contact',
-        'nav.project-structure': 'Project Structure',
-        'nav.component-library': 'Components',
-
-        // Common UI
-        'ui.skip-to-content': 'Skip to main content',
-        'ui.toggle-navigation': 'Toggle navigation',
-        'ui.current-page': 'Current page',
-        'ui.learn-more': 'Learn More',
-        'ui.get-started': 'Get Started',
-        'ui.view-source': 'View Source',
-
-        // Language toggle
-        'lang.current': 'Current language',
-        'lang.switch-to': 'Switch to',
-        'lang.english': 'English',
-        'lang.spanish': 'Spanish',
-
-        // Educational content
-        'education.tip': 'Tip',
-        'education.example': 'Example',
-        'education.try-it': 'Try it yourself',
-        'education.best-practice': 'Best Practice',
-        'education.common-mistake': 'Common Mistake',
-
-        // Achievements
-        'achievement.unlocked': 'Achievement Unlocked!',
-        'achievement.first-visit': 'Welcome Explorer',
-        'achievement.component-viewer': 'Component Inspector',
-        'achievement.code-editor': 'Code Warrior',
-        'achievement.tutorial-master': 'Tutorial Master',
-      },
-      es: {
-        // Navigation
-        'nav.home': 'Inicio',
-        'nav.about': 'Acerca de',
-        'nav.services': 'Servicios',
-        'nav.playground': 'Laboratorio',
-        'nav.contact': 'Contacto',
-        'nav.project-structure': 'Estructura del Proyecto',
-        'nav.component-library': 'Componentes',
-
-        // Common UI
-        'ui.skip-to-content': 'Saltar al contenido principal',
-        'ui.toggle-navigation': 'Alternar navegación',
-        'ui.current-page': 'Página actual',
-        'ui.learn-more': 'Aprender Más',
-        'ui.get-started': 'Comenzar',
-        'ui.view-source': 'Ver Código',
-
-        // Language toggle
-        'lang.current': 'Idioma actual',
-        'lang.switch-to': 'Cambiar a',
-        'lang.english': 'Inglés',
-        'lang.spanish': 'Español',
-
-        // Educational content
-        'education.tip': 'Consejo',
-        'education.example': 'Ejemplo',
-        'education.try-it': 'Pruébalo tú mismo',
-        'education.best-practice': 'Mejor Práctica',
-        'education.common-mistake': 'Error Común',
-
-        // Achievements
-        'achievement.unlocked': '¡Logro Desbloqueado!',
-        'achievement.first-visit': 'Explorador de Bienvenida',
-        'achievement.component-viewer': 'Inspector de Componentes',
-        'achievement.code-editor': 'Guerrero del Código',
-        'achievement.tutorial-master': 'Maestro de Tutoriales',
-      }
+      en: this.getEnglishTranslations(),
+      es: this.getSpanishTranslations()
     };
   }
 

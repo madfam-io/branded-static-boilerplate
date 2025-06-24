@@ -399,7 +399,12 @@ export const generateMetaTags = options => {
  * @param {Object} data - Content data
  * @returns {Object} JSON-LD structured data
  */
-export const generateEducationalSchema = function generateEducationalSchema(data) {
+/**
+ * Create base educational schema
+ * @param {Object} data - Schema data
+ * @returns {Object} Base schema object
+ */
+const createBaseEducationalSchema = data => {
   const {
     type = 'LearningResource',
     name,
@@ -408,14 +413,10 @@ export const generateEducationalSchema = function generateEducationalSchema(data
     datePublished,
     dateModified,
     author,
-    educationalLevel = 'Beginner',
-    timeRequired,
-    teaches = [],
-    requires = [],
-    image
+    educationalLevel = 'Beginner'
   } = data;
 
-  const schema = {
+  return {
     '@context': 'https://schema.org',
     '@type': type,
     name,
@@ -438,6 +439,11 @@ export const generateEducationalSchema = function generateEducationalSchema(data
     isAccessibleForFree: true,
     license: 'https://opensource.org/licenses/MIT'
   };
+};
+
+export const generateEducationalSchema = function generateEducationalSchema(data) {
+  const schema = createBaseEducationalSchema(data);
+  const { timeRequired, teaches = [], requires = [], image } = data;
 
   // Add optional fields
   if (timeRequired) {

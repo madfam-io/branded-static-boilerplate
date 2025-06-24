@@ -124,23 +124,21 @@ class BSBFileExplorer {
 
     for (const item of items) {
       const data = this.fileData[item.path];
-      if (!data) {
-        continue;
+      if (data) {
+        const isExpanded = this.expandedFolders.has(item.path);
+        let itemHtml = renderFileItem(item, data, isExpanded);
+
+        // Handle nested children
+        if (item.children && item.children.length > 0 && isExpanded) {
+          const childrenHtml = await this.generateFileTreeHTML(item.children);
+          itemHtml = itemHtml.replace(
+            `data-children-path="${item.path}">`,
+            `data-children-path="${item.path}">${childrenHtml}`
+          );
+        }
+
+        htmlParts.push(itemHtml);
       }
-
-      const isExpanded = this.expandedFolders.has(item.path);
-      let itemHtml = renderFileItem(item, data, isExpanded);
-
-      // Handle nested children
-      if (item.children && item.children.length > 0 && isExpanded) {
-        const childrenHtml = await this.generateFileTreeHTML(item.children);
-        itemHtml = itemHtml.replace(
-          `data-children-path="${item.path}">`,
-          `data-children-path="${item.path}">${childrenHtml}`
-        );
-      }
-
-      htmlParts.push(itemHtml);
     }
 
     return htmlParts.join('');

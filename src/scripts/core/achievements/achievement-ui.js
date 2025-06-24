@@ -28,7 +28,7 @@ const getAchievementPanelHTML = userProgress => {
       <h2>🏆 Achievements</h2>
       <button id="close-achievements" aria-label="Close achievements">×</button>
     </div>
-    
+
     <div class="achievement-stats">
       <div class="stat">
         <div class="stat-value">${totalPoints}</div>
@@ -39,7 +39,7 @@ const getAchievementPanelHTML = userProgress => {
         <div class="stat-label">Unlocked</div>
       </div>
     </div>
-    
+
     <div class="achievement-categories">
       <button class="category-filter active" data-type="all">All</button>
       <button class="category-filter" data-type="tutorial">Tutorials</button>
@@ -47,7 +47,7 @@ const getAchievementPanelHTML = userProgress => {
       <button class="category-filter" data-type="interaction">Interaction</button>
       <button class="category-filter" data-type="special">Special</button>
     </div>
-    
+
     <div class="achievement-list" id="achievement-list">
       <!-- Achievement items will be populated here -->
     </div>

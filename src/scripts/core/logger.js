@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
 /**
  * Logger Utility
  * ==============
- * 
+ *
  * Centralized logging utility for production-safe console usage
  */
 
-const isDevelopment = process.env.NODE_ENV !== 'production' && 
+const isDevelopment = process.env.NODE_ENV !== 'production' &&
                      (typeof window === 'undefined' || window.location.hostname === 'localhost');
 
 /**
@@ -64,7 +65,7 @@ export const logger = {
    * Log table data
    * @param {any} data - Data to display in table format
    */
-  table: (data) => {
+  table: data => {
     if (isDevelopment && console.table) {
       console.table(data);
     }
@@ -74,7 +75,7 @@ export const logger = {
    * Log grouped messages
    * @param {string} label - Group label
    */
-  group: (label) => {
+  group: label => {
     if (isDevelopment && console.group) {
       console.group(label);
     }

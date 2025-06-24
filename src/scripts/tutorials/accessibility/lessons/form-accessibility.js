@@ -10,7 +10,7 @@ export const formAccessibilityLesson = {
   html: `<!-- Accessible Form Patterns -->
 <section class="form-demo">
   <h2>Accessible Form Design</h2>
-  
+
   <form class="accessible-form" novalidate>
     <!-- Text Input with Label -->
     <div class="form-group">
@@ -18,9 +18,9 @@ export const formAccessibilityLesson = {
         Full Name
         <span class="required" aria-label="required">*</span>
       </label>
-      <input 
-        type="text" 
-        id="full-name" 
+      <input
+        type="text"
+        id="full-name"
         name="fullName"
         required
         aria-required="true"
@@ -30,16 +30,16 @@ export const formAccessibilityLesson = {
         Enter your first and last name
       </span>
     </div>
-    
+
     <!-- Email with Error -->
     <div class="form-group">
       <label for="email">
         Email Address
         <span class="required" aria-label="required">*</span>
       </label>
-      <input 
-        type="email" 
-        id="email" 
+      <input
+        type="email"
+        id="email"
         name="email"
         required
         aria-required="true"
@@ -50,37 +50,37 @@ export const formAccessibilityLesson = {
         Please enter a valid email address
       </span>
     </div>
-    
+
     <!-- Radio Group -->
     <fieldset class="form-group">
       <legend>Preferred Contact Method</legend>
       <div class="radio-group">
         <input type="radio" id="contact-email" name="contact" value="email" checked>
         <label for="contact-email">Email</label>
-        
+
         <input type="radio" id="contact-phone" name="contact" value="phone">
         <label for="contact-phone">Phone</label>
-        
+
         <input type="radio" id="contact-text" name="contact" value="text">
         <label for="contact-text">Text Message</label>
       </div>
     </fieldset>
-    
+
     <!-- Checkbox Group -->
     <fieldset class="form-group">
       <legend>Interests (select all that apply)</legend>
       <div class="checkbox-group">
         <input type="checkbox" id="interest-a11y" name="interests" value="accessibility">
         <label for="interest-a11y">Web Accessibility</label>
-        
+
         <input type="checkbox" id="interest-ux" name="interests" value="ux">
         <label for="interest-ux">User Experience</label>
-        
+
         <input type="checkbox" id="interest-dev" name="interests" value="development">
         <label for="interest-dev">Web Development</label>
       </div>
     </fieldset>
-    
+
     <!-- Accessible Select -->
     <div class="form-group">
       <label for="country">
@@ -95,15 +95,15 @@ export const formAccessibilityLesson = {
         <option value="au">Australia</option>
       </select>
     </div>
-    
+
     <!-- Textarea with Character Count -->
     <div class="form-group">
       <label for="message">
         Message
         <span class="optional">(optional)</span>
       </label>
-      <textarea 
-        id="message" 
+      <textarea
+        id="message"
         name="message"
         rows="4"
         maxlength="500"
@@ -113,13 +113,13 @@ export const formAccessibilityLesson = {
         <span class="current-count">0</span> / 500 characters
       </span>
     </div>
-    
+
     <!-- Form Actions -->
     <div class="form-actions">
       <button type="submit" class="btn-primary">Submit Form</button>
       <button type="reset" class="btn-secondary">Clear Form</button>
     </div>
-    
+
     <!-- Form Status Messages -->
     <div role="status" aria-live="polite" aria-atomic="true" class="form-status"></div>
   </form>
@@ -332,7 +332,7 @@ const formStatus = document.querySelector('.form-status');
 messageTextarea.addEventListener('input', () => {
   const count = messageTextarea.value.length;
   characterCount.textContent = count;
-  
+
   // Update color when approaching limit
   const percentUsed = count / 500;
   if (percentUsed > 0.9) {
@@ -348,9 +348,9 @@ messageTextarea.addEventListener('input', () => {
 emailInput.addEventListener('blur', () => {
   const emailError = document.getElementById('email-error');
   const isValid = emailInput.validity.valid;
-  
+
   emailInput.setAttribute('aria-invalid', !isValid);
-  
+
   if (!isValid && emailInput.value) {
     emailError.hidden = false;
   } else {
@@ -361,20 +361,20 @@ emailInput.addEventListener('blur', () => {
 // Form submission
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
   // Clear previous status
   formStatus.className = 'form-status';
   formStatus.textContent = '';
-  
+
   // Validate required fields
   const requiredFields = form.querySelectorAll('[required]');
   let hasErrors = false;
-  
+
   requiredFields.forEach(field => {
     if (!field.value) {
       field.setAttribute('aria-invalid', 'true');
       hasErrors = true;
-      
+
       // Find and show error message
       const errorId = field.getAttribute('aria-describedby');
       if (errorId && errorId.includes('error')) {
@@ -388,11 +388,11 @@ form.addEventListener('submit', (e) => {
       field.setAttribute('aria-invalid', 'false');
     }
   });
-  
+
   if (hasErrors) {
     formStatus.className = 'form-status error';
     formStatus.textContent = 'Please correct the errors above and try again.';
-    
+
     // Focus first invalid field
     const firstInvalid = form.querySelector('[aria-invalid="true"]');
     if (firstInvalid) {
@@ -402,7 +402,7 @@ form.addEventListener('submit', (e) => {
     // Success
     formStatus.className = 'form-status success';
     formStatus.textContent = 'Form submitted successfully! Thank you for your submission.';
-    
+
     // Reset form after delay
     setTimeout(() => {
       form.reset();
@@ -419,16 +419,16 @@ form.addEventListener('reset', () => {
   form.querySelectorAll('[aria-invalid]').forEach(field => {
     field.setAttribute('aria-invalid', 'false');
   });
-  
+
   // Hide all error messages
   form.querySelectorAll('.error-message').forEach(error => {
     error.hidden = true;
   });
-  
+
   // Reset character count
   characterCount.textContent = '0';
   characterCount.parentElement.style.color = '#6c757d';
-  
+
   // Clear status
   formStatus.className = 'form-status';
   formStatus.textContent = '';

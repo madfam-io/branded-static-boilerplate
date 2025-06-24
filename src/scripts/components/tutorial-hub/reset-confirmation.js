@@ -22,10 +22,10 @@ const getConfirmationHTML = () => `
 `;
 
 /**
- * Get confirmation dialog styles
- * @returns {string} CSS styles for the dialog
+ * Get dialog container styles
+ * @returns {string} CSS styles for dialog container
  */
-const getConfirmationStyles = () => `
+const getDialogStyles = () => `
   .tutorial-hub__confirm-dialog {
     position: fixed;
     top: 0;
@@ -46,7 +46,13 @@ const getConfirmationStyles = () => `
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
   }
+`;
 
+/**
+ * Get dialog content styles
+ * @returns {string} CSS styles for dialog content
+ */
+const getContentStyles = () => `
   .tutorial-hub__confirm-content {
     position: relative;
     background: var(--bsb-bg-primary, white);
@@ -68,7 +74,13 @@ const getConfirmationStyles = () => `
     color: var(--bsb-text-secondary, #666);
     line-height: 1.5;
   }
+`;
 
+/**
+ * Get button styles
+ * @returns {string} CSS styles for buttons
+ */
+const getButtonStyles = () => `
   .tutorial-hub__confirm-actions {
     display: flex;
     gap: 12px;
@@ -108,6 +120,16 @@ const getConfirmationStyles = () => `
 `;
 
 /**
+ * Get confirmation dialog styles
+ * @returns {string} CSS styles for the dialog
+ */
+const getConfirmationStyles = () => [
+  getDialogStyles(),
+  getContentStyles(),
+  getButtonStyles()
+].join('\n');
+
+/**
  * Inject confirmation styles if not already present
  */
 const injectConfirmationStyles = () => {
@@ -115,13 +137,13 @@ const injectConfirmationStyles = () => {
     const styles = document.createElement('style');
     styles.id = 'tutorial-hub-confirm-styles';
     styles.textContent = getConfirmationStyles();
-    
+
     // Handle missing document.head
     if (!document.head) {
       console.error('document.head is not available');
       return;
     }
-    
+
     try {
       document.head.appendChild(styles);
     } catch (error) {
@@ -208,7 +230,7 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
 
     // Create dialog
     const confirmDialog = createDialogElement();
-    
+
     // Try to append dialog with error handling
     try {
       document.body.appendChild(confirmDialog);

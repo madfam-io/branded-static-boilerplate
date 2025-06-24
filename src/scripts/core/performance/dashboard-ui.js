@@ -77,7 +77,9 @@ const getVitalStatus = (value, goodThreshold, poorThreshold) => {
  */
 const formatMetricValue = value => {
   if (value < 1) {
-    return (Math.round(value * UI_CONSTANTS.PRECISION_MULTIPLIER) / UI_CONSTANTS.PRECISION_MULTIPLIER).toString();
+    const roundedValue = Math.round(value * UI_CONSTANTS.PRECISION_MULTIPLIER) /
+      UI_CONSTANTS.PRECISION_MULTIPLIER;
+    return roundedValue.toString();
   }
   return Math.round(value).toString();
 };
@@ -125,8 +127,8 @@ const getRecommendationIcon = type => {
  * @param {number} poorThreshold - Poor performance threshold
  * @returns {string} Metric HTML
  */
-const createVitalMetric = (name, value, unit, goodThreshold, poorThreshold) => {
-  if (value === null || value === undefined) {
+const createVitalMetric = ({ name, value, unit, goodThreshold, poorThreshold }) => {
+  if (value === null || typeof value === 'undefined') {
     return `
       <div class="bsb-performance-dashboard__vital">
         <div class="bsb-performance-dashboard__vital-name">${name}</div>
@@ -162,10 +164,10 @@ const createVitalsSection = vitals => {
     <div class="bsb-performance-dashboard__section">
       <h4 class="bsb-performance-dashboard__section-title">Web Vitals</h4>
       <div class="bsb-performance-dashboard__vitals">
-        ${createVitalMetric('LCP', vitals.lcp, 'ms', VITALS_THRESHOLDS.LCP_GOOD, VITALS_THRESHOLDS.LCP_POOR)}
-        ${createVitalMetric('FID', vitals.fid, 'ms', VITALS_THRESHOLDS.FID_GOOD, VITALS_THRESHOLDS.FID_POOR)}
-        ${createVitalMetric('CLS', vitals.cls, '', VITALS_THRESHOLDS.CLS_GOOD, VITALS_THRESHOLDS.CLS_POOR)}
-        ${createVitalMetric('TTFB', vitals.ttfb, 'ms', VITALS_THRESHOLDS.TTFB_GOOD, VITALS_THRESHOLDS.TTFB_POOR)}
+        ${createVitalMetric({ name: 'LCP', value: vitals.lcp, unit: 'ms', goodThreshold: VITALS_THRESHOLDS.LCP_GOOD, poorThreshold: VITALS_THRESHOLDS.LCP_POOR })}
+        ${createVitalMetric({ name: 'FID', value: vitals.fid, unit: 'ms', goodThreshold: VITALS_THRESHOLDS.FID_GOOD, poorThreshold: VITALS_THRESHOLDS.FID_POOR })}
+        ${createVitalMetric({ name: 'CLS', value: vitals.cls, unit: '', goodThreshold: VITALS_THRESHOLDS.CLS_GOOD, poorThreshold: VITALS_THRESHOLDS.CLS_POOR })}
+        ${createVitalMetric({ name: 'TTFB', value: vitals.ttfb, unit: 'ms', goodThreshold: VITALS_THRESHOLDS.TTFB_GOOD, poorThreshold: VITALS_THRESHOLDS.TTFB_POOR })}
       </div>
     </div>
   `;
@@ -269,7 +271,7 @@ export const createDashboardTemplate = metrics => {
             <span class="bsb-performance-dashboard__score-value">${escapeHtml(score)}</span>
           </div>
         </div>
-        <button class="bsb-performance-dashboard__toggle" 
+        <button class="bsb-performance-dashboard__toggle"
                 aria-label="Toggle dashboard">
           <span>−</span>
         </button>
@@ -317,6 +319,21 @@ export const updateDashboard = (dashboard, metrics) => {
 };
 
 /**
+ * Get toast type color
+ * @param {string} type - Toast type
+ * @returns {string} Color variable name
+ */
+const getToastTypeColor = type => {
+  if (type === 'error') {
+    return 'error';
+  }
+  if (type === 'warning') {
+    return 'warning';
+  }
+  return 'success';
+};
+
+/**
  * Show performance toast notification
  * @param {string} message - Toast message
  * @param {string} type - Toast type (success, warning, error)
@@ -330,7 +347,7 @@ export const showPerformanceToast = (message, type = 'info') => {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: var(--bsb-${type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'success'});
+    background: var(--bsb-${getToastTypeColor(type)});
     color: white;
     padding: 12px 16px;
     border-radius: 4px;

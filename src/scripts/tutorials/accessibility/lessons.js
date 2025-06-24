@@ -121,7 +121,7 @@ export const ariaLabelsLesson = {
   html: `<!-- ARIA Labels Example -->
 <section aria-labelledby="search-heading">
   <h2 id="search-heading">Search Our Site</h2>
-  
+
   <!-- Icon-only button needs label -->
   <button aria-label="Search" class="icon-button">
     <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
@@ -129,12 +129,12 @@ export const ariaLabelsLesson = {
       <line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
     </svg>
   </button>
-  
+
   <!-- Form with proper labeling -->
   <form role="search">
     <label for="search-input" class="visually-hidden">Search query</label>
-    <input 
-      type="search" 
+    <input
+      type="search"
       id="search-input"
       placeholder="What are you looking for?"
       aria-describedby="search-help"
@@ -143,10 +143,10 @@ export const ariaLabelsLesson = {
       Press Enter to search or Escape to clear
     </span>
   </form>
-  
+
   <!-- Progress indicator -->
   <div class="loading-demo">
-    <div 
+    <div
       role="progressbar"
       aria-valuenow="60"
       aria-valuemin="0"
@@ -239,24 +239,24 @@ form[role="search"] {
 function updateProgress() {
   const progressBar = document.querySelector('[role="progressbar"]');
   const progressFill = progressBar.querySelector('.progress-fill');
-  
+
   let currentValue = parseInt(progressBar.getAttribute('aria-valuenow'));
   let newValue = currentValue + 10;
-  
+
   if (newValue > 100) {
     newValue = 0;
   }
-  
+
   progressBar.setAttribute('aria-valuenow', newValue);
   progressFill.style.width = newValue + '%';
-  
+
   // Announce to screen readers
   const announcement = document.createElement('div');
   announcement.setAttribute('role', 'status');
   announcement.setAttribute('aria-live', 'polite');
   announcement.className = 'visually-hidden';
   announcement.textContent = \`Progress: \${newValue}%\`;
-  
+
   document.body.appendChild(announcement);
   setTimeout(() => announcement.remove(), 1000);
 }
@@ -279,7 +279,7 @@ export const keyboardNavigationLesson = {
   html: `<!-- Keyboard Navigation Demo -->
 <section class="keyboard-demo">
   <h2>Keyboard Navigation Patterns</h2>
-  
+
   <!-- Tab Navigation -->
   <div class="tab-demo">
     <h3>Tab Panel Example</h3>
@@ -294,7 +294,7 @@ export const keyboardNavigationLesson = {
         Tab 3
       </button>
     </div>
-    
+
     <div role="tabpanel" id="panel-1" aria-labelledby="tab-1">
       <h4>Panel 1 Content</h4>
       <p>Use arrow keys to navigate between tabs.</p>
@@ -308,7 +308,7 @@ export const keyboardNavigationLesson = {
       <p>Press Shift+Tab to move backwards.</p>
     </div>
   </div>
-  
+
   <!-- Skip Links -->
   <div class="skip-link-demo">
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -324,13 +324,13 @@ export const keyboardNavigationLesson = {
       <p>The skip link helps keyboard users bypass navigation.</p>
     </main>
   </div>
-  
+
   <!-- Focus Trap Demo -->
   <div class="modal-demo">
     <button onclick="openModal()" class="open-modal-btn">
       Open Modal (Focus Trap Demo)
     </button>
-    
+
     <div class="modal" id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
       <div class="modal-content">
         <h3 id="modal-title">Modal Dialog</h3>
@@ -499,12 +499,12 @@ function activateTab(index) {
     tab.setAttribute('aria-selected', i === index);
     tab.tabIndex = i === index ? 0 : -1;
   });
-  
+
   // Update panels
   panels.forEach((panel, i) => {
     panel.hidden = i !== index;
   });
-  
+
   // Focus the active tab
   tabs[index].focus();
 }
@@ -515,18 +515,18 @@ let previousFocus;
 function openModal() {
   const modal = document.getElementById('demo-modal');
   previousFocus = document.activeElement;
-  
+
   modal.hidden = false;
-  
+
   // Focus first focusable element
   const focusable = modal.querySelectorAll(
     'button, input, [tabindex]:not([tabindex="-1"])'
   );
-  
+
   if (focusable.length) {
     focusable[0].focus();
   }
-  
+
   // Trap focus
   modal.addEventListener('keydown', trapFocus);
 }
@@ -535,7 +535,7 @@ function closeModal() {
   const modal = document.getElementById('demo-modal');
   modal.hidden = true;
   modal.removeEventListener('keydown', trapFocus);
-  
+
   // Restore focus
   if (previousFocus) {
     previousFocus.focus();
@@ -544,15 +544,15 @@ function closeModal() {
 
 function trapFocus(e) {
   if (e.key !== 'Tab') return;
-  
+
   const modal = document.getElementById('demo-modal');
   const focusable = Array.from(modal.querySelectorAll(
     'button, input, [tabindex]:not([tabindex="-1"])'
   ));
-  
+
   const firstFocusable = focusable[0];
   const lastFocusable = focusable[focusable.length - 1];
-  
+
   if (e.shiftKey && document.activeElement === firstFocusable) {
     e.preventDefault();
     lastFocusable.focus();

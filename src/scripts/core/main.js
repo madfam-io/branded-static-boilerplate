@@ -267,7 +267,7 @@ const monitorPerformance = function monitorPerformance() {
     window.addEventListener('load', () => {
       const navEntries = performance.getEntriesByType('navigation');
       if (navEntries && navEntries.length > 0) {
-        const perfData = navEntries[0];
+        const [perfData] = navEntries;
         debug.log('BSB Performance Metrics:');
         debug.log(`- DOM Content Loaded: ${Math.round(perfData.domContentLoadedEventEnd)}ms`);
         debug.log(`- Page Load Complete: ${Math.round(perfData.loadEventEnd)}ms`);

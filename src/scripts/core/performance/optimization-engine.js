@@ -191,11 +191,11 @@ export const batchDOMOperations = (readCallback, writeCallback) => {
  * @returns {Function} Debounced function
  */
 export const debounce = (func, wait) => {
-  let timeout;
-  return function executedFunction(...args) {
+  let timeout = null;
+  return (...args) => {
     const later = () => {
       clearTimeout(timeout);
-      func.apply(this, args);
+      func(...args);
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
@@ -209,10 +209,10 @@ export const debounce = (func, wait) => {
  * @returns {Function} Throttled function
  */
 export const throttle = (func, limit) => {
-  let inThrottle;
-  return function executedFunction(...args) {
+  let inThrottle = false;
+  return (...args) => {
     if (!inThrottle) {
-      func.apply(this, args);
+      func(...args);
       inThrottle = true;
       setTimeout(() => {
         inThrottle = false;

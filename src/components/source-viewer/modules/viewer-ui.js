@@ -31,7 +31,7 @@ const updateStats = stats => {
 const applySyntaxHighlighting = () => {
   // If Prism.js is available, highlight the code
   if (window.Prism) {
-    Prism.highlightAll();
+    window.Prism.highlightAll();
   }
 };
 
@@ -86,94 +86,112 @@ const downloadFile = (filename, content, mimeType) => {
 };
 
 /**
+ * Get viewer header template
+ * @returns {string} Header HTML
+ */
+const getHeaderTemplate = () => `
+  <div class="bsb-source-viewer__header">
+    <h2 class="bsb-source-viewer__title">
+      <span class="bsb-source-viewer__icon">📄</span>
+      Component Source Code
+    </h2>
+    <div class="bsb-source-viewer__actions">
+      <button class="bsb-source-viewer__action" data-action="copy-all" title="Copy All">
+        📋
+      </button>
+      <button class="bsb-source-viewer__action" data-action="playground" title="Open in Playground">
+        ⚡
+      </button>
+      <button class="bsb-source-viewer__action" data-action="download" title="Download">
+        💾
+      </button>
+      <button class="bsb-source-viewer__action bsb-source-viewer__close" data-action="close" title="Close">
+        ✕
+      </button>
+    </div>
+  </div>
+`;
+
+/**
+ * Get tabs template
+ * @returns {string} Tabs HTML
+ */
+const getTabsTemplate = () => `
+  <div class="bsb-source-viewer__tabs">
+    <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active" data-tab="html">
+      HTML
+    </button>
+    <button class="bsb-source-viewer__tab" data-tab="css">
+      CSS
+    </button>
+    <button class="bsb-source-viewer__tab" data-tab="js">
+      JavaScript
+    </button>
+  </div>
+`;
+
+/**
+ * Get code panel template
+ * @param {string} type - Panel type (html, css, js)
+ * @param {string} label - Panel label
+ * @param {boolean} active - Whether panel is active
+ * @returns {string} Panel HTML
+ */
+const getCodePanelTemplate = (type, label, active = false) => `
+  <div class="bsb-source-viewer__panel${active ? ' bsb-source-viewer__panel--active' : ''}" data-panel="${type}">
+    <div class="bsb-source-viewer__code-header">
+      <span class="bsb-source-viewer__code-label">${label}</span>
+      <button class="bsb-source-viewer__copy" data-copy="${type}">Copy ${type.toUpperCase()}</button>
+    </div>
+    <pre class="bsb-source-viewer__code"><code class="language-${type}" id="${type}-code"></code></pre>
+  </div>
+`;
+
+/**
+ * Get footer template
+ * @returns {string} Footer HTML
+ */
+const getFooterTemplate = () => `
+  <div class="bsb-source-viewer__footer">
+    <div class="bsb-source-viewer__component-info">
+      <span class="bsb-source-viewer__component-name"></span>
+    </div>
+    <div class="bsb-source-viewer__stats">
+      <span class="bsb-source-viewer__stat">
+        <span class="bsb-source-viewer__stat-label">HTML:</span>
+        <span class="bsb-source-viewer__stat-value" data-stat="html-lines">0</span> lines
+      </span>
+      <span class="bsb-source-viewer__stat">
+        <span class="bsb-source-viewer__stat-label">CSS:</span>
+        <span class="bsb-source-viewer__stat-value" data-stat="css-lines">0</span> lines
+      </span>
+      <span class="bsb-source-viewer__stat">
+        <span class="bsb-source-viewer__stat-label">JS:</span>
+        <span class="bsb-source-viewer__stat-value" data-stat="js-lines">0</span> lines
+      </span>
+    </div>
+  </div>
+`;
+
+/**
  * Generate the source viewer template
  * @returns {string} HTML template for the viewer
  */
 export const getViewerTemplate = () => `
-    <div class="bsb-source-viewer" id="source-viewer">
-      <div class="bsb-source-viewer__backdrop"></div>
-      <div class="bsb-source-viewer__container">
-        <div class="bsb-source-viewer__header">
-          <h2 class="bsb-source-viewer__title">
-            <span class="bsb-source-viewer__icon">📄</span>
-            Component Source Code
-          </h2>
-          <div class="bsb-source-viewer__actions">
-            <button class="bsb-source-viewer__action" data-action="copy-all" title="Copy All">
-              📋
-            </button>
-            <button class="bsb-source-viewer__action" data-action="playground" title="Open in Playground">
-              ⚡
-            </button>
-            <button class="bsb-source-viewer__action" data-action="download" title="Download">
-              💾
-            </button>
-            <button class="bsb-source-viewer__action bsb-source-viewer__close" data-action="close" title="Close">
-              ✕
-            </button>
-          </div>
-        </div>
-
-        <div class="bsb-source-viewer__tabs">
-          <button class="bsb-source-viewer__tab bsb-source-viewer__tab--active" data-tab="html">
-            HTML
-          </button>
-          <button class="bsb-source-viewer__tab" data-tab="css">
-            CSS
-          </button>
-          <button class="bsb-source-viewer__tab" data-tab="js">
-            JavaScript
-          </button>
-        </div>
-
-        <div class="bsb-source-viewer__content">
-          <div class="bsb-source-viewer__panel bsb-source-viewer__panel--active" data-panel="html">
-            <div class="bsb-source-viewer__code-header">
-              <span class="bsb-source-viewer__code-label">HTML Structure</span>
-              <button class="bsb-source-viewer__copy" data-copy="html">Copy HTML</button>
-            </div>
-            <pre class="bsb-source-viewer__code"><code class="language-html" id="html-code"></code></pre>
-          </div>
-
-          <div class="bsb-source-viewer__panel" data-panel="css">
-            <div class="bsb-source-viewer__code-header">
-              <span class="bsb-source-viewer__code-label">CSS Styles</span>
-              <button class="bsb-source-viewer__copy" data-copy="css">Copy CSS</button>
-            </div>
-            <pre class="bsb-source-viewer__code"><code class="language-css" id="css-code"></code></pre>
-          </div>
-
-          <div class="bsb-source-viewer__panel" data-panel="js">
-            <div class="bsb-source-viewer__code-header">
-              <span class="bsb-source-viewer__code-label">JavaScript Logic</span>
-              <button class="bsb-source-viewer__copy" data-copy="js">Copy JavaScript</button>
-            </div>
-            <pre class="bsb-source-viewer__code"><code class="language-javascript" id="js-code"></code></pre>
-          </div>
-        </div>
-
-        <div class="bsb-source-viewer__footer">
-          <div class="bsb-source-viewer__component-info">
-            <span class="bsb-source-viewer__component-name"></span>
-          </div>
-          <div class="bsb-source-viewer__stats">
-            <span class="bsb-source-viewer__stat">
-              <span class="bsb-source-viewer__stat-label">HTML:</span>
-              <span class="bsb-source-viewer__stat-value" data-stat="html-lines">0</span> lines
-            </span>
-            <span class="bsb-source-viewer__stat">
-              <span class="bsb-source-viewer__stat-label">CSS:</span>
-              <span class="bsb-source-viewer__stat-value" data-stat="css-lines">0</span> lines
-            </span>
-            <span class="bsb-source-viewer__stat">
-              <span class="bsb-source-viewer__stat-label">JS:</span>
-              <span class="bsb-source-viewer__stat-value" data-stat="js-lines">0</span> lines
-            </span>
-          </div>
-        </div>
+  <div class="bsb-source-viewer" id="source-viewer">
+    <div class="bsb-source-viewer__backdrop"></div>
+    <div class="bsb-source-viewer__container">
+      ${getHeaderTemplate()}
+      ${getTabsTemplate()}
+      <div class="bsb-source-viewer__content">
+        ${getCodePanelTemplate('html', 'HTML Structure', true)}
+        ${getCodePanelTemplate('css', 'CSS Styles')}
+        ${getCodePanelTemplate('js', 'JavaScript Logic')}
       </div>
+      ${getFooterTemplate()}
     </div>
-  `;
+  </div>
+`;
 
 /**
  * Update the viewer with source code
@@ -297,11 +315,12 @@ export const downloadSource = sourceData => {
 /**
  * Add view source button to component
  * @param {HTMLElement} component - Component element
+ * @returns {HTMLElement|null} Created button or null
  */
 export const addViewSourceButton = component => {
   // Check if button already exists
   if (component.querySelector('.bsb-view-source-btn')) {
-    return;
+    return null;
   }
 
   const button = document.createElement('button');

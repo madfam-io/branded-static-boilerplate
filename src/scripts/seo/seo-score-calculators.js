@@ -50,7 +50,8 @@ const validateTitle = title => {
   if (title.length > TITLE_VALIDATION.MAX_LENGTH) {
     return { status: 'warning' };
   }
-  if (title.length >= TITLE_VALIDATION.EXCELLENT_MIN && title.length <= TITLE_VALIDATION.EXCELLENT_MAX) {
+  if (title.length >= TITLE_VALIDATION.EXCELLENT_MIN &&
+      title.length <= TITLE_VALIDATION.EXCELLENT_MAX) {
     return { status: 'excellent' };
   }
   return { status: 'good' };
@@ -66,7 +67,8 @@ const validateDescription = description => {
   if (description.length > DESCRIPTION_VALIDATION.MAX_LENGTH) {
     return { status: 'warning' };
   }
-  if (description.length >= DESCRIPTION_VALIDATION.EXCELLENT_MIN && description.length <= DESCRIPTION_VALIDATION.EXCELLENT_MAX) {
+  if (description.length >= DESCRIPTION_VALIDATION.EXCELLENT_MIN &&
+      description.length <= DESCRIPTION_VALIDATION.EXCELLENT_MAX) {
     return { status: 'excellent' };
   }
   return { status: 'good' };
@@ -240,7 +242,7 @@ export const calculateTechnicalScore = page => {
   if (!page) {
     return 0;
   }
-  
+
   let score = 0;
 
   if (page.canonical) {

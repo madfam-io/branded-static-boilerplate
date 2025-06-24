@@ -50,31 +50,38 @@ export class FilterManager {
   }
 
   /**
+   * Update filter input value
+   * @param {HTMLElement} element - Filter element
+   * @param {string} value - Value to set
+   */
+  updateFilterValue(element, value) {
+    if (element) {
+      element.value = value || '';
+    }
+  }
+
+  /**
    * Restore filter states from localStorage
    */
   restoreFilterStates() {
     const savedFilters = localStorage.getItem('bsb-tutorial-filters');
+    if (!savedFilters) {
+      return;
+    }
 
-    if (savedFilters) {
-      try {
-        const filters = JSON.parse(savedFilters);
-        this.currentFilters = { ...this.currentFilters, ...filters };
+    try {
+      const filters = JSON.parse(savedFilters);
+      this.currentFilters = { ...this.currentFilters, ...filters };
 
-        if (this.difficultyFilter) {
-          this.difficultyFilter.value = this.currentFilters.difficulty || '';
-        }
-        if (this.topicFilter) {
-          this.topicFilter.value = this.currentFilters.topic || '';
-        }
-        if (this.sortSelect) {
-          this.sortSelect.value = this.currentFilters.sort || 'difficulty';
-        }
-        if (this.searchInput && this.currentFilters.search) {
-          this.searchInput.value = this.currentFilters.search;
-        }
-      } catch (error) {
-        console.warn('Failed to restore filter state:', error);
+      this.updateFilterValue(this.difficultyFilter, this.currentFilters.difficulty);
+      this.updateFilterValue(this.topicFilter, this.currentFilters.topic);
+      this.updateFilterValue(this.sortSelect, this.currentFilters.sort || 'difficulty');
+
+      if (this.currentFilters.search) {
+        this.updateFilterValue(this.searchInput, this.currentFilters.search);
       }
+    } catch (error) {
+      console.warn('Failed to restore filter state:', error);
     }
   }
 
@@ -137,7 +144,7 @@ export class FilterManager {
     if (typeof this.onFilterChange === 'function') {
       this.onFilterChange(filteredTutorials);
     }
-    
+
     return filteredTutorials;
   }
 
@@ -183,20 +190,24 @@ export class FilterManager {
     const sorted = [...tutorials];
 
     switch (sortBy) {
-      case 'difficulty':
+      case 'difficulty': {
         const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
         return sorted.sort((tutorialA, tutorialB) =>
           difficultyOrder[tutorialA.difficulty] - difficultyOrder[tutorialB.difficulty]
         );
+      }
 
       case 'duration':
-        return sorted.sort((tutorialA, tutorialB) => tutorialA.duration - tutorialB.duration);
+        return sorted.sort((tutorialA, tutorialB) =>
+          tutorialA.duration - tutorialB.duration);
 
       case 'topic':
-        return sorted.sort((tutorialA, tutorialB) => tutorialA.topic.localeCompare(tutorialB.topic));
+        return sorted.sort((tutorialA, tutorialB) =>
+          tutorialA.topic.localeCompare(tutorialB.topic));
 
       case 'alphabetical':
-        return sorted.sort((tutorialA, tutorialB) => tutorialA.title.localeCompare(tutorialB.title));
+        return sorted.sort((tutorialA, tutorialB) =>
+          tutorialA.title.localeCompare(tutorialB.title));
 
       case 'recommended':
       default:
@@ -263,7 +274,7 @@ export class FilterManager {
    */
   updateFilter(filterType, value) {
     this.currentFilters[filterType] = value;
-    
+
     // Update DOM elements if needed
     if (filterType === 'difficulty' && this.difficultyFilter) {
       this.difficultyFilter.value = value;
@@ -274,7 +285,7 @@ export class FilterManager {
     } else if (filterType === 'sort' && this.sortSelect) {
       this.sortSelect.value = value;
     }
-    
+
     this.saveFilters();
     this.applyFilters();
   }

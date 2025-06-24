@@ -6,10 +6,10 @@
  */
 
 /**
- * Get all tutorial definitions
- * @returns {Array} Array of tutorial objects
+ * Get beginner tutorials
+ * @returns {Array} Array of beginner tutorial objects
  */
-export const getTutorialData = () => [
+const getBeginnerTutorials = () => [
   {
     id: 'component-development',
     title: 'Component Development Mastery',
@@ -25,7 +25,14 @@ export const getTutorialData = () => [
     topic: 'html-css',
     duration: '4h',
     url: './theming.html'
-  },
+  }
+];
+
+/**
+ * Get intermediate tutorials
+ * @returns {Array} Array of intermediate tutorial objects
+ */
+const getIntermediateTutorials = () => [
   {
     id: 'build-process',
     title: 'Modern Build Process Mastery',
@@ -57,7 +64,14 @@ export const getTutorialData = () => [
     topic: 'optimization',
     duration: '7h',
     url: './accessibility.html'
-  },
+  }
+];
+
+/**
+ * Get advanced tutorials
+ * @returns {Array} Array of advanced tutorial objects
+ */
+const getAdvancedTutorials = () => [
   {
     id: 'seo',
     title: 'SEO Optimization Mastery',
@@ -66,6 +80,16 @@ export const getTutorialData = () => [
     duration: '6h',
     url: './seo.html'
   }
+];
+
+/**
+ * Get all tutorial definitions
+ * @returns {Array} Array of tutorial objects
+ */
+export const getTutorialData = () => [
+  ...getBeginnerTutorials(),
+  ...getIntermediateTutorials(),
+  ...getAdvancedTutorials()
 ];
 
 /**
@@ -110,8 +134,10 @@ export const getDifficultyLevels = () => ({
  * @returns {Object|null} Tutorial object or null if not found
  */
 export const getTutorialById = tutorialId => {
-  if (!tutorialId) {return undefined;}
-  return getTutorialData().find(tutorial => tutorial.id === tutorialId);
+  if (!tutorialId) {
+    return null;
+  }
+  return getTutorialData().find(tutorial => tutorial.id === tutorialId) || null;
 };
 
 /**
@@ -121,8 +147,12 @@ export const getTutorialById = tutorialId => {
  * @returns {Array} Filtered tutorials
  */
 export const filterTutorials = (tutorials, filters = {}) => {
-  if (!tutorials || !Array.isArray(tutorials)) {return [];}
-  if (!filters || typeof filters !== 'object') {return [...tutorials];}
+  if (!tutorials || !Array.isArray(tutorials)) {
+    return [];
+  }
+  if (!filters || typeof filters !== 'object') {
+    return [...tutorials];
+  }
 
   let filtered = [...tutorials];
 
@@ -152,30 +182,37 @@ export const filterTutorials = (tutorials, filters = {}) => {
  * @returns {Array} Sorted tutorials
  */
 export const sortTutorials = (tutorials, sortBy = 'title') => {
-  if (!tutorials || !Array.isArray(tutorials)) {return [];}
+  if (!tutorials || !Array.isArray(tutorials)) {
+    return [];
+  }
   const sorted = [...tutorials];
 
   switch (sortBy) {
-    case 'difficulty':
+    case 'difficulty': {
       const difficultyOrder = getDifficultyLevels();
       return sorted.sort((firstTutorial, secondTutorial) =>
-        difficultyOrder[firstTutorial.difficulty].order - difficultyOrder[secondTutorial.difficulty].order
+        difficultyOrder[firstTutorial.difficulty].order -
+        difficultyOrder[secondTutorial.difficulty].order
       );
+    }
 
     case 'duration':
       return sorted.sort((firstTutorial, secondTutorial) => {
         const getDurationHours = duration => {
-          const match = duration.match(/(\d+)h/);
-          return match ? parseInt(match[1], 10) : 0;
+          const match = duration.match(/(?<hours>\d+)h/u);
+          return match ? parseInt(match.groups.hours, 10) : 0;
         };
-        return getDurationHours(firstTutorial.duration) - getDurationHours(secondTutorial.duration);
+        return getDurationHours(firstTutorial.duration) -
+          getDurationHours(secondTutorial.duration);
       });
 
     case 'topic':
-      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.topic.localeCompare(secondTutorial.topic));
+      return sorted.sort((firstTutorial, secondTutorial) =>
+        firstTutorial.topic.localeCompare(secondTutorial.topic));
 
     case 'title':
-      return sorted.sort((firstTutorial, secondTutorial) => firstTutorial.title.localeCompare(secondTutorial.title));
+      return sorted.sort((firstTutorial, secondTutorial) =>
+        firstTutorial.title.localeCompare(secondTutorial.title));
 
     default:
       return sorted;

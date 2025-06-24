@@ -22,10 +22,10 @@ const getDialogHTML = () => `
   `;
 
 /**
- * Get dialog styles
- * @returns {string} CSS styles for dialog
+ * Get dialog container styles
+ * @returns {string} CSS styles for dialog container
  */
-const getDialogStyles = () => `
+const getDialogContainerStyles = () => `
     .bsb-code-playground__confirm-dialog {
       position: fixed;
       top: 0;
@@ -46,7 +46,13 @@ const getDialogStyles = () => `
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
     }
+  `;
 
+/**
+ * Get dialog content styles
+ * @returns {string} CSS styles for dialog content
+ */
+const getDialogContentStyles = () => `
     .bsb-code-playground__confirm-content {
       position: relative;
       background: var(--bsb-bg-primary, white);
@@ -68,7 +74,13 @@ const getDialogStyles = () => `
       color: var(--bsb-text-secondary, #666);
       line-height: 1.5;
     }
+`;
 
+/**
+ * Get dialog button styles
+ * @returns {string} CSS styles for dialog buttons
+ */
+const getDialogButtonStyles = () => `
     .bsb-code-playground__confirm-actions {
       display: flex;
       gap: 12px;
@@ -105,10 +117,20 @@ const getDialogStyles = () => `
       background: #c82333;
       border-color: #c82333;
     }
-  `;
+`;
+
+/**
+ * Get all dialog styles
+ * @returns {string} Combined CSS styles for dialog
+ */
+const getDialogStyles = () =>
+  getDialogContainerStyles() +
+  getDialogContentStyles() +
+  getDialogButtonStyles();
 
 /**
  * Inject dialog styles if not already present
+ * @returns {void}
  */
 const injectStyles = () => {
   if (!document.querySelector('#bsb-confirm-dialog-styles')) {
@@ -135,6 +157,7 @@ const createDialogElement = () => {
  * @param {Object} elements - Dialog elements
  * @param {Function} closeDialog - Close dialog function
  * @param {Function} onConfirm - Confirm callback
+ * @returns {Function} Escape handler function
  */
 const setupEventHandlers = (elements, closeDialog, onConfirm) => {
   const { cancelBtn, resetBtn, backdrop } = elements;

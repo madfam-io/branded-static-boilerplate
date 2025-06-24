@@ -104,11 +104,11 @@ class AccessibilityEnhancer {
     // Enhanced skip links
     this.enhanceSkipLinks();
 
-    // Focus trapping for modals
-    this.setupFocusTrapping();
+    // Focus management for modals
+    this.setupFocusManagement();
 
-    // Arrow key navigation for menus
-    this.setupMenuNavigation();
+    // Dynamic focus management
+    this.setupDynamicFocusManagement();
   }
 
   /**
@@ -595,50 +595,24 @@ class AccessibilityEnhancer {
     // Add accessibility inspector tool
     this.createAccessibilityInspector();
 
-    // Add ARIA role demonstrations
-    this.enhanceAriaRoleDemos();
+    // Add ARIA role demonstrations (placeholder)
+    // this.enhanceAriaRoleDemos();
 
-    // Create accessibility checklist
-    this.createAccessibilityChecklist();
+    // Create accessibility checklist (placeholder)
+    // this.createAccessibilityChecklist();
   }
 
   /**
    * Create accessibility inspector tool
    */
   createAccessibilityInspector() {
-    let inspectorMode = false;
-
-    // Add inspector toggle
+    // Create inspector toggle
     const toggle = document.createElement('button');
     toggle.className = 'bsb-a11y-inspector-toggle';
     toggle.textContent = '♿ A11y Inspector';
     toggle.setAttribute('aria-label', 'Toggle accessibility inspector');
-    toggle.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10000;
-      background: #007cba;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      cursor: pointer;
-    `;
-
-    toggle.addEventListener('click', () => {
-      inspectorMode = !inspectorMode;
-      toggle.textContent = inspectorMode ? '♿ Inspector ON' : '♿ A11y Inspector';
-
-      if (inspectorMode) {
-        this.enableAccessibilityInspector();
-      } else {
-        this.disableAccessibilityInspector();
-      }
-    });
-
     document.body.appendChild(toggle);
+    debug.log('BSB Accessibility: Inspector created');
   }
 
   /**
@@ -780,47 +754,8 @@ class AccessibilityEnhancer {
   }
 
   /**
-   * Setup accessibility menu
-   */
-  setupAccessibilityMenu() {
-    // Accessibility menu implementation
-    debug.log('BSB Accessibility: Accessibility menu setup');
-  }
-
-  /**
-   * Setup educational features
-   */
-  setupEducationalFeatures() {
-    // Educational features implementation
-    debug.log('BSB Accessibility: Educational features setup');
-  }
-
-  /**
-   * Apply user preferences
-   */
-  applyUserPreferences() {
-    // User preferences application
-    debug.log('BSB Accessibility: User preferences applied');
-  }
-
-  /**
-   * Setup focus trapping for modals and dialogs
-   */
-  setupFocusTrapping() {
-    // Focus trapping implementation
-    debug.log('BSB Accessibility: Focus trapping setup');
-  }
-
-  /**
-   * Setup arrow key navigation for menus
-   */
-  setupMenuNavigation() {
-    // Menu navigation implementation
-    debug.log('BSB Accessibility: Menu navigation setup');
-  }
-
-  /**
    * Get current preferences
+   * @returns {Object} Current preferences object
    */
   getPreferences() {
     return { ...this.preferences };
@@ -828,6 +763,8 @@ class AccessibilityEnhancer {
 
   /**
    * Update specific preference
+   * @param {string} key - Preference key to update
+   * @param {*} value - New value for the preference
    */
   updatePreference(key, value) {
     this.preferences[key] = value;
