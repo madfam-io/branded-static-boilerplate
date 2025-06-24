@@ -16,6 +16,8 @@
  * @version 1.0.0
  */
 
+import { logger } from '../../scripts/core/logger.js';
+
 // Constants
 const CONSTANTS = {
   ANIMATION_DELAY: 1000,
@@ -407,7 +409,7 @@ class BSBLearningToggle {
       }
 
     } catch (error) {
-      console.error('Failed to initialize meta-learning features:', error);
+      logger.error('Failed to initialize meta-learning features:', error);
     }
   }
 

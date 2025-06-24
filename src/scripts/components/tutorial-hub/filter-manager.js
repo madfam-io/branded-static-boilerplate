@@ -5,6 +5,8 @@
  * Manages filtering, sorting, and search functionality for tutorials
  */
 
+import { logger } from '../../core/logger.js';
+
 // Filter constants
 const FILTER_CONSTANTS = {
   SEARCH_DEBOUNCE_DELAY: 300
@@ -81,7 +83,7 @@ export class FilterManager {
         this.updateFilterValue(this.searchInput, this.currentFilters.search);
       }
     } catch (error) {
-      console.warn('Failed to restore filter state:', error);
+      logger.warn('Failed to restore filter state:', error);
     }
   }
 
@@ -130,7 +132,7 @@ export class FilterManager {
     try {
       localStorage.setItem('bsb-tutorial-filters', JSON.stringify(this.currentFilters));
     } catch (error) {
-      console.warn('Failed to save filter state:', error);
+      logger.warn('Failed to save filter state:', error);
     }
   }
 

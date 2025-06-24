@@ -268,7 +268,8 @@ export const implementCodeSplitting = modules => {
 
       const moduleConfig = modules.find(module => module.name === moduleName);
       if (!moduleConfig) {
-        throw new Error(`Module ${moduleName} not found`);
+        debug.error(`Module ${moduleName} not found`);
+        return null;
       }
 
       try {
@@ -278,7 +279,7 @@ export const implementCodeSplitting = modules => {
         return module;
       } catch (error) {
         debug.error(`Failed to load module ${moduleName}:`, error);
-        throw error;
+        return null;
       }
     },
 

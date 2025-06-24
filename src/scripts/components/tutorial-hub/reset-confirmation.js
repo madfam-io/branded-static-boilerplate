@@ -5,6 +5,8 @@
  * Handles the reset confirmation dialog for tutorial progress
  */
 
+import { logger } from '../../core/logger.js';
+
 /**
  * Get confirmation dialog HTML
  * @returns {string} Dialog HTML structure
@@ -140,14 +142,14 @@ const injectConfirmationStyles = () => {
 
     // Handle missing document.head
     if (!document.head) {
-      console.error('document.head is not available');
+      logger.error('document.head is not available');
       return;
     }
 
     try {
       document.head.appendChild(styles);
     } catch (error) {
-      console.error('Failed to inject confirmation styles:', error);
+      logger.error('Failed to inject confirmation styles:', error);
     }
   }
 };
@@ -182,12 +184,12 @@ const setupEventHandlers = (elements, closeDialog, onConfirm, onCancel) => {
           try {
             onCancel();
           } catch (error) {
-            console.error('Error in onCancel callback:', error);
+            logger.error('Error in onCancel callback:', error);
           }
         }
       }
     } catch (error) {
-      console.error('Error in escape key handler:', error);
+      logger.error('Error in escape key handler:', error);
     }
   };
 
@@ -204,7 +206,7 @@ const setupEventHandlers = (elements, closeDialog, onConfirm, onCancel) => {
     try {
       onConfirm();
     } catch (error) {
-      console.error('Error in onConfirm callback:', error);
+      logger.error('Error in onConfirm callback:', error);
     }
   };
 
@@ -235,7 +237,7 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
     try {
       document.body.appendChild(confirmDialog);
     } catch (domError) {
-      console.error('Failed to append dialog to DOM:', domError);
+      logger.error('Failed to append dialog to DOM:', domError);
       return;
     }
 
@@ -259,13 +261,13 @@ export const showResetConfirmation = (onConfirm, onCancel = null) => {
           document.removeEventListener('keydown', escapeHandler);
         }
       } catch (error) {
-        console.error('Error closing dialog:', error);
+        logger.error('Error closing dialog:', error);
       }
     };
 
     // Setup event handlers
     escapeHandler = setupEventHandlers(elements, closeDialog, onConfirm, onCancel);
   } catch (error) {
-    console.error('Error in showResetConfirmation:', error);
+    logger.error('Error in showResetConfirmation:', error);
   }
 };

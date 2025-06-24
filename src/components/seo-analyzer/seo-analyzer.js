@@ -22,6 +22,7 @@
  */
 
 import { calculateSEOScore } from '../../scripts/seo/seo-utils.js';
+import { logger } from '../../scripts/core/logger.js';
 
 import { gatherPageData } from './modules/page-analyzer.js';
 import {
@@ -130,7 +131,7 @@ class BSBSEOAnalyzer {
       this.updateAllDisplays(seoResult);
 
     } catch (error) {
-      console.error('SEO Analysis Error:', error);
+      logger.error('SEO Analysis Error:', error);
       this.showError('Failed to analyze page. Please try again.');
     }
   }
